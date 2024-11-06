@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { Snackbar, Alert } from "@mui/material";
+import SnackbarMessage from "../../snackbar/SnackbarMessage/SnackbarMessage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
@@ -77,16 +77,13 @@ function LoginForm() {
 
     return (
         <>
-            <Snackbar
+            <SnackbarMessage
                 open={snackBarOpen}
+                message={snackBarMessage}
                 onClose={handleCloseSnackBar}
-                autoHideDuration={6000}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-                <Alert onClose={handleCloseSnackBar} severity="error" variant="filled" sx={{ width: "100%" }}>
-                    {snackBarMessage}
-                </Alert>
-            </Snackbar>
+                severity="error"
+            />
+
             <div className={styles.container}>
                 <h4>Đăng nhập</h4>
                 <hr />

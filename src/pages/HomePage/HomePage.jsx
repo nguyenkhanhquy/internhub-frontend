@@ -5,14 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { getToken } from "../../services/localStorageService";
 import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import { getAuthUser } from "../../services/authService";
+import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const getUserDetails = async () => {
+        setLoading(true);
         const data = await getAuthUser();
         setUserDetails(data.result);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -27,7 +31,7 @@ const HomePage = () => {
 
     return (
         <MainLayout title="Trang chủ">
-            {userDetails ? (
+            {!loading ? (
                 <Box
                     display="flex"
                     flexDirection="column"
@@ -215,11 +219,12 @@ const HomePage = () => {
                         gap: "30px",
                         justifyContent: "center",
                         alignItems: "center",
-                        height: "100vh",
+                        height: "60vh",
                     }}
                 >
-                    <CircularProgress></CircularProgress>
-                    <Typography>Loading ...</Typography>
+                    <SuspenseLoader />
+                    {/* <CircularProgress></CircularProgress>
+                    <Typography>Đang tải...</Typography> */}
                 </Box>
             )}
         </MainLayout>
