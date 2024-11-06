@@ -1,9 +1,10 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
+import StudentRegisterForm from "../../components/forms/RegisterForm/Student/StudentRegisterForm";
 
 const StudentRegisterPage = () => {
     return (
         <MainLayout title="Đăng ký">
-            <h1 className="text-3xl font-bold underline">Student Register Page</h1>
+            <StudentRegisterForm />
         </MainLayout>
     );
 };
