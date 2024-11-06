@@ -1,4 +1,4 @@
-import { axiosClient } from "../api/axiosClient";
+import axiosClient from "../api/axiosClient";
 import { AUTH_API } from "../api/constants";
 
 export const login = async (email, password) => {

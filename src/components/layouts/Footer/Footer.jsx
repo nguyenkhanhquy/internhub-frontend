@@ -1,0 +1,90 @@
+import { Box, Typography, Divider, Paper, Link } from "@mui/material";
+import logoImage from "/images/ute_logo.png";
+
+const Footer = () => {
+    return (
+        <Paper
+            elevation={3}
+            sx={{
+                width: "100%",
+                paddingY: 3,
+                boxShadow: 2,
+                textAlign: "center",
+                backgroundColor: "white",
+                borderRadius: 0,
+                overflowX: "hidden",
+            }}
+        >
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 3,
+                    textAlign: { xs: "center", sm: "left" },
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                    paddingX: 2,
+                }}
+            >
+                {/* Phần bên trái */}
+                <Box display="flex" alignItems="center" sx={{ flex: 1 }}>
+                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: 64, marginRight: 2 }} />
+                    <Box>
+                        <Typography variant="body1" fontWeight="600">
+                            Trường Đại Học Sư Phạm Kỹ Thuật
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Thành Phố Hồ Chí Minh
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Khoa Công Nghệ Thông Tin
+                        </Typography>
+                    </Box>
+                </Box>
+
+                {/* Phần bên phải */}
+                <Box sx={{ flex: 1 }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: "600" }}>
+                        Liên hệ với chúng tôi
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        Khoa Công Nghệ Thông Tin
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP. HCM
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <Link
+                            href="https://www.hcmute.edu.vn"
+                            target="_blank"
+                            sx={{ color: "inherit", textDecoration: "none" }}
+                        >
+                            Website
+                        </Link>{" "}
+                        -{" "}
+                        <Link
+                            href="https://www.facebook.com/hcmute.edu.vn"
+                            target="_blank"
+                            sx={{ color: "inherit", textDecoration: "none" }}
+                        >
+                            Facebook
+                        </Link>
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        fit@hcmute.edu.vn
+                    </Typography>
+                </Box>
+            </Box>
+
+            {/* Thanh ngang và dòng cuối */}
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="body2" color="text.secondary">
+                © 2024 HCMUTE. Thiết kế & Phát triển bởi FIT - HCMUTE.
+            </Typography>
+        </Paper>
+    );
+};
+
+export default Footer;
