@@ -3,8 +3,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SearchBar from "../../components/search/SearchBar";
+import SortBar from "../../components/SortBar/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
 import CustomPagination from "../../components/pagination/Pagination";
+import Box from "@mui/material/Box";
 
 const SearchPage = () => {
     const [isSaved, setIsSaved] = useState(false);
@@ -95,9 +97,13 @@ const SearchPage = () => {
     return (
         <MainLayout title="Việc làm">
             <div style={{ margin: "20px 160px" }}>
-                <SearchBar
+                <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
+                    <SearchBar onSearch={(searchText) => console.log(searchText)} />
+                </Box>
+
+                <SortBar
                     totalJobs={jobList.length}
-                    onSearch={(searchText) => console.log(searchText)}
+                    sortOption="default"
                     onSortChange={(sortOption) => console.log(sortOption)}
                 />
 
