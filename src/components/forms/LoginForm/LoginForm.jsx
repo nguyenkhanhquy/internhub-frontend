@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../services/authService";
 import { setToken } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
@@ -8,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import SnackbarMessage from "../../snackbar/SnackbarMessage/SnackbarMessage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
@@ -29,8 +30,6 @@ function LoginForm() {
     // const { isOpen, email, error, openModal, closeModal, handleEmailChange, handleRequestReset } =
     //     useForgotPasswordModal(); // Sử dụng hook cho modal
 
-    const [snackBarOpen, setSnackBarOpen] = useState(false);
-    const [snackBarMessage, setSnackBarMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
@@ -49,13 +48,6 @@ function LoginForm() {
         setShowPassword((prevState) => !prevState);
     };
 
-    const handleCloseSnackBar = (event, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSnackBarOpen(false);
-    };
-
     const onSubmit = async (formData) => {
         try {
             const data = await login(formData.email, formData.password);
@@ -70,20 +62,20 @@ function LoginForm() {
 
             navigate("/");
         } catch (error) {
-            setSnackBarMessage(error.message);
-            setSnackBarOpen(true);
+            toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+            });
         }
     };
 
     return (
         <>
-            <SnackbarMessage
-                open={snackBarOpen}
-                message={snackBarMessage}
-                onClose={handleCloseSnackBar}
-                severity="error"
-            />
-
             <div className={styles.container}>
                 <h4>Đăng nhập</h4>
                 <hr />
@@ -147,6 +139,7 @@ function LoginForm() {
                     onRequestReset={handleRequestReset}
                 /> */}
             </div>
+            <ToastContainer />
         </>
     );
 }

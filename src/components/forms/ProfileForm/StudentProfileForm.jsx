@@ -58,7 +58,7 @@ const StudentProfileForm = () => {
                 style={{ maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
-                    Thông tin cá nhân
+                    Chi tiết hồ sơ
                 </Typography>
                 <Grid container spacing={2}>
                     {/* Họ và tên */}
