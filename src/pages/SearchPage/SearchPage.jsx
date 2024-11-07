@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SearchPageJobCard from "../../components/job/JobCard/SearchPageJobCard";
 
@@ -7,6 +9,15 @@ const SearchPage = () => {
 
     const toggleSaveJob = () => {
         setIsSaved((prev) => !prev);
+        toast.success("Đã lưu công việc thành công!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+        });
     };
     return (
         <MainLayout title="Việc làm">
@@ -38,6 +49,7 @@ const SearchPage = () => {
                     onToggleSave={toggleSaveJob} // Hàm bật/tắt lưu công việc
                 />
             </div>
+            <ToastContainer />
         </MainLayout>
     );
 };
