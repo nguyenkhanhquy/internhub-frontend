@@ -4,7 +4,7 @@ import StudentProfileForm from "../../components/forms/ProfileForm/StudentProfil
 
 const StudentProfilePage = () => {
     return (
-        <MainLayout title="Hồ sơ">
+        <MainLayout title="Chi tiết hồ sơ">
             <AccountLayout>
                 <StudentProfileForm />
             </AccountLayout>

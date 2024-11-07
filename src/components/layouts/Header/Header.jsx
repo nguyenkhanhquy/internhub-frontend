@@ -9,6 +9,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import WorkIcon from "@mui/icons-material/Work";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DataUsageIcon from "@mui/icons-material/DataUsage";
@@ -17,7 +18,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
-    const { setIsAuthenticated } = useAuth();
+    const { isAuthenticated, setIsAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -36,8 +37,6 @@ const Header = () => {
     };
 
     const navigate = useNavigate();
-
-    const accessToken = getToken();
 
     const handleLogout = async () => {
         handleClose();
@@ -101,7 +100,7 @@ const Header = () => {
                     </Button>
 
                     {/* Nút Tài khoản */}
-                    {accessToken ? (
+                    {isAuthenticated ? (
                         <>
                             <Button
                                 variant="outlined"
@@ -119,7 +118,12 @@ const Header = () => {
                                 Tài khoản
                             </Button>
 
-                            <Menu anchorEl={accountAnchorEl} open={Boolean(accountAnchorEl)} onClose={handleClose}>
+                            <Menu
+                                className="mt-1"
+                                anchorEl={accountAnchorEl}
+                                open={Boolean(accountAnchorEl)}
+                                onClose={handleClose}
+                            >
                                 <MenuItem onClick={handleClose} component={Link} to="/">
                                     <WorkIcon sx={{ marginRight: 1 }} />
                                     Việc làm
@@ -156,13 +160,13 @@ const Header = () => {
                                 Đăng ký
                             </Button>
 
-                            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                            <Menu className="mt-1" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                                 <MenuItem onClick={handleClose} component={Link} to="/register-student">
                                     <PersonIcon sx={{ marginRight: 1 }} />
                                     Thực tập sinh
                                 </MenuItem>
                                 <MenuItem onClick={handleClose} component={Link} to="/register-recruiter">
-                                    <PersonIcon sx={{ marginRight: 1 }} />
+                                    <PersonSearchIcon sx={{ marginRight: 1 }} />
                                     Nhà tuyển dụng
                                 </MenuItem>
                             </Menu>
