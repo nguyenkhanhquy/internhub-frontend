@@ -90,9 +90,7 @@ const StudentProfileForm = () => {
         console.log("Dữ liệu người dùng:", data);
     };
 
-    return loading ? (
-        <SuspenseLoader />
-    ) : (
+    return (
         <Paper>
             <Box
                 component="form"
@@ -102,200 +100,226 @@ const StudentProfileForm = () => {
                 <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
                     Chi tiết hồ sơ
                 </Typography>
-                <Grid container spacing={2}>
-                    {/* Họ và tên */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("name")}
-                            label="Họ và tên"
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.name}
-                            helperText={errors.name?.message}
-                        />
-                    </Grid>
+                {loading ? (
+                    <SuspenseLoader />
+                ) : (
+                    <Grid container spacing={2}>
+                        {/* Họ và tên */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("name")}
+                                label="Họ và tên"
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.name}
+                                helperText={errors.name?.message}
+                            />
+                        </Grid>
 
-                    {/* Mã sinh viên */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("studentId")}
-                            label="Mã sinh viên"
-                            disabled
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.studentId}
-                            helperText={errors.studentId?.message}
-                            style={{ backgroundColor: "#f5f5f5" }}
-                        />
-                    </Grid>
+                        {/* Mã sinh viên */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("studentId")}
+                                label="Mã sinh viên"
+                                disabled
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.studentId}
+                                helperText={errors.studentId?.message}
+                                style={{ backgroundColor: "#f5f5f5" }}
+                            />
+                        </Grid>
 
-                    {/* Email */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("email")}
-                            label="Email"
-                            disabled
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
-                            style={{ backgroundColor: "#f5f5f5" }}
-                        />
-                    </Grid>
+                        {/* Email */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("email")}
+                                label="Email"
+                                disabled
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
+                                style={{ backgroundColor: "#f5f5f5" }}
+                            />
+                        </Grid>
 
-                    {/* Chuyên ngành */}
-                    <Grid item xs={12} md={6}>
-                        <Controller
-                            name="major"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Ngành"
-                                    variant="outlined"
-                                    fullWidth
-                                    select
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.major}
-                                    helperText={errors.major?.message}
-                                >
-                                    <MenuItem value="IT">Công nghệ thông tin</MenuItem>
-                                    <MenuItem value="DS">Kỹ thuật dữ liệu</MenuItem>
-                                    <MenuItem value="IS">An toàn thông tin</MenuItem>
-                                </TextField>
-                            )}
-                        />
-                    </Grid>
+                        {/* Chuyên ngành */}
+                        <Grid item xs={12} md={6}>
+                            <Controller
+                                name="major"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Ngành"
+                                        variant="outlined"
+                                        fullWidth
+                                        select
+                                        slotProps={{
+                                            inputLabel: { shrink: true },
+                                        }}
+                                        error={!!errors.major}
+                                        helperText={errors.major?.message}
+                                    >
+                                        <MenuItem value="IT">Công nghệ thông tin</MenuItem>
+                                        <MenuItem value="DS">Kỹ thuật dữ liệu</MenuItem>
+                                        <MenuItem value="IS">An toàn thông tin</MenuItem>
+                                    </TextField>
+                                )}
+                            />
+                        </Grid>
 
-                    {/* Số điện thoại */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label="Số điện thoại"
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.phone}
-                            helperText={errors.phone?.message}
-                            {...control.register("phone")}
-                        />
-                    </Grid>
+                        {/* Số điện thoại */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                label="Số điện thoại"
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.phone}
+                                helperText={errors.phone?.message}
+                                {...control.register("phone")}
+                            />
+                        </Grid>
 
-                    {/* GPA */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("gpa")}
-                            label="GPA"
-                            variant="outlined"
-                            fullWidth
-                            type="number"
-                            InputLabelProps={{ shrink: true }}
-                            inputProps={{
-                                step: "any", // Cho phép nhập số thực
-                            }}
-                            error={!!errors.gpa}
-                            helperText={errors.gpa?.message}
-                        />
-                    </Grid>
+                        {/* GPA */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("gpa")}
+                                label="GPA"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                inputProps={{
+                                    step: "any", // Cho phép nhập số thực
+                                }}
+                                error={!!errors.gpa}
+                                helperText={errors.gpa?.message}
+                            />
+                        </Grid>
 
-                    {/* Giới tính */}
-                    <Grid item xs={12} md={6}>
-                        <Controller
-                            name="gender"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Giới tính"
-                                    variant="outlined"
-                                    fullWidth
-                                    select
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.gender}
-                                    helperText={errors.gender?.message}
-                                >
-                                    <MenuItem value="Nam">Nam</MenuItem>
-                                    <MenuItem value="Nữ">Nữ</MenuItem>
-                                    <MenuItem value="Khác">Khác</MenuItem>
-                                </TextField>
-                            )}
-                        />
-                    </Grid>
+                        {/* Giới tính */}
+                        <Grid item xs={12} md={6}>
+                            <Controller
+                                name="gender"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Giới tính"
+                                        variant="outlined"
+                                        fullWidth
+                                        select
+                                        slotProps={{
+                                            inputLabel: { shrink: true },
+                                        }}
+                                        error={!!errors.gender}
+                                        helperText={errors.gender?.message}
+                                    >
+                                        <MenuItem value="Nam">Nam</MenuItem>
+                                        <MenuItem value="Nữ">Nữ</MenuItem>
+                                        <MenuItem value="Khác">Khác</MenuItem>
+                                    </TextField>
+                                )}
+                            />
+                        </Grid>
 
-                    {/* Trạng thái thực tập */}
-                    <Grid item xs={12} md={6}>
-                        <Controller
-                            name="internStatus"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Trạng thái thực tập"
-                                    variant="outlined"
-                                    fullWidth
-                                    select
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.internStatus}
-                                    helperText={errors.internStatus?.message}
-                                >
-                                    <MenuItem value="SEARCHING">Đang tìm nơi thực tập</MenuItem>
-                                    <MenuItem value="WORKING">Đang thực tập</MenuItem>
-                                    <MenuItem value="COMPLETED">Đã hoàn thành thực tập</MenuItem>
-                                </TextField>
-                            )}
-                        />
-                    </Grid>
+                        {/* Trạng thái thực tập */}
+                        <Grid item xs={12} md={6}>
+                            <Controller
+                                name="internStatus"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Trạng thái thực tập"
+                                        variant="outlined"
+                                        fullWidth
+                                        select
+                                        slotProps={{
+                                            inputLabel: { shrink: true },
+                                        }}
+                                        error={!!errors.internStatus}
+                                        helperText={errors.internStatus?.message}
+                                    >
+                                        <MenuItem value="SEARCHING">Đang tìm nơi thực tập</MenuItem>
+                                        <MenuItem value="WORKING">Đang thực tập</MenuItem>
+                                        <MenuItem value="COMPLETED">Đã hoàn thành thực tập</MenuItem>
+                                    </TextField>
+                                )}
+                            />
+                        </Grid>
 
-                    {/* Ngày sinh */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("dob")}
-                            label="Ngày sinh"
-                            variant="outlined"
-                            fullWidth
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.dob}
-                            helperText={errors.dob?.message}
-                        />
-                    </Grid>
+                        {/* Ngày sinh */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("dob")}
+                                label="Ngày sinh"
+                                variant="outlined"
+                                fullWidth
+                                type="date"
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.dob}
+                                helperText={errors.dob?.message}
+                            />
+                        </Grid>
 
-                    {/* Thời gian tốt nghiệp dự kiến */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("expGrad")}
-                            label="Thời gian tốt nghiệp dự kiến"
-                            variant="outlined"
-                            fullWidth
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.expGrad}
-                            helperText={errors.expGrad?.message}
-                        />
-                    </Grid>
+                        {/* Thời gian tốt nghiệp dự kiến */}
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                {...control.register("expGrad")}
+                                label="Thời gian tốt nghiệp dự kiến"
+                                variant="outlined"
+                                fullWidth
+                                type="date"
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.expGrad}
+                                helperText={errors.expGrad?.message}
+                            />
+                        </Grid>
 
-                    {/* Địa chỉ */}
-                    <Grid item xs={12} md={12}>
-                        <TextField
-                            {...control.register("address")}
-                            label="Địa chỉ"
-                            variant="outlined"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.address}
-                            helperText={errors.address?.message}
-                        />
-                    </Grid>
+                        {/* Địa chỉ */}
+                        <Grid item xs={12} md={12}>
+                            <TextField
+                                {...control.register("address")}
+                                label="Địa chỉ"
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.address}
+                                helperText={errors.address?.message}
+                            />
+                        </Grid>
 
-                    {/* Button Lưu */}
-                    <Grid item xs={12} textAlign="center">
-                        <Button variant="contained" color="primary" type="submit">
-                            Lưu
-                        </Button>
+                        {/* Button Lưu */}
+                        <Grid item xs={12} textAlign="center">
+                            <Button variant="contained" color="primary" type="submit">
+                                Lưu
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
+                )}
             </Box>
         </Paper>
     );

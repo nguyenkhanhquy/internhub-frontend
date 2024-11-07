@@ -4,7 +4,7 @@ import { Box, Button, TextField, Typography, Paper } from "@mui/material";
 import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
 
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -25,6 +25,7 @@ const UpdatePasswordForm = () => {
         handleSubmit,
         formState: { errors },
         trigger,
+        reset,
     } = useForm({
         resolver: yupResolver(schema),
         mode: "onChange",
@@ -40,6 +41,12 @@ const UpdatePasswordForm = () => {
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
+            reset({
+                oldPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+            });
+
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {
             toast.error(error.message);
@@ -54,62 +61,53 @@ const UpdatePasswordForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     sx={{ minHeight: 412, maxWidth: 400, margin: "auto", p: 4 }}
                 >
-                    <Typography variant="h5" fontWeight="bold" color="primary" mb={1}>
+                    <Typography variant="h5" fontWeight="bold" color="primary" mb={1} textAlign={"center"}>
                         Đổi mật khẩu
                     </Typography>
 
-                    <Controller
-                        name="oldPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Mật khẩu hiện tại"
-                                type="password"
-                                variant="outlined"
-                                fullWidth
-                                sx={{ mt: 1 }}
-                                onBlur={() => trigger("oldPassword")}
-                                error={!!errors.oldPassword}
-                                helperText={errors.oldPassword?.message ?? " "}
-                            />
-                        )}
+                    <TextField
+                        {...control.register("oldPassword")}
+                        label="Mật khẩu hiện tại"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mt: 1 }}
+                        onBlur={() => trigger("oldPassword")}
+                        slotProps={{
+                            inputLabel: { shrink: true },
+                        }}
+                        error={!!errors.oldPassword}
+                        helperText={errors.oldPassword?.message ?? " "}
                     />
 
-                    <Controller
-                        name="newPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Mật khẩu mới"
-                                type="password"
-                                variant="outlined"
-                                fullWidth
-                                sx={{ mt: 1 }}
-                                onBlur={() => trigger("newPassword")}
-                                error={!!errors.newPassword}
-                                helperText={errors.newPassword?.message ?? " "}
-                            />
-                        )}
+                    <TextField
+                        {...control.register("newPassword")}
+                        label="Mật khẩu mới"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mt: 1 }}
+                        onBlur={() => trigger("newPassword")}
+                        slotProps={{
+                            inputLabel: { shrink: true },
+                        }}
+                        error={!!errors.newPassword}
+                        helperText={errors.newPassword?.message ?? " "}
                     />
 
-                    <Controller
-                        name="confirmPassword"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Xác nhận mật khẩu mới"
-                                type="password"
-                                variant="outlined"
-                                fullWidth
-                                sx={{ mt: 1 }}
-                                onBlur={() => trigger("confirmPassword")}
-                                error={!!errors.confirmPassword}
-                                helperText={errors.confirmPassword?.message ?? " "}
-                            />
-                        )}
+                    <TextField
+                        {...control.register("confirmPassword")}
+                        label="Xác nhận mật khẩu mới"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mt: 1 }}
+                        onBlur={() => trigger("confirmPassword")}
+                        slotProps={{
+                            inputLabel: { shrink: true },
+                        }}
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword?.message ?? " "}
                     />
 
                     {loading ? (

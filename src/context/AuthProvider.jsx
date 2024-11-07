@@ -1,17 +1,33 @@
 import { createContext, useEffect, useState } from "react";
+import { getAuthUser } from "../services/authService";
 import PropTypes from "prop-types";
+
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [user, setUser] = useState({});
 
-    const [user, setUser] = useState({
-        accessToken: localStorage.getItem("accessToken"),
-    });
+    const fetchUser = async () => {
+        try {
+            const data = await getAuthUser();
+
+            if (data.success !== true) {
+                if (data?.message) throw new Error(data.message);
+                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+            } else {
+                setUser(data.result);
+                setIsAuthenticated(true);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
 
     useEffect(() => {
-        if (localStorage.getItem("accessToken") !== null) {
-            setIsAuthenticated(true);
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            fetchUser();
         } else {
             setIsAuthenticated(false);
         }

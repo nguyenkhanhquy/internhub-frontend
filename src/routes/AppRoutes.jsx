@@ -12,6 +12,8 @@ import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
 import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
+import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
+
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
 
@@ -33,6 +35,8 @@ const AppRoutes = () => {
                             <Route path="/account/profile" element={<StudentProfilePage />} />
                             <Route path="/account/update-password" element={<UpdatePasswordPage />} />
                             <Route path="/account/details" element={<AccountDetailsPage />} />
+
+                            <Route path="/student" element={<StudentDataPage />} />
                         </>
                     ) : (
                         <>
@@ -42,6 +46,7 @@ const AppRoutes = () => {
                             <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
 
                             <Route path="/account/*" element={<Navigate to="/" replace />} />
+                            <Route path="/student/*" element={<Navigate to="/" replace />} />
                         </>
                     )}
 

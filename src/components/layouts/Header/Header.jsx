@@ -20,7 +20,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, isAuthenticated, setIsAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -140,7 +140,12 @@ const Header = () => {
                                         <AccountCircleIcon sx={{ marginRight: 1 }} />
                                         Tài khoản
                                     </MenuItem>
-                                    <MenuItem onClick={handleClose} component={Link} to="/">
+
+                                    <MenuItem
+                                        onClick={handleClose}
+                                        component={Link}
+                                        to={user.role == "STUDENT" ? "/student" : "/"}
+                                    >
                                         <DataUsageIcon sx={{ marginRight: 1 }} />
                                         Dữ liệu của tôi
                                     </MenuItem>
