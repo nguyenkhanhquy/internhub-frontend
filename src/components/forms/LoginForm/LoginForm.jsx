@@ -56,8 +56,10 @@ function LoginForm() {
             setLoading(true);
             const data = await login(formData.email, formData.password);
             setLoading(false);
-            if (data.success === false) {
-                throw new Error(data.message);
+
+            if (data.success !== true) {
+                if (data?.message) throw new Error(data.message);
+                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
             setToken(data.result?.accessToken);

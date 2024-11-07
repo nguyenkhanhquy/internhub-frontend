@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { Box, Button, Grid, TextField, Typography, Paper } from "@mui/material";
-import SnackbarMessage from "../../snackbar/SnackbarMessage/SnackbarMessage";
 import { updatePassword } from "../../../services/userService";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -16,17 +15,6 @@ const schema = yup.object().shape({
 });
 
 const UpdatePasswordForm = () => {
-    const [snackBarOpen, setSnackBarOpen] = useState(false);
-    const [snackBarMessage, setSnackBarMessage] = useState("");
-    const [snackBarSeverity, setSnackBarSeverity] = useState("success");
-
-    const handleCloseSnackBar = (event, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSnackBarOpen(false);
-    };
-
     const {
         control,
         handleSubmit,
@@ -41,103 +29,105 @@ const UpdatePasswordForm = () => {
         try {
             const data = await updatePassword(dataForm.oldPassword, dataForm.newPassword);
 
-            if (data.success === false) {
-                throw new Error(data.message);
+            if (data.success !== true) {
+                if (data?.message) throw new Error(data.message);
+                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
-            setSnackBarMessage("Đổi mật khẩu thành công");
-            setSnackBarSeverity("success");
-            setSnackBarOpen(true);
+            toast.success("Đổi mật khẩu thành công");
         } catch (error) {
-            setSnackBarMessage(error.message);
-            setSnackBarSeverity("error");
-            setSnackBarOpen(true);
+            toast.error(error.message);
         }
     };
 
     return (
-        <Paper>
-            <SnackbarMessage
-                open={snackBarOpen}
-                message={snackBarMessage}
-                onClose={handleCloseSnackBar}
-                severity={snackBarSeverity}
+        <>
+            <Paper>
+                <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: 400, margin: "auto", p: 3 }}>
+                    <Typography variant="h5" fontWeight="bold" color="primary" mb={1}>
+                        Đổi mật khẩu
+                    </Typography>
+
+                    <Grid container spacing={2} mt={0.5}>
+                        {/* Mật khẩu hiện tại */}
+                        <Grid item xs={12}>
+                            <Controller
+                                name="oldPassword"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Mật khẩu hiện tại"
+                                        type="password"
+                                        variant="outlined"
+                                        fullWidth
+                                        onBlur={() => trigger("oldPassword")}
+                                        error={!!errors.oldPassword}
+                                        helperText={errors.oldPassword?.message}
+                                    />
+                                )}
+                            />
+                        </Grid>
+
+                        {/* Mật khẩu mới */}
+                        <Grid item xs={12}>
+                            <Controller
+                                name="newPassword"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Mật khẩu mới"
+                                        type="password"
+                                        variant="outlined"
+                                        fullWidth
+                                        onBlur={() => trigger("newPassword")}
+                                        error={!!errors.newPassword}
+                                        helperText={errors.newPassword?.message}
+                                    />
+                                )}
+                            />
+                        </Grid>
+
+                        {/* Xác nhận mật khẩu mới */}
+                        <Grid item xs={12}>
+                            <Controller
+                                name="confirmPassword"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Xác nhận mật khẩu mới"
+                                        type="password"
+                                        variant="outlined"
+                                        fullWidth
+                                        onBlur={() => trigger("confirmPassword")}
+                                        error={!!errors.confirmPassword}
+                                        helperText={errors.confirmPassword?.message}
+                                    />
+                                )}
+                            />
+                        </Grid>
+
+                        {/* Button Đặt lại mật khẩu */}
+                        <Grid item xs={12} textAlign="center" mt={3}>
+                            <Button variant="contained" color="primary" type="submit">
+                                Cập nhật
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Paper>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                closeOnClick={false}
+                pauseOnHover={true}
+                draggable={true}
+                theme="light"
             />
-            <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: 400, margin: "auto", p: 3 }}>
-                <Typography variant="h5" fontWeight="bold" color="primary" mb={1}>
-                    Đổi mật khẩu
-                </Typography>
-
-                <Grid container spacing={2} mt={0.5}>
-                    {/* Mật khẩu hiện tại */}
-                    <Grid item xs={12}>
-                        <Controller
-                            name="oldPassword"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Mật khẩu hiện tại"
-                                    type="password"
-                                    variant="outlined"
-                                    fullWidth
-                                    onBlur={() => trigger("oldPassword")}
-                                    error={!!errors.oldPassword}
-                                    helperText={errors.oldPassword?.message}
-                                />
-                            )}
-                        />
-                    </Grid>
-
-                    {/* Mật khẩu mới */}
-                    <Grid item xs={12}>
-                        <Controller
-                            name="newPassword"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Mật khẩu mới"
-                                    type="password"
-                                    variant="outlined"
-                                    fullWidth
-                                    onBlur={() => trigger("newPassword")}
-                                    error={!!errors.newPassword}
-                                    helperText={errors.newPassword?.message}
-                                />
-                            )}
-                        />
-                    </Grid>
-
-                    {/* Xác nhận mật khẩu mới */}
-                    <Grid item xs={12}>
-                        <Controller
-                            name="confirmPassword"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Xác nhận mật khẩu mới"
-                                    type="password"
-                                    variant="outlined"
-                                    fullWidth
-                                    onBlur={() => trigger("confirmPassword")}
-                                    error={!!errors.confirmPassword}
-                                    helperText={errors.confirmPassword?.message}
-                                />
-                            )}
-                        />
-                    </Grid>
-
-                    {/* Button Đặt lại mật khẩu */}
-                    <Grid item xs={12} textAlign="center" mt={3}>
-                        <Button variant="contained" color="primary" type="submit">
-                            Cập nhật
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Paper>
+        </>
     );
 };
 

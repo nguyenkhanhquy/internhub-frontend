@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { getToken, removeToken } from "../../../services/localStorageService";
 import { logout } from "../../../services/authService";
 import useAuth from "../../../hooks/useAuth";
@@ -43,153 +45,174 @@ const Header = () => {
 
         const accessToken = getToken();
 
-        if (accessToken) {
-            const data = await logout(accessToken);
+        try {
+            if (accessToken) {
+                const data = await logout(accessToken);
 
-            console.log(data);
+                if (data.success !== true) {
+                    if (data?.message) throw new Error(data.message);
+                    else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+                } else {
+                    removeToken();
+                    setIsAuthenticated(false);
+                    navigate("/login");
+                }
+            }
+        } catch (error) {
+            toast.error(error.message);
         }
-
-        removeToken();
-
-        setIsAuthenticated(false);
-
-        navigate("/login");
     };
 
     return (
-        <Paper
-            elevation={3}
-            sx={{
-                width: "100%",
-                paddingY: 2,
-                boxShadow: 2,
-                backgroundColor: "white",
-                borderRadius: 0,
-                overflowX: "hidden",
-            }}
-        >
-            <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
+        <>
+            <Paper
+                elevation={3}
                 sx={{
-                    maxWidth: "1400px",
-                    margin: "0 auto",
-                    paddingX: 3,
-                    flexWrap: "wrap",
-                    gap: 2,
+                    width: "100%",
+                    paddingY: 2,
+                    boxShadow: 2,
+                    backgroundColor: "white",
+                    borderRadius: 0,
+                    overflowX: "hidden",
                 }}
             >
-                <Link to="/">
-                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "300px", md: "400px" } }} />
-                </Link>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    sx={{
+                        maxWidth: "1400px",
+                        margin: "0 auto",
+                        paddingX: 3,
+                        flexWrap: "wrap",
+                        gap: 2,
+                    }}
+                >
+                    <Link to="/">
+                        <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "300px", md: "400px" } }} />
+                    </Link>
 
-                <Box component="nav" sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        startIcon={<InfoIcon />}
-                        sx={{
-                            marginRight: 1,
-                            padding: "8px 10px",
-                            color: "white",
-                            "&:hover": { backgroundColor: "#a92a21" },
-                        }}
-                    >
-                        HSSD
-                    </Button>
+                    <Box component="nav" sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            startIcon={<InfoIcon />}
+                            sx={{
+                                marginRight: 1,
+                                padding: "8px 10px",
+                                color: "white",
+                                "&:hover": { backgroundColor: "#a92a21" },
+                            }}
+                        >
+                            HSSD
+                        </Button>
 
-                    {/* Nút Tài khoản */}
-                    {isAuthenticated ? (
-                        <>
-                            <Button
-                                variant="outlined"
-                                startIcon={<AccountCircleIcon />}
-                                onClick={handleAccountClick}
-                                sx={{
-                                    marginLeft: 1,
-                                    padding: "8px 10px",
-                                    color: "#2e3090",
-                                    borderColor: "#d9d9d9",
-                                    boxShadow: "0 2px #00000004",
-                                    "&:hover": { borderColor: "#2e3090" },
-                                }}
-                            >
-                                Tài khoản
-                            </Button>
-
-                            <Menu
-                                className="mt-1"
-                                anchorEl={accountAnchorEl}
-                                open={Boolean(accountAnchorEl)}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose} component={Link} to="/">
-                                    <WorkIcon sx={{ marginRight: 1 }} />
-                                    Việc làm
-                                </MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to="/account">
-                                    <AccountCircleIcon sx={{ marginRight: 1 }} />
+                        {/* Nút Tài khoản */}
+                        {isAuthenticated ? (
+                            <>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<AccountCircleIcon />}
+                                    onClick={handleAccountClick}
+                                    sx={{
+                                        marginLeft: 1,
+                                        padding: "8px 10px",
+                                        color: "#2e3090",
+                                        borderColor: "#d9d9d9",
+                                        boxShadow: "0 2px #00000004",
+                                        "&:hover": { borderColor: "#2e3090" },
+                                    }}
+                                >
                                     Tài khoản
-                                </MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to="/">
-                                    <DataUsageIcon sx={{ marginRight: 1 }} />
-                                    Dữ liệu của tôi
-                                </MenuItem>
-                                <MenuItem onClick={handleLogout}>
-                                    <LogoutIcon sx={{ marginRight: 1 }} />
-                                    Đăng xuất
-                                </MenuItem>
-                            </Menu>
-                        </>
-                    ) : (
-                        <>
-                            <Button
-                                variant="outlined"
-                                startIcon={<PersonAddIcon />}
-                                onClick={handleSignUpClick}
-                                sx={{
-                                    marginRight: 1,
-                                    padding: "8px 10px",
-                                    color: "#2e3090",
-                                    borderColor: "#d9d9d9",
-                                    boxShadow: "0 2px #00000004",
-                                    "&:hover": { borderColor: "#2e3090" },
-                                }}
-                            >
-                                Đăng ký
-                            </Button>
+                                </Button>
 
-                            <Menu className="mt-1" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                                <MenuItem onClick={handleClose} component={Link} to="/register-student">
-                                    <PersonIcon sx={{ marginRight: 1 }} />
-                                    Thực tập sinh
-                                </MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to="/register-recruiter">
-                                    <PersonSearchIcon sx={{ marginRight: 1 }} />
-                                    Nhà tuyển dụng
-                                </MenuItem>
-                            </Menu>
+                                <Menu
+                                    className="mt-1"
+                                    anchorEl={accountAnchorEl}
+                                    open={Boolean(accountAnchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleClose} component={Link} to="/search">
+                                        <WorkIcon sx={{ marginRight: 1 }} />
+                                        Việc làm
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to="/account">
+                                        <AccountCircleIcon sx={{ marginRight: 1 }} />
+                                        Tài khoản
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to="/">
+                                        <DataUsageIcon sx={{ marginRight: 1 }} />
+                                        Dữ liệu của tôi
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        <LogoutIcon sx={{ marginRight: 1 }} />
+                                        Đăng xuất
+                                    </MenuItem>
+                                </Menu>
+                            </>
+                        ) : (
+                            <>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<PersonAddIcon />}
+                                    onClick={handleSignUpClick}
+                                    sx={{
+                                        marginRight: 1,
+                                        padding: "8px 10px",
+                                        color: "#2e3090",
+                                        borderColor: "#d9d9d9",
+                                        boxShadow: "0 2px #00000004",
+                                        "&:hover": { borderColor: "#2e3090" },
+                                    }}
+                                >
+                                    Đăng ký
+                                </Button>
 
-                            <Button
-                                variant="contained"
-                                component={Link}
-                                to="/login"
-                                startIcon={<LoginIcon />}
-                                sx={{
-                                    padding: "8px 10px",
-                                    backgroundColor: "#2e3090",
-                                    color: "white",
-                                    "&:hover": { backgroundColor: "#1f2061" },
-                                }}
-                            >
-                                Đăng nhập
-                            </Button>
-                        </>
-                    )}
+                                <Menu
+                                    className="mt-1"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleClose} component={Link} to="/register-student">
+                                        <PersonIcon sx={{ marginRight: 1 }} />
+                                        Thực tập sinh
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to="/register-recruiter">
+                                        <PersonSearchIcon sx={{ marginRight: 1 }} />
+                                        Nhà tuyển dụng
+                                    </MenuItem>
+                                </Menu>
+
+                                <Button
+                                    variant="contained"
+                                    component={Link}
+                                    to="/login"
+                                    startIcon={<LoginIcon />}
+                                    sx={{
+                                        padding: "8px 10px",
+                                        backgroundColor: "#2e3090",
+                                        color: "white",
+                                        "&:hover": { backgroundColor: "#1f2061" },
+                                    }}
+                                >
+                                    Đăng nhập
+                                </Button>
+                            </>
+                        )}
+                    </Box>
                 </Box>
-            </Box>
-        </Paper>
+            </Paper>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                closeOnClick={false}
+                pauseOnHover={true}
+                draggable={true}
+                theme="light"
+            />
+        </>
     );
 };
 
