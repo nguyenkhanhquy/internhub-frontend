@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
-import SearchPageJobCard from "../../components/job/JobCard/SearchPageJobCard";
+import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
 
 const SearchPage = () => {
     const [isSaved, setIsSaved] = useState(false);
@@ -22,7 +22,7 @@ const SearchPage = () => {
     return (
         <MainLayout title="Việc làm">
             <div style={{ margin: "50px" }}>
-                <SearchPageJobCard
+                <JobCardSearch
                     logo="https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg" // URL logo của công ty
                     title="Thực tập sinh Frontend" // Tên công việc
                     companyName="Công ty Cổ phần Viễn thông FPT" // Tên công ty
@@ -35,7 +35,7 @@ const SearchPage = () => {
                     saved={isSaved} // Trạng thái lưu công việc
                     onToggleSave={toggleSaveJob} // Hàm bật/tắt lưu công việc
                 />
-                <SearchPageJobCard
+                <JobCardSearch
                     logo="https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg" // URL logo của công ty
                     title="Thực tập sinh Frontend" // Tên công việc
                     companyName="Công ty Cổ phần Viễn thông FPT" // Tên công ty

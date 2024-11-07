@@ -8,14 +8,10 @@ import {
     MonetizationOn,
     CalendarToday,
 } from "@mui/icons-material";
+import { formatDate } from "../../../utils/dateUtil";
 import PropTypes from "prop-types";
 
-const formatDate = (date) => {
-    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
-    return new Date(date).toLocaleDateString("vi-VN", options);
-};
-
-const SearchPageJobCard = ({
+const JobCardSearch = ({
     logo,
     title,
     companyName,
@@ -73,7 +69,7 @@ const SearchPageJobCard = ({
                     {/* Thông tin công ty và địa chỉ */}
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <Business fontSize="small" color="action" sx={{ color: "black" }} />
-                        <Typography variant="subtitle2" color="textPrimary">
+                        <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
                             Công ty: {companyName}
                         </Typography>
                     </Stack>
@@ -115,7 +111,7 @@ const SearchPageJobCard = ({
     );
 };
 
-SearchPageJobCard.propTypes = {
+JobCardSearch.propTypes = {
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,
@@ -129,4 +125,4 @@ SearchPageJobCard.propTypes = {
     onToggleSave: PropTypes.func.isRequired,
 };
 
-export default SearchPageJobCard;
+export default JobCardSearch;
