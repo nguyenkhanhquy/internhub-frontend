@@ -1,5 +1,5 @@
 import { Box, Typography, Divider, Paper, Link } from "@mui/material";
-import logoImage from "/images/ute_logo.png";
+import logoImage from "/images/fit_logo.png";
 
 const Footer = () => {
     return (
@@ -30,7 +30,7 @@ const Footer = () => {
             >
                 {/* Phần bên trái */}
                 <Box display="flex" alignItems="center" sx={{ flex: 1 }}>
-                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: 64, marginRight: 2 }} />
+                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: 92, marginRight: 2 }} />
                     <Box>
                         <Typography variant="body1" fontWeight="600">
                             Trường Đại Học Sư Phạm Kỹ Thuật
@@ -46,34 +46,24 @@ const Footer = () => {
 
                 {/* Phần bên phải */}
                 <Box sx={{ flex: 1 }}>
-                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: "600" }}>
+                    <Typography variant="body1" fontWeight="600">
                         Liên hệ với chúng tôi
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Khoa Công Nghệ Thông Tin
+                        Địa chỉ: 01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP.HCM
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                        Điện thoại: (+84 - 028) 37221223 - 8370
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP. HCM
+                        E-mail: kcntt@hcmute.edu.vn
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <Link
-                            href="https://www.hcmute.edu.vn"
-                            target="_blank"
-                            sx={{ color: "inherit", textDecoration: "none" }}
-                        >
-                            Website
-                        </Link>{" "}
-                        -{" "}
-                        <Link
-                            href="https://www.facebook.com/hcmute.edu.vn"
-                            target="_blank"
-                            sx={{ color: "inherit", textDecoration: "none" }}
-                        >
-                            Facebook
+                        Website:{" "}
+                        <Link href="https://fit.hcmute.edu.vn" target="_blank" rel="noopener">
+                            fit.hcmute.edu.vn
                         </Link>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        fit@hcmute.edu.vn
                     </Typography>
                 </Box>
             </Box>
@@ -81,7 +71,15 @@ const Footer = () => {
             {/* Thanh ngang và dòng cuối */}
             <Divider sx={{ my: 2 }} />
             <Typography variant="body2" color="text.secondary">
-                © 2024 HCMUTE. Thiết kế & Phát triển bởi FIT - HCMUTE.
+                © 2024 FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
+                <Link href="https://github.com/nguyenkhanhquy" target="_blank" rel="noopener">
+                    Nguyễn Khánh Quy
+                </Link>{" "}
+                và{" "}
+                <Link href="https://github.com/NguyenDink" target="_blank" rel="noopener">
+                    Đinh Trung Nguyên
+                </Link>
+                .
             </Typography>
         </Paper>
     );

@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     min-width: 600px;
-    margin: 8px auto;
+    margin: 0 auto;
     align-items: center;
     text-align: center;
 }
@@ -22,27 +22,53 @@
     border: 1px solid #ddd;
 }
 
-.loginContainer {
+.registerContainer {
     display: flex;
-    margin: 42px auto;
+    max-width: 1000px;
+    margin: 50px auto;
     justify-content: center;
+    /* align-items: center; */
     background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
 }
 
 .formContainer {
-    max-width: 400px;
-    min-width: 400px;
+    max-width: 600px;
+    min-width: 500px;
     padding: 20px;
     width: 60%;
 }
 
+.formContainer h5 {
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.formContainer .required {
+    color: red;
+}
+
+.formContainer hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ddd;
+}
+
 .formGroup {
-    margin-bottom: 24px; /* Khoảng cách lớn khi có lỗi */
+    margin-bottom: 30px; /* Khoảng cách lớn khi có lỗi */
     position: relative;
 }
 
 .formGroup.noError {
-    margin-bottom: 24px; /* Khoảng cách nhỏ khi không có lỗi */
+    margin-bottom: 16px; /* Khoảng cách nhỏ khi không có lỗi */
 }
 
 .formGroup input,
@@ -87,11 +113,11 @@
 
 .formGroup p {
     position: absolute;
-    bottom: -20px;
+    bottom: -24px;
     left: 0;
     color: red;
     font-size: 12px;
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 .row {
@@ -104,8 +130,7 @@
     flex: 1;
 }
 
-/* Ghi nhớ đăng nhập */
-.rememberMeContainer {
+.agreeTermsContainer {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
@@ -113,7 +138,7 @@
     position: relative;
 }
 
-.rememberMeContainer input[type="checkbox"] {
+.agreeTermsContainer input[type="checkbox"] {
     appearance: none; /* Loại bỏ style mặc định */
     width: 20px;
     height: 20px;
@@ -125,12 +150,12 @@
     transition: all 0.3s ease;
 }
 
-.rememberMeContainer input[type="checkbox"]:checked {
+.agreeTermsContainer input[type="checkbox"]:checked {
     background-color: #007bff;
     border-color: #007bff;
 }
 
-.rememberMeContainer input[type="checkbox"]:checked::after {
+.agreeTermsContainer input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -142,28 +167,14 @@
     border-bottom: 2px solid white;
 }
 
-.rememberMeContainer input[type="checkbox"]:hover {
+.agreeTermsContainer input[type="checkbox"]:hover {
     border-color: #007bff;
 }
 
-.rememberMeContainer label {
+.agreeTermsContainer label {
     margin-left: 8px;
     cursor: pointer;
     color: #333;
-}
-
-.forgotPassword {
-    text-align: right;
-    margin-bottom: 20px;
-}
-
-.forgotPassword a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.forgotPassword a:hover {
-    cursor: pointer;
 }
 
 .buttonWrapper {
@@ -180,6 +191,11 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.container button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .container button:hover {

@@ -1,9 +1,10 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
+import RecruiterRegisterForm from "../../components/forms/RegisterForm/Recruiter/RecruiterRegisterForm";
 
 const RecruiterRegisterPage = () => {
     return (
         <MainLayout title="Đăng ký">
-            <h1 className="text-3xl font-bold underline">Recruiter Register Page</h1>
+            <RecruiterRegisterForm />
         </MainLayout>
     );
 };
