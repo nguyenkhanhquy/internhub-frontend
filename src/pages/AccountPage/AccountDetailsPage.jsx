@@ -11,7 +11,7 @@ import AccountLayout from "../../layouts/AccountLayout/AccountLayout";
 const AccountDetailsPage = () => {
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const getUserDetails = async () => {
         setLoading(true);

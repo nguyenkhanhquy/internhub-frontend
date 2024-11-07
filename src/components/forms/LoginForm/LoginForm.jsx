@@ -12,6 +12,7 @@ import * as yup from "yup";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import CircularProgress from "@mui/material/CircularProgress";
 // import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
 // import useForgotPasswordModal from "../ForgotPasswordModal/useForgotPasswordModal";
 
@@ -27,10 +28,12 @@ const schema = yup.object().shape({
 
 function LoginForm() {
     const { setIsAuthenticated } = useAuth();
+
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     // const { isOpen, email, error, openModal, closeModal, handleEmailChange, handleRequestReset } =
     //     useForgotPasswordModal(); // Sử dụng hook cho modal
-
-    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
@@ -50,8 +53,9 @@ function LoginForm() {
 
     const onSubmit = async (formData) => {
         try {
+            setLoading(true);
             const data = await login(formData.email, formData.password);
-
+            setLoading(false);
             if (data.success === false) {
                 throw new Error(data.message);
             }
@@ -124,7 +128,7 @@ function LoginForm() {
                         </div>
 
                         <div className={styles.buttonWrapper}>
-                            <button type="submit">Đăng nhập</button>
+                            {loading ? <CircularProgress /> : <button type="submit">Đăng nhập</button>}
                         </div>
                     </form>
                 </div>
