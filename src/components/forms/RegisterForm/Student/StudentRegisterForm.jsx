@@ -57,7 +57,7 @@ const schema = yup.object().shape({
         .min(0, "GPA phải lớn hơn hoặc bằng 0")
         .max(4, "GPA phải nhỏ hơn hoặc bằng 4")
         .required("Không được để trống"),
-    internshipStatus: yup.string().required("Không được để trống"),
+    internStatus: yup.string().required("Không được để trống"),
 });
 
 const StudentRegisterForm = () => {
@@ -182,7 +182,9 @@ const StudentRegisterForm = () => {
                         >
                             <FontAwesomeIcon icon={faVenusMars} className={styles.icon} />
                             <select {...register("gender")} onBlur={() => trigger("gender")}>
-                                <option value="">Chọn giới tính</option>
+                                <option value="" selected disabled>
+                                    Chọn giới tính
+                                </option>
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
                             </select>
@@ -248,7 +250,9 @@ const StudentRegisterForm = () => {
                         <div className={`${styles.formGroup} ${!errors.major && !errors.gpa ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faBook} className={styles.icon} />
                             <select {...register("major")} onBlur={() => trigger("major")}>
-                                <option value="">Chọn ngành</option>
+                                <option value="" selected disabled>
+                                    Chọn ngành
+                                </option>
                                 <option value="Công nghệ thông tin">Công nghệ thông tin</option>
                                 <option value="Kỹ thuật dữ liệu">Kỹ thuật dữ liệu</option>
                                 <option value="An toàn thông tin">An toàn thông tin</option>
@@ -269,15 +273,17 @@ const StudentRegisterForm = () => {
                         </div>
                     </div>
 
-                    <div className={`${styles.formGroup} ${!errors.internshipStatus ? styles.noError : ""}`}>
+                    <div className={`${styles.formGroup} ${!errors.internStatus ? styles.noError : ""}`}>
                         <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
-                        <select {...register("internshipStatus")} onBlur={() => trigger("internshipStatus")}>
-                            <option value="">Chọn trạng thái thực tập</option>
+                        <select {...register("internStatus")} onBlur={() => trigger("internStatus")}>
+                            <option value="" selected disabled>
+                                Chọn trạng thái thực tập
+                            </option>
                             <option value="Đang tìm nơi thực tập">Đang tìm nơi thực tập</option>
                             <option value="Đang thực tập">Đang thực tập</option>
                             <option value="Đã hoàn thành thực tập">Đã hoàn thành thực tập</option>
                         </select>
-                        <p>{errors.internshipStatus?.message}</p>
+                        <p>{errors.internStatus?.message}</p>
                     </div>
 
                     <div className={styles.buttonWrapper}>

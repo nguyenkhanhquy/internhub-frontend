@@ -113,11 +113,11 @@
 
 .formGroup p {
     position: absolute;
-    bottom: -24px;
+    bottom: -20px;
     left: 0;
     color: red;
     font-size: 12px;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .row {
