@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { getToken, removeToken } from "../../../services/localStorageService";
 import { logout } from "../../../services/authService";
 import useAuth from "../../../hooks/useAuth";
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import logoImage from "/images/HCMUTE-FIT.png";
 import { Box, Button, Menu, MenuItem, Paper } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -15,6 +13,8 @@ import WorkIcon from "@mui/icons-material/Work";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DataUsageIcon from "@mui/icons-material/DataUsage";
 import LogoutIcon from "@mui/icons-material/Logout";
+
+import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
     const { setIsAuthenticated } = useAuth();
@@ -82,7 +82,7 @@ const Header = () => {
                 }}
             >
                 <Link to="/">
-                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "300px", md: "500px" } }} />
+                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "300px", md: "400px" } }} />
                 </Link>
 
                 <Box component="nav" sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
