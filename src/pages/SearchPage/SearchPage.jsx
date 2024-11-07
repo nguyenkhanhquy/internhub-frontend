@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
+import Banner from "../../components/layouts/Banner/Banner";
 import SearchBar from "../../components/search/SearchBar";
 import SortBar from "../../components/SortBar/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
@@ -96,6 +97,7 @@ const SearchPage = () => {
 
     return (
         <MainLayout title="Việc làm">
+            <Banner websiteName="Việc làm" />
             <div style={{ margin: "20px 160px" }}>
                 <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
                     <SearchBar onSearch={(searchText) => console.log(searchText)} />
