@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import Banner from "../../components/layouts/Banner/Banner";
 import SearchBar from "../../components/search/SearchBar";
@@ -10,8 +9,6 @@ import CustomPagination from "../../components/pagination/Pagination";
 import Box from "@mui/material/Box";
 
 const SearchPage = () => {
-    const [isSaved, setIsSaved] = useState(false);
-
     const jobList = [
         {
             logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
@@ -25,7 +22,7 @@ const SearchPage = () => {
             expiryDate: new Date("2024-12-31"),
         },
         {
-            logo: "https://www.example.com/logo2.png",
+            logo: "https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg",
             title: "Thực tập sinh Backend",
             companyName: "Công ty ABC",
             address: "Hà Nội",
@@ -36,7 +33,7 @@ const SearchPage = () => {
             expiryDate: new Date("2024-12-20"),
         },
         {
-            logo: "https://www.example.com/logo3.png",
+            logo: "https://dynamic.brandcrowd.com/asset/logo/aa3b9817-26ca-40d0-8c59-b4a8d149bda2/logo-search-grid-2x?logoTemplateVersion=1&v=638550553385470000",
             title: "Thực tập sinh UI/UX",
             companyName: "Công ty Thiết kế XYZ",
             address: "Đà Nẵng",
@@ -47,7 +44,7 @@ const SearchPage = () => {
             expiryDate: new Date("2024-12-15"),
         },
         {
-            logo: "https://www.example.com/logo4.png",
+            logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
             title: "Thực tập sinh Data Analyst",
             companyName: "Công ty Phân tích số liệu DEF",
             address: "Cần Thơ",
@@ -58,7 +55,7 @@ const SearchPage = () => {
             expiryDate: new Date("2024-12-25"),
         },
         {
-            logo: "https://www.example.com/logo5.png",
+            logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg?ts=1561532453",
             title: "Thực tập sinh Marketing",
             companyName: "Công ty Tiếp thị GHI",
             address: "Hải Phòng",
@@ -68,20 +65,18 @@ const SearchPage = () => {
             updateDate: new Date("2024-11-12"),
             expiryDate: new Date("2024-12-30"),
         },
+        {
+            logo: "https://cdn.shopify.com/shopifycloud/hatchful_web_two/bundles/7e55eb3d6a1a096058955ae7d64ee9d5.png",
+            title: "Thực tập sinh Web",
+            companyName: "Công ty NEVERLINE",
+            address: "Hải Phòng",
+            jobPosition: "Lập trình Web",
+            type: "Thực tập",
+            salary: "3,000,000 VND/tháng",
+            updateDate: new Date("2024-11-12"),
+            expiryDate: new Date("2024-12-30"),
+        },
     ];
-
-    const toggleSaveJob = () => {
-        setIsSaved((prev) => !prev);
-        toast.success("Đã lưu công việc thành công!", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-        });
-    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -95,48 +90,57 @@ const SearchPage = () => {
         setRecordsPerPage(value);
     };
 
+    const notifySaveJob = (isSaved) => {
+        if (isSaved) {
+            toast.success("Lưu công việc thành công");
+        } else {
+            toast.info("Bỏ lưu công việc thành công");
+        }
+    };
+
     return (
-        <MainLayout title="Việc làm">
-            <Banner websiteName="Việc làm" />
-            <div style={{ margin: "20px 160px" }}>
-                <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
-                    <SearchBar onSearch={(searchText) => console.log(searchText)} />
-                </Box>
+        <>
+            <MainLayout title="Việc làm">
+                <Banner websiteName="Việc làm" />
+                <div style={{ margin: "20px 160px" }}>
+                    <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
+                        <SearchBar onSearch={(searchText) => console.log(searchText)} />
+                    </Box>
 
-                <SortBar
-                    totalJobs={jobList.length}
-                    sortOption="default"
-                    onSortChange={(sortOption) => console.log(sortOption)}
-                />
-
-                {/* Danh sách công việc */}
-                {jobList.map((job, index) => (
-                    <JobCardSearch
-                        key={index}
-                        logo={job.logo}
-                        title={job.title}
-                        companyName={job.companyName}
-                        address={job.address}
-                        jobPosition={job.jobPosition}
-                        type={job.type}
-                        salary={job.salary}
-                        updateDate={job.updateDate}
-                        expiryDate={job.expiryDate}
-                        saved={isSaved} // Trạng thái lưu công việc
-                        onToggleSave={toggleSaveJob} // Hàm bật/tắt lưu công việc
+                    <SortBar
+                        totalJobs={jobList.length}
+                        sortOption="default"
+                        onSortChange={(sortOption) => console.log(sortOption)}
                     />
-                ))}
 
-                <CustomPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    recordsPerPage={recordsPerPage}
-                    onPageChange={handlePageChange}
-                    onRecordsPerPageChange={handleRecordsPerPageChange}
-                />
-            </div>
-            <ToastContainer />
-        </MainLayout>
+                    {/* Danh sách công việc */}
+                    {jobList.map((job, index) => (
+                        <JobCardSearch
+                            key={index}
+                            logo={job.logo}
+                            title={job.title}
+                            companyName={job.companyName}
+                            address={job.address}
+                            jobPosition={job.jobPosition}
+                            type={job.type}
+                            salary={job.salary}
+                            updateDate={job.updateDate}
+                            expiryDate={job.expiryDate}
+                            saved={false}
+                            notifySaveJob={notifySaveJob}
+                        />
+                    ))}
+
+                    <CustomPagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        recordsPerPage={recordsPerPage}
+                        onPageChange={handlePageChange}
+                        onRecordsPerPageChange={handleRecordsPerPageChange}
+                    />
+                </div>
+            </MainLayout>
+        </>
     );
 };
 
