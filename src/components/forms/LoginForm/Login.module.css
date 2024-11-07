@@ -172,12 +172,12 @@
 }
 
 .container button {
-    width: 100px;
+    width: 120px;
     padding: 10px;
-    background-color: #2c3192;
+    background-color: #0d47a1;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
 }

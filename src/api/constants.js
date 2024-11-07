@@ -2,6 +2,7 @@ export const AUTH_API = {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
     ME: "/auth/me",
+    PROFILE: "/auth/profile",
 };
 
 export const USERS_API = {

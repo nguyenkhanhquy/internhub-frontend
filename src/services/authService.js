@@ -26,3 +26,10 @@ export const getAuthUser = async () => {
         .then((response) => response?.data)
         .catch((error) => error?.response?.data);
 };
+
+export const getAuthProfile = async () => {
+    return axiosClient
+        .get(AUTH_API.PROFILE)
+        .then((response) => response?.data)
+        .catch((error) => error?.response?.data);
+};

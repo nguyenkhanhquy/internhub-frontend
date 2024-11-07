@@ -1,56 +1,98 @@
 import { Box, Button, Grid, MenuItem, TextField, Typography, Paper } from "@mui/material";
+import SuspenseLoader from "../../loaders/SuspenseLoader/SuspenseLoader";
+
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-// Dữ liệu mặc định
+import { useEffect, useState } from "react";
+import { getAuthProfile } from "../../../services/authService";
+
 const defaultValues = {
-    fullName: "Nguyễn Văn A",
-    studentId: "12345678",
-    email: "nguyenvana@example.com",
-    dob: "2000-01-01",
-    phone: "0901234567",
-    gender: "Nam",
-    address: "123 Đường ABC, Quận XYZ, TP HCM",
-    internshipStatus: "Đang tìm nơi thực tập",
-    major: "Công nghệ thông tin",
-    expectedGraduation: "2024-06-01",
-    gpa: 3.5,
+    name: "",
+    studentId: "",
+    email: "",
+    dob: "",
+    phone: "",
+    gender: "",
+    address: "",
+    internStatus: "",
+    major: "",
+    expGrad: "",
+    gpa: null,
 };
 
-// Schema xác thực bằng YUP
 const schema = yup
     .object({
-        fullName: yup.string().required("Họ và tên là bắt buộc"),
+        name: yup.string().required("Họ và tên là bắt buộc"),
         studentId: yup.string().required("Mã sinh viên là bắt buộc"),
         email: yup.string().email("Email không hợp lệ").required("Email là bắt buộc"),
         dob: yup.string().required("Ngày sinh là bắt buộc"),
         phone: yup.string().required("Số điện thoại là bắt buộc"),
         gender: yup.string().required("Giới tính là bắt buộc"),
         address: yup.string().required("Địa chỉ là bắt buộc"),
-        internshipStatus: yup.string().required("Trạng thái thực tập là bắt buộc"),
+        internStatus: yup.string().required("Trạng thái thực tập là bắt buộc"),
         major: yup.string().required("Chuyên ngành là bắt buộc"),
-        expectedGraduation: yup.string().required("Thời gian tốt nghiệp dự kiến là bắt buộc"),
-        gpa: yup.number().min(0).max(4).required("GPA là bắt buộc"),
+        expGrad: yup.string().required("Thời gian tốt nghiệp dự kiến là bắt buộc"),
+        gpa: yup
+            .number()
+            .nullable()
+            .transform((curr, originalValue) => (originalValue === "" ? null : curr))
+            .min(0, "GPA phải lớn hơn hoặc bằng 0")
+            .max(4, "GPA phải nhỏ hơn hoặc bằng 4")
+            .required("Không được để trống"),
     })
     .required();
 
 const StudentProfileForm = () => {
+    const [loading, setLoading] = useState(true);
+    const [profile, setProfile] = useState(null);
+
     const {
         control,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm({
         defaultValues,
         resolver: yupResolver(schema),
         mode: "onChange",
     });
 
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const data = await getAuthProfile();
+            setProfile(data?.result);
+            setLoading(false);
+        }
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (profile) {
+            setValue("name", profile.name);
+            setValue("studentId", profile.studentId);
+            setValue("email", profile.studentId + "@student.hcmute.edu.vn");
+            setValue("major", profile.major);
+            setValue("phone", profile.phone);
+            setValue("gpa", profile.gpa);
+            setValue("gender", profile.gender);
+            setValue("internStatus", profile.internStatus);
+            setValue("dob", profile.dob);
+            setValue("expGrad", profile.expGrad);
+            setValue("address", profile.address);
+        }
+    }, [profile, setValue]);
+
     const onSubmit = (data) => {
         console.log("Dữ liệu người dùng:", data);
     };
 
-    return (
+    return loading ? (
+        <SuspenseLoader />
+    ) : (
         <Paper>
             <Box
                 component="form"
@@ -63,59 +105,44 @@ const StudentProfileForm = () => {
                 <Grid container spacing={2}>
                     {/* Họ và tên */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="fullName"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Họ và tên"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={!!errors.fullName}
-                                    helperText={errors.fullName?.message}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("name")}
+                            label="Họ và tên"
+                            variant="outlined"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.name}
+                            helperText={errors.name?.message}
                         />
                     </Grid>
 
                     {/* Mã sinh viên */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="studentId"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Mã sinh viên"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={!!errors.studentId}
-                                    helperText={errors.studentId?.message}
-                                    InputProps={{ readOnly: true }} // Không cho chỉnh sửa
-                                    style={{ backgroundColor: "#f5f5f5" }}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("studentId")}
+                            label="Mã sinh viên"
+                            disabled
+                            variant="outlined"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.studentId}
+                            helperText={errors.studentId?.message}
+                            style={{ backgroundColor: "#f5f5f5" }}
                         />
                     </Grid>
 
                     {/* Email */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="email"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Email"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={!!errors.email}
-                                    helperText={errors.email?.message}
-                                    InputProps={{ readOnly: true }} // Không cho chỉnh sửa
-                                    style={{ backgroundColor: "#f5f5f5" }}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("email")}
+                            label="Email"
+                            disabled
+                            variant="outlined"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.email}
+                            helperText={errors.email?.message}
+                            style={{ backgroundColor: "#f5f5f5" }}
                         />
                     </Grid>
 
@@ -127,16 +154,17 @@ const StudentProfileForm = () => {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="Chuyên ngành"
+                                    label="Ngành"
                                     variant="outlined"
                                     fullWidth
                                     select
+                                    InputLabelProps={{ shrink: true }}
                                     error={!!errors.major}
                                     helperText={errors.major?.message}
                                 >
-                                    <MenuItem value="Công nghệ thông tin">Công nghệ thông tin</MenuItem>
-                                    <MenuItem value="Kỹ thuật dữ liệu">Kỹ thuật dữ liệu</MenuItem>
-                                    <MenuItem value="An toàn thông tin">An toàn thông tin</MenuItem>
+                                    <MenuItem value="IT">Công nghệ thông tin</MenuItem>
+                                    <MenuItem value="DS">Kỹ thuật dữ liệu</MenuItem>
+                                    <MenuItem value="IS">An toàn thông tin</MenuItem>
                                 </TextField>
                             )}
                         />
@@ -144,38 +172,31 @@ const StudentProfileForm = () => {
 
                     {/* Số điện thoại */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="phone"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Số điện thoại"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={!!errors.phone}
-                                    helperText={errors.phone?.message}
-                                />
-                            )}
+                        <TextField
+                            label="Số điện thoại"
+                            variant="outlined"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.phone}
+                            helperText={errors.phone?.message}
+                            {...control.register("phone")}
                         />
                     </Grid>
 
                     {/* GPA */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="gpa"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="GPA"
-                                    variant="outlined"
-                                    fullWidth
-                                    type="number"
-                                    error={!!errors.gpa}
-                                    helperText={errors.gpa?.message}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("gpa")}
+                            label="GPA"
+                            variant="outlined"
+                            fullWidth
+                            type="number"
+                            InputLabelProps={{ shrink: true }}
+                            inputProps={{
+                                step: "any", // Cho phép nhập số thực
+                            }}
+                            error={!!errors.gpa}
+                            helperText={errors.gpa?.message}
                         />
                     </Grid>
 
@@ -191,6 +212,7 @@ const StudentProfileForm = () => {
                                     variant="outlined"
                                     fullWidth
                                     select
+                                    InputLabelProps={{ shrink: true }}
                                     error={!!errors.gender}
                                     helperText={errors.gender?.message}
                                 >
@@ -205,7 +227,7 @@ const StudentProfileForm = () => {
                     {/* Trạng thái thực tập */}
                     <Grid item xs={12} md={6}>
                         <Controller
-                            name="internshipStatus"
+                            name="internStatus"
                             control={control}
                             render={({ field }) => (
                                 <TextField
@@ -214,12 +236,13 @@ const StudentProfileForm = () => {
                                     variant="outlined"
                                     fullWidth
                                     select
-                                    error={!!errors.internshipStatus}
-                                    helperText={errors.internshipStatus?.message}
+                                    InputLabelProps={{ shrink: true }}
+                                    error={!!errors.internStatus}
+                                    helperText={errors.internStatus?.message}
                                 >
-                                    <MenuItem value="Đang tìm nơi thực tập">Đang tìm nơi thực tập</MenuItem>
-                                    <MenuItem value="Đang thực tập">Đang thực tập</MenuItem>
-                                    <MenuItem value="Đã hoàn thành thực tập">Đã hoàn thành thực tập</MenuItem>
+                                    <MenuItem value="SEARCHING">Đang tìm nơi thực tập</MenuItem>
+                                    <MenuItem value="WORKING">Đang thực tập</MenuItem>
+                                    <MenuItem value="COMPLETED">Đã hoàn thành thực tập</MenuItem>
                                 </TextField>
                             )}
                         />
@@ -227,59 +250,42 @@ const StudentProfileForm = () => {
 
                     {/* Ngày sinh */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="dob"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Ngày sinh"
-                                    variant="outlined"
-                                    fullWidth
-                                    type="date"
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.dob}
-                                    helperText={errors.dob?.message}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("dob")}
+                            label="Ngày sinh"
+                            variant="outlined"
+                            fullWidth
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.dob}
+                            helperText={errors.dob?.message}
                         />
                     </Grid>
 
                     {/* Thời gian tốt nghiệp dự kiến */}
                     <Grid item xs={12} md={6}>
-                        <Controller
-                            name="expectedGraduation"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Thời gian tốt nghiệp dự kiến"
-                                    variant="outlined"
-                                    fullWidth
-                                    type="date"
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.expectedGraduation}
-                                    helperText={errors.expectedGraduation?.message}
-                                />
-                            )}
+                        <TextField
+                            {...control.register("expGrad")}
+                            label="Thời gian tốt nghiệp dự kiến"
+                            variant="outlined"
+                            fullWidth
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.expGrad}
+                            helperText={errors.expGrad?.message}
                         />
                     </Grid>
 
                     {/* Địa chỉ */}
-                    <Grid item xs={12} md={6}>
-                        <Controller
-                            name="address"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Địa chỉ"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={!!errors.address}
-                                    helperText={errors.address?.message}
-                                />
-                            )}
+                    <Grid item xs={12} md={12}>
+                        <TextField
+                            {...control.register("address")}
+                            label="Địa chỉ"
+                            variant="outlined"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.address}
+                            helperText={errors.address?.message}
                         />
                     </Grid>
 

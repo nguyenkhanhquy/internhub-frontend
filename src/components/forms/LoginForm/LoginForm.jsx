@@ -12,7 +12,7 @@ import * as yup from "yup";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import CircularProgress from "@mui/material/CircularProgress";
+import Loading from "../../loaders/Loading/Loading";
 // import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
 // import useForgotPasswordModal from "../ForgotPasswordModal/useForgotPasswordModal";
 
@@ -22,8 +22,8 @@ const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = yup.object().shape({
-    email: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
-    password: yup.string().required("Không được để trống").min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
+    email: yup.string().required("Không được để trống.").matches(regexEmail, "Email không hợp lệ."),
+    password: yup.string().required("Không được để trống.").min(8, "Mật khẩu phải có ít nhất 8 ký tự."),
 });
 
 function LoginForm() {
@@ -63,20 +63,10 @@ function LoginForm() {
             }
 
             setToken(data.result?.accessToken);
-
             setIsAuthenticated(true);
-
             navigate("/");
         } catch (error) {
-            toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "light",
-            });
+            toast.error(error.message);
         }
     };
 
@@ -130,7 +120,7 @@ function LoginForm() {
                         </div>
 
                         <div className={styles.buttonWrapper}>
-                            {loading ? <CircularProgress /> : <button type="submit">Đăng nhập</button>}
+                            {loading ? <Loading /> : <button type="submit">Đăng nhập</button>}
                         </div>
                     </form>
                 </div>
@@ -145,7 +135,15 @@ function LoginForm() {
                     onRequestReset={handleRequestReset}
                 /> */}
             </div>
-            <ToastContainer />
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                closeOnClick={false}
+                pauseOnHover={true}
+                draggable={true}
+                theme="light"
+            />
         </>
     );
 }

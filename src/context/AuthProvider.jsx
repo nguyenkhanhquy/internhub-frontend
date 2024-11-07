@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const [user, setUser] = useState({
         accessToken: localStorage.getItem("accessToken"),
     });
 
     useEffect(() => {
-        if (localStorage.getItem("accessToken")) {
+        if (localStorage.getItem("accessToken") !== null) {
             setIsAuthenticated(true);
         } else {
             setIsAuthenticated(false);
