@@ -26,9 +26,9 @@ const SearchBar = ({ totalJobs, onSearch, onSortChange }) => {
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
-                p: 2,
-                boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",
-                bgcolor: "white",
+                // p: 2,
+                // boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",
+                // bgcolor: "white",
             }}
         >
             {/* Ô tìm kiếm với nút tìm kiếm tích hợp */}

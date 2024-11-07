@@ -17,8 +17,8 @@ const CustomPagination = ({ currentPage, totalPages, recordsPerPage, onPageChang
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 2,
-                p: 1,
-                bgcolor: "white",
+                // p: 1,
+                // bgcolor: "white",
                 // boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",
                 // borderRadius: 2,
             }}
