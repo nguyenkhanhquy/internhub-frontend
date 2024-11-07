@@ -17,35 +17,34 @@ const AppRoutes = () => {
 
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<AppWrapper />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="/get-jobs" element={<SearchPage />} />
+            {isAuthenticated ? (
+                <Routes>
+                    <Route path="/" element={<AppWrapper />}>
+                        <Route index element={<HomePage />} />
+                        <Route path="/login" element={<Navigate to="/" />} />
+                        <Route path="/register-student" element={<Navigate to="/" />} />
+                        <Route path="/register-recruiter" element={<Navigate to="/" />} />
+                        <Route path="/get-jobs" element={<SearchPage />} />
 
-                    {isAuthenticated ? (
-                        <>
-                            {/* Chỉ định trang khi đã xác thực */}
-                            <Route path="/login" element={<Navigate to="/" replace />} />
-                            <Route path="/register-student" element={<Navigate to="/" replace />} />
-                            <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
+                        <Route path="/account" element={<Navigate to="/account/profile" replace />} />
+                        <Route path="/account/profile" element={<StudentProfilePage />} />
+                        <Route path="/account/update-password" element={<UpdatePasswordPage />} />
+                        <Route path="/account/details" element={<AccountDetailsPage />} />
+                    </Route>
+                </Routes>
+            ) : (
+                <Routes>
+                    <Route path="/" element={<AppWrapper />}>
+                        <Route index element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register-student" element={<StudentRegisterPage />} />
+                        <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
+                        <Route path="/get-jobs" element={<SearchPage />} />
 
-                            <Route path="/account" element={<Navigate to="/account/profile" replace />} />
-                            <Route path="/account/profile" element={<StudentProfilePage />} />
-                            <Route path="/account/update-password" element={<UpdatePasswordPage />} />
-                            <Route path="/account/details" element={<AccountDetailsPage />} />
-                        </>
-                    ) : (
-                        <>
-                            {/* Chỉ định trang khi chưa xác thực */}
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register-student" element={<StudentRegisterPage />} />
-                            <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
-
-                            <Route path="/account/*" element={<Navigate to="/" replace />} />
-                        </>
-                    )}
-                </Route>
-            </Routes>
+                        <Route path="/account/*" element={<Navigate to="/" />} />
+                    </Route>
+                </Routes>
+            )}
         </BrowserRouter>
     );
 };
