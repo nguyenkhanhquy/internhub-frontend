@@ -33,24 +33,21 @@ const UpdatePasswordForm = () => {
     });
 
     const onSubmit = async (dataForm) => {
+        setLoading(true);
         try {
-            setLoading(true);
             const data = await updatePassword(dataForm.oldPassword, dataForm.newPassword);
-            setLoading(false);
-            if (data.success !== true) {
+
+            if (!data.success) {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
-            reset({
-                oldPassword: "",
-                newPassword: "",
-                confirmPassword: "",
-            });
-
+            reset();
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -68,7 +65,11 @@ const UpdatePasswordForm = () => {
 
                     <TextField
                         {...control.register("oldPassword")}
-                        label="Mật khẩu hiện tại"
+                        label={
+                            <span>
+                                Mật khẩu hiện tại <span style={{ color: "red" }}>*</span>
+                            </span>
+                        }
                         type="password"
                         variant="outlined"
                         fullWidth
@@ -83,7 +84,11 @@ const UpdatePasswordForm = () => {
 
                     <TextField
                         {...control.register("newPassword")}
-                        label="Mật khẩu mới"
+                        label={
+                            <span>
+                                Mật khẩu mới <span style={{ color: "red" }}>*</span>
+                            </span>
+                        }
                         type="password"
                         variant="outlined"
                         fullWidth
@@ -98,7 +103,11 @@ const UpdatePasswordForm = () => {
 
                     <TextField
                         {...control.register("confirmPassword")}
-                        label="Xác nhận mật khẩu mới"
+                        label={
+                            <span>
+                                Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
+                            </span>
+                        }
                         type="password"
                         variant="outlined"
                         fullWidth

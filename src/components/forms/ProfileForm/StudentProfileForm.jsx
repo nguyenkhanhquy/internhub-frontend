@@ -92,13 +92,11 @@ const StudentProfileForm = () => {
     }, [profile, setValue]);
 
     const onSubmit = async (formData) => {
-        console.log("Dữ liệu người dùng:", formData);
+        setLoading(true);
         try {
-            setLoading(true);
             const data = await updateProfile(formData);
-            setLoading(false);
 
-            if (data.success !== true) {
+            if (!data.success) {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -107,6 +105,8 @@ const StudentProfileForm = () => {
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -128,12 +128,16 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("name")}
-                                label="Họ và tên"
+                                label={
+                                    <span>
+                                        Họ và tên <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
-                                slotProps={{
-                                    inputLabel: { shrink: true },
-                                }}
+                                // slotProps={{
+                                //     inputLabel: { shrink: true },
+                                // }}
                                 error={!!errors.name}
                                 helperText={errors.name?.message}
                             />
@@ -143,7 +147,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("studentId")}
-                                label="Mã sinh viên"
+                                label={
+                                    <span>
+                                        Mã sinh viên <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 disabled
                                 variant="outlined"
                                 fullWidth
@@ -160,7 +168,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("email")}
-                                label="Email"
+                                label={
+                                    <span>
+                                        Email <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 disabled
                                 variant="outlined"
                                 fullWidth
@@ -181,7 +193,11 @@ const StudentProfileForm = () => {
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
-                                        label="Ngành"
+                                        label={
+                                            <span>
+                                                Ngành <span style={{ color: "red" }}>*</span>
+                                            </span>
+                                        }
                                         variant="outlined"
                                         fullWidth
                                         select
@@ -202,7 +218,11 @@ const StudentProfileForm = () => {
                         {/* Số điện thoại */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Số điện thoại"
+                                label={
+                                    <span>
+                                        Số điện thoại <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
                                 slotProps={{
@@ -218,7 +238,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("gpa")}
-                                label="GPA"
+                                label={
+                                    <span>
+                                        GPA <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
                                 type="number"
@@ -241,7 +265,11 @@ const StudentProfileForm = () => {
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
-                                        label="Giới tính"
+                                        label={
+                                            <span>
+                                                Giới tính <span style={{ color: "red" }}>*</span>
+                                            </span>
+                                        }
                                         variant="outlined"
                                         fullWidth
                                         select
@@ -267,7 +295,11 @@ const StudentProfileForm = () => {
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
-                                        label="Trạng thái thực tập"
+                                        label={
+                                            <span>
+                                                Trạng thái thực tập <span style={{ color: "red" }}>*</span>
+                                            </span>
+                                        }
                                         variant="outlined"
                                         fullWidth
                                         select
@@ -289,7 +321,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("dob")}
-                                label="Ngày sinh"
+                                label={
+                                    <span>
+                                        Ngày sinh <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
                                 type="date"
@@ -305,7 +341,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 {...control.register("expGrad")}
-                                label="Thời gian tốt nghiệp dự kiến"
+                                label={
+                                    <span>
+                                        Thời gian tốt nghiệp dự kiến <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
                                 type="date"
@@ -321,7 +361,11 @@ const StudentProfileForm = () => {
                         <Grid item xs={12} md={12}>
                             <TextField
                                 {...control.register("address")}
-                                label="Địa chỉ"
+                                label={
+                                    <span>
+                                        Địa chỉ <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
                                 variant="outlined"
                                 fullWidth
                                 slotProps={{

@@ -50,7 +50,7 @@ const Footer = () => {
                         Liên hệ với chúng tôi
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Địa chỉ: 01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP.HCM
+                        Địa chỉ: 01 Võ Văn Ngân, Phường Linh Chiểu, TP. Thủ Đức, TP. HCM
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
