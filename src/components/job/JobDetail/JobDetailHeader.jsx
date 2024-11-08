@@ -22,7 +22,7 @@ const JobDetailHeader = ({
                 p: 2,
                 boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
                 mb: 3,
-                maxWidth: "100%",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
@@ -90,7 +90,7 @@ const JobDetailHeader = ({
                             textTransform: "none",
                             fontSize: "1.1rem",
                             fontWeight: "bold",
-                            py: 1.8,
+                            py: 1,
                         }}
                     >
                         Nộp đơn
@@ -103,7 +103,7 @@ const JobDetailHeader = ({
                             textTransform: "none",
                             fontSize: "1.1rem",
                             fontWeight: "bold",
-                            py: 1.8,
+                            py: 1,
                         }}
                     >
                         Lưu việc làm
