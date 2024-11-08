@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Box, Typography, Divider, List, ListItem, ListItemText, Stack } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
 
-const JobDetailInfo = ({ description, benefits, requirements, address }) => {
+const JobDetailBody = ({ description, benefits, requirements, address }) => {
     return (
         <Box
             sx={{
@@ -89,11 +89,11 @@ const JobDetailInfo = ({ description, benefits, requirements, address }) => {
     );
 };
 
-JobDetailInfo.propTypes = {
+JobDetailBody.propTypes = {
     description: PropTypes.arrayOf(PropTypes.string).isRequired,
     benefits: PropTypes.arrayOf(PropTypes.string).isRequired,
     requirements: PropTypes.arrayOf(PropTypes.string).isRequired,
     address: PropTypes.string.isRequired,
 };
 
-export default JobDetailInfo;
+export default JobDetailBody;
