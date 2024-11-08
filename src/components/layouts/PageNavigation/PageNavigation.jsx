@@ -2,7 +2,7 @@ import { Box, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const NavigationPage = ({ pageName }) => {
+const PageNavigation = ({ pageName }) => {
     const navigate = useNavigate();
 
     const handleHomeClick = (e) => {
@@ -46,8 +46,8 @@ const NavigationPage = ({ pageName }) => {
     );
 };
 
-NavigationPage.propTypes = {
+PageNavigation.propTypes = {
     pageName: PropTypes.string.isRequired,
 };
 
-export default NavigationPage;
+export default PageNavigation;

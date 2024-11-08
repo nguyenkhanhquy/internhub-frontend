@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
-import NavigationPage from "../../components/layouts/NavigationPage/NavigationPage";
+import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import SearchBar from "../../components/search/SearchBar";
 import SortBar from "../../components/sort/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
@@ -101,7 +101,7 @@ const SearchPage = () => {
     return (
         <>
             <MainLayout title="Việc làm">
-                <NavigationPage pageName="Việc làm" />
+                <PageNavigation pageName="Việc làm" />
                 <div style={{ margin: "20px 160px" }}>
                     <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
                         <SearchBar onSearch={(searchText) => console.log(searchText)} />

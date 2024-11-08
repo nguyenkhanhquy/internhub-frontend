@@ -1,5 +1,5 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
-import NavigationPage from "../../components/layouts/NavigationPage/NavigationPage";
+import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import JobDetailHeader from "../../components/job/JobDetail/JobDetailHeader";
 
 const JobDetailsPage = () => {
@@ -13,7 +13,7 @@ const JobDetailsPage = () => {
 
     return (
         <MainLayout title="Chi tiết công việc">
-            <NavigationPage pageName="Chi tiết công việc" />
+            <PageNavigation pageName="Chi tiết công việc" />
             <div style={{ margin: "20px 160px" }}>
                 <JobDetailHeader
                     logo="https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg"
