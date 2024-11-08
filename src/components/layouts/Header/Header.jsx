@@ -144,7 +144,7 @@ const Header = () => {
                                     <MenuItem
                                         onClick={handleClose}
                                         component={Link}
-                                        to={user.role == "STUDENT" ? "/student" : "/"}
+                                        to={user.role === "STUDENT" ? "/student" : "/"}
                                     >
                                         <DataUsageIcon sx={{ marginRight: 1 }} />
                                         Dữ liệu của tôi

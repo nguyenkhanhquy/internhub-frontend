@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { Box, Button, Grid, MenuItem, TextField, Typography, Paper } from "@mui/material";
 import SuspenseLoader from "../../loaders/SuspenseLoader/SuspenseLoader";
 
@@ -7,6 +8,7 @@ import * as yup from "yup";
 
 import { useEffect, useState } from "react";
 import { getAuthProfile } from "../../../services/authService";
+import { updateProfile } from "../../../services/studentService";
 
 const defaultValues = {
     name: "",
@@ -28,7 +30,10 @@ const schema = yup
         studentId: yup.string().required("Mã sinh viên là bắt buộc"),
         email: yup.string().email("Email không hợp lệ").required("Email là bắt buộc"),
         dob: yup.string().required("Ngày sinh là bắt buộc"),
-        phone: yup.string().required("Số điện thoại là bắt buộc"),
+        phone: yup
+            .string()
+            .required("Không được để trống")
+            .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
         gender: yup.string().required("Giới tính là bắt buộc"),
         address: yup.string().required("Địa chỉ là bắt buộc"),
         internStatus: yup.string().required("Trạng thái thực tập là bắt buộc"),
@@ -86,8 +91,23 @@ const StudentProfileForm = () => {
         }
     }, [profile, setValue]);
 
-    const onSubmit = (data) => {
-        console.log("Dữ liệu người dùng:", data);
+    const onSubmit = async (formData) => {
+        console.log("Dữ liệu người dùng:", formData);
+        try {
+            setLoading(true);
+            const data = await updateProfile(formData);
+            setLoading(false);
+
+            if (data.success !== true) {
+                if (data?.message) throw new Error(data.message);
+                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setProfile(formData);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -95,7 +115,7 @@ const StudentProfileForm = () => {
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
-                style={{ maxWidth: 800, margin: "auto", padding: 16 }}
+                style={{ height: 560, maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
                     Chi tiết hồ sơ

@@ -60,7 +60,7 @@ const UpdatePasswordForm = () => {
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
-                    sx={{ minHeight: 412, maxWidth: 400, margin: "auto", p: 4 }}
+                    sx={{ height: 420, maxWidth: 400, margin: "auto", p: 4 }}
                 >
                     <Typography variant="h5" fontWeight="bold" color="primary" mb={1} textAlign={"center"}>
                         Đổi mật khẩu
@@ -72,7 +72,7 @@ const UpdatePasswordForm = () => {
                         type="password"
                         variant="outlined"
                         fullWidth
-                        sx={{ mt: 1 }}
+                        sx={{ mt: 1.5 }}
                         onBlur={() => trigger("oldPassword")}
                         slotProps={{
                             inputLabel: { shrink: true },
@@ -87,7 +87,7 @@ const UpdatePasswordForm = () => {
                         type="password"
                         variant="outlined"
                         fullWidth
-                        sx={{ mt: 1 }}
+                        sx={{ mt: 1.5 }}
                         onBlur={() => trigger("newPassword")}
                         slotProps={{
                             inputLabel: { shrink: true },
@@ -102,7 +102,7 @@ const UpdatePasswordForm = () => {
                         type="password"
                         variant="outlined"
                         fullWidth
-                        sx={{ mt: 1 }}
+                        sx={{ mt: 1.5 }}
                         onBlur={() => trigger("confirmPassword")}
                         slotProps={{
                             inputLabel: { shrink: true },
@@ -111,13 +111,15 @@ const UpdatePasswordForm = () => {
                         helperText={errors.confirmPassword?.message ?? " "}
                     />
 
-                    {loading ? (
-                        <Loading />
-                    ) : (
-                        <Button variant="contained" color="primary" type="submit">
-                            Cập nhật
-                        </Button>
-                    )}
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            <Button disabled={loading} variant="contained" color="primary" type="submit">
+                                Cập nhật
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
             </Paper>
         </>
