@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
-import Banner from "../../components/layouts/Banner/Banner";
+import NavigationPage from "../../components/layouts/NavigationPage/NavigationPage";
 import SearchBar from "../../components/search/SearchBar";
-import SortBar from "../../components/SortBar/SortBar";
+import SortBar from "../../components/sort/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
 import CustomPagination from "../../components/pagination/Pagination";
 import Box from "@mui/material/Box";
@@ -101,7 +101,7 @@ const SearchPage = () => {
     return (
         <>
             <MainLayout title="Việc làm">
-                <Banner pageName="Việc làm" />
+                <NavigationPage pageName="Việc làm" />
                 <div style={{ margin: "20px 160px" }}>
                     <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
                         <SearchBar onSearch={(searchText) => console.log(searchText)} />
