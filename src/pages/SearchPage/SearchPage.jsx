@@ -101,7 +101,7 @@ const SearchPage = () => {
     return (
         <>
             <MainLayout title="Việc làm">
-                <Banner websiteName="Việc làm" />
+                <Banner pageName="Việc làm" />
                 <div style={{ margin: "20px 160px" }}>
                     <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
                         <SearchBar onSearch={(searchText) => console.log(searchText)} />

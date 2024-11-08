@@ -2,7 +2,7 @@ import { Box, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Banner = ({ websiteName }) => {
+const Banner = ({ pageName }) => {
     const navigate = useNavigate();
 
     const handleHomeClick = (e) => {
@@ -23,8 +23,8 @@ const Banner = ({ websiteName }) => {
             }}
         >
             {/* Tên của trang web */}
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                {websiteName}
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                {pageName}
             </Typography>
 
             {/* Link "Trang chủ" */}
@@ -47,7 +47,7 @@ const Banner = ({ websiteName }) => {
 };
 
 Banner.propTypes = {
-    websiteName: PropTypes.string.isRequired,
+    pageName: PropTypes.string.isRequired,
 };
 
 export default Banner;
