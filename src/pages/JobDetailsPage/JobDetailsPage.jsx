@@ -1,9 +1,34 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
+import NavigationPage from "../../components/layouts/NavigationPage/NavigationPage";
+import DetailJobHeader from "../../components/job/DetailJob/DetailJobHeader";
 
 const JobDetailsPage = () => {
+    const handleSaveJob = () => {
+        alert("Công việc đã được lưu!");
+    };
+
+    const handleApplyJob = () => {
+        alert("Bạn đã nộp đơn thành công!");
+    };
+
     return (
         <MainLayout title="Chi tiết công việc">
-            <h1 className="text-3xl font-bold underline">Chi tiết công việc</h1>
+            <NavigationPage pageName="Chi tiết công việc" />
+            <div style={{ margin: "20px 160px" }}>
+                <DetailJobHeader
+                    logo="https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg"
+                    title="Senior Frontend Developer"
+                    companyName="Axon Active Vietnam"
+                    address="Tòa nhà Sunwah, 115 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh"
+                    jobPosition="Frontend Developer"
+                    type="Full-time"
+                    salary="1000 - 2000 USD"
+                    updateDate={new Date("2024-11-05")}
+                    expiryDate={new Date("2024-12-31")}
+                    onSaveJob={handleSaveJob}
+                    onApplyJob={handleApplyJob}
+                />
+            </div>
         </MainLayout>
     );
 };
