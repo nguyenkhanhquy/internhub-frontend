@@ -2,7 +2,7 @@ import { Card, CardHeader, CardContent, IconButton, Typography, Chip, Avatar, Bo
 import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
-const JobCard = ({ logo, title, companyName, remote, type, saved, onToggleSave }) => {
+const JobCardBasic = ({ logo, title, companyName, remote, type, saved, onToggleSave }) => {
     return (
         <Card sx={{ maxWidth: 345, mb: 2, boxShadow: 2 }}>
             <CardHeader
@@ -27,7 +27,7 @@ const JobCard = ({ logo, title, companyName, remote, type, saved, onToggleSave }
     );
 };
 
-JobCard.propTypes = {
+JobCardBasic.propTypes = {
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,
@@ -37,4 +37,4 @@ JobCard.propTypes = {
     onToggleSave: PropTypes.func.isRequired,
 };
 
-export default JobCard;
+export default JobCardBasic;

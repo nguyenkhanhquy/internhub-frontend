@@ -6,7 +6,7 @@ const AccountLayout = ({ children }) => {
     return (
         <Box sx={{ display: "flex", pl: 20, bgcolor: "#f0f2f5" }}>
             {/* Bảng điều hướng bên trái */}
-            <Box sx={{ height: 200, p: 2, mr: 4, mt: 2 }}>
+            <Box sx={{ position: "sticky", top: 0, height: 200, p: 2, mr: 4, mt: 2 }}>
                 <AccountNavigation />
             </Box>
 
