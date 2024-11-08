@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Paper } from "@mui/material";
 import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
@@ -119,15 +120,6 @@ const UpdatePasswordForm = () => {
                     )}
                 </Box>
             </Paper>
-            <ToastContainer
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                closeOnClick={false}
-                pauseOnHover={true}
-                draggable={true}
-                theme="light"
-            />
         </>
     );
 };
