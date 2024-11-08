@@ -1,6 +1,6 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import NavigationPage from "../../components/layouts/NavigationPage/NavigationPage";
-import DetailJobHeader from "../../components/job/DetailJob/DetailJobHeader";
+import JobDetailHeader from "../../components/job/JobDetail/JobDetailHeader";
 
 const JobDetailsPage = () => {
     const handleSaveJob = () => {
@@ -15,7 +15,7 @@ const JobDetailsPage = () => {
         <MainLayout title="Chi tiết công việc">
             <NavigationPage pageName="Chi tiết công việc" />
             <div style={{ margin: "20px 160px" }}>
-                <DetailJobHeader
+                <JobDetailHeader
                     logo="https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg"
                     title="Senior Frontend Developer"
                     companyName="Axon Active Vietnam"
