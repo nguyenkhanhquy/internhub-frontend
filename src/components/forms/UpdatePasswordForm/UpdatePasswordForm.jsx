@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Paper } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
 import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
 import { removeRememberMe } from "../../../services/localStorageService";
@@ -127,7 +128,7 @@ const UpdatePasswordForm = () => {
                             <Loading />
                         ) : (
                             <Button disabled={loading} variant="contained" color="primary" type="submit">
-                                Cập nhật
+                                <SaveIcon sx={{ marginRight: 1 }} /> Lưu
                             </Button>
                         )}
                     </Box>

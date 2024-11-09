@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { Box, Button, Grid, MenuItem, TextField, Typography, Paper } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
 import Loading from "../../loaders/Loading/Loading";
 
 import { useForm, Controller } from "react-hook-form";
@@ -379,7 +380,7 @@ const StudentProfileForm = () => {
                             <Loading />
                         ) : (
                             <Button variant="contained" color="primary" type="submit">
-                                Lưu
+                                <SaveIcon sx={{ marginRight: 1 }} /> Lưu
                             </Button>
                         )}
                     </Grid>
