@@ -17,6 +17,8 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
 import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
 
+import DashboardPage from "../pages/DashboardPage/DashboardPage";
+
 const AppRoutes = () => {
     const { isAuthenticated, loading } = useAuth();
 
@@ -73,6 +75,8 @@ const AppRoutes = () => {
 
                     {/* Điều hướng về trang chủ cho tất cả các URL không được định nghĩa */}
                     <Route path="*" element={<Navigate to="/" replace />} />
+
+                    <Route path="/dashboard" element={<DashboardPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
