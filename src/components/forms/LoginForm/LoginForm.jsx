@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login } from "../../../services/authService";
+import { login, getAuthUser } from "../../../services/authService";
 import { setToken } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
 
@@ -22,12 +22,12 @@ const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = yup.object().shape({
-    email: yup.string().required("Không được để trống.").matches(regexEmail, "Email không hợp lệ."),
-    password: yup.string().required("Không được để trống.").min(8, "Mật khẩu phải có ít nhất 8 ký tự."),
+    email: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
+    password: yup.string().required("Không được để trống").min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
 });
 
 function LoginForm() {
-    const { setIsAuthenticated } = useAuth();
+    const { setUser, setIsAuthenticated } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +43,11 @@ function LoginForm() {
         formState: { errors },
         trigger,
     } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+            rememberMe: false,
+        },
         resolver: yupResolver(schema),
         mode: "onChange",
     });
@@ -52,21 +57,25 @@ function LoginForm() {
     };
 
     const onSubmit = async (formData) => {
+        setLoading(true);
         try {
-            setLoading(true);
             const data = await login(formData.email, formData.password);
-            setLoading(false);
 
-            if (data.success !== true) {
-                if (data?.message) throw new Error(data.message);
-                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
             setToken(data.result?.accessToken);
+
+            const dataUser = await getAuthUser(data.result?.accessToken);
+            setUser(dataUser?.result);
+
             setIsAuthenticated(true);
             navigate("/");
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,7 +86,7 @@ function LoginForm() {
                 <hr />
                 <div className={styles.loginContainer}>
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
-                        <div className={`${styles.formGroup} ${!errors.email ? styles.noError : ""}`}>
+                        <div className={`${styles.formGroup} ${!errors.email ? styles.noError : styles.isError}`}>
                             <FontAwesomeIcon icon={faEnvelope} className={styles.icon} />
                             <input
                                 type="email"
@@ -88,7 +97,7 @@ function LoginForm() {
                             <p>{errors.email?.message}</p>
                         </div>
 
-                        <div className={`${styles.formGroup} ${!errors.password ? styles.noError : ""}`}>
+                        <div className={`${styles.formGroup} ${!errors.password ? styles.noError : styles.isError}`}>
                             <FontAwesomeIcon icon={faLock} className={styles.icon} />
                             <input
                                 type={showPassword ? "text" : "password"}
@@ -135,15 +144,6 @@ function LoginForm() {
                     onRequestReset={handleRequestReset}
                 /> */}
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                closeOnClick={false}
-                pauseOnHover={true}
-                draggable={true}
-                theme="light"
-            />
         </>
     );
 }

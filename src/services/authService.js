@@ -20,6 +20,15 @@ export const logout = async (accessToken) => {
         .catch((error) => error?.response?.data);
 };
 
+export const refresh = async (accessToken) => {
+    return axiosClient
+        .post(AUTH_API.REFRESH, {
+            accessToken: accessToken,
+        })
+        .then((response) => response?.data)
+        .catch((error) => error?.response?.data);
+};
+
 export const getAuthUser = async () => {
     return axiosClient
         .get(AUTH_API.ME)

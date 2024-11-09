@@ -6,7 +6,20 @@ const JobCardBasic = ({ logo, title, companyName, remote, type, saved, onToggleS
     return (
         <Card sx={{ maxWidth: 345, mb: 2, boxShadow: 2 }}>
             <CardHeader
-                avatar={<Avatar src={logo} alt={`${companyName} logo`} />}
+                avatar={
+                    <Avatar
+                        src={logo}
+                        alt={`${companyName} logo`}
+                        variant="square"
+                        sx={{
+                            height: 100,
+                            width: 100,
+                            objectFit: "cover",
+                            borderRadius: 2,
+                            border: "2px solid #f0f0f0",
+                        }}
+                    />
+                }
                 action={
                     <IconButton onClick={onToggleSave} aria-label="save job">
                         {saved ? <Favorite color="error" /> : <FavoriteBorder />}

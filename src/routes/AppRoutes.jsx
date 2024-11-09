@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import AppWrapper from "../layouts/AppWrapper";
+import Loading from "../components/loaders/Loading/Loading";
 import useAuth from "../hooks/useAuth";
 
 import HomePage from "../pages/HomePage/HomePage";
@@ -16,7 +17,23 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
 
 const AppRoutes = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
+
+    if (loading) {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                    width: "100vw",
+                }}
+            >
+                <Loading />
+            </div>
+        );
+    }
 
     return (
         <BrowserRouter>

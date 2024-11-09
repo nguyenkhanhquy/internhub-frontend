@@ -19,7 +19,7 @@ const PageNavigation = ({ pageName }) => {
                 bgcolor: "#007",
                 color: "white",
                 px: 12,
-                py: 1,
+                py: 1.5,
             }}
         >
             {/* Tên của trang web */}

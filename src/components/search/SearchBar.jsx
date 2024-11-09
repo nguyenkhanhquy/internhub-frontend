@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, TextField, InputAdornment, Button } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
 const SearchBar = ({ onSearch }) => {
+    const navigate = useNavigate();
     const [searchText, setSearchText] = useState("");
 
     const handleSearchChange = (e) => {
@@ -12,6 +14,11 @@ const SearchBar = ({ onSearch }) => {
 
     const handleSearch = () => {
         onSearch(searchText);
+        if (searchText?.trim() !== "") {
+            navigate(`/search?query=${searchText}`);
+        } else {
+            navigate("/search");
+        }
     };
 
     return (

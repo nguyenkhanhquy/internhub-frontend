@@ -39,8 +39,8 @@ const JobCardSearch = ({
                     display: "flex",
                     alignItems: "flex-start",
                     mb: 2,
-                    p: 2,
-                    maxWidth: 800,
+                    p: 1.5,
+                    maxWidth: "70%",
                     boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
                     transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
                     "&:hover": {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import SearchBar from "../../components/search/SearchBar";

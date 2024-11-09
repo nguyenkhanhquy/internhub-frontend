@@ -25,6 +25,7 @@
 .loginContainer {
     display: flex;
     margin: 42px auto;
+    height: 256px;
     justify-content: center;
     background-color: #fff;
 }
@@ -60,6 +61,19 @@
     border: 1px solid #007bff; /* Màu xanh cho viền khi focus */
     outline: none; /* Bỏ viền mặc định */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Tùy chọn thêm bóng để nổi bật hơn */
+}
+
+/* Thêm CSS khi có lỗi */
+.formGroup.isError input,
+.formGroup.isError select {
+    border: 1px solid red;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+.formGroup.isError input:focus,
+.formGroup.isError select:focus {
+    border: 1px solid red;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
 
 .formGroup .icon {
