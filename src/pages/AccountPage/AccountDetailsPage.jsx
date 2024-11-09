@@ -7,6 +7,7 @@ import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoad
 
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import AccountLayout from "../../layouts/AccountLayout/AccountLayout";
+import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 
 const AccountDetailsPage = () => {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ const AccountDetailsPage = () => {
     }, [navigate]);
     return (
         <MainLayout title="Chi tiết tài khoản">
+            <PageNavigation pageName="Tài khoản" />
             <AccountLayout>
                 {!loading ? (
                     <Box
