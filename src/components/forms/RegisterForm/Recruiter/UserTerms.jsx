@@ -1,6 +1,16 @@
 const UserTerms = () => {
     return (
-        <div style={{ maxHeight: "200px", overflowY: "auto", marginBottom: "16px", textAlign: "left" }}>
+        <div
+            style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                marginBottom: "16px",
+                textAlign: "left",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #f0f0f0",
+            }}
+        >
             <p>
                 <strong>THOẢ THUẬN NGƯỜI DÙNG</strong>
                 <br />
