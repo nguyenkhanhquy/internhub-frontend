@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Paper } from "@mui/material";
 import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
+import { removeRememberMe } from "../../../services/localStorageService";
 
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -43,6 +44,7 @@ const UpdatePasswordForm = () => {
             }
 
             reset();
+            removeRememberMe();
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {
             toast.error(error.message);

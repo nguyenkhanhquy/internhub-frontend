@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login, getAuthUser } from "../../../services/authService";
-import { setToken } from "../../../services/localStorageService";
+import { setToken, setRememberMe, getRememberMe, removeRememberMe } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
 
 import { useForm } from "react-hook-form";
@@ -28,14 +28,19 @@ const schema = yup.object().shape({
 
 function LoginForm() {
     const { setUser, setIsAuthenticated } = useAuth();
-
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
+    const navigate = useNavigate();
     // const { isOpen, email, error, openModal, closeModal, handleEmailChange, handleRequestReset } =
     //     useForgotPasswordModal(); // Sử dụng hook cho modal
 
-    const navigate = useNavigate();
+    const rememberedUser = getRememberMe();
+
+    const defaultValues = {
+        email: rememberedUser.rememberMe ? rememberedUser.email : "",
+        password: rememberedUser.rememberMe ? rememberedUser.password : "",
+        rememberMe: rememberedUser.rememberMe || false,
+    };
 
     const {
         register,
@@ -43,11 +48,7 @@ function LoginForm() {
         formState: { errors },
         trigger,
     } = useForm({
-        defaultValues: {
-            email: "",
-            password: "",
-            rememberMe: false,
-        },
+        defaultValues,
         resolver: yupResolver(schema),
         mode: "onChange",
     });
@@ -71,6 +72,12 @@ function LoginForm() {
             setUser(dataUser?.result);
 
             setIsAuthenticated(true);
+
+            if (formData.rememberMe) {
+                setRememberMe(formData.email, formData.password);
+            } else {
+                removeRememberMe();
+            }
             navigate("/");
         } catch (error) {
             toast.error(error.message);
@@ -118,7 +125,16 @@ function LoginForm() {
                         <div className={styles.row}>
                             {/* Ghi nhớ đăng nhập */}
                             <div className={styles.rememberMeContainer}>
-                                <input type="checkbox" id="rememberMe" {...register("rememberMe")} />
+                                <input
+                                    type="checkbox"
+                                    id="rememberMe"
+                                    {...register("rememberMe")}
+                                    onChange={(e) => {
+                                        if (!e.target.checked) {
+                                            removeRememberMe();
+                                        }
+                                    }}
+                                />
                                 <label htmlFor="rememberMe">Ghi nhớ đăng nhập</label>
                             </div>
 
