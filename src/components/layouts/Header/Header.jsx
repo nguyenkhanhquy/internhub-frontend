@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getToken, removeToken } from "../../../services/localStorageService";
 import { logout } from "../../../services/authService";
@@ -218,15 +218,6 @@ const Header = () => {
                     </Box>
                 </Box>
             </Paper>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                closeOnClick={false}
-                pauseOnHover={true}
-                draggable={true}
-                theme="light"
-            />
         </>
     );
 };
