@@ -13,8 +13,7 @@ import * as yup from "yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../loaders/Loading/Loading";
-// import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
-// import useForgotPasswordModal from "../ForgotPasswordModal/useForgotPasswordModal";
+import ForgotPasswordModal from "../../modals/ForgotPasswordModal/ForgotPasswordModal";
 
 import styles from "./Login.module.css";
 
@@ -30,11 +29,14 @@ function LoginForm() {
     const { setUser, setIsAuthenticated } = useAuth();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
-    // const { isOpen, email, error, openModal, closeModal, handleEmailChange, handleRequestReset } =
-    //     useForgotPasswordModal(); // Sử dụng hook cho modal
 
+    const navigate = useNavigate();
     const rememberedUser = getRememberMe();
+
+    // Modal "Quên mật khẩu"
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const defaultValues = {
         email: rememberedUser.rememberMe ? rememberedUser.email : "",
@@ -140,7 +142,7 @@ function LoginForm() {
 
                             {/* Quên mật khẩu */}
                             <div className={styles.forgotPassword}>
-                                <a>Quên mật khẩu?</a>
+                                <a onClick={handleOpen}>Quên mật khẩu?</a>
                             </div>
                         </div>
 
@@ -151,14 +153,7 @@ function LoginForm() {
                 </div>
 
                 {/* Modal "Quên mật khẩu" */}
-                {/* <ForgotPasswordModal
-                    open={isOpen}
-                    email={email}
-                    error={error}
-                    onClose={closeModal}
-                    onEmailChange={handleEmailChange}
-                    onRequestReset={handleRequestReset}
-                /> */}
+                <ForgotPasswordModal open={open} handleClose={handleClose} />
             </div>
         </>
     );

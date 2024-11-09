@@ -49,7 +49,7 @@ const Header = () => {
             if (accessToken) {
                 const data = await logout(accessToken);
 
-                if (data.success !== true) {
+                if (!data.success) {
                     if (data?.message) throw new Error(data.message);
                     else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
                 } else {
