@@ -15,7 +15,8 @@ import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
 import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
-import AppliedJobPage from "../pages/DataPage/StudentDataPage/AppliedJobPage";
+import AppliedJobsPage from "../pages/DataPage/StudentDataPage/AppliedJobsPage";
+import SavedJobsPage from "../pages/DataPage/StudentDataPage/SavedJobsPage";
 
 const AppRoutes = () => {
     const { isAuthenticated, loading } = useAuth();
@@ -57,7 +58,8 @@ const AppRoutes = () => {
                             <Route path="/account/details" element={<AccountDetailsPage />} />
 
                             <Route path="/student" element={<Navigate to="/student/applied-jobs" replace />} />
-                            <Route path="/student/applied-jobs" element={<AppliedJobPage />} />
+                            <Route path="/student/applied-jobs" element={<AppliedJobsPage />} />
+                            <Route path="/student/saved-jobs" element={<SavedJobsPage />} />
                         </>
                     ) : (
                         <>

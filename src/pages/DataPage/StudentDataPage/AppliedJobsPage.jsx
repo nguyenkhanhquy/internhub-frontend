@@ -2,7 +2,7 @@ import MainLayout from "../../../layouts/MainLayout/MainLayout";
 import StudentDataLayout from "../../../layouts/DataLayout/StudentDataLayout";
 import PageNavigation from "../../../components/layouts/PageNavigation/PageNavigation";
 
-const AppliedJobPage = () => {
+const AppliedJobsPage = () => {
     return (
         <MainLayout title="Công việc ứng tuyển">
             <PageNavigation pageName="Sinh viên" />
@@ -13,4 +13,4 @@ const AppliedJobPage = () => {
     );
 };
 
-export default AppliedJobPage;
+export default AppliedJobsPage;
