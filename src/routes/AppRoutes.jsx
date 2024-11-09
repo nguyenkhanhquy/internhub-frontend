@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
+import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
 
 import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
@@ -40,6 +41,7 @@ const AppRoutes = () => {
                 <Route path="/" element={<AppWrapper />}>
                     <Route index element={<HomePage />} />
                     <Route path="/search" element={<SearchPage />} />
+                    <Route path="/search/*" element={<JobDetailsPage />} />
 
                     {isAuthenticated ? (
                         <>
