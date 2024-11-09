@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Button, Stack } from "@mui/material";
+import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/material";
 import { Business, LocationOn, Work, CalendarToday } from "@mui/icons-material";
 import PropTypes from "prop-types";
 import { formatDate } from "../../../utils/dateUtil";
@@ -15,6 +15,15 @@ const JobDetailHeader = ({
     onSaveJob,
     onApplyJob,
 }) => {
+    // Kiểm tra kích thước màn hình
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
+    const isMediumScreen = useMediaQuery("(max-width: 960px)");
+
+    // Xác định kích thước của các button và avatar
+    const buttonFontSize = isSmallScreen ? "0.8rem" : isMediumScreen ? "0.9rem" : "1rem";
+    const buttonPaddingY = isSmallScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
+    const avatarSize = isSmallScreen ? 80 : isMediumScreen ? 120 : 140;
+
     return (
         <Box
             sx={{
@@ -28,25 +37,24 @@ const JobDetailHeader = ({
                 gap: 2,
             }}
         >
-            {/* Header thông tin công việc */}
-            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-                {/* Thông tin logo và mô tả công việc */}
-                <Stack direction="row" spacing={2} alignItems="center">
-                    {/* Logo công ty */}
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between" flexWrap="wrap">
+                <Stack direction="row" spacing={2} alignItems="center" sx={{ flex: 1, flexWrap: "wrap" }}>
                     <Avatar
                         src={logo}
                         alt={`${companyName} logo`}
                         variant="square"
-                        sx={{ width: 140, height: 140, borderRadius: 2 }}
+                        sx={{
+                            width: avatarSize,
+                            height: avatarSize,
+                            borderRadius: 2,
+                        }}
                     />
 
-                    {/* Thông tin công việc */}
                     <Box>
-                        <Typography variant="h5" fontWeight="bold" sx={{ mb: 0.5 }}>
+                        <Typography variant={isSmallScreen ? "h6" : "h5"} fontWeight="bold" sx={{ mb: 0.5 }}>
                             {title}
                         </Typography>
 
-                        {/* Tên công ty */}
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <Business fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="body1">
@@ -55,7 +63,6 @@ const JobDetailHeader = ({
                             </Typography>
                         </Stack>
 
-                        {/* Địa chỉ làm việc */}
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <LocationOn fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="subtitle2">
@@ -63,7 +70,6 @@ const JobDetailHeader = ({
                             </Typography>
                         </Stack>
 
-                        {/* Vị trí công việc và loại hình */}
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <Work fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="body2">
@@ -71,7 +77,6 @@ const JobDetailHeader = ({
                             </Typography>
                         </Stack>
 
-                        {/* Ngày cập nhật và hạn nộp */}
                         <Typography variant="body2">
                             <CalendarToday fontSize="small" sx={{ mr: 0.5, verticalAlign: "middle" }} />
                             <strong>Cập nhật:</strong> {formatDate(updateDate)} - <strong>Hạn nộp:</strong>{" "}
@@ -80,17 +85,21 @@ const JobDetailHeader = ({
                     </Box>
                 </Stack>
 
-                {/* Nút hành động ở phía bên phải theo chiều dọc */}
-                <Stack spacing={2} sx={{ minWidth: 180 }}>
+                <Stack
+                    direction={isSmallScreen ? "row" : "column"}
+                    spacing={2}
+                    sx={{ minWidth: isSmallScreen ? "80%" : 180, mt: isSmallScreen ? 2 : 0 }}
+                >
                     <Button
                         variant="contained"
                         color="error"
                         onClick={onApplyJob}
+                        fullWidth={isSmallScreen}
                         sx={{
                             textTransform: "none",
-                            fontSize: "1.1rem",
+                            fontSize: buttonFontSize,
                             fontWeight: "bold",
-                            py: 1,
+                            py: buttonPaddingY,
                         }}
                     >
                         Nộp đơn
@@ -99,11 +108,12 @@ const JobDetailHeader = ({
                         variant="outlined"
                         color="error"
                         onClick={onSaveJob}
+                        fullWidth={isSmallScreen}
                         sx={{
                             textTransform: "none",
-                            fontSize: "1.1rem",
+                            fontSize: buttonFontSize,
                             fontWeight: "bold",
-                            py: 1,
+                            py: buttonPaddingY,
                         }}
                     >
                         Lưu việc làm

@@ -1,9 +1,13 @@
 import PropTypes from "prop-types";
-import { Box, Typography, Stack, Divider, Chip } from "@mui/material";
+import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "@mui/material";
 import { MonetizationOn, Group, WorkOutline, Schedule, CalendarToday, School, LocationOn } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
 
 const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, major }) => {
+    // Lấy theme và kiểm tra xem màn hình có nhỏ hay không
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <Box
             sx={{
@@ -23,72 +27,86 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
 
             <Stack spacing={2}>
                 {/* Mức lương */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <MonetizationOn sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Mức lương:
                     </Typography>
-                    <Typography variant="body1">{salary}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {salary}
+                    </Typography>
                 </Box>
 
                 {/* Số lượng tuyển dụng */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <Group sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Số lượng tuyển:
                     </Typography>
-                    <Typography variant="body1">{quantity} người</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {quantity} người
+                    </Typography>
                 </Box>
 
                 {/* Hình thức làm việc */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <WorkOutline sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Hình thức:
                     </Typography>
-                    <Typography variant="body1">{remote}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {remote}
+                    </Typography>
                 </Box>
 
                 {/* Thời gian làm việc */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <Schedule sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Thời gian:
                     </Typography>
-                    <Typography variant="body1">{type}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {type}
+                    </Typography>
                 </Box>
 
                 {/* Ngày đăng */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Ngày đăng:
                     </Typography>
-                    <Typography variant="body1">{formatDate(createdDate)}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {formatDate(createdDate)}
+                    </Typography>
                 </Box>
 
                 {/* Ngày hết hạn */}
-                <Box display="flex" alignItems="center">
+                <Box display="flex" alignItems="center" flexWrap="wrap">
                     <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Ngày hết hạn:
                     </Typography>
-                    <Typography variant="body1">{formatDate(expiryDate)}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {formatDate(expiryDate)}
+                    </Typography>
                 </Box>
 
                 {/* Vị trí công việc */}
-                <Box display="flex">
+                <Box display="flex" flexWrap="wrap">
                     <LocationOn sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Vị trí:
                     </Typography>
-                    <Typography variant="body1">{jobPosition}</Typography>
+                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
+                        {jobPosition}
+                    </Typography>
                 </Box>
 
                 {/* Ngành đào tạo */}
-                <Box display="flex">
+                <Box display="flex" flexWrap="wrap">
                     <School sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Ngành đào tạo:
                     </Typography>
                     <Stack direction="column" spacing={1} flexWrap="wrap">
