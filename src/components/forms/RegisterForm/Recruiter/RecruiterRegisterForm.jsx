@@ -15,6 +15,7 @@ import {
     faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 
+import UserTerms from "./UserTerms";
 import styles from "./RecruiterRegisterForm.module.css";
 
 function RecruiterRegisterForm() {
@@ -214,6 +215,10 @@ function RecruiterRegisterForm() {
                             <p>{errors.confirmPassword?.message}</p>
                         </div>
                     </div>
+
+                    <h5 className={styles.agreeTermsText}>Thỏa thuận người dùng</h5>
+
+                    <UserTerms />
 
                     <div className={styles.agreeTermsContainer}>
                         <input

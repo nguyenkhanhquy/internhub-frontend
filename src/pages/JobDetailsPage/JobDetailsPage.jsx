@@ -5,6 +5,7 @@ import JobDetailBody from "../../components/job/JobDetail/JobDetailBody";
 import JobDetailSummary from "../../components/job/JobDetail/JobDetailSummary";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { useMediaQuery } from "@mui/material";
 
 // Dữ liệu của công việc
 const jobData = {
@@ -40,6 +41,13 @@ const jobData = {
 
 // Component chính
 const JobDetailsPage = () => {
+    // Kiểm tra kích thước màn hình
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
+    const isMediumScreen = useMediaQuery("(max-width: 960px)");
+
+    // Xác định giá trị margin dựa trên kích thước màn hình
+    const marginValue = isSmallScreen ? "0px" : isMediumScreen ? "20px 40px" : "20px 80px";
+
     // Các hàm xử lý sự kiện
     const handleSaveJob = () => {
         alert("Công việc đã được lưu!");
@@ -53,7 +61,7 @@ const JobDetailsPage = () => {
         <MainLayout title="Chi tiết công việc">
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết công việc" />
-            <div style={{ margin: "20px" }}>
+            <div style={{ margin: marginValue }}>
                 {/* Header tóm tắt thông tin */}
                 <Box sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
                     <JobDetailHeader

@@ -7,6 +7,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
+import VerifyPage from "../pages/VerifyPage/VerifyPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
 
@@ -63,6 +64,7 @@ const AppRoutes = () => {
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/register-student" element={<StudentRegisterPage />} />
                             <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
+                            <Route path="/verify" element={<VerifyPage />} />
 
                             <Route path="/account/*" element={<Navigate to="/" replace />} />
                             <Route path="/student/*" element={<Navigate to="/" replace />} />
