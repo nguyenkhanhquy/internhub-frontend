@@ -53,7 +53,7 @@ const JobDetailsPage = () => {
         <MainLayout title="Chi tiết công việc">
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết công việc" />
-            <div style={{ margin: "20px 160px" }}>
+            <div style={{ margin: "20px" }}>
                 {/* Header tóm tắt thông tin */}
                 <Box sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
                     <JobDetailHeader
