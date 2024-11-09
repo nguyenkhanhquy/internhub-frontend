@@ -8,6 +8,7 @@ export const AUTH_API = {
 
 export const USERS_API = {
     UPDATE_PASSWORD: "/users/update-password",
+    SEND_OTP: "users/verify/send-otp",
 };
 
 export const STUDENTS_API = {

@@ -7,3 +7,9 @@ export const updatePassword = async (oldPassword, newPassword) => {
         newPassword: newPassword,
     });
 };
+
+export const sendOTP = async (email) => {
+    return axiosClient.post(USERS_API.SEND_OTP, {
+        email: email,
+    });
+};
