@@ -67,6 +67,11 @@ const StudentRegisterForm = () => {
         formState: { errors },
         trigger,
     } = useForm({
+        defaultValues: {
+            gender: "",
+            major: "",
+            internStatus: "",
+        },
         resolver: yupResolver(schema),
         mode: "onChange",
     });
@@ -138,7 +143,7 @@ const StudentRegisterForm = () => {
                             <FontAwesomeIcon icon={faLock} className={styles.icon} />
                             <input
                                 type={showConfirmPassword ? "text" : "password"}
-                                placeholder="Nhập lại mật khẩu"
+                                placeholder="Xác nhận mật khẩu"
                                 {...register("confirmPassword")}
                                 onBlur={() => trigger("confirmPassword")}
                             />
@@ -182,7 +187,7 @@ const StudentRegisterForm = () => {
                         >
                             <FontAwesomeIcon icon={faVenusMars} className={styles.icon} />
                             <select {...register("gender")} onBlur={() => trigger("gender")}>
-                                <option value="" selected disabled>
+                                <option value="" disabled>
                                     Chọn giới tính
                                 </option>
                                 <option value="Nam">Nam</option>
@@ -207,16 +212,18 @@ const StudentRegisterForm = () => {
                         </div>
 
                         <div
-                            className={`${styles.formGroup} ${!errors.address && !errors.phone ? styles.noError : ""}`}
+                            className={`${styles.formGroup} ${!errors.internStatus && !errors.phone ? styles.noError : ""}`}
                         >
-                            <FontAwesomeIcon icon={faHome} className={styles.icon} />
-                            <input
-                                type="text"
-                                placeholder="Địa chỉ"
-                                {...register("address")}
-                                onBlur={() => trigger("address")}
-                            />
-                            <p>{errors.address?.message}</p>
+                            <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
+                            <select {...register("internStatus")} onBlur={() => trigger("internStatus")}>
+                                <option value="" disabled>
+                                    Chọn trạng thái thực tập
+                                </option>
+                                <option value="Đang tìm nơi thực tập">Đang tìm nơi thực tập</option>
+                                <option value="Đang thực tập">Đang thực tập</option>
+                                <option value="Đã hoàn thành thực tập">Đã hoàn thành thực tập</option>
+                            </select>
+                            <p>{errors.internStatus?.message}</p>
                         </div>
                     </div>
 
@@ -250,7 +257,7 @@ const StudentRegisterForm = () => {
                         <div className={`${styles.formGroup} ${!errors.major && !errors.gpa ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faBook} className={styles.icon} />
                             <select {...register("major")} onBlur={() => trigger("major")}>
-                                <option value="" selected disabled>
+                                <option value="" disabled>
                                     Chọn ngành
                                 </option>
                                 <option value="Công nghệ thông tin">Công nghệ thông tin</option>
@@ -273,17 +280,15 @@ const StudentRegisterForm = () => {
                         </div>
                     </div>
 
-                    <div className={`${styles.formGroup} ${!errors.internStatus ? styles.noError : ""}`}>
-                        <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
-                        <select {...register("internStatus")} onBlur={() => trigger("internStatus")}>
-                            <option value="" selected disabled>
-                                Chọn trạng thái thực tập
-                            </option>
-                            <option value="Đang tìm nơi thực tập">Đang tìm nơi thực tập</option>
-                            <option value="Đang thực tập">Đang thực tập</option>
-                            <option value="Đã hoàn thành thực tập">Đã hoàn thành thực tập</option>
-                        </select>
-                        <p>{errors.internStatus?.message}</p>
+                    <div className={`${styles.formGroup} ${!errors.address ? styles.noError : ""}`}>
+                        <FontAwesomeIcon icon={faHome} className={styles.icon} />
+                        <input
+                            type="text"
+                            placeholder="Địa chỉ"
+                            {...register("address")}
+                            onBlur={() => trigger("address")}
+                        />
+                        <p>{errors.address?.message}</p>
                     </div>
 
                     <div className={styles.buttonWrapper}>

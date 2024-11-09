@@ -1,12 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuthUser } from "../services/authService";
 import PropTypes from "prop-types";
-
-const AuthContext = createContext({});
+import AuthContext from "../context/AuthContext";
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
     const fetchUser = async () => {
@@ -14,7 +13,7 @@ const AuthProvider = ({ children }) => {
             const data = await getAuthUser();
 
             if (data.success) {
-                setUser(data.result);
+                setUser(data?.result);
                 setIsAuthenticated(true);
             } else {
                 setIsAuthenticated(false);
@@ -49,4 +48,4 @@ AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-export { AuthContext, AuthProvider };
+export default AuthProvider;

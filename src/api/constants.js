@@ -1,6 +1,7 @@
 export const AUTH_API = {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
+    REFRESH: "/auth/refresh",
     ME: "/auth/me",
     PROFILE: "/auth/profile",
 };

@@ -20,7 +20,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
-    const { user, isAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, setUser, isAuthenticated, setIsAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -54,6 +54,7 @@ const Header = () => {
                     else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
                 } else {
                     removeToken();
+                    setUser({});
                     setIsAuthenticated(false);
                     navigate("/login");
                 }
@@ -144,7 +145,16 @@ const Header = () => {
                                     <MenuItem
                                         onClick={handleClose}
                                         component={Link}
-                                        to={user.role === "STUDENT" ? "/student" : "/"}
+                                        to={(() => {
+                                            switch (user?.role) {
+                                                case "STUDENT":
+                                                    return "/student";
+                                                case "RECRUITER":
+                                                    return "/recruiter";
+                                                default:
+                                                    return "/";
+                                            }
+                                        })()}
                                     >
                                         <DataUsageIcon sx={{ marginRight: 1 }} />
                                         Dữ liệu của tôi

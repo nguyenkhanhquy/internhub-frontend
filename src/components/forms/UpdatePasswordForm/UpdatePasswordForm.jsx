@@ -10,12 +10,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().min(8, "Mật khẩu phải dài ít nhất 8 kí tự.").required("Mật khẩu hiện tại là bắt buộc."),
-    newPassword: yup.string().min(8, "Mật khẩu phải dài ít nhất 8 kí tự.").required("Mật khẩu mới là bắt buộc."),
+    oldPassword: yup.string().min(8, "Mật khẩu hiện tại phải dài ít nhất 8 ký tự").required("Không được để trống"),
+    newPassword: yup.string().min(8, "Mật khẩu mới phải dài ít nhất 8 ký tự").required("Không được để trống"),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref("newPassword"), null], "Xác nhận mật khẩu không khớp.")
-        .required("Xác nhận mật khẩu là bắt buộc."),
+        .oneOf([yup.ref("newPassword"), null], "Xác nhận mật khẩu không khớp")
+        .required("Không được để trống"),
 });
 
 const UpdatePasswordForm = () => {

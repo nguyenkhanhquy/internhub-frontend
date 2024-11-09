@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login } from "../../../services/authService";
+import { login, getAuthUser } from "../../../services/authService";
 import { setToken } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
 
@@ -22,12 +22,12 @@ const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = yup.object().shape({
-    email: yup.string().required("Không được để trống.").matches(regexEmail, "Email không hợp lệ."),
-    password: yup.string().required("Không được để trống.").min(8, "Mật khẩu phải có ít nhất 8 ký tự."),
+    email: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
+    password: yup.string().required("Không được để trống").min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
 });
 
 function LoginForm() {
-    const { setIsAuthenticated } = useAuth();
+    const { setUser, setIsAuthenticated } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -66,6 +66,10 @@ function LoginForm() {
             }
 
             setToken(data.result?.accessToken);
+
+            const dataUser = await getAuthUser(data.result?.accessToken);
+            setUser(dataUser?.result);
+
             setIsAuthenticated(true);
             navigate("/");
         } catch (error) {
