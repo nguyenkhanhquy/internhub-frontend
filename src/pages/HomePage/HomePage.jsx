@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, Typography, Container, Stack, Avatar, Button } from "@mui/material";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
 import SearchBar from "../../components/search/SearchBar";
@@ -20,7 +20,7 @@ const jobList = [
     {
         logo: "https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg",
         title: "Thực tập sinh Backend",
-        companyName: "Công ty ABC",
+        companyName: "CÔNG TY TNHH CÔNG NGHỆ - DỊCH VỤ SMART SERVICES",
         address: "Hà Nội",
         jobPosition: "Phát triển phần mềm",
         type: "Bán thời gian",
@@ -34,7 +34,7 @@ const jobList = [
         companyName: "Công ty Thiết kế XYZ",
         address: "Đà Nẵng",
         jobPosition: "Thiết kế giao diện",
-        type: "Thực tập",
+        type: "Toàn thời gian",
         salary: "4,000,000 VND/tháng",
         updateDate: new Date("2024-11-01"),
         expiryDate: new Date("2024-12-15"),
@@ -56,7 +56,7 @@ const jobList = [
         companyName: "Công ty Tiếp thị GHI",
         address: "Hải Phòng",
         jobPosition: "Marketing",
-        type: "Thực tập",
+        type: "Bán thời gian",
         salary: "3,500,000 VND/tháng",
         updateDate: new Date("2024-11-12"),
         expiryDate: new Date("2024-12-30"),
@@ -67,10 +67,66 @@ const jobList = [
         companyName: "Công ty NEVERLINE",
         address: "Hải Phòng",
         jobPosition: "Lập trình Web",
-        type: "Thực tập",
+        type: "Toàn thời gian",
         salary: "3,000,000 VND/tháng",
         updateDate: new Date("2024-11-12"),
         expiryDate: new Date("2024-12-30"),
+    },
+    {
+        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+        title: "Thực tập sinh Frontend",
+        companyName: "Công ty Cổ phần Viễn thông FPT",
+        address: "Thành phố Hồ Chí Minh",
+        jobPosition: "IT Phần mềm",
+        type: "Toàn thời gian",
+        salary: "Thỏa thuận",
+        updateDate: new Date("2024-11-07"),
+        expiryDate: new Date("2024-12-31"),
+    },
+    {
+        logo: "https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg",
+        title: "Thực tập sinh Backend",
+        companyName: "CÔNG TY TNHH CÔNG NGHỆ - DỊCH VỤ SMART SERVICES",
+        address: "Hà Nội",
+        jobPosition: "Phát triển phần mềm",
+        type: "Bán thời gian",
+        salary: "5,000,000 VND/tháng",
+        updateDate: new Date("2024-11-05"),
+        expiryDate: new Date("2024-12-20"),
+    },
+    {
+        logo: "https://dynamic.brandcrowd.com/asset/logo/aa3b9817-26ca-40d0-8c59-b4a8d149bda2/logo-search-grid-2x?logoTemplateVersion=1&v=638550553385470000",
+        title: "Thực tập sinh UI/UX",
+        companyName: "Công ty Thiết kế XYZ",
+        address: "Đà Nẵng",
+        jobPosition: "Thiết kế giao diện",
+        type: "Toàn thời gian",
+        salary: "4,000,000 VND/tháng",
+        updateDate: new Date("2024-11-01"),
+        expiryDate: new Date("2024-12-15"),
+    },
+];
+
+const featuredCompanys = [
+    {
+        logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
+        name: "FPT",
+    },
+    {
+        logo: "https://cdn.shopify.com/shopifycloud/hatchful_web_two/bundles/7e55eb3d6a1a096058955ae7d64ee9d5.png",
+        name: "UPS",
+    },
+    {
+        logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg?ts=1561532453",
+        name: "Microsoft",
+    },
+    {
+        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+        name: "Intel",
+    },
+    {
+        logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
+        name: "FPT",
     },
 ];
 
@@ -79,37 +135,114 @@ const HomePage = () => {
 
     return (
         <MainLayout title="Trang chủ">
-            <div className="m-auto mt-4 flex max-w-screen-xl flex-wrap items-center justify-center">
+            {/* Container với maxWidth tùy chỉnh */}
+            <Container
+                maxWidth="xl" // Giữ maxWidth là "lg"
+                sx={{
+                    width: "90%", // Chiều rộng là 90% thay vì 100%
+                    margin: "0 auto", // Căn giữa
+                    paddingTop: 2,
+                }}
+            >
+                {/* Slider Banner */}
                 <SliderBanner />
-                <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
+
+                {/* Search Bar, căn giữa */}
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+                    <Box sx={{ width: "60%" }}>
+                        <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
+                    </Box>
+                </Box>
+
+                {/* VIỆC LÀM TỐT NHẤT Section, căn giữa */}
                 <Box
                     sx={{
-                        display: "grid", // Sử dụng Grid
-                        gridTemplateColumns: "repeat(4, 1fr)", // 4 cột, mỗi cột chiếm 1 phần tư chiều rộng
-                        gap: 2, // Khoảng cách giữa các thẻ
-                        "@media (max-width: 900px)": {
-                            // Đối với màn hình nhỏ hơn 900px
-                            gridTemplateColumns: "repeat(2, 1fr)", // Chỉ hiển thị 2 thẻ trong mỗi hàng
-                        },
-                        "@media (max-width: 600px)": {
-                            // Đối với màn hình nhỏ hơn 600px
-                            gridTemplateColumns: "repeat(1, 1fr)", // Hiển thị 1 thẻ trong mỗi hàng
-                        },
+                        mt: 4,
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        minHeight: "50vh",
                     }}
                 >
-                    {jobList.map((job, index) => (
-                        <JobCardBasic
-                            key={index}
-                            logo={job.logo}
-                            title={job.title}
-                            companyName={job.companyName}
-                            remote={job.address}
-                            type={job.type}
-                            saved={true}
-                        />
-                    ))}
+                    <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
+                        VIỆC LÀM TỐT NHẤT
+                    </Typography>
+
+                    <Box
+                        sx={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gap: 2,
+                            "@media (max-width: 900px)": {
+                                gridTemplateColumns: "repeat(2, 1fr)",
+                            },
+                            "@media (max-width: 600px)": {
+                                gridTemplateColumns: "1fr",
+                            },
+                        }}
+                    >
+                        {jobList.map((job, index) => (
+                            <JobCardBasic
+                                key={index}
+                                logo={job.logo}
+                                title={job.title}
+                                companyName={job.companyName}
+                                address={job.address}
+                                remote="Trực tiếp"
+                                type={job.type}
+                            />
+                        ))}
+                    </Box>
+
+                    {/* Button Xem thêm */}
+                    <Button
+                        variant="container"
+                        sx={{
+                            padding: "8px 16px",
+                            backgroundColor: "#2e3090",
+                            color: "white",
+                            "&:hover": { backgroundColor: "#1f2061" },
+                        }}
+                        onClick={() => navigate("/search")}
+                    >
+                        Xem thêm...
+                    </Button>
                 </Box>
-            </div>
+
+                {/* NHÀ TUYỂN DỤNG NỔI BẬT Section */}
+                <Box
+                    sx={{
+                        my: 6,
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        minHeight: "50vh",
+                    }}
+                >
+                    <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
+                        NHÀ TUYỂN DỤNG NỔI BẬT
+                    </Typography>
+
+                    {/* Các hình ảnh nhà tuyển dụng nổi bật */}
+                    <Stack direction="row" spacing={4} sx={{ flexWrap: "wrap", justifyContent: "center" }}>
+                        {featuredCompanys.map((employer, index) => (
+                            <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
+                                <Avatar
+                                    src={employer.logo}
+                                    alt={employer.name}
+                                    sx={{
+                                        width: 200, // Đặt kích thước hình vuông
+                                        height: 200, // Đặt kích thước hình vuông
+                                        objectFit: "contain", // Đảm bảo logo không bị méo
+                                    }}
+                                />
+                            </Box>
+                        ))}
+                    </Stack>
+                </Box>
+            </Container>
         </MainLayout>
     );
 };
