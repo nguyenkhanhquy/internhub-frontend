@@ -13,14 +13,15 @@ export const getToken = () => {
     const expirationTime = localStorage.getItem(EXPIRATION_TIME);
 
     if (!accessToken || !expirationTime) {
+        removeToken();
+        window.location.reload();
         return null;
     }
 
     const now = new Date().getTime();
 
     if (now > expirationTime) {
-        localStorage.removeItem(KEY_TOKEN);
-        localStorage.removeItem(EXPIRATION_TIME);
+        removeToken();
         window.location.reload();
         return null;
     }
