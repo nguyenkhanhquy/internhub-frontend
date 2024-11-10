@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { getToken, removeToken } from "../../../services/localStorageService";
-import { logout } from "../../../services/authService";
+import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
 import { Box, Button, Menu, MenuItem, Paper } from "@mui/material";
@@ -20,7 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
-    const { user, setUser, isAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, isAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -36,32 +32,6 @@ const Header = () => {
     const handleClose = () => {
         setAnchorEl(null);
         setAccountAnchorEl(null);
-    };
-
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        handleClose();
-
-        const accessToken = getToken();
-
-        try {
-            if (accessToken) {
-                const data = await logout(accessToken);
-
-                if (!data.success) {
-                    if (data?.message) throw new Error(data.message);
-                    else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
-                } else {
-                    removeToken();
-                    setUser({});
-                    setIsAuthenticated(false);
-                    navigate("/login");
-                }
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
     };
 
     return (
@@ -159,7 +129,7 @@ const Header = () => {
                                         <DataUsageIcon sx={{ marginRight: 1 }} />
                                         Dữ liệu của tôi
                                     </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
+                                    <MenuItem onClick={handleClose} component={Link} to="/logout">
                                         <LogoutIcon sx={{ marginRight: 1 }} />
                                         Đăng xuất
                                     </MenuItem>

@@ -19,7 +19,8 @@ export const getToken = () => {
     const now = new Date().getTime();
 
     if (now > expirationTime) {
-        removeToken();
+        localStorage.removeItem(KEY_TOKEN);
+        localStorage.removeItem(EXPIRATION_TIME);
         window.location.reload();
         return null;
     }

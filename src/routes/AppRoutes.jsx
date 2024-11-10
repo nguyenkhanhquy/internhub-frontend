@@ -5,6 +5,7 @@ import useAuth from "../hooks/useAuth";
 
 import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import LogoutPage from "../pages/LogoutPage/LogoutPage";
 import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
 import VerifyPage from "../pages/VerifyPage/VerifyPage";
@@ -72,6 +73,8 @@ const AppRoutes = () => {
 
                             <Route path="/recruiter" element={<RecruiterDataPage />} />
                             <Route path="/student" element={<StudentDataPage />} />
+
+                            <Route path="/logout" element={<LogoutPage />} />
                         </>
                     ) : (
                         <>
