@@ -1,8 +1,9 @@
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import SearchBar from "../../components/search/SearchBar";
-import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
-import JobCardBasic from "../../components/job/JobCard/JobCardBasic";
+import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
+import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
+import SearchBar from "../../components/search/SearchBar";
+import JobCardBasic from "../../components/job/JobCard/JobCardBasic";
 
 const jobList = [
     {
@@ -74,11 +75,13 @@ const jobList = [
 ];
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
     return (
         <MainLayout title="Trang chủ">
             <div className="m-auto mt-4 flex max-w-screen-xl flex-wrap items-center justify-center">
                 <SliderBanner />
-                <SearchBar onSearch={(searchText) => console.log(searchText)} />
+                <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
                 <Box
                     sx={{
                         display: "grid", // Sử dụng Grid
