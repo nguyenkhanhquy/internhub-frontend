@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../../loaders/Loading/Loading";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,34 +20,35 @@ import {
     faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 
-import UserTerms from "./UserTerms";
 import styles from "./RecruiterRegisterForm.module.css";
+import UserTerms from "./UserTerms";
+import { registerRecruiter } from "../../../../services/userService";
+
+const regexEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const schema = yup.object().shape({
+    company: yup.string().required("Không được để trống"),
+    name: yup.string().required("Không được để trống"),
+    position: yup.string().required("Không được để trống"),
+    phone: yup
+        .string()
+        .required("Không được để trống")
+        .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
+    recruiterEmail: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
+    email: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
+    password: yup.string().required("Không được để trống").min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
+    confirmPassword: yup
+        .string()
+        .oneOf([yup.ref("password")], "Mật khẩu không khớp")
+        .required("Không được để trống"),
+    agreeTerms: yup
+        .bool()
+        .required("Bạn phải đồng ý với Điều khoản và Điều kiện")
+        .oneOf([true], "Bạn phải đồng ý với Điều khoản và Điều kiện"),
+});
 
 function RecruiterRegisterForm() {
-    const regexEmail =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    const schema = yup.object().shape({
-        companyName: yup.string().required("Không được để trống"),
-        representativeName: yup.string().required("Không được để trống"),
-        representativePosition: yup.string().required("Không được để trống"),
-        phone: yup
-            .string()
-            .required("Không được để trống")
-            .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
-        recruiterEmail: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
-        email: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
-        password: yup.string().required("Không được để trống").min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref("password")], "Mật khẩu không khớp")
-            .required("Không được để trống"),
-        agreeTerms: yup
-            .bool()
-            .required("Bạn phải đồng ý với Điều khoản và Điều kiện")
-            .oneOf([true], "Bạn phải đồng ý với Điều khoản và Điều kiện"),
-    });
-
     const {
         register,
         handleSubmit,
@@ -53,9 +59,11 @@ function RecruiterRegisterForm() {
         mode: "onChange",
     });
 
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(false);
+    const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
@@ -69,8 +77,21 @@ function RecruiterRegisterForm() {
         setAgreeTerms(event.target.checked);
     };
 
-    const onSubmit = (dataForm) => {
-        console.log(dataForm);
+    const onSubmit = async (formData) => {
+        setLoading(true);
+        try {
+            const data = await registerRecruiter(formData);
+
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            navigate("/verify", { state: { email: formData.email, action: "activate-account" } });
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -83,46 +104,42 @@ function RecruiterRegisterForm() {
                         Thông tin liên hệ <span className={styles.required}>*</span>
                     </h5>
 
-                    <div className={`${styles.formGroup} ${!errors.companyName ? styles.noError : ""}`}>
+                    <div className={`${styles.formGroup} ${!errors.company ? styles.noError : ""}`}>
                         <FontAwesomeIcon icon={faBuilding} className={styles.icon} />
                         <input
                             type="text"
                             placeholder="Tên công ty"
-                            {...register("companyName")}
-                            onBlur={() => trigger("companyName")}
+                            {...register("company")}
+                            onBlur={() => trigger("company")}
                         />
-                        <p>{errors.companyName?.message}</p>
+                        <p>{errors.company?.message}</p>
                     </div>
 
                     <div className={styles.row}>
                         <div
-                            className={`${styles.formGroup} ${
-                                !errors.representativeName && !errors.representativePosition ? styles.noError : ""
-                            }`}
+                            className={`${styles.formGroup} ${!errors.name && !errors.position ? styles.noError : ""}`}
                         >
                             <FontAwesomeIcon icon={faUserTie} className={styles.icon} />
                             <input
                                 type="text"
                                 placeholder="Họ và tên Người đại diện"
-                                {...register("representativeName")}
-                                onBlur={() => trigger("representativeName")}
+                                {...register("name")}
+                                onBlur={() => trigger("name")}
                             />
-                            <p>{errors.representativeName?.message}</p>
+                            <p>{errors.name?.message}</p>
                         </div>
 
                         <div
-                            className={`${styles.formGroup} ${
-                                !errors.representativePosition && !errors.representativeName ? styles.noError : ""
-                            }`}
+                            className={`${styles.formGroup} ${!errors.position && !errors.name ? styles.noError : ""}`}
                         >
                             <FontAwesomeIcon icon={faBriefcase} className={styles.icon} />
                             <input
                                 type="text"
                                 placeholder="Chức vụ"
-                                {...register("representativePosition")}
-                                onBlur={() => trigger("representativePosition")}
+                                {...register("position")}
+                                onBlur={() => trigger("position")}
                             />
-                            <p>{errors.representativePosition?.message}</p>
+                            <p>{errors.position?.message}</p>
                         </div>
                     </div>
 
@@ -216,7 +233,9 @@ function RecruiterRegisterForm() {
                         </div>
                     </div>
 
-                    <h5 className={styles.agreeTermsText}>Thỏa thuận người dùng</h5>
+                    <h5 className={styles.agreeTermsText}>
+                        Thỏa thuận người dùng <span className={styles.required}>*</span>
+                    </h5>
 
                     <UserTerms />
 
@@ -228,14 +247,18 @@ function RecruiterRegisterForm() {
                             checked={agreeTerms}
                             onChange={handleAgreeTermsChange}
                         />
-                        <label htmlFor="agreeTerms">Tôi đồng ý với Điều khoản và Điều kiện trên.</label>
+                        <label htmlFor="agreeTerms">Tôi đồng ý với Điều khoản và Điều kiện trên</label>
                         <p>{errors.agreeTerms?.message}</p>
                     </div>
 
                     <div className={styles.buttonWrapper}>
-                        <button type="submit" disabled={!agreeTerms}>
-                            Đăng ký
-                        </button>
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            <button type="submit" disabled={!agreeTerms}>
+                                Đăng ký
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

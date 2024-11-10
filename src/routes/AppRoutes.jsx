@@ -5,12 +5,15 @@ import useAuth from "../hooks/useAuth";
 
 import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import LogoutPage from "../pages/LogoutPage/LogoutPage";
 import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
 import VerifyPage from "../pages/VerifyPage/VerifyPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
 
+import RecruiterProfilePage from "../pages/AccountPage/RecruiterProfilePage";
 import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
 import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
@@ -18,9 +21,11 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 import AppliedJobsPage from "../pages/DataPage/StudentDataPage/AppliedJobsPage";
 import SavedJobsPage from "../pages/DataPage/StudentDataPage/SavedJobsPage";
 import InternShipApplicationsPage from "../pages/DataPage/StudentDataPage/InternShipApplicationsPage";
+import RecruiterDataPage from "../pages/DataPage/RecruiterDataPage/RecruiterDataPage";
+import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
 
 const AppRoutes = () => {
-    const { isAuthenticated, loading } = useAuth();
+    const { user, isAuthenticated, loading } = useAuth();
 
     if (loading) {
         return (
@@ -54,7 +59,19 @@ const AppRoutes = () => {
                             <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
 
                             <Route path="/account" element={<Navigate to="/account/profile" replace />} />
-                            <Route path="/account/profile" element={<StudentProfilePage />} />
+                            <Route
+                                path="/account/profile"
+                                element={(() => {
+                                    switch (user?.role) {
+                                        case "STUDENT":
+                                            return <StudentProfilePage />;
+                                        case "RECRUITER":
+                                            return <RecruiterProfilePage />;
+                                        default:
+                                            return <Navigate to="/" replace />;
+                                    }
+                                })()}
+                            />
                             <Route path="/account/update-password" element={<UpdatePasswordPage />} />
                             <Route path="/account/details" element={<AccountDetailsPage />} />
 
@@ -62,6 +79,8 @@ const AppRoutes = () => {
                             <Route path="/student/applied-jobs" element={<AppliedJobsPage />} />
                             <Route path="/student/saved-jobs" element={<SavedJobsPage />} />
                             <Route path="/student/internship-applications" element={<InternShipApplicationsPage />} />
+                            <Route path="/recruiter" element={<RecruiterDataPage />} />                           
+                            <Route path="/logout" element={<LogoutPage />} />
                         </>
                     ) : (
                         <>
@@ -70,6 +89,7 @@ const AppRoutes = () => {
                             <Route path="/register-student" element={<StudentRegisterPage />} />
                             <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
                             <Route path="/verify" element={<VerifyPage />} />
+                            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                             <Route path="/account/*" element={<Navigate to="/" replace />} />
                             <Route path="/student/*" element={<Navigate to="/" replace />} />

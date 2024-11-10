@@ -21,7 +21,7 @@ import { sendOTP } from "../../../services/userService";
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const ForgotPasswordModal = ({ open, handleClose }) => {
+const ActivateAccountModal = ({ open, handleClose }) => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
@@ -54,7 +54,6 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
             setError("Email không hợp lệ");
         } else {
             setError("");
-            console.log("Yêu cầu cấp lại mật khẩu cho email:", email);
             setLoading(true);
             try {
                 const data = await sendOTP(email);
@@ -63,7 +62,7 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 closeModal();
-                navigate("/reset-password", { state: { email: email } });
+                navigate("/verify", { state: { email: email, action: "request-activate-account" } });
                 toast.success(data.message);
             } catch (error) {
                 toast.error(error.message);
@@ -78,7 +77,7 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
             <Dialog open={open} onClose={closeModal} maxWidth="sm" fullWidth>
                 <DialogTitle sx={{ bgcolor: "#e6f0ff" }}>
                     <Typography color="primary" fontWeight="bold">
-                        QUÊN MẬT KHẨU?
+                        KÍCH HOẠT TÀI KHOẢN
                     </Typography>
                 </DialogTitle>
                 <DialogContent>
@@ -120,7 +119,7 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
                         Hủy
                     </Button>
                     <Button variant="contained" color="primary" onClick={handleRequestReset}>
-                        Yêu cầu cấp lại mật khẩu
+                        Yêu cầu kích hoạt tài khoản
                     </Button>
                 </DialogActions>
                 <LoadingOverlay open={loading} />
@@ -129,9 +128,9 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
     );
 };
 
-ForgotPasswordModal.propTypes = {
+ActivateAccountModal.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
 
-export default ForgotPasswordModal;
+export default ActivateAccountModal;

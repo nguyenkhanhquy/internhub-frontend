@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { getToken, removeToken } from "../../../services/localStorageService";
-import { logout } from "../../../services/authService";
+import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
 import { Box, Button, Menu, MenuItem, Paper } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
-import PersonIcon from "@mui/icons-material/Person";
+import SchoolIcon from "@mui/icons-material/School";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import WorkIcon from "@mui/icons-material/Work";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -20,7 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "/images/hcmute_fit_logo.png";
 
 const Header = () => {
-    const { user, setUser, isAuthenticated, setIsAuthenticated } = useAuth();
+    const { user, isAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -38,32 +34,6 @@ const Header = () => {
         setAccountAnchorEl(null);
     };
 
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        handleClose();
-
-        const accessToken = getToken();
-
-        try {
-            if (accessToken) {
-                const data = await logout(accessToken);
-
-                if (!data.success) {
-                    if (data?.message) throw new Error(data.message);
-                    else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
-                } else {
-                    removeToken();
-                    setUser({});
-                    setIsAuthenticated(false);
-                    navigate("/login");
-                }
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
-
     return (
         <>
             <Paper
@@ -71,7 +41,7 @@ const Header = () => {
                 sx={{
                     width: "100%",
                     paddingY: 2,
-                    boxShadow: 2,
+                    boxShadow: 1,
                     backgroundColor: "white",
                     borderRadius: 0,
                     overflowX: "hidden",
@@ -159,7 +129,7 @@ const Header = () => {
                                         <DataUsageIcon sx={{ marginRight: 1 }} />
                                         Dữ liệu của tôi
                                     </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
+                                    <MenuItem onClick={handleClose} component={Link} to="/logout">
                                         <LogoutIcon sx={{ marginRight: 1 }} />
                                         Đăng xuất
                                     </MenuItem>
@@ -190,7 +160,7 @@ const Header = () => {
                                     onClose={handleClose}
                                 >
                                     <MenuItem onClick={handleClose} component={Link} to="/register-student">
-                                        <PersonIcon sx={{ marginRight: 1 }} />
+                                        <SchoolIcon sx={{ marginRight: 1 }} />
                                         Thực tập sinh
                                     </MenuItem>
                                     <MenuItem onClick={handleClose} component={Link} to="/register-recruiter">

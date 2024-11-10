@@ -1,5 +1,5 @@
-import { Box, Typography, Select, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
+import { Box, Typography, Select, MenuItem } from "@mui/material";
 
 const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
     return (
@@ -20,14 +20,14 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
                     value={sortOption}
                     onChange={(e) => onSortChange(e.target.value)}
                     size="small"
-                    variant="standard"
+                    variant="outlined"
                     disableUnderline
                     sx={{
                         minWidth: 200,
-                        fontSize: "0.9rem",
+                        fontSize: "0.95rem",
                         color: "text.primary",
                         "& .MuiSelect-select": {
-                            padding: "4px 0px",
+                            padding: "4px",
                             transition: "color 0.2s",
                         },
                         "&:hover .MuiSelect-select": {

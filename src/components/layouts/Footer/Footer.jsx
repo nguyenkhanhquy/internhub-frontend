@@ -7,7 +7,7 @@ const Footer = () => {
             elevation={3}
             sx={{
                 width: "100%",
-                paddingY: 3,
+                paddingY: 2,
                 boxShadow: 2,
                 textAlign: "center",
                 backgroundColor: "white",
@@ -21,11 +21,11 @@ const Footer = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     flexWrap: "wrap",
-                    gap: 3,
+                    gap: 4,
                     textAlign: { xs: "center", sm: "left" },
                     maxWidth: "1200px",
                     margin: "0 auto",
-                    paddingX: 2,
+                    paddingX: 3,
                 }}
             >
                 {/* Phần bên trái */}

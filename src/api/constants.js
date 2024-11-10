@@ -7,10 +7,19 @@ export const AUTH_API = {
 };
 
 export const USERS_API = {
+    SEND_OTP: "/users/verify/send-otp",
+    ACTIVATE: "/users/verify/activate-account",
+    RESET_PASSWORD: "/users/verify/reset-password",
+    REGISTER_RECRUITER: "/users/register/recruiter",
+    REGISTER_STUDENT: "/users/register/student",
     UPDATE_PASSWORD: "/users/update-password",
-    SEND_OTP: "users/verify/send-otp",
 };
 
 export const STUDENTS_API = {
     UPDATE_PROFILE: "/students/update-profile",
+};
+
+export const JOBS_API = {
+    GET_ALL: "/jobs",
+    GET_BY_ID: "/jobs/",
 };

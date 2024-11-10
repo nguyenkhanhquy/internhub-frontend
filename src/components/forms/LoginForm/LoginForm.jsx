@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../../loaders/Loading/Loading";
 import ForgotPasswordModal from "../../modals/ForgotPasswordModal/ForgotPasswordModal";
+import ActivateAccountModal from "../../modals/ActivateAccountModal/ActivateAccountModal";
 
 import styles from "./Login.module.css";
 
@@ -37,6 +38,11 @@ function LoginForm() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    // Modal "Kích hoạt tài khoản"
+    const [openActivate, setOpenActivate] = useState(false);
+    const handleOpenActivate = () => setOpenActivate(true);
+    const handleCloseActivate = () => setOpenActivate(false);
 
     const defaultValues = {
         email: rememberedUser.rememberMe ? rememberedUser.email : "",
@@ -149,11 +155,18 @@ function LoginForm() {
                         <div className={styles.buttonWrapper}>
                             {loading ? <Loading /> : <button type="submit">Đăng nhập</button>}
                         </div>
+
+                        <div className={styles.activateAccount}>
+                            Bạn chưa kích hoạt tài khoản? <a onClick={handleOpenActivate}>Kích hoạt ngay</a>
+                        </div>
                     </form>
                 </div>
 
                 {/* Modal "Quên mật khẩu" */}
                 <ForgotPasswordModal open={open} handleClose={handleClose} />
+
+                {/* Modal "Kích hoạt tài khoản" */}
+                <ActivateAccountModal open={openActivate} handleClose={handleCloseActivate} />
             </div>
         </>
     );

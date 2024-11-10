@@ -2,7 +2,7 @@ const UserTerms = () => {
     return (
         <div
             style={{
-                maxHeight: "200px",
+                maxHeight: "300px",
                 overflowY: "auto",
                 marginBottom: "16px",
                 textAlign: "left",
@@ -28,14 +28,14 @@ const UserTerms = () => {
                 <br />
                 <strong>THÔNG TIN LIÊN LẠC</strong>
                 <br />
-                Nếu bạn có câu hỏi về Thông Báo Chính Sách này, vui lòng gửi email tới địa chỉ hotro@CareerHub.vn để
+                Nếu bạn có câu hỏi về Thông Báo Chính Sách này, vui lòng gửi email tới địa chỉ hotro@InternHub.vn để
                 được giải đáp nhanh nhất.
             </p>
 
             <p>
                 <br />
                 <strong>QUY TRÌNH GIẢI QUYẾT TRANH CHẤP</strong> <br />
-                Khi phát sinh tranh chấp, CareerHub đề cao giải pháp thương lượng, hòa giải giữa các bên nhằm duy trì sự
+                Khi phát sinh tranh chấp, InternHub đề cao giải pháp thương lượng, hòa giải giữa các bên nhằm duy trì sự
                 tin cậy của thành viên vào chất lượng dịch vụ của Công ty và thực hiện theo các bước sau:
                 <br /> + Bước 1: Thành viên phản ánh về dịch vụ website cung cấp, trả thông tin đăng tải về việc làm
                 không chính xác... qua email. <br /> Nếu thành viên là Sinh viên trường gửi email về địa chỉ:
@@ -48,22 +48,22 @@ const UserTerms = () => {
                 <br />
                 <br /> Thời gian giải quyết khiếu nại trong vòng 3 ngày kể từ ngày nhận được khiếu nại.
                 <br /> <br />
-                CareerHub tôn trọng và nghiêm túc thực hiện các quy định của pháp luật về bảo vệ quyền lợi của người tìm
+                InternHub tôn trọng và nghiêm túc thực hiện các quy định của pháp luật về bảo vệ quyền lợi của người tìm
                 việc. Vì vậy, đề nghị các thành viên đăng tin tuyển dụng trên sàn cung cấp đầy đủ, chính xác, trung thực
                 và chi tiết các thông tin liên quan đến nội dung công việc. Mọi hành vi lừa đảo, gian lận đều bị lên án
                 và phải chịu hoàn toàn trách nhiệm trước pháp luật.
                 <br /> <br />
                 Các bên bao gồm người tìm việc, người tuyển dụng sẽ phải có vai trò trách nhiệm trong việc tích cực giải
                 quyết vấn đề. Đối với người tuyển dụng cần có trách nhiệm cung cấp văn bản giấy tờ chứng thực thông tin
-                liên quan đến sự việc đang gây mâu thuẫu với người tìm việc. Đối với CareerHub sẽ có trách cung cấp
+                liên quan đến sự việc đang gây mâu thuẫu với người tìm việc. Đối với InternHub sẽ có trách cung cấp
                 những thông tin liên quan đến người tìm việc và người tuyển dụng nếu được một trong hai bên (liên quan
                 đến tranh chấp đó) yêu cầu.
                 <br /> <br />
                 Sau khi người tìm việc, người tuyển dụng đã giải quyết xong tranh chấp phải có trách nhiệm báo lại cho
-                ban quản trị CareerHub. Trong trường hợp giao dịch phát sinh mâu thuẫn mà lỗi thuộc về người tuyển dụng:
-                CareerHub sẽ có biện pháp cảnh cáo, khóa tài khoản hoặc chuyển cho cơ quan pháp luật có thẩm quyền tùy
-                theo mức độ của sai phạm. CareerHub sẽ chấm dứt và gỡ bỏ toàn bộ tin bài về nội dung công việc của người
-                tuyển dụng đó trên CareerHub.
+                ban quản trị InternHub. Trong trường hợp giao dịch phát sinh mâu thuẫn mà lỗi thuộc về người tuyển dụng:
+                InternHub sẽ có biện pháp cảnh cáo, khóa tài khoản hoặc chuyển cho cơ quan pháp luật có thẩm quyền tùy
+                theo mức độ của sai phạm. InternHub sẽ chấm dứt và gỡ bỏ toàn bộ tin bài về nội dung công việc của người
+                tuyển dụng đó trên InternHub.
                 <br /> <br />
                 Nếu thông qua hình thức thỏa thuận mà vẫn không thể giải quyết được mâu thuẫn phát sinh từ giao dịch
                 giữa 2 bên người tìm việc, người tuyển dụng, thì một trong hai bên sẽ có quyền nhờ đến cơ quan pháp luật
