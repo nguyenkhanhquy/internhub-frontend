@@ -26,8 +26,6 @@ const StudentDataNavigation = ({ studentName }) => {
     return (
         <Paper
             sx={{
-                maxWidth: 400,
-                width: "100%",
                 bgcolor: "background.paper",
                 borderRadius: 1,
                 boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",

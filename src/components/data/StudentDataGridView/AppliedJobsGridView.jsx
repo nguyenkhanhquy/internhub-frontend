@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
+import AppliedJobsTable from "./StudentDataTable/AppliedJobsTable";
 
 const AppliedJobsGridView = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +29,7 @@ const AppliedJobsGridView = () => {
         >
             <Box>
                 {/* Nội dung danh sách công việc */}
-                <Typography>Danh sách công việc đã ứng tuyển sẽ được hiển thị tại đây.</Typography>
+                <AppliedJobsTable />
             </Box>
         </GridViewLayout>
     );

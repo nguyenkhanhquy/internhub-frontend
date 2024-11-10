@@ -8,7 +8,6 @@ const GridViewHeaderLayout = ({ title, children }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                mb: 2,
                 py: 1,
                 borderBottom: "1px solid #ddd",
                 bgcolor: "background.paper",

@@ -21,7 +21,6 @@ const GridViewLayout = ({
                 gap: 2,
                 p: 2,
                 width: "100%",
-                height: "100%",
                 bgcolor: "background.paper",
                 borderRadius: 2,
                 boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
@@ -34,7 +33,7 @@ const GridViewLayout = ({
             <Box
                 sx={{
                     flexGrow: 1,
-                    minHeight: 300, // Đặt chiều cao tối thiểu để giữ bố cục
+                    minHeight: 200, // Đặt chiều cao tối thiểu để giữ bố cục
                 }}
             >
                 {children}
