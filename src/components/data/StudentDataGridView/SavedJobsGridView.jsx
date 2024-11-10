@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material"; // Thêm icon Delete
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
+import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
 
 const SavedJobsGridView = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -50,7 +51,10 @@ const SavedJobsGridView = () => {
         >
             <Box>
                 {/* Nội dung danh sách công việc */}
-                <Typography>Danh sách công việc đã lưu sẽ được hiển thị tại đây.</Typography>
+                <SavedJobsTable
+                    onDeleteJob={(jobId) => console.log(`Deleting job ${jobId}`)}
+                    onViewDetails={(jobId) => console.log(`Viewing details of job ${jobId}`)}
+                />
             </Box>
         </GridViewLayout>
     );
