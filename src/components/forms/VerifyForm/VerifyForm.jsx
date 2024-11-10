@@ -1,37 +1,103 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import LoadingOverlay from "../../loaders/LoadingOverlay/LoadingOverlay";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Stack, Divider, Container } from "@mui/material";
+import { sendOTP, activateAccount } from "../../../services/userService";
 
-function VerifyForm() {
+function VerifyForm({ email, action }) {
+    const navigate = useNavigate();
     const [otp, setOtp] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [isVerifying, setIsVerifying] = useState(false);
     const [isResending, setIsResending] = useState(false);
     const [timeLeft, setTimeLeft] = useState(300); // 300 giây = 5 phút
 
+    const hasSentOTP = useRef(false);
+
+    const sendFirstTime = async (email) => {
+        setLoading(true);
+        try {
+            const data = await sendOTP(email);
+
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+            setTimeLeft(300);
+        }
+    };
+
+    useEffect(() => {
+        if (!hasSentOTP.current) {
+            sendFirstTime(email);
+            hasSentOTP.current = true;
+        }
+    }, [email]);
+
     // Hàm xử lý khi nhấn nút "Xác thực tài khoản"
-    const handleVerify = () => {
+    const handleVerify = async () => {
         if (otp === "") {
             setError("Không được bỏ trống");
             return;
         } else if (!/^\d+$/.test(otp)) {
-            setError("Chỉ được nhập số");
+            setError("Mã OTP chỉ được chứa ký tự số");
             return;
         } else if (otp.length !== 6) {
-            setError("OTP phải có đúng 6 ký tự");
+            setError("Mã OTP phải có đúng 6 ký tự số");
             return;
         }
 
-        setError("");
-        alert("Xác thực thành công");
+        setLoading(true);
+        setIsVerifying(true);
+        try {
+            if (action === "activate-account") {
+                const data = await activateAccount(email, otp);
+
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+
+                toast.success(data.message);
+                navigate("/login");
+            }
+            navigate("/login");
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+            setIsVerifying(false);
+            setError("");
+        }
     };
 
     // Hàm xử lý khi nhấn nút "Gửi lại mã OTP"
-    const handleResendOtp = () => {
+    const handleResendOtp = async () => {
+        setLoading(true);
         setIsResending(true);
-        setTimeLeft(300); // Reset lại thời gian đếm ngược khi gửi lại OTP
-        setTimeout(() => {
+        try {
+            const data = await sendOTP(email);
+
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
             setIsResending(false);
-            alert("Mã OTP đã được gửi lại!");
-        }, 1500);
+            setTimeLeft(300);
+        }
     };
 
     // Hàm xử lý thay đổi input
@@ -55,7 +121,7 @@ function VerifyForm() {
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
-        return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+        return `${String(minutes).padStart(2, "0")} phút ${String(remainingSeconds).padStart(2, "0")} giây`;
     };
 
     return (
@@ -77,13 +143,19 @@ function VerifyForm() {
                     margin: "0 auto",
                 }}
             >
-                <Typography variant="body2" sx={{ mb: 1, color: "#666" }}>
-                    Mã OTP đã được gửi đến email của bạn. Vui lòng kiểm tra và nhập mã bên dưới để hoàn tất xác thực.
-                </Typography>
+                {!(loading && !isVerifying) && (
+                    <>
+                        <Typography variant="body2" sx={{ mb: 1, color: "#666" }}>
+                            <span className="font-bold">OTP</span> đã gửi đến <span className="font-bold">{email}</span>
+                            <br />
+                            Vui lòng kiểm tra hộp thư đến hoặc hộp thư rác
+                        </Typography>
 
-                <Typography variant="body2" sx={{ mb: 2, color: "#ff0000" }}>
-                    Mã OTP sẽ hết hạn sau {formatTime(timeLeft)}
-                </Typography>
+                        <Typography variant="body2" sx={{ mb: 2, color: "#ff0000" }}>
+                            Mã OTP hiện tại sẽ hết hạn sau <span className="font-bold">{formatTime(timeLeft)}</span>
+                        </Typography>
+                    </>
+                )}
 
                 <Stack spacing={2}>
                     <TextField
@@ -106,13 +178,14 @@ function VerifyForm() {
                         variant="contained"
                         color="primary"
                         onClick={handleVerify}
+                        disabled={isVerifying}
                         sx={{
                             fontWeight: 600,
                             backgroundColor: "#2e3090",
                             "&:hover": { backgroundColor: "#1f2061" },
                         }}
                     >
-                        Xác thực tài khoản
+                        {isVerifying ? "Đang xác thực tài khoản" : "Xác thực tài khoản"}
                     </Button>
 
                     <Button
@@ -131,12 +204,18 @@ function VerifyForm() {
                             },
                         }}
                     >
-                        {isResending ? "Đang gửi lại..." : "Gửi lại mã OTP"}
+                        {isResending ? "Đang gửi lại mã OTP" : "Gửi lại mã OTP"}
                     </Button>
                 </Stack>
             </Box>
+            <LoadingOverlay open={loading} />
         </Container>
     );
 }
+
+VerifyForm.propTypes = {
+    email: PropTypes.string.isRequired,
+    action: PropTypes.string,
+};
 
 export default VerifyForm;
