@@ -9,6 +9,7 @@ export const AUTH_API = {
 export const USERS_API = {
     SEND_OTP: "/users/verify/send-otp",
     ACTIVATE: "/users/verify/activate-account",
+    REGISTER_RECRUITER: "/users/register/recruiter",
     REGISTER_STUDENT: "/users/register/student",
     UPDATE_PASSWORD: "/users/update-password",
 };
