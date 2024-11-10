@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../../loaders/Loading/Loading";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,6 +25,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./StudentRegisterForm.module.css";
+import { registerStudent } from "../../../../services/userService";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,7 +37,7 @@ const schema = yup.object().shape({
         .string()
         .oneOf([yup.ref("password")], "Mật khẩu không khớp")
         .required("Không được để trống"),
-    fullName: yup.string().required("Không được để trống"),
+    name: yup.string().required("Không được để trống"),
     gender: yup.string().required("Không được để trống"),
     phone: yup
         .string()
@@ -39,12 +45,12 @@ const schema = yup.object().shape({
         .matches(/^[0-9]+$/, "Số điện thoại không hợp lệ")
         .length(10, "Số điện thoại không hợp lệ"),
     address: yup.string().required("Không được để trống"),
-    birthdate: yup
+    dob: yup
         .date()
         .nullable()
         .transform((curr, originalValue) => (originalValue === "" ? null : curr))
         .required("Không được để trống"),
-    graduationDate: yup
+    expGrad: yup
         .date()
         .nullable()
         .transform((curr, originalValue) => (originalValue === "" ? null : curr))
@@ -76,8 +82,10 @@ const StudentRegisterForm = () => {
         mode: "onChange",
     });
 
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
@@ -87,8 +95,21 @@ const StudentRegisterForm = () => {
         setShowConfirmPassword((prevState) => !prevState);
     };
 
-    const onSubmit = (dataForm) => {
-        console.log(dataForm);
+    const onSubmit = async (formData) => {
+        setLoading(true);
+        try {
+            const data = await registerStudent(formData);
+
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            navigate("/verify", { state: { email: formData.email, action: "activate-account" } });
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -165,26 +186,18 @@ const StudentRegisterForm = () => {
                     </h5>
 
                     <div className={styles.row}>
-                        <div
-                            className={`${styles.formGroup} ${
-                                !errors.fullName && !errors.gender ? styles.noError : ""
-                            }`}
-                        >
+                        <div className={`${styles.formGroup} ${!errors.name && !errors.gender ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faUser} className={styles.icon} />
                             <input
                                 type="text"
                                 placeholder="Họ và tên"
-                                {...register("fullName")}
-                                onBlur={() => trigger("fullName")}
+                                {...register("name")}
+                                onBlur={() => trigger("name")}
                             />
-                            <p>{errors.fullName?.message}</p>
+                            <p>{errors.name?.message}</p>
                         </div>
 
-                        <div
-                            className={`${styles.formGroup} ${
-                                !errors.gender && !errors.fullName ? styles.noError : ""
-                            }`}
-                        >
+                        <div className={`${styles.formGroup} ${!errors.gender && !errors.name ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faVenusMars} className={styles.icon} />
                             <select {...register("gender")} onBlur={() => trigger("gender")}>
                                 <option value="" disabled>
@@ -199,7 +212,7 @@ const StudentRegisterForm = () => {
 
                     <div className={styles.row}>
                         <div
-                            className={`${styles.formGroup} ${!errors.phone && !errors.address ? styles.noError : ""}`}
+                            className={`${styles.formGroup} ${!errors.phone && !errors.internStatus ? styles.noError : ""}`}
                         >
                             <FontAwesomeIcon icon={faPhone} className={styles.icon} />
                             <input
@@ -219,37 +232,25 @@ const StudentRegisterForm = () => {
                                 <option value="" disabled>
                                     Chọn trạng thái thực tập
                                 </option>
-                                <option value="Đang tìm nơi thực tập">Đang tìm nơi thực tập</option>
-                                <option value="Đang thực tập">Đang thực tập</option>
-                                <option value="Đã hoàn thành thực tập">Đã hoàn thành thực tập</option>
+                                <option value="SEARCHING">Đang tìm nơi thực tập</option>
+                                <option value="WORKING">Đang thực tập</option>
+                                <option value="COMPLETED">Đã hoàn thành thực tập</option>
                             </select>
                             <p>{errors.internStatus?.message}</p>
                         </div>
                     </div>
 
                     <div className={styles.row}>
-                        <div
-                            className={`${styles.formGroup} ${
-                                !errors.birthdate && !errors.graduationDate ? styles.noError : ""
-                            }`}
-                        >
+                        <div className={`${styles.formGroup} ${!errors.dob && !errors.expGrad ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faCalendarAlt} className={styles.icon} />
-                            <input type="date" {...register("birthdate")} onBlur={() => trigger("birthdate")} />
-                            <p>{errors.birthdate?.message}</p>
+                            <input type="date" {...register("dob")} onBlur={() => trigger("dob")} />
+                            <p>{errors.dob?.message}</p>
                         </div>
 
-                        <div
-                            className={`${styles.formGroup} ${
-                                !errors.graduationDate && !errors.birthdate ? styles.noError : ""
-                            }`}
-                        >
+                        <div className={`${styles.formGroup} ${!errors.expGrad && !errors.dob ? styles.noError : ""}`}>
                             <FontAwesomeIcon icon={faGraduationCap} className={styles.icon} />
-                            <input
-                                type="date"
-                                {...register("graduationDate")}
-                                onBlur={() => trigger("graduationDate")}
-                            />
-                            <p>{errors.graduationDate?.message}</p>
+                            <input type="date" {...register("expGrad")} onBlur={() => trigger("expGrad")} />
+                            <p>{errors.expGrad?.message}</p>
                         </div>
                     </div>
 
@@ -260,9 +261,9 @@ const StudentRegisterForm = () => {
                                 <option value="" disabled>
                                     Chọn ngành
                                 </option>
-                                <option value="Công nghệ thông tin">Công nghệ thông tin</option>
-                                <option value="Kỹ thuật dữ liệu">Kỹ thuật dữ liệu</option>
-                                <option value="An toàn thông tin">An toàn thông tin</option>
+                                <option value="IT">Công nghệ thông tin</option>
+                                <option value="DS">Kỹ thuật dữ liệu</option>
+                                <option value="IS">An toàn thông tin</option>
                             </select>
                             <p>{errors.major?.message}</p>
                         </div>
@@ -292,7 +293,7 @@ const StudentRegisterForm = () => {
                     </div>
 
                     <div className={styles.buttonWrapper}>
-                        <button type="submit">Đăng ký</button>
+                        {loading ? <Loading /> : <button type="submit">Đăng ký</button>}
                     </div>
                 </form>
             </div>

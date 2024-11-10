@@ -1,15 +1,39 @@
 import axiosClient from "../api/axiosClient";
 import { USERS_API } from "../api/constants";
 
+export const sendOTP = async (email) => {
+    return axiosClient.post(USERS_API.SEND_OTP, {
+        email: email,
+    });
+};
+
+export const activateAccount = async (email, otp) => {
+    return axiosClient.post(USERS_API.ACTIVATE, {
+        email: email,
+        otp: otp,
+    });
+};
+
+export const registerStudent = async (student) => {
+    return axiosClient.post(USERS_API.REGISTER_STUDENT, {
+        email: student.email,
+        password: student.password,
+        name: student.name,
+        gender: student.gender,
+        phone: student.phone,
+        address: student.address,
+        dob: student.dob,
+        expGrad: student.expGrad,
+        major: student.major,
+        internStatus: student.internStatus,
+        studentId: student.email.split("@")[0],
+        gpa: student.gpa,
+    });
+};
+
 export const updatePassword = async (oldPassword, newPassword) => {
     return axiosClient.post(USERS_API.UPDATE_PASSWORD, {
         oldPassword: oldPassword,
         newPassword: newPassword,
-    });
-};
-
-export const sendOTP = async (email) => {
-    return axiosClient.post(USERS_API.SEND_OTP, {
-        email: email,
     });
 };
