@@ -59,6 +59,7 @@ const SearchPage = () => {
     };
 
     const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
         setRecordsPerPage(value);
     };
 
