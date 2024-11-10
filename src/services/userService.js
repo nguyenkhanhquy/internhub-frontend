@@ -14,6 +14,14 @@ export const activateAccount = async (email, otp) => {
     });
 };
 
+export const resetPassword = async (email, otp, newPassword) => {
+    return axiosClient.post(USERS_API.RESET_PASSWORD, {
+        email: email,
+        otp: otp,
+        newPassword: newPassword,
+    });
+};
+
 export const registerRecruiter = async (recruiter) => {
     return axiosClient.post(USERS_API.REGISTER_RECRUITER, {
         email: recruiter.email,
