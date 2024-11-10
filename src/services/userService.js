@@ -14,6 +14,18 @@ export const activateAccount = async (email, otp) => {
     });
 };
 
+export const registerRecruiter = async (recruiter) => {
+    return axiosClient.post(USERS_API.REGISTER_RECRUITER, {
+        email: recruiter.email,
+        password: recruiter.password,
+        company: recruiter.company,
+        name: recruiter.name,
+        position: recruiter.position,
+        phone: recruiter.phone,
+        recruiterEmail: recruiter.recruiterEmail,
+    });
+};
+
 export const registerStudent = async (student) => {
     return axiosClient.post(USERS_API.REGISTER_STUDENT, {
         email: student.email,
