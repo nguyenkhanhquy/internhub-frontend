@@ -1,6 +1,7 @@
-import { Box, TextField, Typography } from "@mui/material";
-import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import { useState } from "react";
+import { Box, Typography } from "@mui/material";
+import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
+import DataSearchBar from "../DataSearchBar";
 
 const AppliedJobsGridView = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -10,15 +11,20 @@ const AppliedJobsGridView = () => {
     const handlePageChange = (page) => setCurrentPage(page);
     const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
 
+    // Hàm xử lý tìm kiếm
+    const handleSearch = () => {
+        console.log("Searching...");
+    };
+
     return (
         <GridViewLayout
-            title="Công việc ứng tuyển"
+            title="CÔNG VIỆC ỨNG TUYỂN"
             currentPage={currentPage}
             totalPages={totalPages}
             recordsPerPage={recordsPerPage}
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
-            actions={<TextField placeholder="Tìm kiếm công việc" size="small" />}
+            actions={<DataSearchBar placeholder="Tìm kiếm" onSearch={handleSearch} />}
         >
             <Box>
                 {/* Nội dung danh sách công việc */}

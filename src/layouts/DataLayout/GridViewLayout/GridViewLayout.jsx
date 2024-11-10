@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import PropTypes from "prop-types";
 import GridViewHeaderLayout from "./GridViewHeaderLayout/GridViewHeaderLayout";
 import CustomPagination from "../../../components/pagination/Pagination";
@@ -40,6 +40,7 @@ const GridViewLayout = ({
                 {children}
             </Box>
 
+            <Divider />
             {/* Phần pagination */}
             <CustomPagination
                 currentPage={currentPage}
