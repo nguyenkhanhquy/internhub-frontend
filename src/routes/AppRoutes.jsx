@@ -17,7 +17,7 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
 import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
 
-import DashboardPage from "../pages/DashboardPage/DashboardPage";
+import DashboardPage from "../pages/DashboardPage/Admin/DashboardPage";
 
 const AppRoutes = () => {
     const { isAuthenticated, loading } = useAuth();
