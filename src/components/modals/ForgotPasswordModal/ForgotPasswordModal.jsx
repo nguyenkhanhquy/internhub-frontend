@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +22,8 @@ const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const ForgotPasswordModal = ({ open, handleClose }) => {
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
@@ -60,6 +63,7 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 closeModal();
+                navigate("/reset-password", { state: { email: email } });
                 toast.success(data.message);
             } catch (error) {
                 toast.error(error.message);

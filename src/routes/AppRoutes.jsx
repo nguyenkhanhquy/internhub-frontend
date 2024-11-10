@@ -9,6 +9,7 @@ import LogoutPage from "../pages/LogoutPage/LogoutPage";
 import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
 import VerifyPage from "../pages/VerifyPage/VerifyPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
 
@@ -83,6 +84,7 @@ const AppRoutes = () => {
                             <Route path="/register-student" element={<StudentRegisterPage />} />
                             <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
                             <Route path="/verify" element={<VerifyPage />} />
+                            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                             <Route path="/account/*" element={<Navigate to="/" replace />} />
                             <Route path="/student/*" element={<Navigate to="/" replace />} />

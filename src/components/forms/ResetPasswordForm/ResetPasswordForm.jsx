@@ -1,91 +1,68 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import LoadingOverlay from "../../loaders/LoadingOverlay/LoadingOverlay";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Stack, Divider, Container } from "@mui/material";
-import { sendOTP, activateAccount } from "../../../services/userService";
+import { sendOTP, resetPassword } from "../../../services/userService";
 
-function VerifyForm({ email, action }) {
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+    otp: yup
+        .string()
+        .matches(/^\d+$/, "Mã OTP chỉ được chứa ký tự số")
+        .length(6, "Mã OTP phải có đúng 6 ký tự số")
+        .required("Không được để trống"),
+    newPassword: yup.string().min(8, "Mật khẩu mới phải dài ít nhất 8 ký tự").required("Không được để trống"),
+    confirmPassword: yup
+        .string()
+        .oneOf([yup.ref("newPassword"), null], "Xác nhận mật khẩu mới không khớp")
+        .required("Không được để trống"),
+});
+
+function ResetPasswordForm({ email }) {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+        trigger,
+    } = useForm({
+        resolver: yupResolver(schema),
+        mode: "onChange",
+    });
+
     const navigate = useNavigate();
-    const [otp, setOtp] = useState("");
-    const [error, setError] = useState("");
+
     const [loading, setLoading] = useState(false);
     const [isVerifying, setIsVerifying] = useState(false);
     const [isResending, setIsResending] = useState(false);
     const [timeLeft, setTimeLeft] = useState(300); // 300 giây = 5 phút
 
-    const hasSentOTP = useRef(false);
-
-    const sendFirstTime = async (email) => {
+    const onSubmit = async (dataForm) => {
         setLoading(true);
+        setIsVerifying(true);
         try {
-            const data = await sendOTP(email);
+            const data = await resetPassword(email, dataForm.otp, dataForm.newPassword);
 
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
             toast.success(data.message);
-        } catch (error) {
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
-            setTimeLeft(300);
-        }
-    };
-
-    useEffect(() => {
-        if (!hasSentOTP.current) {
-            if (action !== "activate-account") {
-                hasSentOTP.current = true;
-            } else {
-                sendFirstTime(email);
-                hasSentOTP.current = true;
-            }
-        }
-    }, [email, action]);
-
-    // Hàm xử lý khi nhấn nút "Xác thực tài khoản"
-    const handleVerify = async () => {
-        if (otp === "") {
-            setError("Không được bỏ trống");
-            return;
-        } else if (!/^\d+$/.test(otp)) {
-            setError("Mã OTP chỉ được chứa ký tự số");
-            return;
-        } else if (otp.length !== 6) {
-            setError("Mã OTP phải có đúng 6 ký tự số");
-            return;
-        }
-
-        setLoading(true);
-        setIsVerifying(true);
-        try {
-            if (action === "activate-account" || action === "request-activate-account") {
-                const data = await activateAccount(email, otp);
-
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-
-                toast.success(data.message);
-                navigate("/login");
-            }
             navigate("/login");
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
             setIsVerifying(false);
-            setError("");
         }
     };
 
-    // Hàm xử lý khi nhấn nút "Gửi lại mã OTP"
     const handleResendOtp = async () => {
-        setOtp("");
         setLoading(true);
         setIsResending(true);
         try {
@@ -103,12 +80,6 @@ function VerifyForm({ email, action }) {
             setIsResending(false);
             setTimeLeft(300);
         }
-    };
-
-    // Hàm xử lý thay đổi input
-    const handleChange = (e) => {
-        setOtp(e.target.value);
-        setError("");
     };
 
     // Hàm đếm ngược thời gian
@@ -133,7 +104,7 @@ function VerifyForm({ email, action }) {
         <Container maxWidth="100%" sx={{ mt: 4 }}>
             {/* Tiêu đề bên ngoài Box */}
             <Typography variant="h5" sx={{ color: "#333", fontWeight: 500, textAlign: "center" }}>
-                Xác thực tài khoản
+                Đặt lại mật khẩu
             </Typography>
 
             {/* Divider chạy full chiều ngang */}
@@ -141,6 +112,8 @@ function VerifyForm({ email, action }) {
 
             {/* Nội dung form */}
             <Box
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
                 sx={{
                     maxWidth: 400,
                     minHeight: 320,
@@ -164,17 +137,17 @@ function VerifyForm({ email, action }) {
 
                 <Stack spacing={2}>
                     <TextField
-                        fullWidth
+                        {...control.register("otp")}
                         label={
                             <span>
                                 Mã OTP <span style={{ color: "red" }}>*</span>
                             </span>
                         }
                         variant="outlined"
-                        value={otp}
-                        onChange={handleChange}
-                        error={!!error}
-                        helperText={error}
+                        fullWidth
+                        onBlur={() => trigger("otp")}
+                        error={!!errors.otp}
+                        helperText={errors.otp?.message}
                         inputProps={{
                             maxLength: 6,
                             style: { letterSpacing: "4px", textAlign: "center" },
@@ -182,19 +155,49 @@ function VerifyForm({ email, action }) {
                         placeholder="******"
                     />
 
+                    <TextField
+                        {...control.register("newPassword")}
+                        label={
+                            <span>
+                                Mật khẩu mới <span style={{ color: "red" }}>*</span>
+                            </span>
+                        }
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        onBlur={() => trigger("newPassword")}
+                        error={!!errors.newPassword}
+                        helperText={errors.newPassword?.message}
+                    />
+
+                    <TextField
+                        {...control.register("confirmPassword")}
+                        label={
+                            <span>
+                                Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
+                            </span>
+                        }
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        onBlur={() => trigger("confirmPassword")}
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword?.message}
+                    />
+
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
-                        onClick={handleVerify}
                         disabled={isVerifying}
                         sx={{
                             fontWeight: 600,
                             backgroundColor: "#2e3090",
                             "&:hover": { backgroundColor: "#1f2061" },
                         }}
+                        type="submit"
                     >
-                        {isVerifying ? "Đang xác thực tài khoản" : "Xác thực tài khoản"}
+                        {isVerifying ? "Đang xác thực mã OTP" : "Lưu mật khẩu mới"}
                     </Button>
 
                     <Button
@@ -222,9 +225,8 @@ function VerifyForm({ email, action }) {
     );
 }
 
-VerifyForm.propTypes = {
+ResetPasswordForm.propTypes = {
     email: PropTypes.string.isRequired,
-    action: PropTypes.string,
 };
 
-export default VerifyForm;
+export default ResetPasswordForm;
