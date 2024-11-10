@@ -6,7 +6,7 @@ import { Box, Button, Menu, MenuItem, Paper } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
-import PersonIcon from "@mui/icons-material/Person";
+import SchoolIcon from "@mui/icons-material/School";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import WorkIcon from "@mui/icons-material/Work";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -41,7 +41,7 @@ const Header = () => {
                 sx={{
                     width: "100%",
                     paddingY: 2,
-                    boxShadow: 2,
+                    boxShadow: 1,
                     backgroundColor: "white",
                     borderRadius: 0,
                     overflowX: "hidden",
@@ -160,7 +160,7 @@ const Header = () => {
                                     onClose={handleClose}
                                 >
                                     <MenuItem onClick={handleClose} component={Link} to="/register-student">
-                                        <PersonIcon sx={{ marginRight: 1 }} />
+                                        <SchoolIcon sx={{ marginRight: 1 }} />
                                         Thực tập sinh
                                     </MenuItem>
                                     <MenuItem onClick={handleClose} component={Link} to="/register-recruiter">

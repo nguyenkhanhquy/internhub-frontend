@@ -157,7 +157,7 @@ function LoginForm() {
                         </div>
 
                         <div className={styles.activateAccount}>
-                            Bạn chưa kích hoạt tài khoản? <a onClick={handleOpenActivate}>Kích hoạt tài khoản</a>
+                            Bạn chưa kích hoạt tài khoản? <a onClick={handleOpenActivate}>Kích hoạt ngay</a>
                         </div>
                     </form>
                 </div>

@@ -28,7 +28,7 @@ const LogoutPage = () => {
                 setUser({});
                 setIsAuthenticated(false);
                 navigate("/login");
-                toast.success("Đăng xuất thành công!");
+                toast.success(data?.message);
             }
         } catch (error) {
             toast.error(error.message);
