@@ -11,7 +11,7 @@ const StudentDataLayout = ({ children }) => {
             </Box>
 
             {/* Nội dung bên phải */}
-            <Box component="main" sx={{ flexGrow: 1, p: 3, mr: 20 }}>
+            <Box component="main" sx={{ flexGrow: 1 }}>
                 {children}
             </Box>
         </Box>
