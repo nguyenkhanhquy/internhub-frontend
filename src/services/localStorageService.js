@@ -13,8 +13,6 @@ export const getToken = () => {
     const expirationTime = localStorage.getItem(EXPIRATION_TIME);
 
     if (!accessToken || !expirationTime) {
-        removeToken();
-        window.location.reload();
         return null;
     }
 
