@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     min-width: 600px;
-    margin: 8px auto;
+    margin: auto;
     align-items: center;
     text-align: center;
 }
@@ -24,7 +24,7 @@
 
 .loginContainer {
     display: flex;
-    margin: 42px auto;
+    margin: 18px auto 40px;
     height: 256px;
     justify-content: center;
     background-color: #fff;
@@ -171,18 +171,26 @@
     margin-bottom: 20px;
 }
 
-.forgotPassword a {
+.activateAccount {
+    margin-top: 20px;
+}
+
+.forgotPassword,
+.activateAccount a {
     color: #007bff;
     text-decoration: none;
 }
 
-.forgotPassword a:hover {
+.forgotPassword,
+.activateAccount a:hover {
     cursor: pointer;
 }
 
 .buttonWrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 32px;
 }
 
 .container button {
@@ -191,7 +199,7 @@
     background-color: #0d47a1;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
 }

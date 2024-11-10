@@ -38,10 +38,14 @@ function VerifyForm({ email, action }) {
 
     useEffect(() => {
         if (!hasSentOTP.current) {
-            sendFirstTime(email);
-            hasSentOTP.current = true;
+            if (action !== "activate-account") {
+                hasSentOTP.current = true;
+            } else {
+                sendFirstTime(email);
+                hasSentOTP.current = true;
+            }
         }
-    }, [email]);
+    }, [email, action]);
 
     // Hàm xử lý khi nhấn nút "Xác thực tài khoản"
     const handleVerify = async () => {
@@ -59,7 +63,7 @@ function VerifyForm({ email, action }) {
         setLoading(true);
         setIsVerifying(true);
         try {
-            if (action === "activate-account") {
+            if (action === "activate-account" || action === "request-activate-account") {
                 const data = await activateAccount(email, otp);
 
                 if (!data.success) {
@@ -81,6 +85,7 @@ function VerifyForm({ email, action }) {
 
     // Hàm xử lý khi nhấn nút "Gửi lại mã OTP"
     const handleResendOtp = async () => {
+        setOtp("");
         setLoading(true);
         setIsResending(true);
         try {
@@ -152,7 +157,7 @@ function VerifyForm({ email, action }) {
                         </Typography>
 
                         <Typography variant="body2" sx={{ mb: 2, color: "#ff0000" }}>
-                            Mã OTP hiện tại sẽ hết hạn sau <span className="font-bold">{formatTime(timeLeft)}</span>
+                            OTP hiện tại hết hạn sau <span className="font-bold">{formatTime(timeLeft)}</span>
                         </Typography>
                     </>
                 )}
