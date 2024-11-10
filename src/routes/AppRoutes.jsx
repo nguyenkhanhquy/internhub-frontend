@@ -11,14 +11,16 @@ import VerifyPage from "../pages/VerifyPage/VerifyPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
 
+import RecruiterProfilePage from "../pages/AccountPage/RecruiterProfilePage";
 import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
 import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
+import RecruiterDataPage from "../pages/DataPage/RecruiterDataPage/RecruiterDataPage";
 import StudentDataPage from "../pages/DataPage/StudentDataPage/StudentDataPage";
 
 const AppRoutes = () => {
-    const { isAuthenticated, loading } = useAuth();
+    const { user, isAuthenticated, loading } = useAuth();
 
     if (loading) {
         return (
@@ -52,10 +54,23 @@ const AppRoutes = () => {
                             <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
 
                             <Route path="/account" element={<Navigate to="/account/profile" replace />} />
-                            <Route path="/account/profile" element={<StudentProfilePage />} />
+                            <Route
+                                path="/account/profile"
+                                element={(() => {
+                                    switch (user?.role) {
+                                        case "STUDENT":
+                                            return <StudentProfilePage />;
+                                        case "RECRUITER":
+                                            return <RecruiterProfilePage />;
+                                        default:
+                                            return <Navigate to="/" replace />;
+                                    }
+                                })()}
+                            />
                             <Route path="/account/update-password" element={<UpdatePasswordPage />} />
                             <Route path="/account/details" element={<AccountDetailsPage />} />
 
+                            <Route path="/recruiter" element={<RecruiterDataPage />} />
                             <Route path="/student" element={<StudentDataPage />} />
                         </>
                     ) : (
