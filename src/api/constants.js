@@ -18,3 +18,8 @@ export const USERS_API = {
 export const STUDENTS_API = {
     UPDATE_PROFILE: "/students/update-profile",
 };
+
+export const JOBS_API = {
+    GET_ALL: "/jobs",
+    GET_BY_ID: "/jobs/",
+};
