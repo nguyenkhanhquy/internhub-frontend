@@ -76,7 +76,13 @@ const JobCardSearch = ({
                         <Typography variant="h6" fontWeight="bold" sx={{ fontSize: "1.2rem", color: "#1976d2" }}>
                             {title}
                         </Typography>
-                        <IconButton onClick={toggleSaveJob} aria-label="save job">
+                        <IconButton
+                            onClick={(event) => {
+                                event.stopPropagation(); // Ngăn chặn sự kiện onClick lan truyền
+                                toggleSaveJob();
+                            }}
+                            aria-label="save job"
+                        >
                             {isSaved ? <Bookmark color="primary" /> : <BookmarkBorder color="action" />}
                         </IconButton>
                     </Box>
