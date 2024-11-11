@@ -12,6 +12,12 @@ export const getAllJobPosts = async (page, size, search, order) => {
     });
 };
 
-export const getJobPostById = async (jobId) => {
-    return axiosClient.get(JOBS_API.GET_BY_ID + jobId);
+export const getJobPostById = async (jobPostId) => {
+    return axiosClient.get(JOBS_API.GET_BY_ID + jobPostId);
+};
+
+export const saveJobPost = async (jobPostId) => {
+    return axiosClient.post(JOBS_API.SAVE, {
+        id: String(jobPostId),
+    });
 };

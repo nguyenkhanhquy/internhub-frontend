@@ -27,4 +27,5 @@ export const STUDENTS_API = {
 export const JOBS_API = {
     GET_ALL: "/jobs",
     GET_BY_ID: "/jobs/",
+    SAVE: "/jobs/save",
 };
