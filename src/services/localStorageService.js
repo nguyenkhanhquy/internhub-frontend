@@ -21,7 +21,6 @@ export const getToken = () => {
     if (now > expirationTime) {
         localStorage.removeItem(KEY_TOKEN);
         localStorage.removeItem(EXPIRATION_TIME);
-        window.location.reload();
         return null;
     }
 

@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Card, CardContent, Typography, Box, IconButton, Avatar, Divider, Stack } from "@mui/material";
 import {
     BookmarkBorder,
@@ -11,6 +13,7 @@ import {
     CalendarToday,
 } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
+import { saveJobPost } from "../../../services/jobService";
 
 const JobCardSearch = ({
     id,
@@ -24,7 +27,6 @@ const JobCardSearch = ({
     updatedDate,
     expiryDate,
     saved,
-    notifySaveJob,
 }) => {
     const [isSaved, setIsSaved] = useState(saved);
 
@@ -32,10 +34,22 @@ const JobCardSearch = ({
         window.open(`/search/${id}`, "_blank");
     };
 
-    const toggleSaveJob = () => {
-        setIsSaved((prev) => !prev);
-        notifySaveJob(!isSaved);
+    const handleSaveJob = async () => {
+        try {
+            const data = await saveJobPost(id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setIsSaved((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
+
+    useEffect(() => {
+        setIsSaved(saved);
+    }, [id, saved]);
 
     return (
         <Card
@@ -79,7 +93,7 @@ const JobCardSearch = ({
                         <IconButton
                             onClick={(event) => {
                                 event.stopPropagation(); // Ngăn chặn sự kiện onClick lan truyền
-                                toggleSaveJob();
+                                handleSaveJob();
                             }}
                             aria-label="save job"
                         >
@@ -144,7 +158,6 @@ JobCardSearch.propTypes = {
     updatedDate: PropTypes.string.isRequired,
     expiryDate: PropTypes.string.isRequired,
     saved: PropTypes.bool.isRequired,
-    notifySaveJob: PropTypes.func.isRequired,
 };
 
 export default JobCardSearch;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Box from "@mui/material/Box";
 
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
@@ -52,15 +52,14 @@ const SearchPage = () => {
                 toast.error(error.message);
             } finally {
                 setLoading(false);
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
             }
         };
 
         fetchJobPosts();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
     }, [currentPage, recordsPerPage, query, sort]);
 
     const handlePageChange = (page) => {
@@ -70,14 +69,6 @@ const SearchPage = () => {
     const handleRecordsPerPageChange = (value) => {
         setCurrentPage(1);
         setRecordsPerPage(value);
-    };
-
-    const notifySaveJob = (isSaved) => {
-        if (isSaved) {
-            toast.success("Lưu công việc thành công");
-        } else {
-            toast.info("Bỏ lưu công việc thành công");
-        }
     };
 
     return (
@@ -139,8 +130,7 @@ const SearchPage = () => {
                                 salary={job.salary}
                                 updatedDate={job.updatedDate}
                                 expiryDate={job.expiryDate}
-                                saved={false}
-                                notifySaveJob={notifySaveJob}
+                                saved={job.saved}
                             />
                         ))
                     ) : (
