@@ -11,6 +11,7 @@ import SortBar from "../../components/sort/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
 import CustomPagination from "../../components/pagination/Pagination";
 import LoadingOverlay from "../../components/loaders/LoadingOverlay/LoadingOverlay";
+import EmptyBox from "../../components/box/emptyBox";
 
 import { getAllJobPosts } from "../../services/jobService";
 
@@ -82,8 +83,19 @@ const SearchPage = () => {
     return (
         <MainLayout title="Việc làm">
             <PageNavigation pageName="Việc làm" />
-            <div style={{ margin: "20px 160px" }}>
-                <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
+            <Box
+                sx={{
+                    margin: {
+                        xs: "10px 10px", // Dành cho màn hình nhỏ hơn 600px
+                        sm: "10px 40px", // Dành cho màn hình từ 600px đến dưới 900px
+                        md: "15px 80px", // Dành cho màn hình từ 900px đến dưới 1200px
+                        lg: "20px 160px", // Dành cho màn hình từ 1200px đến dưới 1536px
+                    },
+                    minHeight: 400,
+                }}
+            >
+                {/* Thanh tìm kiếm */}
+                <Box sx={{ position: "sticky", top: 4, zIndex: 1000, mb: 2 }}>
                     <SearchBar
                         onSearch={(searchText) => {
                             setCurrentPage(1);
@@ -93,6 +105,7 @@ const SearchPage = () => {
                     />
                 </Box>
 
+                {/* Thanh sắp xếp */}
                 <SortBar
                     totalJobs={totalJobs}
                     sortOption={sort}
@@ -102,24 +115,40 @@ const SearchPage = () => {
                     }}
                 />
 
-                {jobPosts.map((job, index) => (
-                    <JobCardSearch
-                        key={index}
-                        id={job.id}
-                        logo={job.company.logo}
-                        title={job.title}
-                        companyName={job.company.name}
-                        address={job.address}
-                        jobPosition={job.jobPosition}
-                        type={job.type}
-                        salary={job.salary}
-                        updatedDate={job.updatedDate}
-                        expiryDate={job.expiryDate}
-                        saved={false}
-                        notifySaveJob={notifySaveJob}
-                    />
-                ))}
+                {/* Danh sách công việc */}
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}
+                    sx={{
+                        mt: 2,
+                        mb: 3,
+                    }}
+                >
+                    {jobPosts.length > 0 ? (
+                        jobPosts.map((job, index) => (
+                            <JobCardSearch
+                                key={index}
+                                id={job.id}
+                                logo={job.company.logo}
+                                title={job.title}
+                                companyName={job.company.name}
+                                address={job.address}
+                                jobPosition={job.jobPosition}
+                                type={job.type}
+                                salary={job.salary}
+                                updatedDate={job.updatedDate}
+                                expiryDate={job.expiryDate}
+                                saved={false}
+                                notifySaveJob={notifySaveJob}
+                            />
+                        ))
+                    ) : (
+                        <EmptyBox />
+                    )}
+                </Box>
 
+                {/* Phân trang */}
                 <CustomPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -127,7 +156,7 @@ const SearchPage = () => {
                     onPageChange={handlePageChange}
                     onRecordsPerPageChange={handleRecordsPerPageChange}
                 />
-            </div>
+            </Box>
             <LoadingOverlay open={loading} />
         </MainLayout>
     );
