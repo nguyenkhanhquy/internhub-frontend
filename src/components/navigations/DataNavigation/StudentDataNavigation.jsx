@@ -9,7 +9,8 @@ import {
     Divider,
     Paper,
 } from "@mui/material";
-import { Work, Bookmark, AssignmentTurnedIn } from "@mui/icons-material";
+import { Bookmark, AssignmentTurnedIn } from "@mui/icons-material";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "/images/ute_logo_c.png";
@@ -86,7 +87,7 @@ const StudentDataNavigation = ({ studentName }) => {
                     }}
                 >
                     <ListItemIcon>
-                        <Work />
+                        <PersonAddAlt1Icon />
                     </ListItemIcon>
                     <ListItemText primary="Công việc ứng tuyển" />
                 </ListItemButton>
