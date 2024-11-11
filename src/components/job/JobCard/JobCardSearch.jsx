@@ -13,6 +13,7 @@ import {
 import { formatDate } from "../../../utils/dateUtil";
 
 const JobCardSearch = ({
+    id,
     logo,
     title,
     companyName,
@@ -26,6 +27,10 @@ const JobCardSearch = ({
     notifySaveJob,
 }) => {
     const [isSaved, setIsSaved] = useState(saved);
+
+    const handleCardClick = () => {
+        window.open(`/search/${id}`, "_blank");
+    };
 
     const toggleSaveJob = () => {
         setIsSaved((prev) => !prev);
@@ -47,9 +52,11 @@ const JobCardSearch = ({
                     boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.15)",
                     borderColor: "#90caf9",
                     backgroundColor: "#f0f8ff",
+                    cursor: "pointer",
                 },
                 border: "1px solid transparent",
             }}
+            onClick={handleCardClick}
         >
             {/* Logo công ty */}
             <Box sx={{ width: 200, mr: 2 }}>
@@ -69,7 +76,13 @@ const JobCardSearch = ({
                         <Typography variant="h6" fontWeight="bold" sx={{ fontSize: "1.2rem", color: "#1976d2" }}>
                             {title}
                         </Typography>
-                        <IconButton onClick={toggleSaveJob} aria-label="save job">
+                        <IconButton
+                            onClick={(event) => {
+                                event.stopPropagation(); // Ngăn chặn sự kiện onClick lan truyền
+                                toggleSaveJob();
+                            }}
+                            aria-label="save job"
+                        >
                             {isSaved ? <Bookmark color="primary" /> : <BookmarkBorder color="action" />}
                         </IconButton>
                     </Box>
@@ -120,6 +133,7 @@ const JobCardSearch = ({
 };
 
 JobCardSearch.propTypes = {
+    id: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,

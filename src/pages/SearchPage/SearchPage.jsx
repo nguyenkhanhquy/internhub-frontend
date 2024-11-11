@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,17 +16,25 @@ import { getAllJobPosts } from "../../services/jobService";
 
 const SearchPage = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [jobPosts, setJobPosts] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
+
     const [query, setQuery] = useState(location.state?.query || "");
     const [sort, setSort] = useState("default");
 
-    const [totalPages, setTotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const [totalJobs, setTotalJobs] = useState(0);
+
+    useEffect(() => {
+        if (location.state?.query) {
+            navigate(location.pathname, { replace: true, state: { ...location.state, query: undefined } });
+        }
+    }, [location, navigate]);
 
     useEffect(() => {
         const fetchJobPosts = async () => {
@@ -78,18 +86,26 @@ const SearchPage = () => {
                 <Box sx={{ position: "sticky", top: 4, zIndex: 1000 }}>
                     <SearchBar
                         onSearch={(searchText) => {
-                            setQuery(searchText);
                             setCurrentPage(1);
+                            setQuery(searchText);
                         }}
                         query={query}
                     />
                 </Box>
 
-                <SortBar totalJobs={totalJobs} sortOption={sort} onSortChange={(sortOption) => setSort(sortOption)} />
+                <SortBar
+                    totalJobs={totalJobs}
+                    sortOption={sort}
+                    onSortChange={(sortOption) => {
+                        setCurrentPage(1);
+                        setSort(sortOption);
+                    }}
+                />
 
                 {jobPosts.map((job, index) => (
                     <JobCardSearch
                         key={index}
+                        id={job.id}
                         logo={job.company.logo}
                         title={job.title}
                         companyName={job.company.name}

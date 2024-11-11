@@ -1,8 +1,11 @@
+import { useEffect } from "react";
+
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import JobDetailHeader from "../../components/job/JobDetail/JobDetailHeader";
 import JobDetailBody from "../../components/job/JobDetail/JobDetailBody";
 import JobDetailSummary from "../../components/job/JobDetail/JobDetailSummary";
+
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
@@ -39,8 +42,15 @@ const jobData = {
     ],
 };
 
-// Component chính
 const JobDetailsPage = () => {
+    // Cuộn lên đầu trang khi load component
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, []);
+
     // Kiểm tra kích thước màn hình
     const isSmallScreen = useMediaQuery("(max-width: 600px)");
     const isMediumScreen = useMediaQuery("(max-width: 960px)");
@@ -83,12 +93,7 @@ const JobDetailsPage = () => {
                 <Grid container spacing={4}>
                     {/* Phần Body nằm bên trái, chiếm 2/3 */}
                     <Grid item xs={12} md={8}>
-                        <JobDetailBody
-                            description={jobData.description}
-                            benefits={jobData.benefits}
-                            requirements={jobData.requirements}
-                            address={jobData.address}
-                        />
+                        <JobDetailBody jobData={jobData} />
                     </Grid>
 
                     {/* Phần Summary nằm bên phải, chiếm 1/3 */}
