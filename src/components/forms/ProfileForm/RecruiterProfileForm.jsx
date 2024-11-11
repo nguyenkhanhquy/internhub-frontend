@@ -1,4 +1,4 @@
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Box, Button, Grid, TextField, Typography, Paper } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import Loading from "../../loaders/Loading/Loading";
@@ -9,14 +9,13 @@ import * as yup from "yup";
 
 import { useEffect, useState } from "react";
 import { getAuthProfile } from "../../../services/authService";
-// import { updateRecruiterProfile } from "../../../services/recruiterService";
+import { updateProfile } from "../../../services/recruiterService";
 
 const defaultValues = {
     name: "",
     position: "",
     recruiterEmail: "",
     phone: "",
-    email: "",
     companyName: "",
     website: "",
     companyAddress: "",
@@ -24,19 +23,22 @@ const defaultValues = {
     description: "",
 };
 
+const regexEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const schema = yup
     .object({
         name: yup.string().required("Không được để trống"),
         position: yup.string().required("Không được để trống"),
-        recruiterEmail: yup.string().email("Email không hợp lệ").required("Không được để trống"),
+        companyName: yup.string().required("Không được để trống"),
+        recruiterEmail: yup.string().required("Không được để trống").matches(regexEmail, "Email không hợp lệ"),
         phone: yup
             .string()
             .required("Không được để trống")
             .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ"),
-        email: yup.string().email("Email không hợp lệ").required("Không được để trống"),
-        website: yup.string().url("Website không hợp lệ"),
+        website: yup.string().required("Không được để trống"),
         companyAddress: yup.string().required("Không được để trống"),
-        companyLogo: yup.string().url("Logo phải là URL hợp lệ"),
+        companyLogo: yup.string().required("Không được để trống"),
         description: yup.string().required("Không được để trống"),
     })
     .required();
@@ -73,33 +75,29 @@ const RecruiterProfileForm = () => {
             setValue("position", profile.position);
             setValue("recruiterEmail", profile.recruiterEmail);
             setValue("phone", profile.phone);
-            setValue("email", profile.email);
-            setValue("companyName", profile.companyName);
-            setValue("website", profile.website);
-            setValue("companyAddress", profile.companyAddress);
-            setValue("companyLogo", profile.companyLogo);
-            setValue("description", profile.description);
+            setValue("companyName", profile.company.name);
+            setValue("website", profile.company.website);
+            setValue("companyAddress", profile.company.address);
+            setValue("companyLogo", profile.company.logo);
+            setValue("description", profile.company.description);
         }
     }, [profile, setValue]);
 
     const onSubmit = async (formData) => {
-        console.log(formData);
-        // setLoading(true);
-        // try {
-        //     const data = await updateRecruiterProfile(formData);
+        setLoading(true);
+        try {
+            const data = await updateProfile(formData);
 
-        //     if (!data.success) {
-        //         if (data?.message) throw new Error(data.message);
-        //         else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
-        //     }
-
-        //     setProfile(formData);
-        //     toast.success(data.message);
-        // } catch (error) {
-        //     toast.error(error.message);
-        // } finally {
-        //     setLoading(false);
-        // }
+            if (!data.success) {
+                if (data?.message) throw new Error(data.message);
+                else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -110,7 +108,7 @@ const RecruiterProfileForm = () => {
                 style={{ minHeight: 560, maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
-                    Chi tiết hồ sơ nhà tuyển dụng
+                    Thông tin người đại diện
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -118,9 +116,16 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("name")}
-                            label="Họ tên người đại diện *"
+                            label={
+                                <span>
+                                    Họ và tên <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.name}
                             helperText={errors.name?.message}
                         />
@@ -130,9 +135,16 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("position")}
-                            label="Chức vụ *"
+                            label={
+                                <span>
+                                    Chức vụ <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.position}
                             helperText={errors.position?.message}
                         />
@@ -142,9 +154,16 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("recruiterEmail")}
-                            label="Email người đại diện *"
+                            label={
+                                <span>
+                                    Email người đại diện <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.recruiterEmail}
                             helperText={errors.recruiterEmail?.message}
                         />
@@ -154,25 +173,18 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("phone")}
-                            label="Số điện thoại *"
+                            label={
+                                <span>
+                                    Số điện thoại <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.phone}
                             helperText={errors.phone?.message}
-                        />
-                    </Grid>
-
-                    {/* Email đăng nhập */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("email")}
-                            label="Email đăng nhập *"
-                            disabled
-                            variant="outlined"
-                            fullWidth
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
-                            style={{ backgroundColor: "#f5f5f5" }}
                         />
                     </Grid>
                 </Grid>
@@ -186,10 +198,17 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12}>
                         <TextField
                             {...control.register("companyName")}
-                            label="Tên công ty *"
+                            label={
+                                <span>
+                                    Tên công ty <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             disabled
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             style={{ backgroundColor: "#f5f5f5" }}
                         />
                     </Grid>
@@ -198,23 +217,18 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("website")}
-                            label="Website"
+                            label={
+                                <span>
+                                    Website <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.website}
                             helperText={errors.website?.message}
-                        />
-                    </Grid>
-
-                    {/* Địa chỉ */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("companyAddress")}
-                            label="Địa chỉ *"
-                            variant="outlined"
-                            fullWidth
-                            error={!!errors.companyAddress}
-                            helperText={errors.companyAddress?.message}
                         />
                     </Grid>
 
@@ -222,11 +236,37 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("companyLogo")}
-                            label="Logo (URL)"
+                            label={
+                                <span>
+                                    Logo (URL) <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             error={!!errors.companyLogo}
                             helperText={errors.companyLogo?.message}
+                        />
+                    </Grid>
+
+                    {/* Địa chỉ */}
+                    <Grid item xs={12} md={12}>
+                        <TextField
+                            {...control.register("companyAddress")}
+                            label={
+                                <span>
+                                    Địa chỉ <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
+                            variant="outlined"
+                            fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
+                            error={!!errors.companyAddress}
+                            helperText={errors.companyAddress?.message}
                         />
                     </Grid>
 
@@ -234,9 +274,16 @@ const RecruiterProfileForm = () => {
                     <Grid item xs={12}>
                         <TextField
                             {...control.register("description")}
-                            label="Giới thiệu công ty *"
+                            label={
+                                <span>
+                                    Giới thiệu công ty <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
                             variant="outlined"
                             fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
                             multiline
                             rows={4}
                             error={!!errors.description}
@@ -245,7 +292,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Button Lưu */}
-                    <Grid item xs={12} display="flex" justifyContent="center">
+                    <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                         {loading ? (
                             <Loading />
                         ) : (
