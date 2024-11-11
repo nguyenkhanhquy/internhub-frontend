@@ -12,8 +12,10 @@ import {
     Stack,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EastIcon from "@mui/icons-material/East"; // Icon mũi tên chuyển hướng
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import EmptyBox from "../../../box/EmptyBox";
 
 // Dữ liệu mẫu
 const sampleData = [
@@ -73,75 +75,85 @@ const SavedJobsTable = ({ jobsData, onDeleteJob, onViewDetails }) => {
                         <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
                         <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
                         <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
-                        <TableCell sx={{ width: "10%" }}>Hành động</TableCell>
+                        <TableCell sx={{ width: "10%" }} align="center">
+                            <SettingsIcon />
+                        </TableCell>
                     </TableRow>
                 </TableHead>
 
                 {/* Nội dung bảng */}
                 <TableBody>
-                    {data.map((job, index) => (
-                        <TableRow
-                            key={job.id}
-                            sx={{
-                                "&:hover": {
-                                    backgroundColor: "#f9f9f9",
-                                },
-                                "& td": {
-                                    padding: "10px 16px",
-                                    fontSize: "0.875rem",
-                                    borderBottom: "1px solid #e0e0e0",
-                                },
-                            }}
-                        >
-                            <TableCell align="center">{index + 1}</TableCell>
-                            <TableCell
-                                sx={{
-                                    whiteSpace: "normal",
-                                    wordWrap: "break-word",
-                                }}
-                            >
-                                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                    {job.title}
-                                </Typography>
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    whiteSpace: "normal",
-                                    wordWrap: "break-word",
-                                }}
-                            >
-                                {job.jobPosition}
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    whiteSpace: "normal",
-                                    wordWrap: "break-word",
-                                }}
-                            >
-                                {job.companyName}
-                            </TableCell>
-                            <TableCell>
-                                {/* Hiển thị ngày hết hạn dưới dạng "dd/mm/yyyy" */}
-                                {job.expiryDate.toLocaleDateString("vi-VN")}
-                            </TableCell>
-                            <TableCell>
-                                <Stack direction="row" spacing={1}>
-                                    <IconButton
-                                        color="primary"
-                                        onClick={() => onViewDetails(job.id)} // Hàm đi đến trang chi tiết công việc
-                                    >
-                                        <EastIcon /> {/* Icon mũi tên chuyển hướng */}
-                                    </IconButton>
-                                    <IconButton
-                                        color="error"
-                                        onClick={() => onDeleteJob(job.id)} // Hàm xóa công việc
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Stack>
+                    {data.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <EmptyBox />
                             </TableCell>
                         </TableRow>
-                    ))}
+                    ) : (
+                        data.map((job, index) => (
+                            <TableRow
+                                key={job.id}
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: "#f9f9f9",
+                                    },
+                                    "& td": {
+                                        padding: "10px 16px",
+                                        fontSize: "0.875rem",
+                                        borderBottom: "1px solid #e0e0e0",
+                                    },
+                                }}
+                            >
+                                <TableCell align="center">{index + 1}</TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                        {job.title}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    {job.jobPosition}
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    {job.companyName}
+                                </TableCell>
+                                <TableCell>
+                                    {/* Hiển thị ngày hết hạn dưới dạng "dd/mm/yyyy" */}
+                                    {job.expiryDate.toLocaleDateString("vi-VN")}
+                                </TableCell>
+                                <TableCell>
+                                    <Stack direction="row" spacing={1}>
+                                        <IconButton
+                                            color="primary"
+                                            onClick={() => onViewDetails(job.id)} // Hàm đi đến trang chi tiết công việc
+                                        >
+                                            <InfoOutlinedIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            color="error"
+                                            onClick={() => onDeleteJob(job.id)} // Hàm xóa công việc
+                                        >
+                                            <DeleteOutlineIcon />
+                                        </IconButton>
+                                    </Stack>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>
