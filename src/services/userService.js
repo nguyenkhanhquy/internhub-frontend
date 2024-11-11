@@ -14,6 +14,12 @@ export const activateAccount = async (email, otp) => {
     });
 };
 
+export const requestActivateAccount = async (email) => {
+    return axiosClient.post(USERS_API.REQUEST_ACTIVATE, {
+        email: email,
+    });
+};
+
 export const resetPassword = async (email, otp, newPassword) => {
     return axiosClient.post(USERS_API.RESET_PASSWORD, {
         email: email,
