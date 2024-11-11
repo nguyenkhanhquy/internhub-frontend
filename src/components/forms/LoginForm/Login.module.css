@@ -24,8 +24,8 @@
 
 .loginContainer {
     display: flex;
-    margin: 24px auto 50px;
-    height: 256px;
+    margin: 30px auto;
+    height: 40vh;
     justify-content: center;
     background-color: #fff;
 }

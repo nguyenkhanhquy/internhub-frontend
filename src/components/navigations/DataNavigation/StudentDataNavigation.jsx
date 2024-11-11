@@ -39,7 +39,7 @@ const StudentDataNavigation = ({ studentName }) => {
                 alignItems="center"
                 sx={{
                     paddingY: 5,
-                    paddingX: 8,
+                    paddingX: 5,
                 }}
             >
                 {/* Avatar sinh viên */}
@@ -47,14 +47,14 @@ const StudentDataNavigation = ({ studentName }) => {
                     src={logo}
                     alt={studentName}
                     sx={{
-                        width: "70%",
-                        height: "70%",
+                        width: "50%",
+                        height: "50%",
                         marginBottom: 2,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", // Đổ bóng cho avatar
                     }}
                 />
                 {/* Tên sinh viên */}
-                <Typography variant="h6" fontWeight="bold">
+                <Typography variant="h6" fontWeight="bold" sx={{ minWidth: 200 }}>
                     {studentName}
                 </Typography>
                 <Typography variant="body1" color="text.secondary">

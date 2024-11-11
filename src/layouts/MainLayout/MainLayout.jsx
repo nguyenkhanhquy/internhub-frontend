@@ -7,11 +7,11 @@ const MainLayout = ({ children, title }) => {
     usePageTitle(title);
 
     return (
-        <div>
+        <>
             <Header />
             {children}
             <Footer />
-        </div>
+        </>
     );
 };
 
