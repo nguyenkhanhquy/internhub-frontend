@@ -16,6 +16,10 @@ export const USERS_API = {
     UPDATE_PASSWORD: "/users/update-password",
 };
 
+export const RECRUITERS_API = {
+    UPDATE_PROFILE: "/recruiters/update-profile",
+};
+
 export const STUDENTS_API = {
     UPDATE_PROFILE: "/students/update-profile",
 };
