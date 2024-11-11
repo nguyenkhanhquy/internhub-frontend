@@ -12,41 +12,41 @@ import {
     Stack,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SettingsIcon from "@mui/icons-material/Settings";
-import InfoIcon from "@mui/icons-material/Info";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EmptyBox from "../../../box/EmptyBox";
 
 // Dữ liệu mẫu
 const sampleData = [
-    // {
-    //     id: 1,
-    //     title: "Frontend Developer - Phát triển giao diện người dùng cho ứng dụng web hiện đại",
-    //     jobPosition: "Junior",
-    //     companyName: "ABC Corp - Công ty hàng đầu về công nghệ",
-    //     expiryDate: new Date("2024-11-30"),
-    // },
-    // {
-    //     id: 2,
-    //     title: "Backend Developer",
-    //     jobPosition: "Senior",
-    //     companyName: "XYZ Ltd",
-    //     expiryDate: new Date("2024-12-10"),
-    // },
-    // {
-    //     id: 3,
-    //     title: "UI/UX Designer",
-    //     jobPosition: "Middle",
-    //     companyName: "Creative Studio",
-    //     expiryDate: new Date("2024-11-20"),
-    // },
-    // {
-    //     id: 4,
-    //     title: "Fullstack Developer",
-    //     jobPosition: "Senior",
-    //     companyName: "Tech Solutions",
-    //     expiryDate: new Date("2024-11-25"),
-    // },
+    {
+        id: 1,
+        title: "Frontend Developer - Phát triển giao diện người dùng cho ứng dụng web hiện đại",
+        jobPosition: "Junior",
+        companyName: "ABC Corp - Công ty hàng đầu về công nghệ",
+        expiryDate: new Date("2024-11-30"),
+    },
+    {
+        id: 2,
+        title: "Backend Developer",
+        jobPosition: "Senior",
+        companyName: "XYZ Ltd",
+        expiryDate: new Date("2024-12-10"),
+    },
+    {
+        id: 3,
+        title: "UI/UX Designer",
+        jobPosition: "Middle",
+        companyName: "Creative Studio",
+        expiryDate: new Date("2024-11-20"),
+    },
+    {
+        id: 4,
+        title: "Fullstack Developer",
+        jobPosition: "Senior",
+        companyName: "Tech Solutions",
+        expiryDate: new Date("2024-11-25"),
+    },
 ];
 
 const SavedJobsTable = ({ jobsData, onDeleteJob, onViewDetails }) => {
@@ -141,13 +141,13 @@ const SavedJobsTable = ({ jobsData, onDeleteJob, onViewDetails }) => {
                                             color="primary"
                                             onClick={() => onViewDetails(job.id)} // Hàm đi đến trang chi tiết công việc
                                         >
-                                            <InfoIcon />
+                                            <InfoOutlinedIcon />
                                         </IconButton>
                                         <IconButton
                                             color="error"
                                             onClick={() => onDeleteJob(job.id)} // Hàm xóa công việc
                                         >
-                                            <DeleteIcon />
+                                            <DeleteOutlineIcon />
                                         </IconButton>
                                     </Stack>
                                 </TableCell>
