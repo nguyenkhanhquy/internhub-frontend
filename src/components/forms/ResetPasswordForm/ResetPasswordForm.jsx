@@ -14,9 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const schema = yup.object().shape({
     otp: yup
         .string()
+        .required("Không được để trống")
         .matches(/^\d+$/, "Mã OTP chỉ được chứa ký tự số")
-        .length(6, "Mã OTP phải có đúng 6 ký tự số")
-        .required("Không được để trống"),
+        .length(6, "Mã OTP phải có đúng 6 ký tự số"),
+
     newPassword: yup.string().min(8, "Mật khẩu mới phải dài ít nhất 8 ký tự").required("Không được để trống"),
     confirmPassword: yup
         .string()
@@ -30,6 +31,8 @@ function ResetPasswordForm({ email }) {
         handleSubmit,
         formState: { errors },
         trigger,
+        setValue,
+        clearErrors,
     } = useForm({
         resolver: yupResolver(schema),
         mode: "onChange",
@@ -63,6 +66,8 @@ function ResetPasswordForm({ email }) {
     };
 
     const handleResendOtp = async () => {
+        setValue("otp", "");
+        clearErrors("otp");
         setLoading(true);
         setIsResending(true);
         try {

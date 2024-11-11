@@ -16,7 +16,7 @@ import {
     InputAdornment,
 } from "@mui/material";
 import { Email } from "@mui/icons-material";
-import { sendOTP } from "../../../services/userService";
+import { requestActivateAccount } from "../../../services/userService";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -56,14 +56,13 @@ const ActivateAccountModal = ({ open, handleClose }) => {
             setError("");
             setLoading(true);
             try {
-                const data = await sendOTP(email);
+                const data = await requestActivateAccount(email);
 
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 closeModal();
                 navigate("/verify", { state: { email: email, action: "request-activate-account" } });
-                toast.success(data.message);
             } catch (error) {
                 toast.error(error.message);
             } finally {
