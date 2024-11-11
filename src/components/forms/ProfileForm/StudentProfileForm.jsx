@@ -101,8 +101,6 @@ const StudentProfileForm = () => {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
-
-            setProfile(formData);
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
@@ -119,7 +117,7 @@ const StudentProfileForm = () => {
                 style={{ minHeight: 560, maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
-                    Chi tiết hồ sơ
+                    Chi tiết hồ sơ sinh viên
                 </Typography>
 
                 <Grid container spacing={2}>

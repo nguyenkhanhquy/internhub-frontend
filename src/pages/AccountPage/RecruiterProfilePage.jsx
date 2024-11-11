@@ -1,13 +1,14 @@
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import AccountLayout from "../../layouts/AccountLayout/AccountLayout";
+import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
+import RecruiterProfileForm from "../../components/forms/ProfileForm/RecruiterProfileForm";
 
 const RecruiterProfilePage = () => {
     return (
         <MainLayout title="Chi tiết hồ sơ">
+            <PageNavigation pageName="Tài khoản" />
             <AccountLayout>
-                <div className="h-screen">
-                    <h1 className="text-3xl font-bold underline">Chi tiết hồ sơ nhà tuyển dụng</h1>
-                </div>
+                <RecruiterProfileForm />
             </AccountLayout>
         </MainLayout>
     );
