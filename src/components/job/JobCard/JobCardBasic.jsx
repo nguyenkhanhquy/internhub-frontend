@@ -1,9 +1,18 @@
-import { Card, Typography, Avatar, Box, Stack } from "@mui/material";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { Card, Typography, Avatar, Box, Stack } from "@mui/material";
 
-const JobCardBasic = ({ logo, title, companyName, remote, type }) => {
+const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
+    const navigate = useNavigate();
+
+    // Hàm xử lý sự kiện click để điều hướng đến /search/:id
+    const handleCardClick = () => {
+        navigate(`/search/${id}`);
+    };
+
     return (
         <Card
+            onClick={handleCardClick}
             sx={{
                 maxWidth: 420,
                 minHeight: 150,
@@ -14,8 +23,9 @@ const JobCardBasic = ({ logo, title, companyName, remote, type }) => {
                 padding: 2,
                 transition: "all 0.3s ease-in-out", // Thêm hiệu ứng mượt
                 "&:hover": {
-                    borderColor: "#007bff", // Hiệu ứng sáng viền khi hover
-                    boxShadow: 3, // Tăng nhẹ shadow khi hover
+                    borderColor: "#007bff",
+                    boxShadow: 3,
+                    cursor: "pointer",
                 },
             }}
         >
@@ -111,6 +121,7 @@ const JobCardBasic = ({ logo, title, companyName, remote, type }) => {
 };
 
 JobCardBasic.propTypes = {
+    id: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,

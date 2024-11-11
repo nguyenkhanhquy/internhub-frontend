@@ -10,7 +10,9 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
                 justifyContent: "space-between",
             }}
         >
-            <Typography variant="body2">{totalJobs} Việc phù hợp</Typography>
+            <Typography variant="body1">
+                Có <strong>{totalJobs}</strong> việc phù hợp
+            </Typography>
 
             <Box display="flex" alignItems="center">
                 <Typography variant="body2" color="textSecondary" sx={{ mr: 1, minWidth: 80 }}>
@@ -20,11 +22,10 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
                     value={sortOption}
                     onChange={(e) => onSortChange(e.target.value)}
                     size="small"
-                    variant="outlined"
-                    disableUnderline
+                    variant="standard"
                     sx={{
-                        minWidth: 200,
-                        fontSize: "0.95rem",
+                        width: 180,
+                        fontSize: "1rem",
                         color: "text.primary",
                         "& .MuiSelect-select": {
                             padding: "4px",
@@ -33,12 +34,15 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
                         "&:hover .MuiSelect-select": {
                             color: "#1976d2",
                         },
+                        "&:before, &:after": {
+                            display: "none",
+                        },
                     }}
                 >
                     <MenuItem value="default">Mặc định</MenuItem>
                     <MenuItem value="latest">Việc làm mới nhất</MenuItem>
                     <MenuItem value="oldest">Việc làm cũ nhất</MenuItem>
-                    <MenuItem value="recentUpdate">Được cập nhật gần nhất</MenuItem>
+                    <MenuItem value="recentUpdate">Cập nhật gần nhất</MenuItem>
                 </Select>
             </Box>
         </Box>

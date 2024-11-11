@@ -60,7 +60,7 @@ const Header = () => {
                     }}
                 >
                     <Link to="/">
-                        <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "300px", md: "400px" } }} />
+                        <Box component="img" src={logoImage} alt="Logo" sx={{ width: { xs: "280px", md: "380px" } }} />
                     </Link>
 
                     <Box component="nav" sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
