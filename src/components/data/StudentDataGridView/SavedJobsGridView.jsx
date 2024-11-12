@@ -4,11 +4,23 @@ import { Delete } from "@mui/icons-material"; // Thêm icon Delete
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
 import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
+import ConfirmModal from "../../modals/ConfirmModal/ConfirmModal";
 
 const SavedJobsGridView = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
+    const [isConfirmModalOpen, setConfirmModalOpen] = useState(false); // Trạng thái mở Modal
     const totalPages = 20;
+
+    // Hàm xử lý mở/đóng Modal
+    const handleOpenConfirmModal = () => setConfirmModalOpen(true);
+    const handleCloseConfirmModal = () => setConfirmModalOpen(false);
+
+    // Hàm xử lý khi xác nhận xóa tất cả
+    const handleConfirmDeleteAll = () => {
+        console.log("Xóa tất cả công việc đã lưu");
+        handleCloseConfirmModal(); // Đóng Modal sau khi xác nhận
+    };
 
     const handlePageChange = (page) => setCurrentPage(page);
     const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
@@ -24,10 +36,12 @@ const SavedJobsGridView = () => {
             actions={
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <DataSearchBar placeholder="Tìm kiếm" onSearch={() => console.log("Searching...")} />
+
                     {/* Nút Xóa tất cả */}
                     <Button
                         variant="contained"
                         startIcon={<Delete />}
+                        onClick={handleOpenConfirmModal} // Mở Modal xác nhận
                         sx={{
                             padding: "5px 10px",
                             width: "50%",
@@ -56,6 +70,14 @@ const SavedJobsGridView = () => {
                     onViewDetails={(jobId) => console.log(`Viewing details of job ${jobId}`)}
                 />
             </Box>
+
+            {/* Confirm Modal */}
+            <ConfirmModal
+                isOpen={isConfirmModalOpen}
+                title="Xác nhận xóa tất cả"
+                onConfirm={handleConfirmDeleteAll}
+                onCancel={handleCloseConfirmModal}
+            />
         </GridViewLayout>
     );
 };

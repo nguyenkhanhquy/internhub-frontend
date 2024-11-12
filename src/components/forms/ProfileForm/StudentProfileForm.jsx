@@ -377,7 +377,16 @@ const StudentProfileForm = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            <Button variant="contained" type="submit" sx={{ bgcolor: "#2e3090" }}>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    padding: "8px 10px",
+                                    backgroundColor: "#2e3090",
+                                    color: "white",
+                                    "&:hover": { backgroundColor: "#1f2061" },
+                                }}
+                            >
                                 <SaveIcon sx={{ marginRight: 1 }} /> Lưu
                             </Button>
                         )}
