@@ -69,7 +69,6 @@ const Header = () => {
                             color="error"
                             startIcon={<InfoIcon />}
                             sx={{
-                                marginRight: 1,
                                 padding: "8px 10px",
                                 color: "white",
                                 "&:hover": { backgroundColor: "#a92a21" },
@@ -83,7 +82,16 @@ const Header = () => {
                             <>
                                 <Button
                                     variant="outlined"
-                                    startIcon={<AccountCircleIcon />}
+                                    startIcon={(() => {
+                                        switch (user?.role) {
+                                            case "STUDENT":
+                                                return <SchoolIcon />;
+                                            case "RECRUITER":
+                                                return <PersonSearchIcon />;
+                                            default:
+                                                return <AccountCircleIcon />;
+                                        }
+                                    })()}
                                     onClick={handleAccountClick}
                                     sx={{
                                         marginLeft: 1,
@@ -94,7 +102,16 @@ const Header = () => {
                                         "&:hover": { borderColor: "#2e3090" },
                                     }}
                                 >
-                                    Tài khoản
+                                    {(() => {
+                                        switch (user?.role) {
+                                            case "STUDENT":
+                                                return <>Sinh Viên</>;
+                                            case "RECRUITER":
+                                                return <>Nhà tuyển dụng</>;
+                                            default:
+                                                return <>Tài khoản</>;
+                                        }
+                                    })()}
                                 </Button>
 
                                 <Menu
@@ -142,7 +159,7 @@ const Header = () => {
                                     startIcon={<PersonAddIcon />}
                                     onClick={handleSignUpClick}
                                     sx={{
-                                        marginRight: 1,
+                                        margin: "0 8px",
                                         padding: "8px 10px",
                                         color: "#2e3090",
                                         borderColor: "#d9d9d9",
