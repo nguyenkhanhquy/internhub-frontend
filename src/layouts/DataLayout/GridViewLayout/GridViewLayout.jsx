@@ -9,6 +9,7 @@ const GridViewLayout = ({
     currentPage,
     totalPages,
     recordsPerPage,
+    totalRecords,
     onPageChange,
     onRecordsPerPageChange,
     actions,
@@ -45,6 +46,7 @@ const GridViewLayout = ({
                 currentPage={currentPage}
                 totalPages={totalPages}
                 recordsPerPage={recordsPerPage}
+                totalRecords={totalRecords}
                 onPageChange={onPageChange}
                 onRecordsPerPageChange={onRecordsPerPageChange}
             />
@@ -58,6 +60,7 @@ GridViewLayout.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     recordsPerPage: PropTypes.number.isRequired,
+    totalRecords: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
     onRecordsPerPageChange: PropTypes.func.isRequired,
     actions: PropTypes.node, // Các nút hoặc input (tìm kiếm, xóa tất cả, etc.)

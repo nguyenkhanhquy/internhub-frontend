@@ -1,7 +1,14 @@
 import { Box, Pagination, Typography, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
-const CustomPagination = ({ currentPage, totalPages, recordsPerPage, onPageChange, onRecordsPerPageChange }) => {
+const CustomPagination = ({
+    currentPage,
+    totalPages,
+    recordsPerPage,
+    totalRecords,
+    onPageChange,
+    onRecordsPerPageChange,
+}) => {
     const handlePageChange = (event, value) => {
         onPageChange(value);
     };
@@ -59,7 +66,7 @@ const CustomPagination = ({ currentPage, totalPages, recordsPerPage, onPageChang
 
             {/* Hiển thị trang hiện tại */}
             <Typography variant="body2" color="textSecondary">
-                Trang {currentPage} / {totalPages}
+                Trang {currentPage} / {totalPages} • Tổng số {totalRecords} bản ghi
             </Typography>
         </Box>
     );
@@ -69,6 +76,7 @@ CustomPagination.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     recordsPerPage: PropTypes.number.isRequired,
+    totalRecords: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
     onRecordsPerPageChange: PropTypes.func.isRequired,
 };
