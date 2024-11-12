@@ -26,6 +26,8 @@ import CreateJobPostPage from "../pages/DataPage/RecruiterDataPage/CreateJobPost
 
 import DashboardPage from "../pages/DashboardPage/Admin/DashboardPage";
 
+import NotFoundPage from "../pages/ErrorPage/404/NotFoundPage";
+
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -55,7 +57,7 @@ const AppRoutes = () => {
                         <Route index element={<HomePage />} />
                     )}
                     <Route path="/search" element={<SearchPage />} />
-                    <Route path="/search/*" element={<JobDetailsPage />} />
+                    <Route path="/search/:id" element={<JobDetailsPage />} />
 
                     {isAuthenticated ? (
                         <>
@@ -118,8 +120,9 @@ const AppRoutes = () => {
                         </>
                     )}
 
-                    {/* Điều hướng về trang chủ cho tất cả các URL không được định nghĩa */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    {/* Điều hướng về trang 404 cho tất cả các URL không được định nghĩa */}
+                    <Route path="*" element={<Navigate to="/404" replace />} />
+                    <Route path="/404" element={<NotFoundPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

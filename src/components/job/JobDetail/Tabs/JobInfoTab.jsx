@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import { Box, Typography, Divider, List, ListItem, ListItemText, Stack } from "@mui/material";
+import { Box, Typography, Divider, Stack } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
 
 const JobInfoTab = ({ description, benefits, requirements, address }) => {
@@ -11,16 +11,7 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
                 <Typography variant="h6" fontWeight="bold">
                     Mô tả công việc
                 </Typography>
-                <List>
-                    {description.map((desc, index) => (
-                        <ListItem key={index} disablePadding>
-                            <ListItemText
-                                primary={`• ${desc}`}
-                                primaryTypographyProps={{ variant: "body1", color: "text.primary" }}
-                            />
-                        </ListItem>
-                    ))}
-                </List>
+                <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: description }} />
             </Box>
 
             <Divider sx={{ my: 3 }} />
@@ -30,16 +21,7 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
                 <Typography variant="h6" fontWeight="bold">
                     Phúc lợi dành cho bạn
                 </Typography>
-                <List>
-                    {benefits.map((benefit, index) => (
-                        <ListItem key={index} disablePadding>
-                            <ListItemText
-                                primary={`• ${benefit}`}
-                                primaryTypographyProps={{ variant: "body1", color: "text.primary" }}
-                            />
-                        </ListItem>
-                    ))}
-                </List>
+                <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: benefits }} />
             </Box>
 
             <Divider sx={{ my: 3 }} />
@@ -49,16 +31,7 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
                 <Typography variant="h6" fontWeight="bold">
                     Yêu cầu công việc
                 </Typography>
-                <List>
-                    {requirements.map((requirement, index) => (
-                        <ListItem key={index} disablePadding>
-                            <ListItemText
-                                primary={`• ${requirement}`}
-                                primaryTypographyProps={{ variant: "body1", color: "text.primary" }}
-                            />
-                        </ListItem>
-                    ))}
-                </List>
+                <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: requirements }} />
             </Box>
 
             <Divider sx={{ my: 3 }} />
@@ -71,18 +44,16 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
                         Địa chỉ làm việc:
                     </Typography>
                 </Stack>
-                <Typography variant="body1" sx={{ ml: 4 }}>
-                    {address}
-                </Typography>
+                <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: address }} />
             </Box>
         </>
     );
 };
 
 JobInfoTab.propTypes = {
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
-    benefits: PropTypes.arrayOf(PropTypes.string).isRequired,
-    requirements: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
+    benefits: PropTypes.string.isRequired,
+    requirements: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
 };
 

@@ -3,7 +3,7 @@ import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "
 import { MonetizationOn, Group, WorkOutline, Schedule, CalendarToday, School, LocationOn } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
 
-const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, major }) => {
+const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, majors }) => {
     // Lấy theme và kiểm tra xem màn hình có nhỏ hay không
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -110,8 +110,8 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                         Ngành đào tạo:
                     </Typography>
                     <Stack direction="column" spacing={1} flexWrap="wrap">
-                        {major.map((m, index) => (
-                            <Chip key={index} label={m} variant="outlined" />
+                        {majors.map((major, index) => (
+                            <Chip key={index} label={major.description} variant="outlined" />
                         ))}
                     </Stack>
                 </Box>
@@ -125,10 +125,10 @@ JobDetailSummary.propTypes = {
     quantity: PropTypes.number.isRequired,
     remote: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    createdDate: PropTypes.instanceOf(Date).isRequired,
-    expiryDate: PropTypes.instanceOf(Date).isRequired,
+    createdDate: PropTypes.string.isRequired,
+    expiryDate: PropTypes.string.isRequired,
     jobPosition: PropTypes.string.isRequired,
-    major: PropTypes.arrayOf(PropTypes.string).isRequired,
+    majors: PropTypes.array.isRequired,
 };
 
 export default JobDetailSummary;

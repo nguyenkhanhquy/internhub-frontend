@@ -1,9 +1,16 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/material";
 import { Business, LocationOn, Work, CalendarToday } from "@mui/icons-material";
-import PropTypes from "prop-types";
+
 import { formatDate } from "../../../utils/dateUtil";
+import { saveJobPost } from "../../../services/jobService";
 
 const JobDetailHeader = ({
+    id,
     logo,
     title,
     companyName,
@@ -12,7 +19,7 @@ const JobDetailHeader = ({
     type,
     updateDate,
     expiryDate,
-    onSaveJob,
+    saved,
     onApplyJob,
 }) => {
     // Kiểm tra kích thước màn hình
@@ -23,6 +30,21 @@ const JobDetailHeader = ({
     const buttonFontSize = isSmallScreen ? "0.8rem" : isMediumScreen ? "0.9rem" : "1rem";
     const buttonPaddingY = isSmallScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
     const avatarSize = isSmallScreen ? 80 : isMediumScreen ? 120 : 140;
+
+    const [isSaved, setIsSaved] = useState(saved);
+
+    const handleSaveJob = async () => {
+        try {
+            const data = await saveJobPost(id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setIsSaved((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <Box
@@ -102,12 +124,12 @@ const JobDetailHeader = ({
                             py: buttonPaddingY,
                         }}
                     >
-                        Nộp đơn
+                        Ứng tuyển ngay
                     </Button>
                     <Button
                         variant="outlined"
                         color="error"
-                        onClick={onSaveJob}
+                        onClick={handleSaveJob}
                         fullWidth={isSmallScreen}
                         sx={{
                             textTransform: "none",
@@ -116,7 +138,7 @@ const JobDetailHeader = ({
                             py: buttonPaddingY,
                         }}
                     >
-                        Lưu việc làm
+                        {isSaved ? "Bỏ lưu công việc" : "Lưu công việc"}
                     </Button>
                 </Stack>
             </Stack>
@@ -125,15 +147,16 @@ const JobDetailHeader = ({
 };
 
 JobDetailHeader.propTypes = {
+    id: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     jobPosition: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    updateDate: PropTypes.instanceOf(Date).isRequired,
-    expiryDate: PropTypes.instanceOf(Date).isRequired,
-    onSaveJob: PropTypes.func.isRequired,
+    updateDate: PropTypes.string.isRequired,
+    expiryDate: PropTypes.string.isRequired,
+    saved: PropTypes.bool.isRequired,
     onApplyJob: PropTypes.func.isRequired,
 };
 

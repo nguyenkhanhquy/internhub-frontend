@@ -7,6 +7,7 @@ import CustomTabPanel from "../../tabs/CustomTabPanel/CustomTabPanel";
 import Box from "@mui/material/Box";
 
 import JobInfoTab from "./Tabs/JobInfoTab";
+import CompanyInfoTab from "./Tabs/CompanyInfoTab";
 
 const JobDetailBody = ({ jobData }) => {
     const [value, setValue] = useState(0);
@@ -54,7 +55,7 @@ const JobDetailBody = ({ jobData }) => {
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    Thông tin công ty
+                    <CompanyInfoTab description={jobData.company.description} address={jobData.company.address} />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                     Việc làm khác từ công ty
