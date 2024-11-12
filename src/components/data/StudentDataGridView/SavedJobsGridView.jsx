@@ -18,23 +18,6 @@ const SavedJobsGridView = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
-
-//     const [isConfirmModalOpen, setConfirmModalOpen] = useState(false); // Trạng thái mở Modal
-//     const totalPages = 20;
-
-//     // Hàm xử lý mở/đóng Modal
-//     const handleOpenConfirmModal = () => setConfirmModalOpen(true);
-//     const handleCloseConfirmModal = () => setConfirmModalOpen(false);
-
-//     // Hàm xử lý khi xác nhận xóa tất cả
-//     const handleConfirmDeleteAll = () => {
-//         console.log("Xóa tất cả công việc đã lưu");
-//         handleCloseConfirmModal(); // Đóng Modal sau khi xác nhận
-//     };
-
-//     const handlePageChange = (page) => setCurrentPage(page);
-//     const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
-
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
@@ -63,6 +46,18 @@ const SavedJobsGridView = () => {
         } finally {
             setFlag(!flag);
         }
+    };
+
+    const [isConfirmModalOpen, setConfirmModalOpen] = useState(false); // Trạng thái mở Modal
+
+    // Hàm xử lý mở/đóng Modal
+    const handleOpenConfirmModal = () => setConfirmModalOpen(true);
+    const handleCloseConfirmModal = () => setConfirmModalOpen(false);
+
+    // Hàm xử lý khi xác nhận xóa tất cả
+    const handleConfirmDeleteAll = () => {
+        console.log("Xóa tất cả công việc đã lưu");
+        handleCloseConfirmModal(); // Đóng Modal sau khi xác nhận
     };
 
     useEffect(() => {

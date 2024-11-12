@@ -163,7 +163,7 @@ const HomePage = () => {
                     </Box>
                 </Box>
 
-                {/* VIỆC LÀM TỐT NHẤT Section, căn giữa */}
+                {/* VIỆC LÀM MỚI NHẤT */}
                 <Box
                     sx={{
                         mt: 4,
@@ -175,7 +175,7 @@ const HomePage = () => {
                     }}
                 >
                     <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
-                        VIỆC LÀM TỐT NHẤT
+                        VIỆC LÀM MỚI NHẤT
                     </Typography>
 
                     <Box
@@ -220,7 +220,7 @@ const HomePage = () => {
                     </Button>
                 </Box>
 
-                {/* NHÀ TUYỂN DỤNG NỔI BẬT Section */}
+                {/* NHÀ TUYỂN DỤNG NỔI BẬT */}
                 <Box
                     sx={{
                         my: 6,
@@ -251,6 +251,20 @@ const HomePage = () => {
                             </Box>
                         ))}
                     </Stack>
+
+                    {/* Button Xem thêm */}
+                    <Button
+                        variant="container"
+                        sx={{
+                            padding: "8px 16px",
+                            backgroundColor: "#2e3090",
+                            color: "white",
+                            "&:hover": { backgroundColor: "#1f2061" },
+                        }}
+                        onClick={() => navigate("/search")}
+                    >
+                        Xem thêm...
+                    </Button>
                 </Box>
             </Container>
         </MainLayout>

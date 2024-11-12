@@ -67,7 +67,6 @@ const AppRoutes = () => {
                                 </>
                             ) : (
                                 <>
-                                    {/* Chỉ định trang khi đã xác thực */}
                                     <Route path="/login" element={<Navigate to="/" replace />} />
                                     <Route path="/register-student" element={<Navigate to="/" replace />} />
                                     <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
@@ -108,7 +107,6 @@ const AppRoutes = () => {
                         </>
                     ) : (
                         <>
-                            {/* Chỉ định trang khi chưa xác thực */}
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/register-student" element={<StudentRegisterPage />} />
                             <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
