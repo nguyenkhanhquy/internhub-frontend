@@ -24,6 +24,8 @@ import InternShipApplicationsPage from "../pages/DataPage/StudentDataPage/Intern
 import PostedJobsPage from "../pages/DataPage/RecruiterDataPage/PostedJobsPage";
 import CreateJobPostPage from "../pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 
+import DashboardPage from "../pages/DashboardPage/Admin/DashboardPage";
+
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -100,6 +102,8 @@ const AppRoutes = () => {
 
                     {/* Điều hướng về trang chủ cho tất cả các URL không được định nghĩa */}
                     <Route path="*" element={<Navigate to="/" replace />} />
+
+                    <Route path="/dashboard" element={<DashboardPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
