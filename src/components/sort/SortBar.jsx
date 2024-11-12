@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
 
-const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
+const SortBar = ({ totalRecords, sortOption, onSortChange }) => {
     return (
         <Box
             sx={{
@@ -11,7 +11,7 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
             }}
         >
             <Typography variant="body1">
-                Có <strong>{totalJobs}</strong> việc phù hợp
+                Có <strong>{totalRecords}</strong> việc phù hợp
             </Typography>
 
             <Box display="flex" alignItems="center">
@@ -50,7 +50,7 @@ const SortBar = ({ totalJobs, sortOption, onSortChange }) => {
 };
 
 SortBar.propTypes = {
-    totalJobs: PropTypes.number.isRequired,
+    totalRecords: PropTypes.number.isRequired,
     sortOption: PropTypes.string.isRequired,
     onSortChange: PropTypes.func.isRequired,
 };

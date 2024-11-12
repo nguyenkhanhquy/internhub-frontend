@@ -29,7 +29,7 @@ const SearchPage = () => {
     const [sort, setSort] = useState("default");
 
     const [totalPages, setTotalPages] = useState(0);
-    const [totalJobs, setTotalJobs] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
 
     useEffect(() => {
         if (location.state?.query) {
@@ -46,7 +46,7 @@ const SearchPage = () => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setTotalPages(data.pageInfo.totalPages);
-                setTotalJobs(data.pageInfo.totalElements);
+                setTotalRecords(data.pageInfo.totalElements);
                 setJobPosts(data.result);
             } catch (error) {
                 toast.error(error.message);
@@ -98,7 +98,7 @@ const SearchPage = () => {
 
                 {/* Thanh sắp xếp */}
                 <SortBar
-                    totalJobs={totalJobs}
+                    totalRecords={totalRecords}
                     sortOption={sort}
                     onSortChange={(sortOption) => {
                         setCurrentPage(1);
@@ -143,6 +143,7 @@ const SearchPage = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     recordsPerPage={recordsPerPage}
+                    totalRecords={totalRecords}
                     onPageChange={handlePageChange}
                     onRecordsPerPageChange={handleRecordsPerPageChange}
                 />
