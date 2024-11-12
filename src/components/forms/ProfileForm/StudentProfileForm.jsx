@@ -116,7 +116,7 @@ const StudentProfileForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 style={{ minHeight: 560, maxWidth: 800, margin: "auto", padding: 16 }}
             >
-                <Typography variant="h5" fontWeight="bold" color="primary" marginBottom={3}>
+                <Typography variant="h5" fontWeight="bold" marginBottom={3}>
                     Chi tiết hồ sơ sinh viên
                 </Typography>
 
@@ -377,7 +377,16 @@ const StudentProfileForm = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            <Button variant="contained" color="primary" type="submit">
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    padding: "8px 10px",
+                                    backgroundColor: "#2e3090",
+                                    color: "white",
+                                    "&:hover": { backgroundColor: "#1f2061" },
+                                }}
+                            >
                                 <SaveIcon sx={{ marginRight: 1 }} /> Lưu
                             </Button>
                         )}
