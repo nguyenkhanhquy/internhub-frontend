@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
@@ -119,8 +120,9 @@ const theme = createTheme({
 
 function DashboardPage(props) {
     const { window } = props;
+    const navigate = useNavigate();
 
-    const [session, setSession] = React.useState({
+    const [session, setSession] = useState({
         user: {
             name: "Khoa Công Nghệ Thông Tin",
             email: "kcntt@hcmute.edu.vn",
@@ -128,7 +130,7 @@ function DashboardPage(props) {
         },
     });
 
-    const authentication = React.useMemo(() => {
+    const authentication = useMemo(() => {
         return {
             signIn: () => {
                 setSession({
@@ -141,9 +143,10 @@ function DashboardPage(props) {
             },
             signOut: () => {
                 setSession(null);
+                navigate("/logout");
             },
         };
-    }, []);
+    }, [navigate]);
 
     const router = useDemoRouter("/dashboard");
 
@@ -160,7 +163,7 @@ function DashboardPage(props) {
             theme={theme}
             window={window}
         >
-            <DashboardLayout>
+            <DashboardLayout defaultSidebarCollapsed>
                 <PageContent pathname={router.pathname} navigate={router.navigate} />
             </DashboardLayout>
         </AppProvider>
