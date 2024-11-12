@@ -31,6 +31,9 @@ const NAVIGATION = [
         action: <Chip label={7} color="primary" size="small" />,
     },
     {
+        kind: "divider",
+    },
+    {
         kind: "header",
         title: "Bảng điều khiển",
     },

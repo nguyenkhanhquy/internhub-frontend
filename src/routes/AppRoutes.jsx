@@ -49,42 +49,62 @@ const AppRoutes = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<AppWrapper />}>
-                    <Route index element={<HomePage />} />
+                    {user?.role === "FIT" ? (
+                        <Route index element={<DashboardPage />} />
+                    ) : (
+                        <Route index element={<HomePage />} />
+                    )}
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/search/*" element={<JobDetailsPage />} />
 
                     {isAuthenticated ? (
                         <>
-                            {/* Chỉ định trang khi đã xác thực */}
-                            <Route path="/login" element={<Navigate to="/" replace />} />
-                            <Route path="/register-student" element={<Navigate to="/" replace />} />
-                            <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
+                            {user?.role === "FIT" ? (
+                                <>
+                                    <Route path="/*" element={<Navigate to="/dashboard" replace />} />
+                                    <Route path="/dashboard" element={<DashboardPage />} />
+                                    <Route path="/logout" element={<LogoutPage />} />
+                                </>
+                            ) : (
+                                <>
+                                    {/* Chỉ định trang khi đã xác thực */}
+                                    <Route path="/login" element={<Navigate to="/" replace />} />
+                                    <Route path="/register-student" element={<Navigate to="/" replace />} />
+                                    <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
 
-                            <Route path="/account" element={<Navigate to="/account/profile" replace />} />
-                            <Route
-                                path="/account/profile"
-                                element={(() => {
-                                    switch (user?.role) {
-                                        case "STUDENT":
-                                            return <StudentProfilePage />;
-                                        case "RECRUITER":
-                                            return <RecruiterProfilePage />;
-                                        default:
-                                            return <Navigate to="/" replace />;
-                                    }
-                                })()}
-                            />
-                            <Route path="/account/update-password" element={<UpdatePasswordPage />} />
-                            <Route path="/account/details" element={<AccountDetailsPage />} />
+                                    <Route path="/account" element={<Navigate to="/account/profile" replace />} />
+                                    <Route
+                                        path="/account/profile"
+                                        element={(() => {
+                                            switch (user?.role) {
+                                                case "STUDENT":
+                                                    return <StudentProfilePage />;
+                                                case "RECRUITER":
+                                                    return <RecruiterProfilePage />;
+                                                default:
+                                                    return <Navigate to="/" replace />;
+                                            }
+                                        })()}
+                                    />
+                                    <Route path="/account/update-password" element={<UpdatePasswordPage />} />
+                                    <Route path="/account/details" element={<AccountDetailsPage />} />
 
-                            <Route path="/student" element={<Navigate to="/student/applied-jobs" replace />} />
-                            <Route path="/student/applied-jobs" element={<AppliedJobsPage />} />
-                            <Route path="/student/saved-jobs" element={<SavedJobsPage />} />
-                            <Route path="/student/internship-applications" element={<InternShipApplicationsPage />} />
-                            <Route path="/recruiter" element={<Navigate to="/recruiter/posted-jobs" replace />} />
-                            <Route path="/recruiter/posted-jobs" element={<PostedJobsPage />} />
-                            <Route path="/recruiter/create-job-post" element={<CreateJobPostPage />} />
-                            <Route path="/logout" element={<LogoutPage />} />
+                                    <Route path="/student" element={<Navigate to="/student/applied-jobs" replace />} />
+                                    <Route path="/student/applied-jobs" element={<AppliedJobsPage />} />
+                                    <Route path="/student/saved-jobs" element={<SavedJobsPage />} />
+                                    <Route
+                                        path="/student/internship-applications"
+                                        element={<InternShipApplicationsPage />}
+                                    />
+                                    <Route
+                                        path="/recruiter"
+                                        element={<Navigate to="/recruiter/posted-jobs" replace />}
+                                    />
+                                    <Route path="/recruiter/posted-jobs" element={<PostedJobsPage />} />
+                                    <Route path="/recruiter/create-job-post" element={<CreateJobPostPage />} />
+                                    <Route path="/logout" element={<LogoutPage />} />
+                                </>
+                            )}
                         </>
                     ) : (
                         <>
@@ -102,8 +122,6 @@ const AppRoutes = () => {
 
                     {/* Điều hướng về trang chủ cho tất cả các URL không được định nghĩa */}
                     <Route path="*" element={<Navigate to="/" replace />} />
-
-                    <Route path="/dashboard" element={<DashboardPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
