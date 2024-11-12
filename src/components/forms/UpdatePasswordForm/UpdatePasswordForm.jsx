@@ -62,7 +62,7 @@ const UpdatePasswordForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     sx={{ height: 420, maxWidth: 400, margin: "auto", p: 4 }}
                 >
-                    <Typography variant="h5" fontWeight="bold" color="primary" mb={1} textAlign={"center"}>
+                    <Typography variant="h5" fontWeight="bold" mb={1} textAlign={"center"}>
                         Đổi mật khẩu
                     </Typography>
 
@@ -127,7 +127,7 @@ const UpdatePasswordForm = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            <Button disabled={loading} variant="contained" color="primary" type="submit">
+                            <Button disabled={loading} variant="contained" type="submit" sx={{ bgcolor: "#2e3090" }}>
                                 <SaveIcon sx={{ marginRight: 1 }} /> Lưu
                             </Button>
                         )}
