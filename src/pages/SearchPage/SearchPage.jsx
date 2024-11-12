@@ -11,7 +11,7 @@ import SortBar from "../../components/sort/SortBar";
 import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
 import CustomPagination from "../../components/pagination/Pagination";
 import LoadingOverlay from "../../components/loaders/LoadingOverlay/LoadingOverlay";
-import EmptyBox from "../../components/box/emptyBox";
+import EmptyBox from "../../components/box/EmptyBox";
 
 import { getAllJobPosts } from "../../services/jobService";
 
@@ -22,14 +22,22 @@ const SearchPage = () => {
     const [loading, setLoading] = useState(false);
     const [jobPosts, setJobPosts] = useState([]);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [recordsPerPage, setRecordsPerPage] = useState(10);
-
     const [query, setQuery] = useState(location.state?.query || "");
     const [sort, setSort] = useState("default");
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
 
     useEffect(() => {
         if (location.state?.query) {
@@ -61,15 +69,6 @@ const SearchPage = () => {
 
         fetchJobPosts();
     }, [currentPage, recordsPerPage, query, sort]);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-    const handleRecordsPerPageChange = (value) => {
-        setCurrentPage(1);
-        setRecordsPerPage(value);
-    };
 
     return (
         <MainLayout title="Việc làm">
