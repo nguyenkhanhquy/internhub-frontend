@@ -1,17 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { Box, Button } from "@mui/material";
-import { Delete } from "@mui/icons-material"; // Thêm icon Delete
+import { Delete } from "@mui/icons-material";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
 import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
 
+import { getAllSavedJobPosts, saveJobPost } from "../../../services/jobService";
+
 const SavedJobsGridView = () => {
+    const [loading, setLoading] = useState(false);
+    const [flag, setFlag] = useState(false);
+    const [savedJobPosts, setSavedJobPosts] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
-    const totalPages = 20;
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
 
-    const handlePageChange = (page) => setCurrentPage(page);
-    const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
+
+    const handleViewDetailsClick = (id) => {
+        window.open(`/search/${id}`, "_blank");
+    };
+
+    const handleDeleteClick = async (id) => {
+        try {
+            const data = await saveJobPost(id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setFlag(!flag);
+        }
+    };
+
+    useEffect(() => {
+        const fetchSavedJobPosts = async () => {
+            setLoading(true);
+            try {
+                const data = await getAllSavedJobPosts(currentPage, recordsPerPage, "");
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setTotalPages(data.pageInfo.totalPages);
+                setTotalRecords(data.pageInfo.totalElements);
+                setSavedJobPosts(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            }
+        };
+
+        fetchSavedJobPosts();
+    }, [currentPage, recordsPerPage, flag]);
 
     return (
         <GridViewLayout
@@ -19,6 +78,7 @@ const SavedJobsGridView = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             recordsPerPage={recordsPerPage}
+            totalRecords={totalRecords}
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
             actions={
@@ -52,8 +112,10 @@ const SavedJobsGridView = () => {
             <Box>
                 {/* Nội dung danh sách công việc */}
                 <SavedJobsTable
-                    onDeleteJob={(jobId) => console.log(`Deleting job ${jobId}`)}
-                    onViewDetails={(jobId) => console.log(`Viewing details of job ${jobId}`)}
+                    loading={loading}
+                    savedJobPosts={savedJobPosts}
+                    handleViewDetailsClick={handleViewDetailsClick}
+                    handleDeleteClick={handleDeleteClick}
                 />
             </Box>
         </GridViewLayout>
