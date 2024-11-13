@@ -3,24 +3,24 @@ import { Box, Typography, Button } from "@mui/material";
 
 const images = [
     {
-        url: "https://via.placeholder.com/1920x600",
-        title: "Ảnh 1",
+        url: "/images/cv.png",
+        title: "Banner 1",
     },
     {
         url: "https://via.placeholder.com/1920x600",
-        title: "Ảnh 2",
+        title: "Banner 2",
     },
     {
         url: "https://via.placeholder.com/1920x600",
-        title: "Ảnh 3",
+        title: "Banner 3",
     },
     {
         url: "https://via.placeholder.com/1920x600",
-        title: "Ảnh 4",
+        title: "Banner 4",
     },
     {
         url: "https://via.placeholder.com/1920x600",
-        title: "Ảnh 5",
+        title: "Banner 5",
     },
 ];
 
@@ -61,7 +61,7 @@ const SliderBanner = () => {
                     }}
                 >
                     <Typography
-                        variant="h4"
+                        variant="h6"
                         color="white"
                         sx={{
                             position: "absolute",
@@ -106,6 +106,34 @@ const SliderBanner = () => {
             >
                 ❯
             </Button>
+
+            {/* Nút chọn để nhảy đến bất kỳ banner nào */}
+            <Box
+                sx={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    display: "flex",
+                    gap: "8px",
+                }}
+            >
+                {images.map((_, index) => (
+                    <Button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        sx={{
+                            width: "12px",
+                            height: "12px",
+                            minWidth: "unset",
+                            padding: 0,
+                            borderRadius: "50%",
+                            backgroundColor: currentIndex === index ? "white" : "rgba(255, 255, 255, 0.5)",
+                            transition: "background-color 0.3s",
+                        }}
+                    />
+                ))}
+            </Box>
         </Box>
     );
 };

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import { Box, Typography, Container, Stack, Avatar, Button } from "@mui/material";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
@@ -144,13 +145,11 @@ const HomePage = () => {
 
     return (
         <MainLayout title="Trang chủ">
-            {/* Container với maxWidth tùy chỉnh */}
             <Container
-                maxWidth="xl" // Giữ maxWidth là "lg"
+                maxWidth="xl"
                 sx={{
-                    width: "90%", // Chiều rộng là 90% thay vì 100%
-                    margin: "0 auto", // Căn giữa
-                    paddingTop: 2,
+                    width: "90%",
+                    margin: "0 auto",
                 }}
             >
                 {/* Slider Banner */}
@@ -158,7 +157,7 @@ const HomePage = () => {
 
                 {/* Search Bar, căn giữa */}
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                    <Box sx={{ width: "60%" }}>
+                    <Box sx={{ width: "70%" }}>
                         <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
                     </Box>
                 </Box>
@@ -243,8 +242,8 @@ const HomePage = () => {
                                     src={employer.logo}
                                     alt={employer.name}
                                     sx={{
-                                        width: 200, // Đặt kích thước hình vuông
-                                        height: 200, // Đặt kích thước hình vuông
+                                        width: 200,
+                                        height: 200,
                                         objectFit: "contain", // Đảm bảo logo không bị méo
                                     }}
                                 />
