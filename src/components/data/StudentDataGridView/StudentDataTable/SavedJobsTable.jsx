@@ -143,10 +143,10 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
 };
 
 SavedJobsTable.propTypes = {
-    loading: PropTypes.bool,
-    savedJobPosts: PropTypes.object,
-    handleViewDetailsClick: PropTypes.func,
-    handleDeleteClick: PropTypes.func,
+    loading: PropTypes.bool.isRequired,
+    savedJobPosts: PropTypes.array.isRequired,
+    handleViewDetailsClick: PropTypes.func.isRequired,
+    handleDeleteClick: PropTypes.func.isRequired,
 };
 
 export default SavedJobsTable;

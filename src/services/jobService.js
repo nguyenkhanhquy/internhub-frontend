@@ -21,13 +21,3 @@ export const saveJobPost = async (jobPostId) => {
         id: String(jobPostId),
     });
 };
-
-export const getAllSavedJobPosts = async (page, size, search) => {
-    return axiosClient.get(JOBS_API.GET_SAVED, {
-        params: {
-            page: page,
-            size: size,
-            search: search,
-        },
-    });
-};

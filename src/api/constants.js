@@ -28,5 +28,9 @@ export const JOBS_API = {
     GET_ALL: "/jobs",
     GET_BY_ID: "/jobs/",
     SAVE: "/jobs/save",
-    GET_SAVED: "/jobs/saved",
+};
+
+export const JOBS_SAVED_API = {
+    GET_ALL: "/jobs/saved",
+    DELETE_ALL: "/jobs/saved",
 };

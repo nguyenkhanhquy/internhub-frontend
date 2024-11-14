@@ -9,7 +9,8 @@ import DataSearchBar from "../DataSearchBar";
 import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
 import ConfirmModal from "../../modals/ConfirmModal/ConfirmModal";
 
-import { getAllSavedJobPosts, saveJobPost } from "../../../services/jobService";
+import { saveJobPost } from "../../../services/jobService";
+import { getAllJobSaved, deleteAllJobSaved } from "../../../services/jobSavedService";
 
 const SavedJobsGridView = () => {
     const [loading, setLoading] = useState(false);
@@ -49,14 +50,24 @@ const SavedJobsGridView = () => {
     };
 
     const [isConfirmModalOpen, setConfirmModalOpen] = useState(false); // Trạng thái mở Modal
+    const [loadingConfirm, setLoadingConfirm] = useState(false);
 
     // Hàm xử lý mở/đóng Modal
     const handleOpenConfirmModal = () => setConfirmModalOpen(true);
     const handleCloseConfirmModal = () => setConfirmModalOpen(false);
 
     // Hàm xử lý khi xác nhận xóa tất cả
-    const handleConfirmDeleteAll = () => {
-        console.log("Xóa tất cả công việc đã lưu");
+    const handleConfirmDeleteAll = async () => {
+        setLoadingConfirm(true);
+        try {
+            await deleteAllJobSaved();
+            toast.success("Đã xóa tất cả công việc đã lưu");
+        } catch (error) {
+            toast.error(error?.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+        } finally {
+            setLoadingConfirm(false);
+            setFlag(!flag);
+        }
         handleCloseConfirmModal(); // Đóng Modal sau khi xác nhận
     };
 
@@ -64,7 +75,7 @@ const SavedJobsGridView = () => {
         const fetchSavedJobPosts = async () => {
             setLoading(true);
             try {
-                const data = await getAllSavedJobPosts(currentPage, recordsPerPage, "");
+                const data = await getAllJobSaved(currentPage, recordsPerPage, "");
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
@@ -75,10 +86,6 @@ const SavedJobsGridView = () => {
                 toast.error(error.message);
             } finally {
                 setLoading(false);
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         };
 
@@ -137,6 +144,7 @@ const SavedJobsGridView = () => {
             {/* Confirm Modal */}
             <ConfirmModal
                 isOpen={isConfirmModalOpen}
+                loading={loadingConfirm}
                 title="Xác nhận xóa tất cả"
                 onConfirm={handleConfirmDeleteAll}
                 onCancel={handleCloseConfirmModal}

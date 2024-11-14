@@ -54,7 +54,6 @@ const ForgotPasswordModal = ({ open, handleClose }) => {
             setError("Email không hợp lệ");
         } else {
             setError("");
-            console.log("Yêu cầu cấp lại mật khẩu cho email:", email);
             setLoading(true);
             try {
                 const data = await sendOTP(email);
