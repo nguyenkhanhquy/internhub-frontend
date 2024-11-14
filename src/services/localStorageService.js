@@ -10,17 +10,11 @@ export const setToken = (accessToken) => {
 
 export const getToken = () => {
     const accessToken = localStorage.getItem(KEY_TOKEN);
-    const expirationTime = localStorage.getItem(EXPIRATION_TIME);
+    const expirationTime = parseInt(localStorage.getItem(EXPIRATION_TIME), 10);
 
-    if (!accessToken || !expirationTime) {
-        return null;
-    }
-
-    const now = new Date().getTime();
-
-    if (now > expirationTime) {
-        localStorage.removeItem(KEY_TOKEN);
-        localStorage.removeItem(EXPIRATION_TIME);
+    // Kiểm tra nếu token hoặc expirationTime không tồn tại hoặc đã hết hạn
+    if (!accessToken || !expirationTime || new Date().getTime() > expirationTime) {
+        removeToken();
         return null;
     }
 

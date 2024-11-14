@@ -10,7 +10,9 @@ const ConfirmModal = ({ isOpen, title, onConfirm, onCancel }) => {
             aria-describedby="confirm-dialog-description"
         >
             {/* Tiêu đề của Modal */}
-            <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+            <DialogTitle id="confirm-dialog-title">
+                <strong>{title}</strong>
+            </DialogTitle>
 
             {/* Nội dung của Modal */}
             <DialogContent>
@@ -42,12 +44,11 @@ const ConfirmModal = ({ isOpen, title, onConfirm, onCancel }) => {
     );
 };
 
-// Định nghĩa PropTypes
 ConfirmModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired, // Trạng thái mở của modal
-    title: PropTypes.string.isRequired, // Tiêu đề modal
-    onConfirm: PropTypes.func.isRequired, // Hàm gọi khi nhấn nút Xác nhận
-    onCancel: PropTypes.func.isRequired, // Hàm gọi khi nhấn nút Hủy
+    isOpen: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
 
 export default ConfirmModal;

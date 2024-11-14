@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAuthUser } from "../services/authService";
 import PropTypes from "prop-types";
 import AuthContext from "../context/AuthContext";
+import { getToken } from "../services/localStorageService";
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +29,7 @@ const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
+        const token = getToken();
         if (token) {
             fetchUser();
         } else {
