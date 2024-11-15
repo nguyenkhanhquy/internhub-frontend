@@ -13,7 +13,7 @@ import CustomPagination from "../../components/pagination/Pagination";
 import LoadingOverlay from "../../components/loaders/LoadingOverlay/LoadingOverlay";
 import EmptyBox from "../../components/box/EmptyBox";
 
-import { getAllJobPosts } from "../../services/jobService";
+import { getAllJobPosts } from "../../services/jobPostService";
 
 const SearchPage = () => {
     const location = useLocation();

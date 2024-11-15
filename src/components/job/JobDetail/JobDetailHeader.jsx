@@ -7,7 +7,7 @@ import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/mate
 import { Business, LocationOn, Work, CalendarToday } from "@mui/icons-material";
 
 import { formatDate } from "../../../utils/dateUtil";
-import { saveJobPost } from "../../../services/jobService";
+import { saveJobPost } from "../../../services/jobPostService";
 
 const JobDetailHeader = ({
     id,

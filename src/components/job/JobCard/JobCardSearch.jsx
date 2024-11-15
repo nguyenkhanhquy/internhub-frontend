@@ -13,7 +13,7 @@ import {
     CalendarToday,
 } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
-import { saveJobPost } from "../../../services/jobService";
+import { saveJobPost } from "../../../services/jobPostService";
 
 const JobCardSearch = ({
     id,

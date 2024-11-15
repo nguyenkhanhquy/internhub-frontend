@@ -9,7 +9,7 @@ import DataSearchBar from "../DataSearchBar";
 import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
 import ConfirmModal from "../../modals/ConfirmModal/ConfirmModal";
 
-import { saveJobPost } from "../../../services/jobService";
+import { saveJobPost } from "../../../services/jobPostService";
 import { getAllJobSaved, deleteAllJobSaved } from "../../../services/jobSavedService";
 
 const SavedJobsGridView = () => {
