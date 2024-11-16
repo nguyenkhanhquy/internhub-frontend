@@ -17,7 +17,7 @@ function TinyMCEEditor({ control, name, label, error }) {
                         {label} <span style={{ color: "red" }}>*</span>
                     </label>
                     <Editor
-                        tinymceScriptSrc={"/tinymce/tinymce.min.js"}
+                        tinymceScriptSrc="https://cdn.jsdelivr.net/npm/tinymce@7.5.1/tinymce.min.js" //{"/tinymce/tinymce.min.js"}
                         onInit={(evt, editor) => (editorRef.current = editor)}
                         init={{
                             entity_encoding: "raw",
@@ -25,20 +25,11 @@ function TinyMCEEditor({ control, name, label, error }) {
                             license_key: "gpl",
                             promotion: false,
                             branding: false,
-                            height: 400,
+                            height: 300,
                             menubar: true,
-                            plugins: [
-                                "charmap",
-                                "searchreplace",
-                                "visualblocks",
-                                "wordcount",
-                                "preview",
-                                "code",
-                                "lists",
-                                "fullscreen",
-                            ],
+                            plugins: ["wordcount", "preview", "lists", "fullscreen"],
                             toolbar:
-                                "undo redo | bold italic underline strikethrough | blocks fontfamily fontsize | align lineheight | checklist numlist bullist indent outdent | removeformat",
+                                "undo redo | bold italic underline strikethrough | fontFamily fontsize | bullist numlist | removeformat",
                         }}
                         // initialValue="Welcome to TinyMCE!"
                         value={value}
