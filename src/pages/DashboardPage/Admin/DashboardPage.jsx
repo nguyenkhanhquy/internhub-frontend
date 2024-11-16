@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import usePageTitle from "../../../hooks/usePageTitle";
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -122,14 +123,15 @@ const theme = createTheme({
 });
 
 function DashboardPage(props) {
-    const { window } = props;
-    const navigate = useNavigate();
+    usePageTitle("Bảng điều khiển");
 
+    const navigate = useNavigate();
+    const { window } = props;
     const [session, setSession] = useState({
         user: {
             name: "Khoa Công Nghệ Thông Tin",
             email: "kcntt@hcmute.edu.vn",
-            // image: "https://avatars.githubusercontent.com/u/19550456",
+            // image: "",
         },
     });
 
