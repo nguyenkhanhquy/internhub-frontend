@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { Box, Button, Grid, TextField, Typography, Paper } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import TinyMCEEditor from "../../../components/editors/TinyMCEEditor/TinyMCEEditor";
 import Loading from "../../loaders/Loading/Loading";
 
 import { useForm } from "react-hook-form";
@@ -272,7 +273,7 @@ const RecruiterProfileForm = () => {
 
                     {/* Giới thiệu công ty */}
                     <Grid item xs={12}>
-                        <TextField
+                        {/* <TextField
                             {...control.register("description")}
                             label={
                                 <span>
@@ -288,6 +289,12 @@ const RecruiterProfileForm = () => {
                             rows={4}
                             error={!!errors.description}
                             helperText={errors.description?.message}
+                        /> */}
+                        <TinyMCEEditor
+                            control={control}
+                            name="description"
+                            label="Giới thiệu công ty"
+                            error={errors.description}
                         />
                     </Grid>
 
