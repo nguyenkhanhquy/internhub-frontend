@@ -34,3 +34,7 @@ export const JOBS_SAVED_API = {
     GET_ALL: "/jobs/saved",
     DELETE_ALL: "/jobs/saved",
 };
+
+export const FILES_API = {
+    UPLOAD_IMAGE: "/files/upload/image",
+};
