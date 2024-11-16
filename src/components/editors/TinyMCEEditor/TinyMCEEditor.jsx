@@ -25,7 +25,7 @@ function TinyMCEEditor({ control, name, label, error }) {
                             license_key: "gpl",
                             promotion: false,
                             branding: false,
-                            height: 300,
+                            height: 400,
                             menubar: true,
                             plugins: ["wordcount", "preview", "lists", "fullscreen"],
                             toolbar:

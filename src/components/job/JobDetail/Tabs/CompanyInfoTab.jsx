@@ -9,7 +9,7 @@ const CompanyInfoTab = ({ description, address }) => {
             {/* Mô tả công ty */}
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h6" fontWeight="bold">
-                    Mô tả công ty
+                    Giới thiệu công ty
                 </Typography>
                 <Typography
                     variant="body1"
@@ -17,6 +17,9 @@ const CompanyInfoTab = ({ description, address }) => {
                         mt: 2,
                         "& a": {
                             color: "primary.main",
+                        },
+                        "& p": {
+                            mb: 2,
                         },
                         "& ul": {
                             listStyleType: "disc",

@@ -8,9 +8,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getAuthProfile } from "../../../services/authService";
 import { updateProfile } from "../../../services/recruiterService";
+import { uploadImage } from "../../../services/uploadService";
 
 const defaultValues = {
     name: "",
@@ -47,6 +48,8 @@ const schema = yup
 const RecruiterProfileForm = () => {
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const fileInputRef = useRef(null);
 
     const {
         control,
@@ -87,8 +90,12 @@ const RecruiterProfileForm = () => {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const data = await updateProfile(formData);
+            if (selectedFile) {
+                const dataUpload = await uploadImage(selectedFile, "company/" + profile.company.id);
+                setValue("companyLogo", dataUpload.result.secure_url);
+            }
 
+            const data = await updateProfile(formData);
             if (!data.success) {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
@@ -97,6 +104,10 @@ const RecruiterProfileForm = () => {
         } catch (error) {
             toast.error(error.message);
         } finally {
+            setSelectedFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
             setLoading(false);
         }
     };
@@ -196,7 +207,7 @@ const RecruiterProfileForm = () => {
 
                 <Grid container spacing={2}>
                     {/* Tên công ty */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             {...control.register("companyName")}
                             label={
@@ -230,25 +241,6 @@ const RecruiterProfileForm = () => {
                             }}
                             error={!!errors.website}
                             helperText={errors.website?.message}
-                        />
-                    </Grid>
-
-                    {/* Logo */}
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            {...control.register("companyLogo")}
-                            label={
-                                <span>
-                                    Logo (URL) <span style={{ color: "red" }}>*</span>
-                                </span>
-                            }
-                            variant="outlined"
-                            fullWidth
-                            slotProps={{
-                                inputLabel: { shrink: true },
-                            }}
-                            error={!!errors.companyLogo}
-                            helperText={errors.companyLogo?.message}
                         />
                     </Grid>
 
@@ -296,6 +288,69 @@ const RecruiterProfileForm = () => {
                             label="Giới thiệu công ty"
                             error={errors.description}
                         />
+                    </Grid>
+
+                    {/* Logo công ty URL */}
+                    <Grid item xs={12} md={12}>
+                        <TextField
+                            {...control.register("companyLogo")}
+                            label={
+                                <span>
+                                    Logo công ty (URL) <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
+                            disabled={selectedFile ? true : false}
+                            variant="outlined"
+                            fullWidth
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
+                            error={!!errors.companyLogo}
+                            helperText={errors.companyLogo?.message}
+                        />
+                    </Grid>
+
+                    {/* Chọn logo công ty */}
+                    <Grid item xs={12} md={6}>
+                        {/* <Typography variant="body1">
+                            Logo công ty <span style={{ color: "red" }}>*</span>
+                        </Typography> */}
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "block", cursor: "pointer" }}
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    setValue("companyLogo", "Khóa do đang chọn file...");
+                                    if (file.size > 5000000) {
+                                        console.log("File quá lớn. Hãy chọn file nhỏ hơn 5MB.");
+                                    } else {
+                                        // Chuyển đổi file sang URL để hiển thị preview (tùy chọn)
+                                        const fileURL = URL.createObjectURL(file);
+                                        console.log("File chọn:", file);
+                                        console.log("URL preview:", fileURL);
+
+                                        setSelectedFile(file);
+                                    }
+                                }
+                            }}
+                        />
+                        {selectedFile && (
+                            <button
+                                onClick={() => {
+                                    setValue("companyLogo", profile.company.logo);
+                                    setSelectedFile(null);
+                                    if (fileInputRef.current) {
+                                        fileInputRef.current.value = "";
+                                    }
+                                }}
+                                style={{ marginTop: "10px", cursor: "pointer" }}
+                            >
+                                Xóa file đã chọn
+                            </button>
+                        )}
                     </Grid>
 
                     {/* Button Lưu */}
