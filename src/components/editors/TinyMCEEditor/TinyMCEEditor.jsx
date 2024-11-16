@@ -34,10 +34,11 @@ function TinyMCEEditor({ control, name, label, error }) {
                                 "wordcount",
                                 "preview",
                                 "code",
+                                "lists",
                                 "fullscreen",
                             ],
                             toolbar:
-                                "undo redo | bold italic underline strikethrough | blocks fontfamily fontsize | align lineheight | removeformat",
+                                "undo redo | bold italic underline strikethrough | blocks fontfamily fontsize | align lineheight | checklist numlist bullist indent outdent | removeformat",
                         }}
                         // initialValue="Welcome to TinyMCE!"
                         value={value}

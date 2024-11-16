@@ -11,7 +11,31 @@ const CompanyInfoTab = ({ description, address }) => {
                 <Typography variant="h6" fontWeight="bold">
                     Mô tả công ty
                 </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: description }} />
+                <Typography
+                    variant="body1"
+                    sx={{
+                        mt: 2,
+                        "& a": {
+                            color: "primary.main",
+                        },
+                        "& ul": {
+                            listStyleType: "disc",
+                            pl: 4,
+                            mt: 2,
+                            mb: 2,
+                        },
+                        "& ol": {
+                            listStyleType: "decimal",
+                            pl: 4,
+                            mt: 2,
+                            mb: 2,
+                        },
+                        "& li": {
+                            mb: 1,
+                        },
+                    }}
+                    dangerouslySetInnerHTML={{ __html: description }}
+                />
             </Box>
 
             <Divider sx={{ my: 3 }} />
