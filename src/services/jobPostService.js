@@ -18,6 +18,6 @@ export const getJobPostById = async (jobPostId) => {
 
 export const saveJobPost = async (jobPostId) => {
     return axiosClient.post(JOBS_API.SAVE, {
-        id: String(jobPostId),
+        id: jobPostId,
     });
 };

@@ -48,7 +48,12 @@ const AppRoutes = () => {
     }
 
     return (
-        <BrowserRouter>
+        <BrowserRouter
+        // future={{
+        //     v7_relativeSplatPath: true,
+        //     v7_startTransition: true,
+        // }}
+        >
             <Routes>
                 <Route path="/" element={<AppWrapper />}>
                     {user?.role === "FIT" ? (
@@ -120,9 +125,10 @@ const AppRoutes = () => {
                         </>
                     )}
 
+                    <Route path="/404" element={<NotFoundPage />} />
+
                     {/* Điều hướng về trang 404 cho tất cả các URL không được định nghĩa */}
                     <Route path="*" element={<Navigate to="/404" replace />} />
-                    <Route path="/404" element={<NotFoundPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
