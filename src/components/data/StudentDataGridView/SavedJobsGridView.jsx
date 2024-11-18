@@ -17,6 +17,7 @@ const SavedJobsGridView = () => {
     const [flag, setFlag] = useState(false);
     const [savedJobPosts, setSavedJobPosts] = useState([]);
 
+    const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
@@ -75,7 +76,8 @@ const SavedJobsGridView = () => {
         const fetchSavedJobPosts = async () => {
             setLoading(true);
             try {
-                const data = await getAllJobSaved(currentPage, recordsPerPage, "");
+                console.log("fetchSavedJobPosts");
+                const data = await getAllJobSaved(currentPage, recordsPerPage, search);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
@@ -90,7 +92,7 @@ const SavedJobsGridView = () => {
         };
 
         fetchSavedJobPosts();
-    }, [currentPage, recordsPerPage, flag]);
+    }, [search, currentPage, recordsPerPage, flag]);
 
     return (
         <GridViewLayout
@@ -103,7 +105,11 @@ const SavedJobsGridView = () => {
             onRecordsPerPageChange={handleRecordsPerPageChange}
             actions={
                 <Box sx={{ display: "flex", gap: 2 }}>
-                    <DataSearchBar placeholder="Tìm kiếm" onSearch={() => console.log("Searching...")} />
+                    <DataSearchBar
+                        placeholder="Tìm kiếm"
+                        onSearch={(searchText) => setSearch(searchText)}
+                        query={search}
+                    />
 
                     {/* Nút Xóa tất cả */}
                     <Button

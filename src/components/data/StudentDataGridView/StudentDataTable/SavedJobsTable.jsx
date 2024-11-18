@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import {
     Box,
     Table,
@@ -115,7 +116,7 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
                                                 wordWrap: "break-word",
                                             }}
                                         >
-                                            {job.company.name}
+                                            {job.companyName}
                                         </TableCell>
                                         <TableCell>{formatDate(job.expiryDate)}</TableCell>
                                         <TableCell>
