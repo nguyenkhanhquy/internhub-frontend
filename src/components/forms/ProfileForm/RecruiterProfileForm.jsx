@@ -49,6 +49,7 @@ const RecruiterProfileForm = () => {
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [previewURL, setPreviewURL] = useState(null);
     const fileInputRef = useRef(null);
 
     const {
@@ -95,6 +96,14 @@ const RecruiterProfileForm = () => {
         }
     }, [profile, setValue]);
 
+    useEffect(() => {
+        return () => {
+            if (previewURL) {
+                URL.revokeObjectURL(previewURL);
+            }
+        };
+    }, [previewURL]);
+
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
@@ -112,6 +121,7 @@ const RecruiterProfileForm = () => {
         } catch (error) {
             toast.error(error.message);
         } finally {
+            setPreviewURL(null);
             setSelectedFile(null);
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
@@ -333,22 +343,29 @@ const RecruiterProfileForm = () => {
                                 if (file) {
                                     setValue("companyLogo", "Khóa do đang chọn file...");
                                     if (file.size > 5000000) {
-                                        console.log("File quá lớn. Hãy chọn file nhỏ hơn 5MB.");
+                                        toast.info("File quá lớn. Hãy chọn file nhỏ hơn 5MB.");
                                     } else {
-                                        // Chuyển đổi file sang URL để hiển thị preview (tùy chọn)
                                         const fileURL = URL.createObjectURL(file);
-                                        console.log("File chọn:", file);
-                                        console.log("URL preview:", fileURL);
-
+                                        setPreviewURL(fileURL);
                                         setSelectedFile(file);
                                     }
                                 }
                             }}
                         />
+                        {previewURL && (
+                            <div className="mt-2">
+                                <img
+                                    src={previewURL}
+                                    alt="Logo preview"
+                                    className="h-auto max-w-[200px] rounded-lg border-2 border-black"
+                                />
+                            </div>
+                        )}
                         {selectedFile && (
                             <button
                                 onClick={() => {
                                     setValue("companyLogo", profile.company.logo);
+                                    setPreviewURL(null);
                                     setSelectedFile(null);
                                     if (fileInputRef.current) {
                                         fileInputRef.current.value = "";
