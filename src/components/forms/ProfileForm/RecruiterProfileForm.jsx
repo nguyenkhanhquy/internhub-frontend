@@ -63,12 +63,20 @@ const RecruiterProfileForm = () => {
     });
 
     useEffect(() => {
-        async function fetchData() {
+        const fetchData = async () => {
             setLoading(true);
-            const data = await getAuthProfile();
-            setProfile(data?.result);
-            setLoading(false);
-        }
+            try {
+                const data = await getAuthProfile();
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setProfile(data?.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
         fetchData();
     }, []);

@@ -76,7 +76,6 @@ const SavedJobsGridView = () => {
         const fetchSavedJobPosts = async () => {
             setLoading(true);
             try {
-                console.log("fetchSavedJobPosts");
                 const data = await getAllJobSaved(currentPage, recordsPerPage, search);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
