@@ -49,86 +49,103 @@ const AppRoutes = () => {
 
     return (
         <BrowserRouter
-        // future={{
-        //     v7_relativeSplatPath: true,
-        //     v7_startTransition: true,
-        // }}
+            future={{
+                v7_relativeSplatPath: true,
+                v7_startTransition: true,
+            }}
         >
             <Routes>
                 <Route path="/" element={<AppWrapper />}>
-                    {user?.role === "FIT" ? (
-                        <Route index element={<DashboardPage />} />
-                    ) : (
-                        <Route index element={<HomePage />} />
-                    )}
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="/search/:id" element={<JobDetailsPage />} />
+                    {/* Public Routes - Accessible by everyone */}
+                    <Route path="/404" element={<NotFoundPage />} />
+                    <Route path="/logout" element={<LogoutPage />} />
 
-                    {isAuthenticated ? (
+                    {/* FIT Admin Routes */}
+                    {user?.role === "FIT" && (
                         <>
-                            {user?.role === "FIT" ? (
+                            <Route index element={<DashboardPage />} />
+                            <Route path="/*" element={<Navigate to="/" replace />} />
+                        </>
+                    )}
+
+                    {/* Student/Recruiter Routes */}
+                    {user?.role !== "FIT" && (
+                        <>
+                            {/* Public Routes for non-FIT users */}
+                            <Route index element={<HomePage />} />
+                            <Route path="/search" element={<SearchPage />} />
+                            <Route path="/search/:id" element={<JobDetailsPage />} />
+
+                            {isAuthenticated ? (
                                 <>
-                                    <Route path="/*" element={<Navigate to="/dashboard" replace />} />
-                                    <Route path="/dashboard" element={<DashboardPage />} />
-                                    <Route path="/logout" element={<LogoutPage />} />
-                                </>
-                            ) : (
-                                <>
+                                    {/* Authenticated User Routes */}
+                                    {/* Account Routes */}
+                                    <Route path="/account">
+                                        <Route index element={<Navigate to="/account/profile" replace />} />
+                                        <Route
+                                            path="profile"
+                                            element={(() => {
+                                                switch (user?.role) {
+                                                    case "STUDENT":
+                                                        return <StudentProfilePage />;
+                                                    case "RECRUITER":
+                                                        return <RecruiterProfilePage />;
+                                                    default:
+                                                        return <Navigate to="/" replace />;
+                                                }
+                                            })()}
+                                        />
+                                        <Route path="update-password" element={<UpdatePasswordPage />} />
+                                        <Route path="details" element={<AccountDetailsPage />} />
+                                    </Route>
+
+                                    {/* Student Specific Routes */}
+                                    {user?.role === "STUDENT" && (
+                                        <Route path="/student">
+                                            <Route index element={<Navigate to="/student/applied-jobs" replace />} />
+                                            <Route path="applied-jobs" element={<AppliedJobsPage />} />
+                                            <Route path="saved-jobs" element={<SavedJobsPage />} />
+                                            <Route
+                                                path="internship-applications"
+                                                element={<InternShipApplicationsPage />}
+                                            />
+                                        </Route>
+                                    )}
+
+                                    {/* Recruiter Specific Routes */}
+                                    {user?.role === "RECRUITER" && (
+                                        <Route path="/recruiter">
+                                            <Route index element={<Navigate to="/recruiter/posted-jobs" replace />} />
+                                            <Route path="posted-jobs" element={<PostedJobsPage />} />
+                                            <Route path="create-job-post" element={<CreateJobPostPage />} />
+                                        </Route>
+                                    )}
+
+                                    {/* Redirect authenticated users from auth pages */}
                                     <Route path="/login" element={<Navigate to="/" replace />} />
                                     <Route path="/register-student" element={<Navigate to="/" replace />} />
                                     <Route path="/register-recruiter" element={<Navigate to="/" replace />} />
+                                </>
+                            ) : (
+                                <>
+                                    {/* Non-authenticated Routes */}
+                                    <Route path="/login" element={<LoginPage />} />
+                                    <Route path="/register-student" element={<StudentRegisterPage />} />
+                                    <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
+                                    <Route path="/verify" element={<VerifyPage />} />
+                                    <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-                                    <Route path="/account" element={<Navigate to="/account/profile" replace />} />
-                                    <Route
-                                        path="/account/profile"
-                                        element={(() => {
-                                            switch (user?.role) {
-                                                case "STUDENT":
-                                                    return <StudentProfilePage />;
-                                                case "RECRUITER":
-                                                    return <RecruiterProfilePage />;
-                                                default:
-                                                    return <Navigate to="/" replace />;
-                                            }
-                                        })()}
-                                    />
-                                    <Route path="/account/update-password" element={<UpdatePasswordPage />} />
-                                    <Route path="/account/details" element={<AccountDetailsPage />} />
-
-                                    <Route path="/student" element={<Navigate to="/student/applied-jobs" replace />} />
-                                    <Route path="/student/applied-jobs" element={<AppliedJobsPage />} />
-                                    <Route path="/student/saved-jobs" element={<SavedJobsPage />} />
-                                    <Route
-                                        path="/student/internship-applications"
-                                        element={<InternShipApplicationsPage />}
-                                    />
-                                    <Route
-                                        path="/recruiter"
-                                        element={<Navigate to="/recruiter/posted-jobs" replace />}
-                                    />
-                                    <Route path="/recruiter/posted-jobs" element={<PostedJobsPage />} />
-                                    <Route path="/recruiter/create-job-post" element={<CreateJobPostPage />} />
-                                    <Route path="/logout" element={<LogoutPage />} />
+                                    {/* Protect authenticated routes */}
+                                    <Route path="/account/*" element={<Navigate to="/" replace />} />
+                                    <Route path="/student/*" element={<Navigate to="/" replace />} />
+                                    <Route path="/recruiter/*" element={<Navigate to="/" replace />} />
                                 </>
                             )}
                         </>
-                    ) : (
-                        <>
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register-student" element={<StudentRegisterPage />} />
-                            <Route path="/register-recruiter" element={<RecruiterRegisterPage />} />
-                            <Route path="/verify" element={<VerifyPage />} />
-                            <Route path="/reset-password" element={<ResetPasswordPage />} />
-
-                            <Route path="/account/*" element={<Navigate to="/" replace />} />
-                            <Route path="/student/*" element={<Navigate to="/" replace />} />
-                        </>
                     )}
 
-                    <Route path="/404" element={<NotFoundPage />} />
-
-                    {/* Điều hướng về trang 404 cho tất cả các URL không được định nghĩa */}
-                    <Route path="*" element={<Navigate to="/404" replace />} />
+                    {/* Catch all unmatched routes */}
+                    <Route path="/*" element={<Navigate to="/404" replace />} />
                 </Route>
             </Routes>
         </BrowserRouter>

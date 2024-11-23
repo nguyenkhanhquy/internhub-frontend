@@ -25,10 +25,15 @@ const LogoutPage = () => {
                 }
 
                 removeToken();
-                setUser({});
+
+                const user = { role: "GUEST" };
+                setUser(user);
                 setIsAuthenticated(false);
+
                 navigate("/login");
                 toast.success(data?.message);
+            } else {
+                navigate("/");
             }
         } catch (error) {
             toast.error(error.message);

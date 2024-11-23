@@ -43,7 +43,11 @@ const JobCardSearch = ({
             setIsSaved((prev) => !prev);
             toast.success(data.message);
         } catch (error) {
-            toast.error(error.message);
+            if (error.statusCode === 401) {
+                toast.info("Vui lòng đăng nhập để lưu");
+            } else {
+                toast.error(error.message);
+            }
         }
     };
 
