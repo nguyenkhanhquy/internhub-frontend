@@ -8,7 +8,9 @@ const CreateJobPostPage = () => {
         <MainLayout title="Thêm bài đăng">
             <PageNavigation pageName="Nhà tuyển dụng" />
             <RecruiterDataLayout>
-                <CreateJobPostForm />
+                <div className="max-w-5xl rounded-lg shadow-lg">
+                    <CreateJobPostForm />
+                </div>
             </RecruiterDataLayout>
         </MainLayout>
     );
