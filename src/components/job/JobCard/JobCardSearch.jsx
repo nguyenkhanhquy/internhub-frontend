@@ -142,7 +142,7 @@ const JobCardSearch = ({
                     <Divider sx={{ my: 1 }} />
                     <Typography variant="body2" color="textSecondary">
                         <CalendarToday fontSize="small" sx={{ mr: 0.5, verticalAlign: "middle", color: "black" }} />
-                        Cập nhật: {formatDate(updatedDate)} - Hạn: {formatDate(expiryDate)}
+                        Cập nhật: {formatDate(updatedDate)} - Hạn nộp: {formatDate(expiryDate)}
                     </Typography>
                 </CardContent>
             </Box>

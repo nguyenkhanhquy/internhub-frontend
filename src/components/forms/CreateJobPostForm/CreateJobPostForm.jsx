@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { toast } from "react-toastify";
-// import { createJobPost } from "../../../../services/jobPostService";
+import { createJobPost } from "../../../services/jobPostService";
 
 // Định nghĩa schema validation bằng Yup
 const schema = yup.object().shape({
@@ -44,6 +44,8 @@ const CreateJobPostForm = () => {
         mode: "onChange",
         defaultValues: {
             majors: [],
+            type: "",
+            remote: "",
         },
     });
 
@@ -55,15 +57,12 @@ const CreateJobPostForm = () => {
                 expiryDate.setDate(expiryDate.getDate() + 1);
                 dataForm.expiryDate = expiryDate.toISOString().split("T")[0];
             }
-            // const data = await createJobPost(dataForm);
-
-            // if (!data.success) {
-            //     if (data?.message) throw new Error(data.message);
-            //     else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
-            // }
+            const data = await createJobPost(dataForm);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
             reset();
-            // toast.success(data.message);
-            console.log(dataForm);
+            toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
         }
@@ -126,7 +125,9 @@ const CreateJobPostForm = () => {
                         {...register("type")}
                         className={`mt-1 w-full rounded-lg border p-2 focus:outline-none ${errors.type ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"}`}
                     >
-                        <option value="">Chọn loại hợp đồng</option>
+                        <option value="" disabled>
+                            Chọn loại hợp đồng
+                        </option>
                         <option value="Toàn thời gian">Toàn thời gian</option>
                         <option value="Bán thời gian">Bán thời gian</option>
                     </select>
@@ -139,10 +140,12 @@ const CreateJobPostForm = () => {
                         {...register("remote")}
                         className={`mt-1 w-full rounded-lg border p-2 focus:outline-none ${errors.remote ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"}`}
                     >
-                        <option value="">Chọn hình thức làm việc</option>
+                        <option value="" disabled>
+                            Chọn hình thức làm việc
+                        </option>
                         <option value="Trực tiếp">Trực tiếp</option>
-                        <option value="Làm từ xa">Làm từ xa</option>
-                        <option value="Làm việc kết hợp">Làm việc kết hợp</option>
+                        <option value="Từ xa">Từ xa</option>
+                        <option value="Kết hợp">Kết hợp</option>
                     </select>
                     <p className="mt-1 text-xs text-red-600">{errors.remote?.message}</p>
                 </div>

@@ -1,6 +1,23 @@
 import axiosClient from "../api/axiosClient";
 import { JOBS_API } from "../api/constants";
 
+export const createJobPost = async (jobPost) => {
+    return axiosClient.post(JOBS_API.CREATE, {
+        title: jobPost.title,
+        type: jobPost.type,
+        remote: jobPost.remote,
+        description: jobPost.description,
+        salary: jobPost.salary,
+        quantity: jobPost.quantity,
+        expiryDate: jobPost.expiryDate,
+        jobPosition: jobPost.jobPosition,
+        requirements: jobPost.requirements,
+        benefits: jobPost.benefits,
+        majors: jobPost.majors,
+        address: jobPost.address,
+    });
+};
+
 export const getAllJobPosts = async (page, size, search, order) => {
     return axiosClient.get(JOBS_API.GET_ALL, {
         params: {
