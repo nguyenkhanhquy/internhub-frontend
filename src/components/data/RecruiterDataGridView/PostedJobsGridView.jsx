@@ -8,6 +8,7 @@ import DataSearchBar from "../DataSearchBar";
 import PostedJobsTable from "./RecruiterDataTable/PostedJobsTable";
 import SortBar from "../../../components/sort/SortBar";
 import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPanel";
+import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
 
 const PostedJobsGridView = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +19,9 @@ const PostedJobsGridView = () => {
     const [sort, setSort] = useState("default");
     const [value, setValue] = useState(0);
 
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [selectedJobPost, setSelectedJobPost] = useState(null); // Dữ liệu bài đăng tuyển dụng
+
     const handleChangeTab = (event, newValue) => {
         setValue(newValue);
     };
@@ -25,16 +29,64 @@ const PostedJobsGridView = () => {
     const handlePageChange = (page) => setCurrentPage(page);
     const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
 
-    // Theo dõi thay đổi của bộ lọc ngành
-    useEffect(() => {
-        console.log("Ngành đã chọn:", selectedMajor);
-        // Logic filter hoặc gọi API
-    }, [selectedMajor]);
+    // useEffect(() => {
+    //     console.log("Ngành đã chọn:", selectedMajor);
+    // }, [selectedMajor]);
 
-    // Hàm xử lý tìm kiếm
+    // Hàm xử lý khi nhấn nút tìm kiếm
     const handleSearch = () => {
         console.log("Searching...");
     };
+
+    // Mở modal
+    const handleEditPostClick = (jobId) => {
+        const job = sampleJobPosts.find((post) => post.id === jobId); // Tìm bài đăng cần sửa
+        if (job) {
+            setSelectedJobPost(job);
+            setIsUpdateModalOpen(true);
+        }
+    };
+
+    // Đóng Modal
+    const handleCloseModal = () => {
+        setIsUpdateModalOpen(false);
+        setSelectedJobPost(null);
+    };
+
+    const sampleJobPosts = [
+        {
+            id: 1,
+            title: "Lập trình viên Frontend",
+            jobPosition: "Frontend Developer",
+            salary: "20-30 triệu",
+            quantity: 2,
+            type: "Toàn thời gian",
+            remote: "Kết hợp",
+            description: "Phát triển giao diện web...",
+            requirements: "Thành thạo React.js...",
+            benefits: "Lương thưởng hấp dẫn...",
+            address: "Hà Nội",
+            expiryDate: "2024-12-31",
+            majors: ["IT"],
+            jobApplyCount: 10,
+        },
+        {
+            id: 2,
+            title: "Kỹ sư dữ liệu",
+            jobPosition: "Data Scientist",
+            salary: "Thỏa thuận",
+            quantity: 2,
+            type: "Toàn thời gian",
+            remote: "Kết hợp",
+            description: "Phát triển giao diện web...",
+            requirements: "Thành thạo React.js...",
+            benefits: "Lương thưởng hấp dẫn...",
+            address: "Hà Nội",
+            expiryDate: "2024-12-31",
+            majors: ["DS"],
+            jobApplyCount: 2,
+        },
+    ];
 
     return (
         <GridViewLayout
@@ -47,13 +99,12 @@ const PostedJobsGridView = () => {
             onRecordsPerPageChange={handleRecordsPerPageChange}
         >
             <Box className="mb-4 flex justify-between space-x-4">
-                {/* Bộ lọc ngành */}
                 <FormControl size="small" sx={{ minWidth: 200, width: "30%" }}>
                     <InputLabel id="major-filter-label">Ngành</InputLabel>
                     <Select
                         labelId="major-filter-label"
                         id="majorFilter"
-                        value={selectedMajor} // Thay đổi giá trị state nếu cần quản lý
+                        value={selectedMajor}
                         onChange={(e) => setSelectedMajor(e.target.value)}
                         label="Ngành"
                     >
@@ -64,10 +115,9 @@ const PostedJobsGridView = () => {
                     </Select>
                 </FormControl>
 
-                {/* Thanh tìm kiếm */}
                 <DataSearchBar placeholder="Tìm kiếm" onSearch={handleSearch} />
             </Box>
-            {/* Thanh sắp xếp */}
+
             <SortBar
                 totalRecords={totalRecords}
                 sortOption={sort}
@@ -79,7 +129,6 @@ const PostedJobsGridView = () => {
 
             <Divider />
 
-            {/* Tabs */}
             <Box sx={{ width: "100%" }}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <Tabs
@@ -98,70 +147,28 @@ const PostedJobsGridView = () => {
                 </Box>
                 <CustomTabPanel value={value} index={0}>
                     <Box>
-                        {/* Nội dung danh sách công việc */}
                         <PostedJobsTable
                             loading={false}
-                            postedJobPosts={[]}
+                            postedJobPosts={sampleJobPosts}
                             currentPage={currentPage}
                             recordsPerPage={recordsPerPage}
                             handleViewApplicationsClick={() => console.log("View applications")}
-                            handleEditPostClick={() => console.log("Edit post")}
+                            handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                         />
                     </Box>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                    <Box>
-                        {/* Nội dung danh sách công việc */}
-                        <PostedJobsTable
-                            loading={false}
-                            postedJobPosts={[]}
-                            currentPage={currentPage}
-                            recordsPerPage={recordsPerPage}
-                            handleViewApplicationsClick={() => console.log("View applications")}
-                            handleEditPostClick={() => console.log("Edit post")}
-                        />
-                    </Box>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
-                    <Box>
-                        {/* Nội dung danh sách công việc */}
-                        <PostedJobsTable
-                            loading={false}
-                            postedJobPosts={[]}
-                            currentPage={currentPage}
-                            recordsPerPage={recordsPerPage}
-                            handleViewApplicationsClick={() => console.log("View applications")}
-                            handleEditPostClick={() => console.log("Edit post")}
-                        />
-                    </Box>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={3}>
-                    <Box>
-                        {/* Nội dung danh sách công việc */}
-                        <PostedJobsTable
-                            loading={false}
-                            postedJobPosts={[]}
-                            currentPage={currentPage}
-                            recordsPerPage={recordsPerPage}
-                            handleViewApplicationsClick={() => console.log("View applications")}
-                            handleEditPostClick={() => console.log("Edit post")}
-                        />
-                    </Box>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={4}>
-                    <Box>
-                        {/* Nội dung danh sách công việc */}
-                        <PostedJobsTable
-                            loading={false}
-                            postedJobPosts={[]}
-                            currentPage={currentPage}
-                            recordsPerPage={recordsPerPage}
-                            handleViewApplicationsClick={() => console.log("View applications")}
-                            handleEditPostClick={() => console.log("Edit post")}
-                        />
-                    </Box>
-                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}></CustomTabPanel>
+                <CustomTabPanel value={value} index={2}></CustomTabPanel>
+                <CustomTabPanel value={value} index={3}></CustomTabPanel>
+                <CustomTabPanel value={value} index={4}></CustomTabPanel>
             </Box>
+
+            {/* Modal chỉnh sửa bài đăng */}
+            <UpdateJobPostModal
+                isOpen={isUpdateModalOpen}
+                jobPostData={selectedJobPost || {}}
+                onClose={handleCloseModal}
+            />
         </GridViewLayout>
     );
 };
