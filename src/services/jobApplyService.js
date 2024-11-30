@@ -8,3 +8,13 @@ export const applyJob = async (jobPostId, coverLetter, cv) => {
         cv: cv,
     });
 };
+
+export const getAllJobApplyByStudent = async (page, size, search) => {
+    return axiosClient.get(JOB_APPLY_API.GET_ALL_BY_STUDENT, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+        },
+    });
+};
