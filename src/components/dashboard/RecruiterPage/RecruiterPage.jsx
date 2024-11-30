@@ -72,8 +72,12 @@ const RecruiterPage = () => {
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleApprove(recruiter.userId)} color="primary">
-                                        Duyệt
+                                    <Button
+                                        disabled={recruiter.approved}
+                                        onClick={() => handleApprove(recruiter.userId)}
+                                        color="primary"
+                                    >
+                                        {recruiter.approved ? "Đã duyệt" : "Duyệt"}
                                     </Button>
                                 </TableCell>
                             </TableRow>

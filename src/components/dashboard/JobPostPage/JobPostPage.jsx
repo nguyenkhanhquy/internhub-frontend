@@ -76,8 +76,12 @@ const JobPostPage = () => {
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleApprove(jobPost.id)} color="primary">
-                                        Duyệt
+                                    <Button
+                                        disabled={jobPost.approved}
+                                        onClick={() => handleApprove(jobPost.id)}
+                                        color="primary"
+                                    >
+                                        {jobPost.approved ? "Đã duyệt" : "Duyệt"}
                                     </Button>
                                 </TableCell>
                             </TableRow>

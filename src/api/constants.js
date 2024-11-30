@@ -28,6 +28,7 @@ export const RECRUITERS_API = {
 };
 
 export const STUDENTS_API = {
+    GET_ALL: "/students",
     UPDATE_PROFILE: "/students/update-profile",
 };
 

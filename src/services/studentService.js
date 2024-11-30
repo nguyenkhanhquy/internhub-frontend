@@ -1,6 +1,10 @@
 import axiosClient from "../api/axiosClient";
 import { STUDENTS_API } from "../api/constants";
 
+export const getAllStudents = async () => {
+    return axiosClient.get(STUDENTS_API.GET_ALL);
+};
+
 export const updateProfile = async (profile) => {
     return axiosClient.post(STUDENTS_API.UPDATE_PROFILE, {
         name: profile.name,

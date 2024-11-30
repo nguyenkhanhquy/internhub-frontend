@@ -1,56 +1,36 @@
-import {
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    Button,
-} from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
-const students = [
-    {
-        name: "Nguyễn Văn A",
-        mssv: "20123456",
-        internStatus: "Đã hoàn thành",
-        isActive: "Đã kích hoạt",
-    },
-    {
-        name: "Trần Thị B",
-        mssv: "20123457",
-        internStatus: "Đang thực tập",
-        isActive: "Đã kích hoạt",
-    },
-    {
-        name: "Lê Văn C",
-        mssv: "20123458",
-        internStatus: "Chưa thực tập",
-        isActive: "Chưa kích hoạt",
-    },
-    {
-        name: "Phạm Thị D",
-        mssv: "20123459",
-        internStatus: "Đã hoàn thành",
-        isActive: "Đã kích hoạt",
-    },
-    {
-        name: "Nguyễn Thị E",
-        mssv: "20123460",
-        internStatus: "Chưa thực tập",
-        isActive: "Chưa kích hoạt",
-    },
-];
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+
+import { getAllStudents } from "../../../services/studentService";
+import EmptryBox from "../../../components/box/EmptyBox";
 
 const getStatusStyle = (status) => {
-    return status === "Đã kích hoạt"
+    return status === true
         ? "bg-green-100 text-green-700 px-2 py-1 rounded"
         : "bg-red-100 text-red-700 px-2 py-1 rounded";
 };
 
 const StudentPage = () => {
+    const [students, setStudents] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const data = await getAllStudents();
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setStudents(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
@@ -68,26 +48,30 @@ const StudentPage = () => {
                             <TableCell>MSSV</TableCell>
                             <TableCell>TRẠNG THÁI THỰC TẬP</TableCell>
                             <TableCell>TRẠNG THÁI TÀI KHOẢN</TableCell>
-                            <TableCell></TableCell>
+                            <TableCell>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {students.map((student, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{student.name}</TableCell>
-                                <TableCell>{student.mssv}</TableCell>
-                                <TableCell>{student.internStatus}</TableCell>
-                                <TableCell>
-                                    <span className={getStatusStyle(student.isActive)}>{student.isActive}</span>
-                                </TableCell>
-                                <TableCell>
-                                    <IconButton>
-                                        <MoreVert />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {students.length === 0 ? (
+                            <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
+                                <EmptryBox />
+                            </TableCell>
+                        ) : (
+                            students.map((student, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{student.name}</TableCell>
+                                    <TableCell>{student.studentId}</TableCell>
+                                    <TableCell>{student.internStatus}</TableCell>
+                                    <TableCell>
+                                        <span className={getStatusStyle(student.user.active)}>
+                                            {student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>...</TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
