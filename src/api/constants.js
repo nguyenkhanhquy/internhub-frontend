@@ -35,6 +35,7 @@ export const JOBS_API = {
     CREATE: "/jobs",
     GET_ALL: "/jobs",
     GET_BY_ID: "/jobs/",
+    UPDATE: "/jobs/",
     SAVE: "/jobs/save",
 
     GET_ALL_BY_RECRUITER: "/jobs/recruiter",

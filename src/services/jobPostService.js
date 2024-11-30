@@ -33,6 +33,23 @@ export const getJobPostById = async (jobPostId) => {
     return axiosClient.get(JOBS_API.GET_BY_ID + jobPostId);
 };
 
+export const updateJobPost = async (jobPostId, jobPost) => {
+    return axiosClient.put(JOBS_API.UPDATE + jobPostId, {
+        title: jobPost.title,
+        type: jobPost.type,
+        remote: jobPost.remote,
+        description: jobPost.description,
+        salary: jobPost.salary,
+        quantity: jobPost.quantity,
+        expiryDate: jobPost.expiryDate,
+        jobPosition: jobPost.jobPosition,
+        requirements: jobPost.requirements,
+        benefits: jobPost.benefits,
+        majors: jobPost.majors,
+        address: jobPost.address,
+    });
+};
+
 export const saveJobPost = async (jobPostId) => {
     return axiosClient.post(JOBS_API.SAVE, {
         id: jobPostId,

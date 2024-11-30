@@ -1,14 +1,13 @@
+import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import PropTypes from "prop-types";
-// import { toast } from "react-toastify";
-// import { updateJobPost } from "../../../services/jobPostService";
+import { toast } from "react-toastify";
+import { updateJobPost } from "../../../services/jobPostService";
 
 import { convertDate } from "../../../utils/dateUtil";
 
-// Schema validation tương tự như CreateJobPostForm
 const schema = yup.object().shape({
     title: yup.string().required("Vui lòng nhập tiêu đề").max(150, "Tiêu đề không được vượt quá 150 ký tự"),
     jobPosition: yup.string().required("Vui lòng nhập vị trí tuyển dụng").max(100, "Không được vượt quá 100 ký tự"),
@@ -36,7 +35,7 @@ const schema = yup.object().shape({
         .min(1, "Vui lòng chọn ít nhất một ngành đào tạo"),
 });
 
-const UpdateJobPostForm = ({ jobPostData, onCancel }) => {
+const UpdateJobPostForm = ({ jobPostData, onCancel, setFlag }) => {
     const {
         register,
         handleSubmit,
@@ -45,7 +44,7 @@ const UpdateJobPostForm = ({ jobPostData, onCancel }) => {
         resolver: yupResolver(schema),
         mode: "onChange",
         defaultValues: {
-            ...jobPostData, // Pre-fill form với dữ liệu job
+            ...jobPostData,
             majors: jobPostData.majors || [],
             type: jobPostData.type || "",
             remote: jobPostData.remote || "",
@@ -54,20 +53,18 @@ const UpdateJobPostForm = ({ jobPostData, onCancel }) => {
 
     // Xử lý khi submit form
     const onSubmit = async (dataForm) => {
-        dataForm.expiryDate = convertDate(dataForm.expiryDate);
-        console.log(dataForm);
-        // try {
-        //     dataForm.expiryDate = convertDate(dataForm.expiryDate);
-        //     const data = await updateJobPost(jobPostData.id, dataForm);
-        //     if (!data.success) {
-        //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-        //     }
-        //     onCancel();
-        //     setFlag((prev) => !prev);
-        //     toast.success(data.message);
-        // } catch (error) {
-        //     toast.error(error.message);
-        // }
+        try {
+            dataForm.expiryDate = convertDate(dataForm.expiryDate);
+            const data = await updateJobPost(jobPostData.id, dataForm);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            onCancel();
+            setFlag((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -265,7 +262,7 @@ const UpdateJobPostForm = ({ jobPostData, onCancel }) => {
 UpdateJobPostForm.propTypes = {
     jobPostData: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
-    // setFlag: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default UpdateJobPostForm;

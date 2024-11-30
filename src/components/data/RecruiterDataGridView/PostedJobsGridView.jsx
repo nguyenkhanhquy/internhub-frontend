@@ -12,10 +12,10 @@ import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPan
 import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
 
 import { getJobPostsByRecruiter } from "../../../services/jobPostService";
-import { set } from "react-hook-form";
 
 const PostedJobsGridView = () => {
     const [loading, setLoading] = useState(false);
+    const [flag, setFlag] = useState(true);
     const [jobPosts, setJobPosts] = useState([]);
 
     const [search, setSearch] = useState("");
@@ -62,7 +62,7 @@ const PostedJobsGridView = () => {
 
     useEffect(() => {
         fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted);
-    }, [currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted]);
+    }, [flag, currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted]);
 
     const handleChangeTab = async (event, newValue) => {
         setSearch("");
@@ -78,7 +78,7 @@ const PostedJobsGridView = () => {
             setIsHidden(true);
             setIsDeleted(false);
         } else if (newValue === 2) {
-            // Lấy dữ liệu việc làm chưa duyệt
+            // Lấy dữ liệu việc làm chờ duyệt
             setIsApproved(false);
             setIsHidden(true);
             setIsDeleted(false);
@@ -173,7 +173,7 @@ const PostedJobsGridView = () => {
                     >
                         <Tab label="Việc làm đang hiển thị" />
                         <Tab label="Việc làm đang ẩn" />
-                        <Tab label="Việc làm chưa duyệt" />
+                        <Tab label="Việc làm chờ duyệt" />
                         <Tab label="Việc làm không được duyệt" />
                         <Tab label="Việc làm đã hết hạn" />
                     </Tabs>
@@ -210,6 +210,7 @@ const PostedJobsGridView = () => {
                 isOpen={isUpdateModalOpen}
                 jobPostData={selectedJobPost || {}}
                 onClose={handleCloseModal}
+                setFlag={setFlag}
             />
         </GridViewLayout>
     );

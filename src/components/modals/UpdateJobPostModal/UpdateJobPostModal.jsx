@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import UpdateJobPostForm from "../../forms/UpdateJobPostForm/UpdateJobPostForm";
 import CloseIcon from "@mui/icons-material/Close";
 
-const UpdateJobPostModal = ({ isOpen, jobPostData, onClose }) => {
+const UpdateJobPostModal = ({ isOpen, jobPostData, onClose, setFlag }) => {
     if (!isOpen) return null; // Không render nếu modal không mở
 
     return (
@@ -19,7 +19,7 @@ const UpdateJobPostModal = ({ isOpen, jobPostData, onClose }) => {
                 </div>
                 {/* Modal Content */}
                 <div className="max-h-[80vh] overflow-y-auto px-6 py-4">
-                    <UpdateJobPostForm jobPostData={jobPostData} onCancel={onClose} />
+                    <UpdateJobPostForm jobPostData={jobPostData} onCancel={onClose} setFlag={setFlag} />
                 </div>
             </div>
         </div>
@@ -30,6 +30,7 @@ UpdateJobPostModal.propTypes = {
     isOpen: PropTypes.bool.isRequired, // Hiển thị modal hay không
     jobPostData: PropTypes.object.isRequired, // Dữ liệu bài đăng tuyển dụng
     onClose: PropTypes.func.isRequired, // Hành động đóng modal
+    setFlag: PropTypes.func.isRequired, // Hàm cập nhật danh sách bài đăng
 };
 
 export default UpdateJobPostModal;
