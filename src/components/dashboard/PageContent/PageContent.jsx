@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import StudentPage from "../StudentPage/StudentPage";
 import TeacherPage from "../TeacherPage/TeacherPage";
 import RecruiterPage from "../RecruiterPage/RecruiterPage";
+import JobPostPage from "../JobPostPage/JobPostPage";
 
 function PageContent({ pathname, navigate }) {
     switch (pathname) {
@@ -26,6 +27,8 @@ function PageContent({ pathname, navigate }) {
             return <TeacherPage />;
         case "/business":
             return <RecruiterPage />;
+        case "/job-post":
+            return <JobPostPage />;
         default:
             return (
                 <Box

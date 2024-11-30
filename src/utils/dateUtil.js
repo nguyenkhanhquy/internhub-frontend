@@ -4,5 +4,5 @@ export const formatDate = (date) => {
 };
 
 export const convertDate = (date) => {
-    return new Date(date).toISOString().split("T")[0];
+    return new Date(date.setDate(date.getDate() + 1)).toISOString().split("T")[0];
 };

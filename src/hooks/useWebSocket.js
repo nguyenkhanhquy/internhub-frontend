@@ -3,7 +3,7 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
 import { toast } from "react-toastify";
 
-const useWebSocket = (email) => {
+const useWebSocket = (id) => {
     const stompClientRef = useRef(null);
 
     const connectWebSocket = useCallback(() => {
@@ -23,9 +23,9 @@ const useWebSocket = (email) => {
                     toast.info(`Public message: ${receivedMessage.message}`);
                 });
 
-                client.subscribe(`/user/${email}/private`, (message) => {
+                client.subscribe(`/user/${id}/private`, (message) => {
                     const receivedMessage = JSON.parse(message.body);
-                    toast.info(`Private message: ${receivedMessage.message}`);
+                    toast.info(`${receivedMessage.message}`);
                 });
             },
             onDisconnect: () => {
@@ -38,7 +38,7 @@ const useWebSocket = (email) => {
 
         client.activate();
         stompClientRef.current = client;
-    }, [email]);
+    }, [id]);
 
     const disconnectWebSocket = useCallback(() => {
         if (stompClientRef.current) {

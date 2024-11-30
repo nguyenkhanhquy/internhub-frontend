@@ -12,6 +12,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import BusinessIcon from "@mui/icons-material/Business";
 import SettingsIcon from "@mui/icons-material/Settings";
+import WorkIcon from "@mui/icons-material/Work";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import DnsIcon from "@mui/icons-material/Dns";
 import MapIcon from "@mui/icons-material/Map";
@@ -88,22 +89,27 @@ const NAVIGATION = [
         icon: <BusinessIcon />,
     },
     {
-        kind: "divider",
+        segment: "job-post",
+        title: "Bài đăng tuyển dụng",
+        icon: <WorkIcon />,
     },
-    {
-        kind: "header",
-        title: "Hổ trợ",
-    },
-    {
-        segment: "map",
-        title: "Bản đồ",
-        icon: <MapIcon />,
-    },
-    {
-        segment: "technical-support",
-        title: "Hổ trợ kỹ thuật",
-        icon: <SupportAgentIcon />,
-    },
+    // {
+    //     kind: "divider",
+    // },
+    // {
+    //     kind: "header",
+    //     title: "Hổ trợ",
+    // },
+    // {
+    //     segment: "map",
+    //     title: "Bản đồ",
+    //     icon: <MapIcon />,
+    // },
+    // {
+    //     segment: "technical-support",
+    //     title: "Hổ trợ kỹ thuật",
+    //     icon: <SupportAgentIcon />,
+    // },
 ];
 
 const theme = createTheme({

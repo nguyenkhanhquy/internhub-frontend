@@ -1,6 +1,10 @@
 import axiosClient from "../api/axiosClient";
 import { RECRUITERS_API } from "../api/constants";
 
+export const getAllRecruiters = async () => {
+    return axiosClient.get(RECRUITERS_API.GET_ALL);
+};
+
 export const updateProfile = async (profile) => {
     return axiosClient.post(RECRUITERS_API.UPDATE_PROFILE, {
         name: profile.name,
@@ -12,4 +16,8 @@ export const updateProfile = async (profile) => {
         companyAddress: profile.companyAddress,
         companyLogo: profile.companyLogo,
     });
+};
+
+export const approveRecruiter = async (userId) => {
+    return axiosClient.post(RECRUITERS_API.APPROVE + userId);
 };

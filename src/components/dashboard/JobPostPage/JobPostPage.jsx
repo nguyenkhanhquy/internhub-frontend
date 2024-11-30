@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 
-import { getAllRecruiters, approveRecruiter } from "../../../services/recruiterService";
+import { getAllJobPosts, approveJobPost } from "../../../services/adminService";
 
 const getStatusStyle = (status) => {
     return status === true
@@ -11,12 +11,12 @@ const getStatusStyle = (status) => {
         : "bg-red-100 text-red-700 px-2 py-1 rounded";
 };
 
-const RecruiterPage = () => {
-    const [recruiters, setRecruiters] = useState([]);
+const JobPostPage = () => {
+    const [jobPosts, setJobPosts] = useState([]);
 
-    const handleApprove = async (userId) => {
+    const handleApprove = async (id) => {
         try {
-            const data = await approveRecruiter(userId);
+            const data = await approveJobPost(id);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -29,11 +29,11 @@ const RecruiterPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getAllRecruiters();
+                const data = await getAllJobPosts();
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setRecruiters(data.result);
+                setJobPosts(data.result);
             } catch (error) {
                 toast.error(error.message);
             }
@@ -44,9 +44,9 @@ const RecruiterPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Typography variant="h5">DOANH NGHIỆP</Typography>
+                <Typography variant="h5">BÀI ĐĂNG TUYỂN DỤNG</Typography>
                 <Button variant="contained" color="primary">
-                    + Thêm doanh nghiệp
+                    + Thêm bài đăng
                 </Button>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
@@ -54,25 +54,29 @@ const RecruiterPage = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>STT</TableCell>
+                            <TableCell>TÊN VIỆC LÀM</TableCell>
+                            <TableCell>VỊ TRÍ CÔNG VIỆC</TableCell>
                             <TableCell>TÊN CÔNG TY</TableCell>
-                            <TableCell>NGƯỜI ĐẠI DIỆN</TableCell>
+                            <TableCell>NGÀY CẬP NHẬT</TableCell>
                             <TableCell>TRẠNG THÁI</TableCell>
                             <TableCell>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {recruiters.map((recruiter, index) => (
+                        {jobPosts.map((jobPost, index) => (
                             <TableRow key={index}>
                                 <TableCell>{index + 1}</TableCell>
-                                <TableCell>{recruiter.company.name}</TableCell>
-                                <TableCell>{recruiter.name}</TableCell>
+                                <TableCell>{jobPost.title}</TableCell>
+                                <TableCell>{jobPost.jobPosition}</TableCell>
+                                <TableCell>{jobPost.company.name}</TableCell>
+                                <TableCell>{jobPost.updatedDate}</TableCell>
                                 <TableCell>
-                                    <span className={getStatusStyle(recruiter.approved)}>
-                                        {recruiter.approved ? "Đã được duyệt" : "Chưa được duyệt"}
+                                    <span className={getStatusStyle(jobPost.approved)}>
+                                        {jobPost.approved ? "Đã được duyệt" : "Chưa được duyệt"}
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <Button onClick={() => handleApprove(recruiter.userId)} color="primary">
+                                    <Button onClick={() => handleApprove(jobPost.id)} color="primary">
                                         Duyệt
                                     </Button>
                                 </TableCell>
@@ -85,4 +89,4 @@ const RecruiterPage = () => {
     );
 };
 
-export default RecruiterPage;
+export default JobPostPage;

@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const { connectWebSocket, disconnectWebSocket } = useWebSocket(user.email);
+    const { connectWebSocket, disconnectWebSocket } = useWebSocket(user.id);
 
     const fetchUser = useCallback(async () => {
         try {

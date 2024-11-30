@@ -4,6 +4,7 @@ import * as yup from "yup";
 
 import { toast } from "react-toastify";
 import { createJobPost } from "../../../services/jobPostService";
+import { convertDate } from "../../../utils/dateUtil";
 
 // Định nghĩa schema validation bằng Yup
 const schema = yup.object().shape({
@@ -52,11 +53,7 @@ const CreateJobPostForm = () => {
     // Xử lý khi submit form
     const onSubmit = async (dataForm) => {
         try {
-            if (dataForm.expiryDate) {
-                const expiryDate = new Date(dataForm.expiryDate);
-                expiryDate.setDate(expiryDate.getDate() + 1);
-                dataForm.expiryDate = expiryDate.toISOString().split("T")[0];
-            }
+            dataForm.expiryDate = convertDate(dataForm.expiryDate);
             const data = await createJobPost(dataForm);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");

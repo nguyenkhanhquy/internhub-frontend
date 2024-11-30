@@ -26,6 +26,7 @@ import {
 
 import styles from "./StudentRegisterForm.module.css";
 import { registerStudent } from "../../../../services/userService";
+import { convertDate } from "../../../../utils/dateUtil";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -98,12 +99,13 @@ const StudentRegisterForm = () => {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const data = await registerStudent(formData);
+            formData.dob = convertDate(formData.dob);
+            formData.expGrad = convertDate(formData.expGrad);
 
+            const data = await registerStudent(formData);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-
             navigate("/verify", { state: { email: formData.email, action: "activate-account" } });
         } catch (error) {
             toast.error(error.message);

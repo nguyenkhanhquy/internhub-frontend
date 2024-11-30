@@ -6,6 +6,11 @@ export const AUTH_API = {
     PROFILE: "/auth/profile",
 };
 
+export const ADMIN_API = {
+    GET_ALL_JOB_POSTS: "/admin/jobs",
+    APPROVE_JOB_POST: "/admin/jobs/approve/",
+};
+
 export const USERS_API = {
     SEND_OTP: "/users/verify/send-otp",
     ACTIVATE: "/users/verify/activate-account",
@@ -17,7 +22,9 @@ export const USERS_API = {
 };
 
 export const RECRUITERS_API = {
+    GET_ALL: "/recruiters",
     UPDATE_PROFILE: "/recruiters/update-profile",
+    APPROVE: "/recruiters/approve/",
 };
 
 export const STUDENTS_API = {
