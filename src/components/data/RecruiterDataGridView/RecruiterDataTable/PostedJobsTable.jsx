@@ -11,12 +11,12 @@ import {
     Typography,
     IconButton,
     Stack,
-    CircularProgress,
     Button,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
 
+import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
 import { formatDate } from "../../../../utils/dateUtil";
 
@@ -70,7 +70,7 @@ const PostedJobsTable = ({
                                     height="100%"
                                     padding={2}
                                 >
-                                    <CircularProgress color="success" />
+                                    <SuspenseLoader />
                                 </Box>
                             </TableCell>
                         </TableRow>
@@ -122,7 +122,7 @@ const PostedJobsTable = ({
                                         <TableCell align="center">
                                             <Stack direction="column" spacing={1}>
                                                 <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                                    {job.jobApplyCount} ứng viên
+                                                    {job.jobApplyCount} Hồ sơ
                                                 </Typography>
                                                 <Button
                                                     variant="outlined"

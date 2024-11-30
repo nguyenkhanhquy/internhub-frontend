@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 // import { toast } from "react-toastify";
 // import { updateJobPost } from "../../../services/jobPostService";
 
+import { convertDate } from "../../../utils/dateUtil";
+
 // Schema validation tương tự như CreateJobPostForm
 const schema = yup.object().shape({
     title: yup.string().required("Vui lòng nhập tiêu đề").max(150, "Tiêu đề không được vượt quá 150 ký tự"),
@@ -52,13 +54,10 @@ const UpdateJobPostForm = ({ jobPostData, onCancel }) => {
 
     // Xử lý khi submit form
     const onSubmit = async (dataForm) => {
+        dataForm.expiryDate = convertDate(dataForm.expiryDate);
         console.log(dataForm);
         // try {
-        //     if (dataForm.expiryDate) {
-        //         const expiryDate = new Date(dataForm.expiryDate);
-        //         expiryDate.setDate(expiryDate.getDate() + 1);
-        //         dataForm.expiryDate = expiryDate.toISOString().split("T")[0];
-        //     }
+        //     dataForm.expiryDate = convertDate(dataForm.expiryDate);
         //     const data = await updateJobPost(jobPostData.id, dataForm);
         //     if (!data.success) {
         //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");

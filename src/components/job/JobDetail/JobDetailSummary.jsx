@@ -111,7 +111,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                     </Typography>
                     <Stack direction="column" spacing={1} flexWrap="wrap">
                         {majors.map((major, index) => (
-                            <Chip key={index} label={major.description} variant="outlined" />
+                            <Chip key={index} label={major} variant="outlined" />
                         ))}
                     </Stack>
                 </Box>

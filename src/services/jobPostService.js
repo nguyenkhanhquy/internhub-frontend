@@ -38,3 +38,17 @@ export const saveJobPost = async (jobPostId) => {
         id: jobPostId,
     });
 };
+
+export const getJobPostsByRecruiter = async (page, size, search, order, isApproved, isHidden, isDeleted) => {
+    return axiosClient.get(JOBS_API.GET_ALL_BY_RECRUITER, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+            order: order,
+            isApproved: isApproved,
+            isHidden: isHidden,
+            isDeleted: isDeleted,
+        },
+    });
+};

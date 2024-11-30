@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { toast } from "react-toastify";
 
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
@@ -10,37 +11,104 @@ import SortBar from "../../../components/sort/SortBar";
 import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPanel";
 import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
 
+import { getJobPostsByRecruiter } from "../../../services/jobPostService";
+import { set } from "react-hook-form";
+
 const PostedJobsGridView = () => {
+    const [loading, setLoading] = useState(false);
+    const [jobPosts, setJobPosts] = useState([]);
+
+    const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
-    const totalPages = 20;
-    const totalRecords = 0;
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+
     const [selectedMajor, setSelectedMajor] = useState("");
     const [sort, setSort] = useState("default");
+    const [isApproved, setIsApproved] = useState(true);
+    const [isHidden, setIsHidden] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
+
     const [value, setValue] = useState(0);
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null); // Dữ liệu bài đăng tuyển dụng
 
-    const handleChangeTab = (event, newValue) => {
+    const fetchData = async (currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted) => {
+        setLoading(true);
+        try {
+            const data = await getJobPostsByRecruiter(
+                currentPage,
+                recordsPerPage,
+                search,
+                sort,
+                isApproved,
+                isHidden,
+                isDeleted,
+            );
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
+            setJobPosts(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted);
+    }, [currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted]);
+
+    const handleChangeTab = async (event, newValue) => {
+        setSearch("");
+        setCurrentPage(1);
+        if (newValue === 0) {
+            // Lấy dữ liệu việc làm đang hiển thị
+            setIsApproved(true);
+            setIsHidden(false);
+            setIsDeleted(false);
+        } else if (newValue === 1) {
+            // Lấy dữ liệu việc làm đang ẩn
+            setIsApproved(true);
+            setIsHidden(true);
+            setIsDeleted(false);
+        } else if (newValue === 2) {
+            // Lấy dữ liệu việc làm chưa duyệt
+            setIsApproved(false);
+            setIsHidden(true);
+            setIsDeleted(false);
+        } else if (newValue === 3) {
+            // Lấy dữ liệu việc làm không được duyệt
+            setIsApproved(false);
+            setIsHidden(true);
+            setIsDeleted(true);
+        } else if (newValue === 4) {
+            // Lấy dữ liệu việc làm đã hết hạn
+        }
         setValue(newValue);
     };
 
-    const handlePageChange = (page) => setCurrentPage(page);
-    const handleRecordsPerPageChange = (value) => setRecordsPerPage(value);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
 
     // useEffect(() => {
     //     console.log("Ngành đã chọn:", selectedMajor);
     // }, [selectedMajor]);
 
-    // Hàm xử lý khi nhấn nút tìm kiếm
-    const handleSearch = () => {
-        console.log("Searching...");
-    };
-
     // Mở modal
     const handleEditPostClick = (jobId) => {
-        const job = sampleJobPosts.find((post) => post.id === jobId); // Tìm bài đăng cần sửa
+        const job = jobPosts.find((post) => post.id === jobId); // Tìm bài đăng cần sửa
         if (job) {
             setSelectedJobPost(job);
             setIsUpdateModalOpen(true);
@@ -52,41 +120,6 @@ const PostedJobsGridView = () => {
         setIsUpdateModalOpen(false);
         setSelectedJobPost(null);
     };
-
-    const sampleJobPosts = [
-        {
-            id: 1,
-            title: "Lập trình viên Frontend",
-            jobPosition: "Frontend Developer",
-            salary: "20-30 triệu",
-            quantity: 2,
-            type: "Toàn thời gian",
-            remote: "Kết hợp",
-            description: "Phát triển giao diện web...",
-            requirements: "Thành thạo React.js...",
-            benefits: "Lương thưởng hấp dẫn...",
-            address: "Hà Nội",
-            expiryDate: "2024-12-31",
-            majors: ["IT"],
-            jobApplyCount: 10,
-        },
-        {
-            id: 2,
-            title: "Kỹ sư dữ liệu",
-            jobPosition: "Data Scientist",
-            salary: "Thỏa thuận",
-            quantity: 2,
-            type: "Toàn thời gian",
-            remote: "Kết hợp",
-            description: "Phát triển giao diện web...",
-            requirements: "Thành thạo React.js...",
-            benefits: "Lương thưởng hấp dẫn...",
-            address: "Hà Nội",
-            expiryDate: "2024-12-31",
-            majors: ["DS"],
-            jobApplyCount: 2,
-        },
-    ];
 
     return (
         <GridViewLayout
@@ -115,7 +148,7 @@ const PostedJobsGridView = () => {
                     </Select>
                 </FormControl>
 
-                <DataSearchBar placeholder="Tìm kiếm" onSearch={handleSearch} />
+                <DataSearchBar placeholder="Tìm kiếm" onSearch={(searchText) => setSearch(searchText)} query={search} />
             </Box>
 
             <SortBar
@@ -139,17 +172,17 @@ const PostedJobsGridView = () => {
                         selectionFollowsFocus
                     >
                         <Tab label="Việc làm đang hiển thị" />
+                        <Tab label="Việc làm đang ẩn" />
                         <Tab label="Việc làm chưa duyệt" />
-                        <Tab label="Việc làm không duyệt" />
-                        <Tab label="Việc làm sắp hết hạn" />
+                        <Tab label="Việc làm không được duyệt" />
                         <Tab label="Việc làm đã hết hạn" />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
                     <Box>
                         <PostedJobsTable
-                            loading={false}
-                            postedJobPosts={sampleJobPosts}
+                            loading={loading}
+                            postedJobPosts={jobPosts}
                             currentPage={currentPage}
                             recordsPerPage={recordsPerPage}
                             handleViewApplicationsClick={() => console.log("View applications")}
@@ -157,7 +190,16 @@ const PostedJobsGridView = () => {
                         />
                     </Box>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}></CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <PostedJobsTable
+                        loading={loading}
+                        postedJobPosts={jobPosts}
+                        currentPage={currentPage}
+                        recordsPerPage={recordsPerPage}
+                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                    />
+                </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}></CustomTabPanel>
                 <CustomTabPanel value={value} index={3}></CustomTabPanel>
                 <CustomTabPanel value={value} index={4}></CustomTabPanel>
