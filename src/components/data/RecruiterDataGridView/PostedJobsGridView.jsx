@@ -200,7 +200,16 @@ const PostedJobsGridView = () => {
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}></CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                    <PostedJobsTable
+                        loading={loading}
+                        postedJobPosts={jobPosts}
+                        currentPage={currentPage}
+                        recordsPerPage={recordsPerPage}
+                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                    />
+                </CustomTabPanel>
                 <CustomTabPanel value={value} index={3}></CustomTabPanel>
                 <CustomTabPanel value={value} index={4}></CustomTabPanel>
             </Box>
