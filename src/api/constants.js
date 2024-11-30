@@ -31,6 +31,11 @@ export const STUDENTS_API = {
     UPDATE_PROFILE: "/students/update-profile",
 };
 
+export const TEACHERS_API = {
+    GET_ALL: "/teachers",
+    IMPORT: "/teachers/import",
+};
+
 export const JOBS_API = {
     CREATE: "/jobs",
     GET_ALL: "/jobs",
