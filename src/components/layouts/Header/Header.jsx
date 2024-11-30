@@ -28,10 +28,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge"; // Nhập Badge
 
 import logoImage from "/images/hcmute_fit_logo.png";
+import NotificationModal from "../../modals/NotificationModal/NotfificationModal";
 
 const mockNotifications = Array.from({ length: 20 }, (_, i) => ({
     id: i + 1,
-    title: `Bạn đã bị từ chối vì CV quá xấu.  ${i + 1}`,
+    title: `Bạn đã bị từ chối vì CV quá xấu ${i + 1}`,
+    content: `Nội dung thông báo`,
     isRead: i % 3 !== 0,
     createTime: new Date(Date.now() - i * 3200000).toISOString(),
 }));
@@ -63,6 +65,7 @@ const Header = () => {
     const [visibleNotifications, setVisibleNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
+    const [selectedNotification, setSelectedNotification] = useState(null);
 
     const ITEMS_PER_PAGE = 5;
 
@@ -131,6 +134,14 @@ const Header = () => {
         setAnchorEl(null);
         setAccountAnchorEl(null);
         setNotificationAnchorEl(null);
+    };
+
+    const handleSelectNotification = (notification) => {
+        setSelectedNotification(notification);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedNotification(null);
     };
 
     return (
@@ -239,7 +250,10 @@ const Header = () => {
                                                         paddingY: 1.5,
                                                         cursor: "pointer",
                                                     }}
-                                                    onClick={() => markAsRead(notification.id)}
+                                                    onClick={() => {
+                                                        handleSelectNotification(notification);
+                                                        markAsRead(notification.id);
+                                                    }}
                                                 >
                                                     <ListItemText
                                                         primary={
@@ -411,6 +425,12 @@ const Header = () => {
                     </Box>
                 </Box>
             </Paper>
+            {/* Modal hiển thị chi tiết thông báo */}
+            <NotificationModal
+                open={Boolean(selectedNotification)}
+                onClose={handleCloseModal}
+                notification={selectedNotification}
+            />
         </>
     );
 };
