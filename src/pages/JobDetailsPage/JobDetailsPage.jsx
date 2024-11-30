@@ -9,6 +9,7 @@ import JobDetailHeader from "../../components/job/JobDetail/JobDetailHeader";
 import JobDetailBody from "../../components/job/JobDetail/JobDetailBody";
 import JobDetailSummary from "../../components/job/JobDetail/JobDetailSummary";
 import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
+import JobApplicationModal from "../../components/modals/JobApplicationModal/JobApplicationModal";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -21,6 +22,7 @@ const JobDetailsPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [jobData, setJobData] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchJobPostsDetails = async () => {
@@ -56,7 +58,7 @@ const JobDetailsPage = () => {
     // Các hàm xử lý sự kiện
 
     const handleApplyJob = () => {
-        alert("Bạn đã nộp đơn thành công!");
+        setIsModalOpen(true);
     };
 
     return (
@@ -68,7 +70,7 @@ const JobDetailsPage = () => {
             ) : (
                 <div style={{ margin: marginValue }}>
                     {/* Header tóm tắt thông tin */}
-                    <Box sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+                    <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
                         <JobDetailHeader
                             id={jobData.id}
                             logo={jobData.company.logo}
@@ -106,6 +108,14 @@ const JobDetailsPage = () => {
                             />
                         </Grid>
                     </Grid>
+                    {/* Modal ứng tuyển */}
+                    {isModalOpen && (
+                        <JobApplicationModal
+                            jobPostId={jobData.id} // Truyền id công việc vào modal
+                            jobTitle={jobData.title} // Truyền tiêu đề công việc vào modal
+                            onClose={() => setIsModalOpen(false)} // Đóng modal
+                        />
+                    )}
                 </div>
             )}
         </MainLayout>
