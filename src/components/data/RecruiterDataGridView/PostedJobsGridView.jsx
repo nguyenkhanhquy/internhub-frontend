@@ -33,6 +33,7 @@ const PostedJobsGridView = () => {
     const [value, setValue] = useState(0);
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    // const [isDetailmodalOpen, setIsDetailModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null); // Dữ liệu bài đăng tuyển dụng
 
     const fetchData = async (currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted) => {
@@ -107,8 +108,8 @@ const PostedJobsGridView = () => {
     // }, [selectedMajor]);
 
     // Mở modal
-    const handleEditPostClick = (jobId) => {
-        const job = jobPosts.find((post) => post.id === jobId); // Tìm bài đăng cần sửa
+    const handleEditPostClick = (postId) => {
+        const job = jobPosts.find((post) => post.id === postId); // Tìm bài đăng cần sửa
         if (job) {
             setSelectedJobPost(job);
             setIsUpdateModalOpen(true);
@@ -116,10 +117,34 @@ const PostedJobsGridView = () => {
     };
 
     // Đóng Modal
-    const handleCloseModal = () => {
+    const handleCloseUpdateModal = () => {
         setIsUpdateModalOpen(false);
         setSelectedJobPost(null);
     };
+
+    const handleViewDetails = (post) => {
+        // setSelectedJobPost(post);
+        // setIsDetailModalOpen(true);
+        console.log("View details of job post:", post);
+    };
+
+    const handleToggleVisibility = (postId) => {
+        console.log("Toggle visibility of job post:", postId);
+    };
+
+    // const handleToggleVisibility = async (id) => {
+    // try {
+    //     const data = await hiddenJobPost(id);
+    //     if (!data.success) {
+    //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+    //     }
+    //     toast.success(data.message);
+    // } catch (error) {
+    //     toast.error(error.message);
+    // } finally {
+    //     setFlag(!flag);
+    // }
+    // };
 
     return (
         <GridViewLayout
@@ -187,6 +212,8 @@ const PostedJobsGridView = () => {
                             recordsPerPage={recordsPerPage}
                             handleViewApplicationsClick={() => console.log("View applications")}
                             handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                            handleViewDetails={handleViewDetails}
+                            handleToggleVisibility={handleToggleVisibility}
                         />
                     </Box>
                 </CustomTabPanel>
@@ -198,6 +225,8 @@ const PostedJobsGridView = () => {
                         recordsPerPage={recordsPerPage}
                         handleViewApplicationsClick={() => console.log("View applications")}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                        handleViewDetails={handleViewDetails}
+                        handleToggleVisibility={handleToggleVisibility}
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
@@ -208,6 +237,8 @@ const PostedJobsGridView = () => {
                         recordsPerPage={recordsPerPage}
                         handleViewApplicationsClick={() => console.log("View applications")}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                        handleViewDetails={handleViewDetails}
+                        handleToggleVisibility={handleToggleVisibility}
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={3}></CustomTabPanel>
@@ -218,7 +249,7 @@ const PostedJobsGridView = () => {
             <UpdateJobPostModal
                 isOpen={isUpdateModalOpen}
                 jobPostData={selectedJobPost || {}}
-                onClose={handleCloseModal}
+                onClose={handleCloseUpdateModal}
                 setFlag={setFlag}
             />
         </GridViewLayout>

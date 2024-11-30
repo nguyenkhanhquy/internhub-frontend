@@ -12,9 +12,13 @@ import {
     IconButton,
     Stack,
     Button,
+    Tooltip,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
+import InfoIcon from "@mui/icons-material/Info";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
@@ -27,6 +31,8 @@ const PostedJobsTable = ({
     recordsPerPage,
     handleViewApplicationsClick,
     handleEditPostClick,
+    handleViewDetails,
+    handleToggleVisibility,
 }) => {
     return (
         <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
@@ -134,13 +140,27 @@ const PostedJobsTable = ({
                                             </Stack>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <IconButton
-                                                title="Chỉnh sửa"
-                                                color="primary"
-                                                onClick={() => handleEditPostClick(job.id)}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
+                                            <Stack direction="row" spacing={1}>
+                                                <Tooltip title="Chi tiết bài đăng">
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Chỉnh sửa bài đăng">
+                                                    <IconButton onClick={() => handleEditPostClick(job.id)}>
+                                                        <EditIcon className="text-yellow-500" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
+                                                    <IconButton onClick={() => handleToggleVisibility(job.id)}>
+                                                        {job.hidden ? (
+                                                            <VisibilityOffIcon className="text-cyan-950" />
+                                                        ) : (
+                                                            <VisibilityIcon className="text-cyan-950" />
+                                                        )}
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </Stack>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -160,6 +180,8 @@ PostedJobsTable.propTypes = {
     recordsPerPage: PropTypes.number,
     handleViewApplicationsClick: PropTypes.func,
     handleEditPostClick: PropTypes.func,
+    handleViewDetails: PropTypes.func,
+    handleToggleVisibility: PropTypes.func,
 };
 
 export default PostedJobsTable;
