@@ -25,6 +25,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DataUsageIcon from "@mui/icons-material/DataUsage";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Badge from "@mui/material/Badge"; // Nhập Badge
 
 import logoImage from "/images/hcmute_fit_logo.png";
 
@@ -66,8 +67,24 @@ const Header = () => {
     const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
-        setNotifications(mockNotifications.sort((a, b) => new Date(b.createTime) - new Date(a.createTime)));
-        setVisibleNotifications(mockNotifications.slice(0, ITEMS_PER_PAGE));
+        setNotifications(
+            mockNotifications.sort((a, b) => {
+                if (a.isRead === b.isRead) {
+                    return new Date(b.createTime) - new Date(a.createTime);
+                }
+                return a.isRead ? 1 : -1; // Đưa thông báo chưa đọc lên đầu
+            }),
+        );
+        setVisibleNotifications(
+            mockNotifications
+                .sort((a, b) => {
+                    if (a.isRead === b.isRead) {
+                        return new Date(b.createTime) - new Date(a.createTime);
+                    }
+                    return a.isRead ? 1 : -1;
+                })
+                .slice(0, ITEMS_PER_PAGE),
+        );
     }, []);
 
     const handleNotificationClick = (event) => {
@@ -86,17 +103,20 @@ const Header = () => {
     };
 
     const markAsRead = (id) => {
-        setNotifications((prevNotifications) =>
-            prevNotifications.map((notification) =>
-                notification.id === id ? { ...notification, isRead: true } : notification,
-            ),
+        const updatedNotifications = notifications.map((notification) =>
+            notification.id === id ? { ...notification, isRead: true } : notification,
         );
 
-        setVisibleNotifications((prevVisible) =>
-            prevVisible.map((notification) =>
-                notification.id === id ? { ...notification, isRead: true } : notification,
-            ),
+        setNotifications(
+            updatedNotifications.sort((a, b) => {
+                if (a.isRead === b.isRead) {
+                    return new Date(b.createTime) - new Date(a.createTime);
+                }
+                return a.isRead ? 1 : -1;
+            }),
         );
+
+        setVisibleNotifications(() => updatedNotifications.slice(0, page * ITEMS_PER_PAGE));
     };
 
     const handleSignUpClick = (event) => {
@@ -164,13 +184,19 @@ const Header = () => {
                                     onClick={handleNotificationClick}
                                     sx={{
                                         marginLeft: 1,
-                                        padding: "8px 10px",
                                         color: "#2e3090",
                                         borderColor: "#d9d9d9",
                                         boxShadow: "0 2px #00000004",
                                         "&:hover": { borderColor: "#2e3090" },
                                     }}
                                 >
+                                    <Badge
+                                        badgeContent={
+                                            notifications.filter((notification) => !notification.isRead).length
+                                        } // Đếm số lượng thông báo chưa đọc
+                                        color="error" // Màu sắc của badge
+                                        sx={{ right: -40, top: -20 }} // Vị trí của badge
+                                    ></Badge>
                                     <NotificationsIcon />
                                 </Button>
 
