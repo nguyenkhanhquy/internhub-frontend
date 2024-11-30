@@ -59,7 +59,7 @@ const FeaturedCompaniesSection = ({ companies }) => {
                     color: "white",
                     "&:hover": { backgroundColor: "#1f2061" },
                 }}
-                onClick={() => navigate("/search")}
+                onClick={() => navigate("/companies")}
             >
                 Xem thêm...
             </Button>
