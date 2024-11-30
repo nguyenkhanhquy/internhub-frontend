@@ -148,7 +148,7 @@ const PostedJobsTable = ({
                                                 </Tooltip>
                                                 <Tooltip title="Chỉnh sửa bài đăng">
                                                     <IconButton onClick={() => handleEditPostClick(job.id)}>
-                                                        <EditIcon className="text-sky-950" />
+                                                        <EditIcon className="text-yellow-500" />
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>

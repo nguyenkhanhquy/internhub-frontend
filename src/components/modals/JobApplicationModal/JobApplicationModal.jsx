@@ -99,7 +99,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                             <p className="mt-1 text-sm text-gray-500">
                                 Hỗ trợ định dạng <span className="font-semibold">.doc, .docx, pdf</span>
                             </p>
-                            <label className="mt-3 inline-block cursor-pointer rounded-lg bg-blue-800 px-4 py-2 text-base font-semibold text-white hover:bg-green-700">
+                            <label className="mt-3 inline-block cursor-pointer rounded-lg bg-blue-800 px-4 py-2 text-base font-semibold text-white hover:bg-blue-900">
                                 <input
                                     type="file"
                                     accept=".doc,.docx,.pdf"
@@ -153,7 +153,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                     <button
                         onClick={handleApply}
                         disabled={loading}
-                        className="w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white hover:bg-green-700"
+                        className="w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-900"
                     >
                         {loading ? "Đang nộp hồ sơ ứng tuyển..." : "Nộp hồ sơ ứng tuyển"}
                     </button>
