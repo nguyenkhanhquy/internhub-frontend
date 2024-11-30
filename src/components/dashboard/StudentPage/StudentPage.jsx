@@ -53,9 +53,11 @@ const StudentPage = () => {
                     </TableHead>
                     <TableBody>
                         {students.length === 0 ? (
-                            <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
-                                <EmptryBox />
-                            </TableCell>
+                            <TableRow>
+                                <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
+                                    <EmptryBox />
+                                </TableCell>
+                            </TableRow>
                         ) : (
                             students.map((student, index) => (
                                 <TableRow key={index}>

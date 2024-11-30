@@ -52,6 +52,11 @@ export const JOBS_SAVED_API = {
     DELETE_ALL: "/jobs/saved",
 };
 
+export const JOB_APPLY_API = {
+    APPLY: "/jobs/apply",
+};
+
 export const FILES_API = {
     UPLOAD_IMAGE: "/files/upload/image",
+    UPLOAD_RAW: "/files/upload/raw",
 };

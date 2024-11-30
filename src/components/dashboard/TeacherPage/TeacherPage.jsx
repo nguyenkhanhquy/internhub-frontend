@@ -84,9 +84,11 @@ const TeacherPage = () => {
                     </TableHead>
                     <TableBody>
                         {teachers.length === 0 ? (
-                            <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
-                                <EmptryBox />
-                            </TableCell>
+                            <TableRow>
+                                <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
+                                    <EmptryBox />
+                                </TableCell>
+                            </TableRow>
                         ) : (
                             teachers.map((teacher, index) => (
                                 <TableRow key={index}>

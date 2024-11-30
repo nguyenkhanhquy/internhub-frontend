@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import { applyJob, uploadCV } from "../../../services/jobApplyService";
-import { toast } from "react-toastify";
+
+import { uploadCV } from "../../../services/uploadService";
+import { applyJob } from "../../../services/jobApplyService";
 
 const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     const [loading, setLoading] = useState(false);
@@ -26,36 +28,31 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     }, []);
 
     const handleApply = async () => {
-        // goi api thi bo khuc nay mo comment khuc duoi
         setLoading(true);
         try {
             if (selectedFile && coverLetter !== "") {
-                console.log(coverLetter);
+                // Tạo đường dẫn tệp với timestamp
+                const timestamp = Date.now();
+                const filePath = `cv/${jobPostId}/${timestamp}`;
+                const dataUpload = await uploadCV(selectedFile, filePath);
+                if (!dataUpload.success) {
+                    throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                } else {
+                    const data = await applyJob(jobPostId, coverLetter, dataUpload.result.secure_url);
+                    if (!data.success) {
+                        throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    }
+                    toast.success(data.message);
+                    onClose();
+                }
             } else {
                 toast.info("Vui lòng cung cấp đầy đủ thông tin ứng tuyển");
             }
+        } catch (error) {
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }
-
-        // setLoading(true);
-        // try {
-        //     if (selectedFile && coverLetter !== "") {
-        //         const dataUpload = await uploadCV(selectedFile);
-        //         const data = await applyJob(jobPostId, coverLetter, dataUpload.result);
-        //         if (!data.success) {
-        //             throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-        //         }
-        //         toast.success(data.message);
-        //         onClose();
-        //     } else {
-        //         toast.info("Vui lòng cung cấp đầy đủ thông tin ứng tuyển");
-        //     }
-        // } catch (error) {
-        //     toast.error(error.message);
-        // } finally {
-        //     setLoading(false);
-        // }
     };
 
     const handleFileChange = (e) => {

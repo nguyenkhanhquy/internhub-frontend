@@ -15,11 +15,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
+import useAuth from "../../hooks/useAuth";
 import { getJobPostById } from "../../services/jobPostService";
 
 const JobDetailsPage = () => {
-    const { id } = useParams();
+    const { isAuthenticated } = useAuth();
+
     const navigate = useNavigate();
+    const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [jobData, setJobData] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,10 +58,12 @@ const JobDetailsPage = () => {
     // Xác định giá trị margin dựa trên kích thước màn hình
     const marginValue = isSmallScreen ? "0px" : isMediumScreen ? "20px 40px" : "20px 80px";
 
-    // Các hàm xử lý sự kiện
-
     const handleApplyJob = () => {
-        setIsModalOpen(true);
+        if (isAuthenticated) {
+            setIsModalOpen(true);
+        } else {
+            toast.info("Vui lòng đăng nhập để ứng tuyển");
+        }
     };
 
     return (
