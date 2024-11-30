@@ -12,6 +12,7 @@ import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPan
 import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
 
 import { getJobPostsByRecruiter } from "../../../services/jobPostService";
+import { hiddenJobPost } from "../../../services/jobPostService";
 
 const PostedJobsGridView = () => {
     const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ const PostedJobsGridView = () => {
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     // const [isDetailmodalOpen, setIsDetailModalOpen] = useState(false);
-    const [selectedJobPost, setSelectedJobPost] = useState(null); // Dữ liệu bài đăng tuyển dụng
+    const [selectedJobPost, setSelectedJobPost] = useState(null);
 
     const fetchData = async (currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted) => {
         setLoading(true);
@@ -128,23 +129,19 @@ const PostedJobsGridView = () => {
         console.log("View details of job post:", post);
     };
 
-    const handleToggleVisibility = (postId) => {
-        console.log("Toggle visibility of job post:", postId);
+    const handleToggleVisibility = async (jobPostId) => {
+        try {
+            const data = await hiddenJobPost(jobPostId);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setFlag((prev) => !prev);
+        }
     };
-
-    // const handleToggleVisibility = async (id) => {
-    // try {
-    //     const data = await hiddenJobPost(id);
-    //     if (!data.success) {
-    //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-    //     }
-    //     toast.success(data.message);
-    // } catch (error) {
-    //     toast.error(error.message);
-    // } finally {
-    //     setFlag(!flag);
-    // }
-    // };
 
     return (
         <GridViewLayout
@@ -203,6 +200,7 @@ const PostedJobsGridView = () => {
                         <Tab label="Việc làm đã hết hạn" />
                     </Tabs>
                 </Box>
+
                 <CustomTabPanel value={value} index={0}>
                     <Box>
                         <PostedJobsTable
@@ -217,6 +215,7 @@ const PostedJobsGridView = () => {
                         />
                     </Box>
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={1}>
                     <PostedJobsTable
                         loading={loading}
@@ -229,8 +228,10 @@ const PostedJobsGridView = () => {
                         handleToggleVisibility={handleToggleVisibility}
                     />
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={2}>
                     <PostedJobsTable
+                        value={value}
                         loading={loading}
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
@@ -241,7 +242,9 @@ const PostedJobsGridView = () => {
                         handleToggleVisibility={handleToggleVisibility}
                     />
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={3}></CustomTabPanel>
+
                 <CustomTabPanel value={value} index={4}></CustomTabPanel>
             </Box>
 

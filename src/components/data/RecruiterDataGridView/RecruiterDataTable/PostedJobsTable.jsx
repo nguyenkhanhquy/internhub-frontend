@@ -22,9 +22,11 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
+
 import { formatDate } from "../../../../utils/dateUtil";
 
 const PostedJobsTable = ({
+    value,
     loading,
     postedJobPosts,
     currentPage,
@@ -146,20 +148,25 @@ const PostedJobsTable = ({
                                                         <InfoIcon className="text-blue-800" />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Chỉnh sửa bài đăng">
-                                                    <IconButton onClick={() => handleEditPostClick(job.id)}>
-                                                        <EditIcon className="text-yellow-500" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
-                                                    <IconButton onClick={() => handleToggleVisibility(job.id)}>
-                                                        {job.hidden ? (
-                                                            <VisibilityOffIcon className="text-cyan-950" />
-                                                        ) : (
-                                                            <VisibilityIcon className="text-cyan-950" />
-                                                        )}
-                                                    </IconButton>
-                                                </Tooltip>
+                                                {value !== 2 && (
+                                                    <>
+                                                        <Tooltip title="Chỉnh sửa bài đăng">
+                                                            <IconButton onClick={() => handleEditPostClick(job.id)}>
+                                                                <EditIcon className="text-yellow-500" />
+                                                            </IconButton>
+                                                        </Tooltip>
+
+                                                        <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
+                                                            <IconButton onClick={() => handleToggleVisibility(job.id)}>
+                                                                {job.hidden ? (
+                                                                    <VisibilityIcon className="text-cyan-950" />
+                                                                ) : (
+                                                                    <VisibilityOffIcon className="text-cyan-950" />
+                                                                )}
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </>
+                                                )}
                                             </Stack>
                                         </TableCell>
                                     </TableRow>
@@ -174,6 +181,7 @@ const PostedJobsTable = ({
 };
 
 PostedJobsTable.propTypes = {
+    value: PropTypes.number,
     loading: PropTypes.bool,
     postedJobPosts: PropTypes.array,
     currentPage: PropTypes.number,

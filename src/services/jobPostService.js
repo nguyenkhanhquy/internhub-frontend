@@ -33,6 +33,20 @@ export const getJobPostById = async (jobPostId) => {
     return axiosClient.get(JOBS_API.GET_BY_ID + jobPostId);
 };
 
+export const getJobPostsByRecruiter = async (page, size, search, order, isApproved, isHidden, isDeleted) => {
+    return axiosClient.get(JOBS_API.GET_ALL_BY_RECRUITER, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+            order: order,
+            isApproved: isApproved,
+            isHidden: isHidden,
+            isDeleted: isDeleted,
+        },
+    });
+};
+
 export const updateJobPost = async (jobPostId, jobPost) => {
     return axiosClient.put(JOBS_API.UPDATE + jobPostId, {
         title: jobPost.title,
@@ -56,16 +70,6 @@ export const saveJobPost = async (jobPostId) => {
     });
 };
 
-export const getJobPostsByRecruiter = async (page, size, search, order, isApproved, isHidden, isDeleted) => {
-    return axiosClient.get(JOBS_API.GET_ALL_BY_RECRUITER, {
-        params: {
-            page: page,
-            size: size,
-            search: search,
-            order: order,
-            isApproved: isApproved,
-            isHidden: isHidden,
-            isDeleted: isDeleted,
-        },
-    });
+export const hiddenJobPost = async (jobPostId) => {
+    return axiosClient.post(JOBS_API.HIDDEN + jobPostId);
 };

@@ -43,6 +43,7 @@ export const JOBS_API = {
     GET_BY_ID: "/jobs/",
     UPDATE: "/jobs/",
     SAVE: "/jobs/save",
+    HIDDEN: "/jobs/hidden/",
 
     GET_ALL_BY_RECRUITER: "/jobs/recruiter",
 };
