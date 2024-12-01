@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "@mui/material";
-import { MonetizationOn, Group, WorkOutline, Schedule, CalendarToday, School, LocationOn } from "@mui/icons-material";
+import { MonetizationOn, Group, Work, Schedule, CalendarToday, School, WorkOutline } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
 
 const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, majors }) => {
@@ -94,7 +94,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
 
                 {/* Vị trí công việc */}
                 <Box display="flex" flexWrap="wrap">
-                    <LocationOn sx={{ mr: 1 }} />
+                    <Work sx={{ mr: 1 }} />
                     <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
                         Vị trí:
                     </Typography>

@@ -7,19 +7,19 @@ const images = [
         title: "Banner 1",
     },
     {
-        url: "https://via.placeholder.com/1920x600",
+        url: "/images/cv.png",
         title: "Banner 2",
     },
     {
-        url: "https://via.placeholder.com/1920x600",
+        url: "/images/cv.png",
         title: "Banner 3",
     },
     {
-        url: "https://via.placeholder.com/1920x600",
+        url: "/images/cv.png",
         title: "Banner 4",
     },
     {
-        url: "https://via.placeholder.com/1920x600",
+        url: "/images/cv.png",
         title: "Banner 5",
     },
 ];

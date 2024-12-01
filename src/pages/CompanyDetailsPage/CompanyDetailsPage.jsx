@@ -75,7 +75,7 @@ const CompanyDetailsPage = () => {
                             address={companyData.address}
                             jobs={[
                                 {
-                                    id: 1,
+                                    id: "1",
                                     title: "Senior Java Developer",
                                     company: {
                                         logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
@@ -90,7 +90,7 @@ const CompanyDetailsPage = () => {
                                     saved: false,
                                 },
                                 {
-                                    id: 2,
+                                    id: "2",
                                     title: "Senior Java Developer",
                                     company: {
                                         logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
@@ -105,7 +105,7 @@ const CompanyDetailsPage = () => {
                                     saved: false,
                                 },
                                 {
-                                    id: 3,
+                                    id: "3",
                                     title: "Senior Java Developer",
                                     company: {
                                         logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
