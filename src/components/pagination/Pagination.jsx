@@ -50,7 +50,6 @@ const CustomPagination = ({
                 count={totalPages}
                 page={currentPage}
                 onChange={handlePageChange}
-                color="primary"
                 shape="rounded"
                 size="medium"
                 siblingCount={1}
@@ -59,7 +58,13 @@ const CustomPagination = ({
                     "& .MuiPaginationItem-root": {
                         fontSize: "0.875rem",
                         fontWeight: 500,
-                        color: "text.primary",
+                    },
+                    "& .MuiPaginationItem-root.Mui-selected": {
+                        backgroundColor: "#1e40af", // Thay đổi màu nền của trang được chọn
+                        color: "#fff", // Màu chữ của trang được chọn
+                    },
+                    "& .MuiPaginationItem-root:hover": {
+                        backgroundColor: "#e0e7ff", // Màu nền khi hover
                     },
                 }}
             />
