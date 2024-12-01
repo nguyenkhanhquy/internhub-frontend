@@ -9,7 +9,7 @@ import CustomTabPanel from "../../tabs/CustomTabPanel/CustomTabPanel";
 import CompanyInfoTab from "../../job/JobDetail/Tabs/CompanyInfoTab";
 import JobListingTab from "../../section/CompanyDetailsPage/Tabs/JobListingTab";
 
-const CompanyDetailsBody = ({ companyData }) => {
+const CompanyDetailsBody = ({ description, address, jobs }) => {
     const [value, setValue] = useState(0);
 
     const handleChangeTab = (event, newValue) => {
@@ -45,10 +45,10 @@ const CompanyDetailsBody = ({ companyData }) => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <CompanyInfoTab description={companyData.description} address={companyData.address} />
+                    <CompanyInfoTab description={description} address={address} />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    <JobListingTab jobs={companyData.jobs} />
+                    <JobListingTab jobs={jobs} />
                 </CustomTabPanel>
             </Box>
         </Box>
@@ -56,7 +56,9 @@ const CompanyDetailsBody = ({ companyData }) => {
 };
 
 CompanyDetailsBody.propTypes = {
-    companyData: PropTypes.object.isRequired,
+    description: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    jobs: PropTypes.array.isRequired,
 };
 
 export default CompanyDetailsBody;

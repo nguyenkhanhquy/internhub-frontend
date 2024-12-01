@@ -36,6 +36,7 @@ const FeaturedCompaniesSection = ({ companies }) => {
                                 cursor: "pointer",
                             },
                         }}
+                        onClick={() => window.open(`/companies/${company.id}`, "_blank")}
                     >
                         <Avatar
                             src={company.logo}
@@ -63,7 +64,7 @@ const FeaturedCompaniesSection = ({ companies }) => {
                 }}
                 onClick={() => navigate("/companies")}
             >
-                Xem thêm...
+                Xem thêm
             </Button>
         </Box>
     );

@@ -128,7 +128,6 @@ const HomePage = () => {
 
     useEffect(() => {
         const fetchFeaturedCompanies = async () => {
-            console.log("fetchFeaturedCompanies");
             try {
                 const data = await getAllApprovedCompanies(1, 5);
                 if (!data.success) {
@@ -215,7 +214,7 @@ const HomePage = () => {
                         }}
                         onClick={() => navigate("/search")}
                     >
-                        Xem thêm...
+                        Xem thêm
                     </Button>
                 </Box>
 

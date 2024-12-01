@@ -34,6 +34,7 @@ export const RECRUITERS_API = {
 
 export const COMPANIES_API = {
     GET_ALL_APPROVED: "/companies/approved",
+    GET_BY_ID: "/companies/",
 };
 
 export const STUDENTS_API = {

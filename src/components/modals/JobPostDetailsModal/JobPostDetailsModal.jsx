@@ -11,6 +11,8 @@ import {
     Chip,
 } from "@mui/material";
 
+import { formatDate } from "../../../utils/dateUtil";
+
 const formatMajors = (majors) => {
     if (!majors || !majors.length) return "Không cung cấp";
     const majorMap = {
@@ -60,13 +62,13 @@ const JobPostDetailsModal = ({ open, onClose, jobPost }) => {
                         </Typography>
                         <Stack direction="row" spacing={1}>
                             <Chip
-                                label={jobPost.isApproved ? "Đã được duyệt" : "Chưa được duyệt"}
-                                color={jobPost.isApproved ? "success" : "warning"}
+                                label={jobPost.approved ? "Đã được duyệt" : "Chưa được duyệt"}
+                                color={jobPost.approved ? "success" : "warning"}
                                 sx={{ fontSize: "0.9rem" }}
                             />
                             <Chip
-                                label={jobPost.isHidden ? "Đang ẩn" : "Đang hiển thị"}
-                                color={jobPost.isHidden ? "warning" : "success"}
+                                label={jobPost.hidden ? "Đang ẩn" : "Đang hiển thị"}
+                                color={jobPost.hidden ? "warning" : "success"}
                                 sx={{ fontSize: "0.9rem" }}
                             />
                         </Stack>
@@ -196,21 +198,15 @@ const JobPostDetailsModal = ({ open, onClose, jobPost }) => {
                     <Stack spacing={1}>
                         <Typography>
                             <b style={{ color: "#595959" }}>Ngày đăng:</b>{" "}
-                            <span style={{ color: "#1d39c4" }}>
-                                {new Date(jobPost.createdDate).toLocaleDateString()}
-                            </span>
+                            <span style={{ color: "#1d39c4" }}>{formatDate(jobPost.createdDate)}</span>
                         </Typography>
                         <Typography>
-                            <b style={{ color: "#595959" }}>Cập nhật gần nhất:</b>{" "}
-                            <span style={{ color: "#1d39c4" }}>
-                                {new Date(jobPost.updatedDate).toLocaleDateString()}
-                            </span>
+                            <b style={{ color: "#595959" }}>Ngày cập nhật:</b>{" "}
+                            <span style={{ color: "#1d39c4" }}>{formatDate(jobPost.updatedDate)}</span>
                         </Typography>
                         <Typography>
                             <b style={{ color: "#595959" }}>Thời hạn ứng tuyển:</b>{" "}
-                            <span style={{ color: "#1d39c4" }}>
-                                {new Date(jobPost.expiryDate).toLocaleDateString()}
-                            </span>
+                            <span style={{ color: "#1d39c4" }}>{formatDate(jobPost.expiryDate)}</span>
                         </Typography>
                     </Stack>
                 </Box>

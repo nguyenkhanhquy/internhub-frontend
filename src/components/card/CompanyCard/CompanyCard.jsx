@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const CompanyCard = ({ company }) => {
     const handleCardClick = () => {
-        window.open(`/search/${company.id}`, "_blank");
+        window.open(`/companies/${company.id}`, "_blank");
     };
 
     return (
@@ -20,6 +20,7 @@ const CompanyCard = ({ company }) => {
                 "&:hover": {
                     transform: "scale(1.05)",
                     boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+                    cursor: "pointer",
                 },
             }}
             onClick={handleCardClick}

@@ -9,3 +9,7 @@ export const getAllApprovedCompanies = async (page, size) => {
         },
     });
 };
+
+export const getCompanyById = async (id) => {
+    return axiosClient.get(COMPANIES_API.GET_BY_ID + id);
+};
