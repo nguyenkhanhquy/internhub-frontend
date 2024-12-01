@@ -203,7 +203,7 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
 };
 
 ApplicationListTable.propTypes = {
-    applications: PropTypes.object.isRequired,
+    applications: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired,
     recordsPerPage: PropTypes.number.isRequired,
     handleAction: PropTypes.func.isRequired,

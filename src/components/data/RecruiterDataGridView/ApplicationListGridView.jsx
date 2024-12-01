@@ -1,9 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Button } from "@mui/material";
 import ApplicationListTable from "./RecruiterDataTable/ApplicationListTable";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 
-const ApplicationListGridView = ({ applications, title }) => {
+const ApplicationListGridView = ({ applications, title, onBack }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
@@ -31,6 +32,13 @@ const ApplicationListGridView = ({ applications, title }) => {
             totalRecords={totalRecords}
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
+            actions={
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button variant="outlined" onClick={onBack} style={{ marginRight: "10px" }}>
+                        Quay lại
+                    </Button>
+                </div>
+            }
         >
             <ApplicationListTable
                 applications={applications}
@@ -43,8 +51,9 @@ const ApplicationListGridView = ({ applications, title }) => {
 };
 
 ApplicationListGridView.propTypes = {
-    applications: PropTypes.object.isRequired,
+    applications: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
+    onBack: PropTypes.func,
 };
 
 export default ApplicationListGridView;
