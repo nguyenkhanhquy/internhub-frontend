@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, Container, Stack, Avatar, Button } from "@mui/material";
+import { Box, Typography, Container, Button } from "@mui/material";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
 import SearchBar from "../../components/search/SearchBar";
 import JobCardBasic from "../../components/job/JobCard/JobCardBasic";
+import FeaturedCompaniesSection from "../../components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
 
 const jobList = [
     {
@@ -117,7 +118,7 @@ const jobList = [
     },
 ];
 
-const featuredCompanys = [
+const featuredCompanies = [
     {
         logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
         name: "FPT",
@@ -131,11 +132,11 @@ const featuredCompanys = [
         name: "Microsoft",
     },
     {
-        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+        logo: "https://static.topcv.vn/company_logos/tPpFNWejXD1vZcnPq3zwPvuogKjMVpNn_1632111773____3a97a554d8a86fae085e874603fdfdb4.jpg",
         name: "Intel",
     },
     {
-        logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQynRWjct-irxvN7m38LR5unjUtJq1K3t9LFA&s",
         name: "FPT",
     },
 ];
@@ -220,51 +221,7 @@ const HomePage = () => {
                 </Box>
 
                 {/* NHÀ TUYỂN DỤNG NỔI BẬT */}
-                <Box
-                    sx={{
-                        my: 6,
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        minHeight: "50vh",
-                    }}
-                >
-                    <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
-                        NHÀ TUYỂN DỤNG NỔI BẬT
-                    </Typography>
-
-                    {/* Các hình ảnh nhà tuyển dụng nổi bật */}
-                    <Stack direction="row" spacing={4} sx={{ flexWrap: "wrap", justifyContent: "center" }}>
-                        {featuredCompanys.map((employer, index) => (
-                            <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
-                                <Avatar
-                                    src={employer.logo}
-                                    alt={employer.name}
-                                    sx={{
-                                        width: 200,
-                                        height: 200,
-                                        objectFit: "contain", // Đảm bảo logo không bị méo
-                                    }}
-                                />
-                            </Box>
-                        ))}
-                    </Stack>
-
-                    {/* Button Xem thêm */}
-                    <Button
-                        variant="container"
-                        sx={{
-                            padding: "8px 16px",
-                            backgroundColor: "#2e3090",
-                            color: "white",
-                            "&:hover": { backgroundColor: "#1f2061" },
-                        }}
-                        onClick={() => navigate("/search")}
-                    >
-                        Xem thêm...
-                    </Button>
-                </Box>
+                <FeaturedCompaniesSection companies={featuredCompanies} />
             </Container>
         </MainLayout>
     );

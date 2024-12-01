@@ -12,6 +12,7 @@ import VerifyPage from "../pages/VerifyPage/VerifyPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
+import CompanyListingPage from "../pages/CompanyListingPage/CompanyListingPage";
 
 import RecruiterProfilePage from "../pages/AccountPage/RecruiterProfilePage";
 import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
@@ -75,6 +76,7 @@ const AppRoutes = () => {
                             <Route index element={<HomePage />} />
                             <Route path="/search" element={<SearchPage />} />
                             <Route path="/search/:id" element={<JobDetailsPage />} />
+                            <Route path="/companies" element={<CompanyListingPage />} />
 
                             {isAuthenticated ? (
                                 <>
