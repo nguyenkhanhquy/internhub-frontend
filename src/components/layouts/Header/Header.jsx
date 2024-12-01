@@ -25,7 +25,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DataUsageIcon from "@mui/icons-material/DataUsage";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import Badge from "@mui/material/Badge"; // Nhập Badge
+import Badge from "@mui/material/Badge";
 
 import logoImage from "/images/hcmute_fit_logo.png";
 import NotificationModal from "../../modals/NotificationModal/NotfificationModal";
@@ -238,7 +238,7 @@ const Header = () => {
                                         </Typography>
                                     </Box>
 
-                                    <List sx={{ maxHeight: 300, overflowY: "auto", padding: 0 }}>
+                                    <List sx={{ maxHeight: 500, overflowY: "auto", padding: 0 }}>
                                         {visibleNotifications.map((notification) => (
                                             <div key={notification.id}>
                                                 <ListItem
