@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import UpdateJobPostForm from "../../forms/UpdateJobPostForm/UpdateJobPostForm";
 import CloseIcon from "@mui/icons-material/Close";
 
-const UpdateJobPostModal = ({ isOpen, jobPostData, onClose, setFlag }) => {
-    if (!isOpen) return null; // Không render nếu modal không mở
+const UpdateJobPostModal = ({ jobPostData, onClose, setFlag }) => {
+    useEffect(() => {
+        // Khóa cuộn trang khi mở modal
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            // Khôi phục cuộn trang khi đóng modal
+            document.body.style.overflow = "auto";
+        };
+    }, []);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -27,7 +36,6 @@ const UpdateJobPostModal = ({ isOpen, jobPostData, onClose, setFlag }) => {
 };
 
 UpdateJobPostModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired, // Hiển thị modal hay không
     jobPostData: PropTypes.object.isRequired, // Dữ liệu bài đăng tuyển dụng
     onClose: PropTypes.func.isRequired, // Hành động đóng modal
     setFlag: PropTypes.func.isRequired, // Hàm cập nhật danh sách bài đăng

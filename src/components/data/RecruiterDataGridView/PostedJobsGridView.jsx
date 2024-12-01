@@ -69,6 +69,7 @@ const PostedJobsGridView = () => {
     const handleChangeTab = async (event, newValue) => {
         setSearch("");
         setCurrentPage(1);
+        setJobPosts([]);
         if (newValue === 0) {
             // Lấy dữ liệu việc làm đang hiển thị
             setIsApproved(true);
@@ -243,18 +244,37 @@ const PostedJobsGridView = () => {
                     />
                 </CustomTabPanel>
 
-                <CustomTabPanel value={value} index={3}></CustomTabPanel>
+                <CustomTabPanel value={value} index={3}>
+                    <PostedJobsTable
+                        loading={loading}
+                        postedJobPosts={jobPosts}
+                        currentPage={currentPage}
+                        recordsPerPage={recordsPerPage}
+                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                        handleViewDetails={handleViewDetails}
+                        handleToggleVisibility={handleToggleVisibility}
+                    />
+                </CustomTabPanel>
 
-                <CustomTabPanel value={value} index={4}></CustomTabPanel>
+                <CustomTabPanel value={value} index={4}>
+                    <PostedJobsTable
+                        loading={loading}
+                        postedJobPosts={[]}
+                        currentPage={currentPage}
+                        recordsPerPage={recordsPerPage}
+                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
+                        handleViewDetails={handleViewDetails}
+                        handleToggleVisibility={handleToggleVisibility}
+                    />
+                </CustomTabPanel>
             </Box>
 
             {/* Modal chỉnh sửa bài đăng */}
-            <UpdateJobPostModal
-                isOpen={isUpdateModalOpen}
-                jobPostData={selectedJobPost || {}}
-                onClose={handleCloseUpdateModal}
-                setFlag={setFlag}
-            />
+            {isUpdateModalOpen && (
+                <UpdateJobPostModal jobPostData={selectedJobPost} onClose={handleCloseUpdateModal} setFlag={setFlag} />
+            )}
         </GridViewLayout>
     );
 };

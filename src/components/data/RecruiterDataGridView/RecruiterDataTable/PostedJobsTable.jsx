@@ -126,7 +126,7 @@ const PostedJobsTable = ({
                                 <TableCell align="center">
                                     <Stack direction="column" spacing={1}>
                                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                            {job.jobApplyCount} Hồ sơ
+                                            {job.jobApplyCount} hồ sơ
                                         </Typography>
                                         <Button
                                             variant="outlined"
