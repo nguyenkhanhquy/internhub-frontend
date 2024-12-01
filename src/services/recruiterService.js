@@ -17,7 +17,3 @@ export const updateProfile = async (profile) => {
         companyLogo: profile.companyLogo,
     });
 };
-
-export const approveRecruiter = async (userId) => {
-    return axiosClient.post(RECRUITERS_API.APPROVE + userId);
-};

@@ -9,6 +9,7 @@ export const AUTH_API = {
 export const ADMIN_API = {
     GET_ALL_JOB_POSTS: "/admin/jobs",
     APPROVE_JOB_POST: "/admin/jobs/approve/",
+    APPROVE_RECRUITER: "/admin/recruiters/approve/",
 };
 
 export const USERS_API = {
@@ -29,7 +30,6 @@ export const NOTIFICATIONS_API = {
 export const RECRUITERS_API = {
     GET_ALL: "/recruiters",
     UPDATE_PROFILE: "/recruiters/update-profile",
-    APPROVE: "/recruiters/approve/",
 };
 
 export const STUDENTS_API = {
