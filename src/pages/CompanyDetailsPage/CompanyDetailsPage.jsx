@@ -35,6 +35,53 @@ const CompanyDetailsPage = () => {
                             description:
                                 "Axon Active Vietnam is a Swiss company specializing in Agile software development and testing. We are one of the leading offshore software development and testing service providers in Vietnam. Our mission is to help customers reduce their time to market and lower development costs while maintaining the highest quality of software products.",
                             address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
+                            jobs: [
+                                {
+                                    id: 1,
+                                    title: "Senior Java Developer",
+                                    company: {
+                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+                                        name: "Axon Active Vietnam",
+                                    },
+                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
+                                    jobPosition: "Java Developer",
+                                    type: "Full-time",
+                                    salary: "1000 - 2000",
+                                    updatedDate: "2021-10-10",
+                                    expiryDate: "2021-12-10",
+                                    saved: false,
+                                },
+                                {
+                                    id: 2,
+                                    title: "Senior Java Developer",
+                                    company: {
+                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+                                        name: "Axon Active Vietnam",
+                                    },
+                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
+                                    jobPosition: "React Developer",
+                                    type: "Full-time",
+                                    salary: "1000 - 2000",
+                                    updatedDate: "2021-10-10",
+                                    expiryDate: "2021-12-10",
+                                    saved: false,
+                                },
+                                {
+                                    id: 3,
+                                    title: "Senior Java Developer",
+                                    company: {
+                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
+                                        name: "Axon Active Vietnam",
+                                    },
+                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
+                                    jobPosition: "QA Tester",
+                                    type: "Full-time",
+                                    salary: "1000 - 2000",
+                                    updatedDate: "2021-10-10",
+                                    expiryDate: "2021-12-10",
+                                    saved: false,
+                                },
+                            ],
                         }}
                     />
                 </Grid>

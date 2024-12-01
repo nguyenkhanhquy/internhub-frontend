@@ -44,7 +44,7 @@ const CompanyInfoTab = ({ description, address }) => {
             <Divider sx={{ my: 3 }} />
 
             {/* Địa chỉ công ty */}
-            <Box sx={{ mb: 4 }}>
+            <Box sx={{ mb: 2 }}>
                 <Stack direction="row" spacing={1} alignItems="center">
                     <LocationOn />
                     <Typography variant="h6" fontWeight="bold">
