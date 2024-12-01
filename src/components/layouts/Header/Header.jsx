@@ -29,18 +29,13 @@ import Badge from "@mui/material/Badge";
 
 import logoImage from "/images/hcmute_fit_logo.png";
 import NotificationModal from "../../modals/NotificationModal/NotfificationModal";
+import EmptyBox from "../../box/EmptyBox";
 
-const mockNotifications = Array.from({ length: 20 }, (_, i) => ({
-    id: i + 1,
-    title: `Bạn đã bị từ chối vì CV quá xấu ${i + 1}`,
-    content: `Nội dung thông báo`,
-    isRead: i % 3 !== 0,
-    createTime: new Date(Date.now() - i * 3200000).toISOString(),
-}));
+import { getAllNotificationsByUser } from "../../../services/notificationService";
 
-const formatRelativeTime = (createTime) => {
+const formatRelativeTime = (createdDate) => {
     const now = new Date();
-    const createdAt = new Date(createTime);
+    const createdAt = new Date(createdDate);
     const diffInMs = now - createdAt;
     const diffInMinutes = Math.floor(diffInMs / 60000);
 
@@ -55,7 +50,7 @@ const formatRelativeTime = (createTime) => {
 };
 
 const Header = () => {
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, flag } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
@@ -70,25 +65,25 @@ const Header = () => {
     const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
-        setNotifications(
-            mockNotifications.sort((a, b) => {
-                if (a.isRead === b.isRead) {
-                    return new Date(b.createTime) - new Date(a.createTime);
+        if (!isAuthenticated) return;
+
+        const fetchNotifications = async () => {
+            console.log("Fetching notifications...");
+            const data = await getAllNotificationsByUser();
+
+            const sortedNotifications = data.result.sort((a, b) => {
+                if (a.read === b.read) {
+                    return new Date(b.createdDate) - new Date(a.createdDate);
                 }
-                return a.isRead ? 1 : -1; // Đưa thông báo chưa đọc lên đầu
-            }),
-        );
-        setVisibleNotifications(
-            mockNotifications
-                .sort((a, b) => {
-                    if (a.isRead === b.isRead) {
-                        return new Date(b.createTime) - new Date(a.createTime);
-                    }
-                    return a.isRead ? 1 : -1;
-                })
-                .slice(0, ITEMS_PER_PAGE),
-        );
-    }, []);
+                return a.read ? 1 : -1;
+            });
+
+            setNotifications(sortedNotifications);
+            setVisibleNotifications(sortedNotifications.slice(0, ITEMS_PER_PAGE));
+        };
+
+        fetchNotifications();
+    }, [isAuthenticated, flag]);
 
     const handleNotificationClick = (event) => {
         setNotificationAnchorEl(event.currentTarget);
@@ -107,15 +102,15 @@ const Header = () => {
 
     const markAsRead = (id) => {
         const updatedNotifications = notifications.map((notification) =>
-            notification.id === id ? { ...notification, isRead: true } : notification,
+            notification.id === id ? { ...notification, read: true } : notification,
         );
 
         setNotifications(
             updatedNotifications.sort((a, b) => {
-                if (a.isRead === b.isRead) {
-                    return new Date(b.createTime) - new Date(a.createTime);
+                if (a.read === b.read) {
+                    return new Date(b.createdDate) - new Date(a.createdDate);
                 }
-                return a.isRead ? 1 : -1;
+                return a.read ? 1 : -1;
             }),
         );
 
@@ -202,9 +197,7 @@ const Header = () => {
                                     }}
                                 >
                                     <Badge
-                                        badgeContent={
-                                            notifications.filter((notification) => !notification.isRead).length
-                                        } // Đếm số lượng thông báo chưa đọc
+                                        badgeContent={notifications.filter((notification) => !notification.read).length} // Đếm số lượng thông báo chưa đọc
                                         color="error" // Màu sắc của badge
                                         sx={{ right: -40, top: -20 }} // Vị trí của badge
                                     ></Badge>
@@ -219,7 +212,7 @@ const Header = () => {
                                     PaperProps={{
                                         elevation: 3,
                                         sx: {
-                                            width: 360,
+                                            width: 400,
                                             borderRadius: 2,
                                             overflow: "hidden",
                                             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -239,44 +232,48 @@ const Header = () => {
                                     </Box>
 
                                     <List sx={{ maxHeight: 500, overflowY: "auto", padding: 0 }}>
-                                        {visibleNotifications.map((notification) => (
-                                            <div key={notification.id}>
-                                                <ListItem
-                                                    sx={{
-                                                        alignItems: "flex-start",
-                                                        backgroundColor: notification.isRead ? "#ffffff" : "#f0f8ff",
-                                                        "&:hover": { backgroundColor: "#eaf4fe" },
-                                                        paddingX: 2,
-                                                        paddingY: 1.5,
-                                                        cursor: "pointer",
-                                                    }}
-                                                    onClick={() => {
-                                                        handleSelectNotification(notification);
-                                                        markAsRead(notification.id);
-                                                    }}
-                                                >
-                                                    <ListItemText
-                                                        primary={
-                                                            <Typography
-                                                                variant="body1"
-                                                                sx={{
-                                                                    fontWeight: notification.isRead ? "400" : "600",
-                                                                    color: "#333",
-                                                                }}
-                                                            >
-                                                                {notification.title}
-                                                            </Typography>
-                                                        }
-                                                        secondary={
-                                                            <Typography variant="caption" color="#888">
-                                                                {formatRelativeTime(notification.createTime)}
-                                                            </Typography>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                                <Divider />
-                                            </div>
-                                        ))}
+                                        {visibleNotifications.length === 0 ? (
+                                            <EmptyBox />
+                                        ) : (
+                                            visibleNotifications.map((notification) => (
+                                                <div key={notification.id}>
+                                                    <ListItem
+                                                        sx={{
+                                                            alignItems: "flex-start",
+                                                            backgroundColor: notification.read ? "#ffffff" : "#f0f8ff",
+                                                            "&:hover": { backgroundColor: "#eaf4fe" },
+                                                            paddingX: 2,
+                                                            paddingY: 1.5,
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() => {
+                                                            handleSelectNotification(notification);
+                                                            markAsRead(notification.id);
+                                                        }}
+                                                    >
+                                                        <ListItemText
+                                                            primary={
+                                                                <Typography
+                                                                    variant="body1"
+                                                                    sx={{
+                                                                        fontWeight: notification.read ? "400" : "600",
+                                                                        color: "#333",
+                                                                    }}
+                                                                >
+                                                                    {notification.title}
+                                                                </Typography>
+                                                            }
+                                                            secondary={
+                                                                <Typography variant="caption" color="#888">
+                                                                    {formatRelativeTime(notification.createdDate)}
+                                                                </Typography>
+                                                            }
+                                                        />
+                                                    </ListItem>
+                                                    <Divider />
+                                                </div>
+                                            ))
+                                        )}
                                         {loading && (
                                             <Box display="flex" justifyContent="center" sx={{ padding: 2 }}>
                                                 <CircularProgress size={24} />

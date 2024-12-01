@@ -21,6 +21,10 @@ export const USERS_API = {
     UPDATE_PASSWORD: "/users/update-password",
 };
 
+export const NOTIFICATIONS_API = {
+    GET_ALL_BY_USER: "/notifications/user",
+};
+
 export const RECRUITERS_API = {
     GET_ALL: "/recruiters",
     UPDATE_PROFILE: "/recruiters/update-profile",

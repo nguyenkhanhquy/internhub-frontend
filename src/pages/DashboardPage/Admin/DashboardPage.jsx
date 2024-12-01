@@ -80,7 +80,7 @@ const NAVIGATION = [
     },
     {
         segment: "teacher",
-        title: "Giáo viên",
+        title: "Giảng viên",
         icon: <SupervisorAccountIcon />,
     },
     {

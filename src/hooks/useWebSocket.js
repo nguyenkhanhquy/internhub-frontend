@@ -1,10 +1,11 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
 import { toast } from "react-toastify";
 
 const useWebSocket = (id) => {
     const stompClientRef = useRef(null);
+    const [flag, setFlag] = useState(false);
 
     const connectWebSocket = useCallback(() => {
         if (stompClientRef.current) {
@@ -25,6 +26,7 @@ const useWebSocket = (id) => {
 
                 client.subscribe(`/user/${id}/private`, (message) => {
                     const receivedMessage = JSON.parse(message.body);
+                    setFlag((prev) => !prev);
                     toast.info(`${receivedMessage.message}`);
                 });
             },
@@ -47,7 +49,7 @@ const useWebSocket = (id) => {
         }
     }, []);
 
-    return { connectWebSocket, disconnectWebSocket };
+    return { connectWebSocket, disconnectWebSocket, flag };
 };
 
 export default useWebSocket;

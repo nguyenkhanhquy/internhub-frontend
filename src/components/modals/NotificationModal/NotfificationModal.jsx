@@ -30,7 +30,7 @@ const NotificationModal = ({ open, onClose, notification }) => {
                     </IconButton>
                 </Box>
                 <Typography variant="body2" color="#888" sx={{ marginBottom: 2 }}>
-                    {new Date(notification.createTime).toLocaleString()}
+                    {new Date(notification.createdDate).toLocaleString()}
                 </Typography>
                 <Typography variant="body1">{notification.content}</Typography>
             </Box>

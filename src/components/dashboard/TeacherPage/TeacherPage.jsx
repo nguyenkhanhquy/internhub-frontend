@@ -64,11 +64,11 @@ const TeacherPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Typography variant="h5">GIÁO VIÊN</Typography>
+                <Typography variant="h5">GIẢNG VIÊN</Typography>
                 <Box display="flex" alignItems="center" gap={2}>
                     <TextField type="file" onChange={handleFileChange} />
                     <Button disabled={!file} variant="contained" onClick={handleUpload}>
-                        + Import danh sách giáo viên
+                        + Import danh sách giảng viên
                     </Button>
                 </Box>
             </div>
