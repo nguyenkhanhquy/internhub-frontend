@@ -23,6 +23,7 @@ export const USERS_API = {
 
 export const NOTIFICATIONS_API = {
     GET_ALL_BY_USER: "/notifications/user",
+    MARK_AS_READ: "/notifications/mark-as-read/",
 };
 
 export const RECRUITERS_API = {

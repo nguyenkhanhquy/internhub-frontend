@@ -31,7 +31,7 @@ import logoImage from "/images/hcmute_fit_logo.png";
 import NotificationModal from "../../modals/NotificationModal/NotfificationModal";
 import EmptyBox from "../../box/EmptyBox";
 
-import { getAllNotificationsByUser } from "../../../services/notificationService";
+import { getAllNotificationsByUser, markNotificationAsRead } from "../../../services/notificationService";
 
 const formatRelativeTime = (createdDate) => {
     const now = new Date();
@@ -68,7 +68,6 @@ const Header = () => {
         if (!isAuthenticated) return;
 
         const fetchNotifications = async () => {
-            console.log("Fetching notifications...");
             const data = await getAllNotificationsByUser();
 
             const sortedNotifications = data.result.sort((a, b) => {
@@ -100,7 +99,9 @@ const Header = () => {
         }, 1000);
     };
 
-    const markAsRead = (id) => {
+    const markAsRead = async (id) => {
+        await markNotificationAsRead(id);
+
         const updatedNotifications = notifications.map((notification) =>
             notification.id === id ? { ...notification, read: true } : notification,
         );
