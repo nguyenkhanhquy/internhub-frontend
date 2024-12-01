@@ -100,22 +100,25 @@ const Header = () => {
     };
 
     const markAsRead = async (id) => {
-        await markNotificationAsRead(id);
+        const notification = notifications.find((n) => n.id === id);
 
-        const updatedNotifications = notifications.map((notification) =>
-            notification.id === id ? { ...notification, read: true } : notification,
-        );
+        if (notification && !notification.read) {
+            await markNotificationAsRead(id);
 
-        setNotifications(
-            updatedNotifications.sort((a, b) => {
+            const updatedNotifications = notifications.map((notification) =>
+                notification.id === id ? { ...notification, read: true } : notification,
+            );
+
+            const sortedNotifications = updatedNotifications.sort((a, b) => {
                 if (a.read === b.read) {
                     return new Date(b.createdDate) - new Date(a.createdDate);
                 }
                 return a.read ? 1 : -1;
-            }),
-        );
+            });
 
-        setVisibleNotifications(() => updatedNotifications.slice(0, page * ITEMS_PER_PAGE));
+            setNotifications(sortedNotifications);
+            setVisibleNotifications(sortedNotifications.slice(0, page * ITEMS_PER_PAGE));
+        }
     };
 
     const handleSignUpClick = (event) => {
