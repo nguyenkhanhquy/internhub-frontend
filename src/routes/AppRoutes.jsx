@@ -115,7 +115,7 @@ const AppRoutes = () => {
                                     )}
 
                                     {/* Recruiter Specific Routes */}
-                                    {user?.role === "RECRUITER" && (
+                                    {user?.role === "RECRUITER" && user?.approved && (
                                         <Route path="/recruiter">
                                             <Route index element={<Navigate to="/recruiter/posted-jobs" replace />} />
                                             <Route path="posted-jobs" element={<PostedJobsPage />} />

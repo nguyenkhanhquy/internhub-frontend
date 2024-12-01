@@ -18,16 +18,15 @@ const LogoutPage = () => {
         try {
             if (accessToken) {
                 const data = await logout(accessToken);
-
                 if (!data.success) {
                     if (data?.message) throw new Error(data.message);
                     else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-
                 removeToken();
 
                 const user = { role: "GUEST" };
                 setUser(user);
+
                 setIsAuthenticated(false);
 
                 navigate("/login");

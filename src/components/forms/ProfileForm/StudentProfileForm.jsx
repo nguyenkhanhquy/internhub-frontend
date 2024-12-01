@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { getAuthProfile } from "../../../services/authService";
 import { updateProfile } from "../../../services/studentService";
@@ -51,6 +52,7 @@ const schema = yup
     .required();
 
 const StudentProfileForm = () => {
+    const { user, setUser } = useAuth();
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState(null);
 
@@ -109,6 +111,10 @@ const StudentProfileForm = () => {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
+
+            user.name = formData.name;
+            setUser(user);
+
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);

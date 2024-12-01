@@ -1,8 +1,11 @@
 import { Box } from "@mui/material";
 import RecruiterDataNavigation from "../../components/navigations/DataNavigation/RecruiterDataNavigation";
 import PropTypes from "prop-types";
+import useAuth from "../../hooks/useAuth";
 
 const RecruiterDataLayout = ({ children }) => {
+    const { user } = useAuth();
+
     return (
         <div className="mx-auto flex min-h-[500px] w-full max-w-[1360px] flex-col gap-6 p-4 md:flex-row">
             {/* Sidebar navigation bên trái */}
@@ -13,7 +16,7 @@ const RecruiterDataLayout = ({ children }) => {
                         top: 0,
                     }}
                 >
-                    <RecruiterDataNavigation logo="https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg" />
+                    <RecruiterDataNavigation logo={user?.logo} />
                 </Box>
             </div>
 

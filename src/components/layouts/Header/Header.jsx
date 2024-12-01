@@ -340,32 +340,38 @@ const Header = () => {
                                     open={Boolean(accountAnchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem onClick={handleClose} component={Link} to="/search">
-                                        <WorkIcon sx={{ marginRight: 1 }} />
-                                        Việc làm
-                                    </MenuItem>
+                                    {user?.role === "STUDENT" && (
+                                        <MenuItem onClick={handleClose} component={Link} to="/search">
+                                            <WorkIcon sx={{ marginRight: 1 }} />
+                                            Việc làm
+                                        </MenuItem>
+                                    )}
+
                                     <MenuItem onClick={handleClose} component={Link} to="/account">
                                         <AccountCircleIcon sx={{ marginRight: 1 }} />
                                         Tài khoản
                                     </MenuItem>
 
-                                    <MenuItem
-                                        onClick={handleClose}
-                                        component={Link}
-                                        to={(() => {
-                                            switch (user?.role) {
-                                                case "STUDENT":
-                                                    return "/student";
-                                                case "RECRUITER":
-                                                    return "/recruiter";
-                                                default:
-                                                    return "/";
-                                            }
-                                        })()}
-                                    >
-                                        <DataUsageIcon sx={{ marginRight: 1 }} />
-                                        Dữ liệu của tôi
-                                    </MenuItem>
+                                    {user?.approved && (
+                                        <MenuItem
+                                            onClick={handleClose}
+                                            component={Link}
+                                            to={(() => {
+                                                switch (user?.role) {
+                                                    case "STUDENT":
+                                                        return "/student";
+                                                    case "RECRUITER":
+                                                        return "/recruiter";
+                                                    default:
+                                                        return "/";
+                                                }
+                                            })()}
+                                        >
+                                            <DataUsageIcon sx={{ marginRight: 1 }} />
+                                            Dữ liệu của tôi
+                                        </MenuItem>
+                                    )}
+
                                     <MenuItem onClick={handleClose} component={Link} to="/logout">
                                         <LogoutIcon sx={{ marginRight: 1 }} />
                                         Đăng xuất

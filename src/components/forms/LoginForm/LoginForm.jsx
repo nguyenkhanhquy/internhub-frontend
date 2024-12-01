@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login, getAuthUser } from "../../../services/authService";
+import { login, getAuthUser, getAuthProfile } from "../../../services/authService";
 import { setToken, setRememberMe, getRememberMe, removeRememberMe } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
 
@@ -69,15 +69,29 @@ function LoginForm() {
         setLoading(true);
         try {
             const data = await login(formData.email, formData.password);
-
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-
             setToken(data.result?.accessToken);
 
-            const dataUser = await getAuthUser(data.result?.accessToken);
-            setUser(dataUser?.result);
+            const dataUser = await getAuthUser();
+            if (!dataUser.success) {
+                throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setUser(dataUser.result);
+
+            if (dataUser.result.role !== "FIT") {
+                const dataProfile = await getAuthProfile();
+                if (!dataProfile.success) {
+                    throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    name: dataProfile.result?.name,
+                    approved: dataProfile.result?.approved ?? true,
+                    logo: dataProfile.result?.company?.logo,
+                }));
+            }
 
             setIsAuthenticated(true);
 

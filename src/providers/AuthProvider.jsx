@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { getToken } from "../services/localStorageService";
-import { getAuthUser } from "../services/authService";
+import { getAuthUser, getAuthProfile } from "../services/authService";
 import AuthContext from "../context/AuthContext";
 import useWebSocket from "../hooks/useWebSocket";
 
@@ -14,16 +16,28 @@ const AuthProvider = ({ children }) => {
 
     const fetchUser = useCallback(async () => {
         try {
-            const data = await getAuthUser();
-            if (data.success) {
-                setUser(data?.result);
-                setIsAuthenticated(true);
-            } else {
-                setIsAuthenticated(false);
-                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            const dataUser = await getAuthUser();
+            if (!dataUser.success) {
+                throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setUser(dataUser.result);
+
+            if (dataUser.result.role !== "FIT") {
+                const dataProfile = await getAuthProfile();
+                if (!dataProfile.success) {
+                    throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    name: dataProfile.result?.name,
+                    approved: dataProfile.result?.approved ?? true,
+                    logo: dataProfile.result?.company?.logo,
+                }));
+            }
+
+            setIsAuthenticated(true);
         } catch (error) {
-            console.error(error.message);
+            toast.error(error.message);
             setIsAuthenticated(false);
         } finally {
             setLoading(false);
