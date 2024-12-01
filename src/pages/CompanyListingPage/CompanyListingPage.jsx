@@ -3,6 +3,7 @@ import MainLayout from "../../layouts/MainLayout/MainLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import CompanyCard from "../../components/card/CompanyCard/CompanyCard";
 import CompanyListingPagination from "../../components/pagination/CompanyListingPagination/CompanyListingPagination";
+import EmptyBox from "../../components/box/EmptyBox";
 import { Grid } from "@mui/material";
 
 const companies = [
@@ -59,11 +60,15 @@ const CompanyListingPage = () => {
             >
                 {/* Hiển thị danh sách các công ty */}
                 <Grid container spacing={4} sx={{ justifyContent: "center", mb: 4 }}>
-                    {companies.map((company, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
-                            <CompanyCard company={company} />
-                        </Grid>
-                    ))}
+                    {companies.length > 0 ? (
+                        companies.map((company, index) => (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <CompanyCard company={company} />
+                            </Grid>
+                        ))
+                    ) : (
+                        <EmptyBox />
+                    )}
                 </Grid>
                 {/* Phân trang */}
                 <CompanyListingPagination

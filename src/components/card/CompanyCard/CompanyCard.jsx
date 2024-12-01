@@ -2,6 +2,10 @@ import { Box, Avatar, Typography, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 
 const CompanyCard = ({ company }) => {
+    const handleCardClick = () => {
+        window.open(`/search/${company.id}`, "_blank");
+    };
+
     return (
         <Box
             sx={{
@@ -18,6 +22,7 @@ const CompanyCard = ({ company }) => {
                     boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
                 },
             }}
+            onClick={handleCardClick}
         >
             <Avatar
                 src={company.logo}
