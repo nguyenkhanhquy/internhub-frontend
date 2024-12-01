@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { Box, Typography, Container, Button } from "@mui/material";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
@@ -6,6 +8,8 @@ import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
 import SearchBar from "../../components/search/SearchBar";
 import JobCardBasic from "../../components/job/JobCard/JobCardBasic";
 import FeaturedCompaniesSection from "../../components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
+
+import { getAllApprovedCompanies } from "../../services/companyService";
 
 const jobList = [
     {
@@ -118,31 +122,26 @@ const jobList = [
     },
 ];
 
-const featuredCompanies = [
-    {
-        logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
-        name: "FPT",
-    },
-    {
-        logo: "https://cdn.shopify.com/shopifycloud/hatchful_web_two/bundles/7e55eb3d6a1a096058955ae7d64ee9d5.png",
-        name: "UPS",
-    },
-    {
-        logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg?ts=1561532453",
-        name: "Microsoft",
-    },
-    {
-        logo: "https://static.topcv.vn/company_logos/tPpFNWejXD1vZcnPq3zwPvuogKjMVpNn_1632111773____3a97a554d8a86fae085e874603fdfdb4.jpg",
-        name: "Intel",
-    },
-    {
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQynRWjct-irxvN7m38LR5unjUtJq1K3t9LFA&s",
-        name: "FPT",
-    },
-];
-
 const HomePage = () => {
     const navigate = useNavigate();
+    const [featuredCompanies, setFeaturedCompanies] = useState([]);
+
+    useEffect(() => {
+        const fetchFeaturedCompanies = async () => {
+            console.log("fetchFeaturedCompanies");
+            try {
+                const data = await getAllApprovedCompanies(1, 5);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setFeaturedCompanies(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        fetchFeaturedCompanies();
+    }, []);
 
     return (
         <MainLayout title="Trang chủ">

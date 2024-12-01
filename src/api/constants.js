@@ -32,6 +32,10 @@ export const RECRUITERS_API = {
     UPDATE_PROFILE: "/recruiters/update-profile",
 };
 
+export const COMPANIES_API = {
+    GET_ALL_APPROVED: "/companies/approved",
+};
+
 export const STUDENTS_API = {
     GET_ALL: "/students",
     UPDATE_PROFILE: "/students/update-profile",
