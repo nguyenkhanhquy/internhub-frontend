@@ -45,8 +45,8 @@ const AccountDetailsPage = () => {
                     >
                         <Card
                             sx={{
-                                minWidth: 350,
-                                maxWidth: 500,
+                                minWidth: 400,
+                                maxWidth: 800,
                                 boxShadow: 4,
                                 borderRadius: 4,
                                 padding: 4,
@@ -76,7 +76,7 @@ const AccountDetailsPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        Id
+                                        ID
                                     </Typography>
                                     <Typography
                                         sx={{

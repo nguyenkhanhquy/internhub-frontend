@@ -85,7 +85,7 @@ const TeacherPage = () => {
                     <TableBody>
                         {teachers.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={4} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptryBox />
                                 </TableCell>
                             </TableRow>

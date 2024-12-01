@@ -23,7 +23,7 @@ const FeaturedCompaniesSection = ({ companies }) => {
 
             {/* Các hình ảnh nhà tuyển dụng nổi bật */}
             <Stack direction="row" spacing={4} sx={{ flexWrap: "wrap", justifyContent: "center" }}>
-                {companies.map((employer, index) => (
+                {companies.map((company, index) => (
                     <Box
                         key={index}
                         sx={{
@@ -33,16 +33,18 @@ const FeaturedCompaniesSection = ({ companies }) => {
                             "&:hover": {
                                 transform: "scale(1.1)",
                                 boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+                                cursor: "pointer",
                             },
                         }}
                     >
                         <Avatar
-                            src={employer.logo}
-                            alt={employer.name}
+                            src={company.logo}
+                            alt={company.name}
                             sx={{
                                 width: 200,
                                 height: 200,
                                 objectFit: "contain",
+                                borderRadius: 0,
                             }}
                         />
                     </Box>

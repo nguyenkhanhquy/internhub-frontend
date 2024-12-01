@@ -68,74 +68,67 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
                                 </Box>
                             </TableCell>
                         </TableRow>
+                    ) : savedJobPosts.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <EmptyBox />
+                            </TableCell>
+                        </TableRow>
                     ) : (
-                        <>
-                            {savedJobPosts.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                        <EmptyBox />
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                savedJobPosts.map((job, index) => (
-                                    <TableRow
-                                        key={index}
-                                        sx={{
-                                            "&:hover": {
-                                                backgroundColor: "#f9f9f9",
-                                            },
-                                            "& td": {
-                                                padding: "10px 16px",
-                                                fontSize: "0.875rem",
-                                                borderBottom: "1px solid #e0e0e0",
-                                            },
-                                        }}
-                                    >
-                                        <TableCell align="center">{index + 1}</TableCell>
-                                        <TableCell
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                                {job.title}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            {job.jobPosition}
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            {job.companyName}
-                                        </TableCell>
-                                        <TableCell>{formatDate(job.expiryDate)}</TableCell>
-                                        <TableCell>
-                                            <Stack direction="row" spacing={1}>
-                                                <IconButton
-                                                    color="primary"
-                                                    onClick={() => handleViewDetailsClick(job.id)}
-                                                >
-                                                    <InfoOutlinedIcon />
-                                                </IconButton>
-                                                <IconButton color="error" onClick={() => handleDeleteClick(job.id)}>
-                                                    <DeleteOutlineIcon />
-                                                </IconButton>
-                                            </Stack>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            )}
-                        </>
+                        savedJobPosts.map((job, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: "#f9f9f9",
+                                    },
+                                    "& td": {
+                                        padding: "10px 16px",
+                                        fontSize: "0.875rem",
+                                        borderBottom: "1px solid #e0e0e0",
+                                    },
+                                }}
+                            >
+                                <TableCell align="center">{index + 1}</TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                        {job.title}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    {job.jobPosition}
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    {job.companyName}
+                                </TableCell>
+                                <TableCell>{formatDate(job.expiryDate)}</TableCell>
+                                <TableCell>
+                                    <Stack direction="row" spacing={1}>
+                                        <IconButton color="primary" onClick={() => handleViewDetailsClick(job.id)}>
+                                            <InfoOutlinedIcon />
+                                        </IconButton>
+                                        <IconButton color="error" onClick={() => handleDeleteClick(job.id)}>
+                                            <DeleteOutlineIcon />
+                                        </IconButton>
+                                    </Stack>
+                                </TableCell>
+                            </TableRow>
+                        ))
                     )}
                 </TableBody>
             </Table>

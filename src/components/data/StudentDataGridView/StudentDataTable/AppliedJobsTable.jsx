@@ -110,47 +110,43 @@ const AppliedJobsTable = ({ loading, applyJobs }) => {
                                 </Box>
                             </TableCell>
                         </TableRow>
+                    ) : applyJobs.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <EmptyBox />
+                            </TableCell>
+                        </TableRow>
                     ) : (
-                        <>
-                            {applyJobs.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                        <EmptyBox />
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                applyJobs.map((item, index) => (
-                                    <TableRow
-                                        key={item.id}
-                                        sx={{
-                                            "&:hover": {
-                                                backgroundColor: "#f9f9f9",
-                                            },
-                                            "& td": {
-                                                padding: "10px 16px",
-                                                fontSize: "0.875rem",
-                                                borderBottom: "1px solid #e0e0e0",
-                                            },
-                                        }}
-                                    >
-                                        <TableCell align="center">{index + 1}</TableCell>
-                                        <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                                {item.title}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                            {item.jobPosition}
-                                        </TableCell>
-                                        <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                            {item.company.name}
-                                        </TableCell>
-                                        <TableCell>{formatDate(item.expiryDate)}</TableCell>
-                                        <TableCell>{renderStatusChip(item.applyStatus)}</TableCell>
-                                    </TableRow>
-                                ))
-                            )}{" "}
-                        </>
+                        applyJobs.map((item, index) => (
+                            <TableRow
+                                key={item.id}
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: "#f9f9f9",
+                                    },
+                                    "& td": {
+                                        padding: "10px 16px",
+                                        fontSize: "0.875rem",
+                                        borderBottom: "1px solid #e0e0e0",
+                                    },
+                                }}
+                            >
+                                <TableCell align="center">{index + 1}</TableCell>
+                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                        {item.title}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    {item.jobPosition}
+                                </TableCell>
+                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    {item.company.name}
+                                </TableCell>
+                                <TableCell>{formatDate(item.expiryDate)}</TableCell>
+                                <TableCell>{renderStatusChip(item.applyStatus)}</TableCell>
+                            </TableRow>
+                        ))
                     )}
                 </TableBody>
             </Table>

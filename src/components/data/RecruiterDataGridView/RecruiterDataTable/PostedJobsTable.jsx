@@ -82,97 +82,91 @@ const PostedJobsTable = ({
                                 </Box>
                             </TableCell>
                         </TableRow>
+                    ) : postedJobPosts.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <EmptyBox />
+                            </TableCell>
+                        </TableRow>
                     ) : (
-                        <>
-                            {postedJobPosts.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                        <EmptyBox />
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                postedJobPosts.map((job, index) => (
-                                    <TableRow
-                                        key={index}
-                                        sx={{
-                                            "&:hover": {
-                                                backgroundColor: "#f9f9f9",
-                                            },
-                                            "& td": {
-                                                padding: "10px 16px",
-                                                fontSize: "0.875rem",
-                                                borderBottom: "1px solid #e0e0e0",
-                                            },
-                                        }}
-                                    >
-                                        <TableCell align="center">
-                                            {index + 1 + (currentPage - 1) * recordsPerPage}
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                wordWrap: "break-word",
-                                            }}
+                        postedJobPosts.map((job, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: "#f9f9f9",
+                                    },
+                                    "& td": {
+                                        padding: "10px 16px",
+                                        fontSize: "0.875rem",
+                                        borderBottom: "1px solid #e0e0e0",
+                                    },
+                                }}
+                            >
+                                <TableCell align="center">{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                        {job.title}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell
+                                    sx={{
+                                        whiteSpace: "normal",
+                                        wordWrap: "break-word",
+                                    }}
+                                >
+                                    {job.jobPosition}
+                                </TableCell>
+                                <TableCell>{formatDate(job.expiryDate)}</TableCell>
+                                <TableCell align="center">
+                                    <Stack direction="column" spacing={1}>
+                                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                            {job.jobApplyCount} Hồ sơ
+                                        </Typography>
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={() => handleViewApplicationsClick(job.id)}
                                         >
-                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                                {job.title}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            sx={{
-                                                whiteSpace: "normal",
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            {job.jobPosition}
-                                        </TableCell>
-                                        <TableCell>{formatDate(job.expiryDate)}</TableCell>
-                                        <TableCell align="center">
-                                            <Stack direction="column" spacing={1}>
-                                                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                                    {job.jobApplyCount} Hồ sơ
-                                                </Typography>
-                                                <Button
-                                                    variant="outlined"
-                                                    size="small"
-                                                    onClick={() => handleViewApplicationsClick(job.id)}
-                                                >
-                                                    Xem
-                                                </Button>
-                                            </Stack>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <Stack direction="row" spacing={1}>
-                                                <Tooltip title="Chi tiết bài đăng">
-                                                    <IconButton onClick={() => handleViewDetails(job)}>
-                                                        <InfoIcon className="text-blue-800" />
+                                            Xem
+                                        </Button>
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <Stack direction="row" spacing={1}>
+                                        <Tooltip title="Chi tiết bài đăng">
+                                            <IconButton onClick={() => handleViewDetails(job)}>
+                                                <InfoIcon className="text-blue-800" />
+                                            </IconButton>
+                                        </Tooltip>
+                                        {value !== 2 && (
+                                            <>
+                                                <Tooltip title="Chỉnh sửa bài đăng">
+                                                    <IconButton onClick={() => handleEditPostClick(job.id)}>
+                                                        <EditIcon className="text-yellow-500" />
                                                     </IconButton>
                                                 </Tooltip>
-                                                {value !== 2 && (
-                                                    <>
-                                                        <Tooltip title="Chỉnh sửa bài đăng">
-                                                            <IconButton onClick={() => handleEditPostClick(job.id)}>
-                                                                <EditIcon className="text-yellow-500" />
-                                                            </IconButton>
-                                                        </Tooltip>
 
-                                                        <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
-                                                            <IconButton onClick={() => handleToggleVisibility(job.id)}>
-                                                                {job.hidden ? (
-                                                                    <VisibilityIcon className="text-cyan-950" />
-                                                                ) : (
-                                                                    <VisibilityOffIcon className="text-cyan-950" />
-                                                                )}
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </>
-                                                )}
-                                            </Stack>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            )}
-                        </>
+                                                <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
+                                                    <IconButton onClick={() => handleToggleVisibility(job.id)}>
+                                                        {job.hidden ? (
+                                                            <VisibilityIcon className="text-cyan-950" />
+                                                        ) : (
+                                                            <VisibilityOffIcon className="text-cyan-950" />
+                                                        )}
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        )}
+                                    </Stack>
+                                </TableCell>
+                            </TableRow>
+                        ))
                     )}
                 </TableBody>
             </Table>
