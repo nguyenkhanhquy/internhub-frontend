@@ -10,6 +10,7 @@ import PostedJobsTable from "./RecruiterDataTable/PostedJobsTable";
 import SortBar from "../../../components/sort/SortBar";
 import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPanel";
 import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
+import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
 
 import { getJobPostsByRecruiter } from "../../../services/jobPostService";
 import { hiddenJobPost } from "../../../services/jobPostService";
@@ -34,7 +35,7 @@ const PostedJobsGridView = () => {
     const [value, setValue] = useState(0);
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-    // const [isDetailmodalOpen, setIsDetailModalOpen] = useState(false);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null);
 
     const fetchData = async (currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted) => {
@@ -109,7 +110,7 @@ const PostedJobsGridView = () => {
     //     console.log("Ngành đã chọn:", selectedMajor);
     // }, [selectedMajor]);
 
-    // Mở modal
+    // Mở modal Edit
     const handleEditPostClick = (postId) => {
         const job = jobPosts.find((post) => post.id === postId); // Tìm bài đăng cần sửa
         if (job) {
@@ -118,16 +119,16 @@ const PostedJobsGridView = () => {
         }
     };
 
-    // Đóng Modal
+    // Đóng Modal Edit
     const handleCloseUpdateModal = () => {
         setIsUpdateModalOpen(false);
         setSelectedJobPost(null);
     };
 
+    // Mở modal xem chi tiết bài đăng
     const handleViewDetails = (post) => {
-        // setSelectedJobPost(post);
-        // setIsDetailModalOpen(true);
-        console.log("View details of job post:", post);
+        setSelectedJobPost(post);
+        setIsDetailsModalOpen(true);
     };
 
     const handleToggleVisibility = async (jobPostId) => {
@@ -274,6 +275,15 @@ const PostedJobsGridView = () => {
             {/* Modal chỉnh sửa bài đăng */}
             {isUpdateModalOpen && (
                 <UpdateJobPostModal jobPostData={selectedJobPost} onClose={handleCloseUpdateModal} setFlag={setFlag} />
+            )}
+
+            {/* Modal xem chi tiết bài đăng */}
+            {isDetailsModalOpen && (
+                <JobPostDetailsModal
+                    open={isDetailsModalOpen}
+                    jobPost={selectedJobPost}
+                    onClose={() => setIsDetailsModalOpen(false)}
+                />
             )}
         </GridViewLayout>
     );
