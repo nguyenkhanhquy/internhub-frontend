@@ -1,48 +1,50 @@
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Box from "@mui/material/Box";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 import CompanyCard from "../../components/card/CompanyCard/CompanyCard";
 import CompanyListingPagination from "../../components/pagination/CompanyListingPagination/CompanyListingPagination";
+import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../components/box/EmptyBox";
 import { Grid } from "@mui/material";
 
-const companies = [
-    {
-        name: "CÔNG TY TNHH FPT",
-        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-    },
-    {
-        name: "CÔNG TY TNHH UPS",
-        logo: "https://cdn.shopify.com/shopifycloud/hatchful_web_two/bundles/7e55eb3d6a1a096058955ae7d64ee9d5.png",
-    },
-    {
-        name: "CÔNG TY TNHH Microsoft",
-        logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg?ts=1561532453",
-    },
-    {
-        name: "CÔNG TY TNHH Intel CÔNG TY TNHH Intel CÔNG TY TNHH Intel",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmvOxGk8wETYE81jnavmfte1QHKW_dKwCbJw&s",
-    },
-    {
-        name: "CÔNG TY TNHH Google",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZR8CHybxqJgeBeRMzg_Aiw8IBnepueWNnNg&s",
-    },
-    {
-        name: "CÔNG TY TNHH Apple",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUeBAsfDaHdh9qDS9dF8IpCaAC1l7yDjJUeg&s",
-    },
-];
-
-import { useState } from "react";
+import { getAllApprovedCompanies } from "../../services/companyService";
 
 const CompanyListingPage = () => {
+    const [loading, setLoading] = useState(false);
+    const [companies, setCompanies] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(4);
+    const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            try {
+                setLoading(true);
+                const data = await getAllApprovedCompanies(currentPage);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setTotalPages(data.pageInfo.totalPages);
+                setTotalRecords(data.pageInfo.totalElements);
+                setCompanies(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCompanies();
+    }, [currentPage]);
 
     return (
         <MainLayout title="Danh sách công ty">
@@ -60,14 +62,27 @@ const CompanyListingPage = () => {
             >
                 {/* Hiển thị danh sách các công ty */}
                 <Grid container spacing={4} sx={{ justifyContent: "center", mb: 4 }}>
-                    {companies.length > 0 ? (
+                    {loading ? (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                minHeight: 350,
+                            }}
+                        >
+                            <SuspenseLoader />
+                        </div>
+                    ) : companies.length > 0 ? (
                         companies.map((company, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <CompanyCard company={company} />
                             </Grid>
                         ))
                     ) : (
-                        <EmptyBox />
+                        <div style={{ minHeight: 350 }}>
+                            <EmptyBox />
+                        </div>
                     )}
                 </Grid>
                 {/* Phân trang */}
