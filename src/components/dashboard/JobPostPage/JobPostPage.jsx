@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 
+import EmptryBox from "../../../components/box/EmptyBox";
+
 import { getAllJobPosts, approveJobPost } from "../../../services/adminService";
 
 const getStatusStyle = (status) => {
@@ -14,12 +16,25 @@ const getStatusStyle = (status) => {
 const JobPostPage = () => {
     const [jobPosts, setJobPosts] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const data = await getAllJobPosts();
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setJobPosts(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     const handleApprove = async (id) => {
         try {
             const data = await approveJobPost(id);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            fetchData();
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
@@ -27,17 +42,6 @@ const JobPostPage = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllJobPosts();
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setJobPosts(data.result);
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
         fetchData();
     }, []);
 
@@ -63,29 +67,37 @@ const JobPostPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {jobPosts.map((jobPost, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{jobPost.title}</TableCell>
-                                <TableCell>{jobPost.jobPosition}</TableCell>
-                                <TableCell>{jobPost.company.name}</TableCell>
-                                <TableCell>{jobPost.updatedDate}</TableCell>
-                                <TableCell>
-                                    <span className={getStatusStyle(jobPost.approved)}>
-                                        {jobPost.approved ? "Đã được duyệt" : "Chưa được duyệt"}
-                                    </span>
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        disabled={jobPost.approved}
-                                        onClick={() => handleApprove(jobPost.id)}
-                                        color="primary"
-                                    >
-                                        {jobPost.approved ? "Đã duyệt" : "Duyệt"}
-                                    </Button>
+                        {jobPosts.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <EmptryBox />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : (
+                            jobPosts.map((jobPost, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{jobPost.title}</TableCell>
+                                    <TableCell>{jobPost.jobPosition}</TableCell>
+                                    <TableCell>{jobPost.company.name}</TableCell>
+                                    <TableCell>{jobPost.updatedDate}</TableCell>
+                                    <TableCell>
+                                        <span className={getStatusStyle(jobPost.approved)}>
+                                            {jobPost.approved ? "Đã được duyệt" : "Chưa được duyệt"}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            disabled={jobPost.approved}
+                                            onClick={() => handleApprove(jobPost.id)}
+                                            color="primary"
+                                        >
+                                            {jobPost.approved ? "Đã duyệt" : "Duyệt"}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>

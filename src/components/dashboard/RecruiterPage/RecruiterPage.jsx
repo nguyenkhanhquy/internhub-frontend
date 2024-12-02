@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 
+import EmptryBox from "../../../components/box/EmptyBox";
+
 import { getAllRecruiters } from "../../../services/recruiterService";
 import { approveRecruiter } from "../../../services/adminService";
 
@@ -15,12 +17,25 @@ const getStatusStyle = (status) => {
 const RecruiterPage = () => {
     const [recruiters, setRecruiters] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const data = await getAllRecruiters();
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setRecruiters(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     const handleApprove = async (userId) => {
         try {
             const data = await approveRecruiter(userId);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            fetchData();
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
@@ -28,17 +43,6 @@ const RecruiterPage = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getAllRecruiters();
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setRecruiters(data.result);
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
         fetchData();
     }, []);
 
@@ -62,27 +66,35 @@ const RecruiterPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {recruiters.map((recruiter, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{recruiter.company.name}</TableCell>
-                                <TableCell>{recruiter.name}</TableCell>
-                                <TableCell>
-                                    <span className={getStatusStyle(recruiter.approved)}>
-                                        {recruiter.approved ? "Đã được duyệt" : "Chưa được duyệt"}
-                                    </span>
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        disabled={recruiter.approved}
-                                        onClick={() => handleApprove(recruiter.userId)}
-                                        color="primary"
-                                    >
-                                        {recruiter.approved ? "Đã duyệt" : "Duyệt"}
-                                    </Button>
+                        {recruiters.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <EmptryBox />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : (
+                            recruiters.map((recruiter, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{recruiter.company.name}</TableCell>
+                                    <TableCell>{recruiter.name}</TableCell>
+                                    <TableCell>
+                                        <span className={getStatusStyle(recruiter.approved)}>
+                                            {recruiter.approved ? "Đã được duyệt" : "Chưa được duyệt"}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            disabled={recruiter.approved}
+                                            onClick={() => handleApprove(recruiter.userId)}
+                                            color="primary"
+                                        >
+                                            {recruiter.approved ? "Đã duyệt" : "Duyệt"}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>

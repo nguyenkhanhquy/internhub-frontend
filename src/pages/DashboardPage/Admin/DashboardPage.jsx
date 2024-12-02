@@ -57,13 +57,13 @@ const NAVIGATION = [
         title: "Quản lý chung",
     },
     {
-        segment: "admin",
-        title: "Quản trị",
+        segment: "setting",
+        title: "Cài đặt",
         icon: <SettingsIcon />,
         children: [
             {
                 segment: "manage-account",
-                title: "Quản lý tài khoản",
+                title: "Quản lý thông tin tài khoản",
                 icon: <ManageAccountsIcon />,
             },
             {
