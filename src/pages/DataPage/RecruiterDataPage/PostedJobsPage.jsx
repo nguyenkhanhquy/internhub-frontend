@@ -25,15 +25,18 @@ const PostedJobsPage = () => {
         <MainLayout title="Việc làm đã đăng">
             <PageNavigation pageName="Nhà tuyển dụng" />
             <RecruiterDataLayout>
-                {currentView === "PostedJobs" ? (
+                <div style={{ display: currentView === "PostedJobs" ? "block" : "none" }}>
                     <PostedJobsGridView onViewApplications={handleViewApplications} />
-                ) : (
-                    <ApplicationListGridView
-                        title={selectedPost.title}
-                        jobPostId={selectedPost.id}
-                        onBack={handleBackToJobs} // Xử lý quay lại danh sách công việc
-                    />
-                )}
+                </div>
+                <div style={{ display: currentView === "Applications" ? "block" : "none" }}>
+                    {selectedPost && (
+                        <ApplicationListGridView
+                            title={selectedPost.title}
+                            jobPostId={selectedPost.id}
+                            onBack={handleBackToJobs}
+                        />
+                    )}
+                </div>
             </RecruiterDataLayout>
         </MainLayout>
     );
