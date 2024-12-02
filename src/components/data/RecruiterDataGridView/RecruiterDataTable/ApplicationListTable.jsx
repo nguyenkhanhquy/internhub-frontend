@@ -65,14 +65,20 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                     </Stack>
                 );
             default:
-                return null;
+                return (
+                    <Stack spacing={1}>
+                        <Button disabled variant="contained">
+                            Đã xử lý
+                        </Button>
+                    </Stack>
+                );
         }
     };
 
     const getStatusLabel = (status) => {
         switch (status) {
             case "PROCESSING":
-                return "Đang chờ xử lý";
+                return "Chờ xử lý";
             case "INTERVIEW":
                 return "Chờ phỏng vấn";
             case "OFFER":

@@ -27,3 +27,7 @@ export const getAllJobApplyByJobPostId = async (jobPostId, page, size) => {
         },
     });
 };
+
+export const rejectJobApply = async (jobApplyId) => {
+    return axiosClient.put(JOB_APPLY_API.REJECT + jobApplyId);
+};
