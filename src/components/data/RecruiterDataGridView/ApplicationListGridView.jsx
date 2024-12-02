@@ -31,12 +31,12 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
         setRecordsPerPage(value);
     };
 
-    const handleAction = (id, action) => {
+    const handleAction = async (jobApplyId, action) => {
         if (action === "INTERVIEW") {
-            const application = applications.find((app) => app.id === id);
+            const application = applications.find((app) => app.id === jobApplyId);
             setSelectedApplication(application);
-            setIsModalOpen(true); // Open modal
-        } esle if (action === "REJECTED") {
+            setIsModalOpen(true);
+        } else if (action === "REJECTED") {
             try {
                 const data = await rejectJobApply(jobApplyId);
                 if (!data.success) {
@@ -50,10 +50,10 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
         } else {
             console.log(jobApplyId, action);
         }
-    }
-    
+    };
+
     const handleModalClose = () => {
-        setIsModalOpen(false); // Close modal
+        setIsModalOpen(false);
         setSelectedApplication(null);
     };
 

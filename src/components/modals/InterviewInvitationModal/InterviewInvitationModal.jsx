@@ -43,7 +43,6 @@ const InterviewInvitationModal = ({ open, onClose, application }) => {
                     value={interviewLetter}
                     onChange={handleLetterChange}
                     helperText="Vui lòng nhập thư mời phỏng vấn."
-                    error={!interviewLetter.trim() && open} // Nếu thư mời trống thì hiển thị lỗi
                     sx={{
                         "& .MuiOutlinedInput-root": {
                             borderRadius: "8px",
