@@ -54,8 +54,9 @@ const Header = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
-
+    const [infoAnchorEl, setInfoAnchorEl] = useState(null);
     const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
+
     const [notifications, setNotifications] = useState([]);
     const [visibleNotifications, setVisibleNotifications] = useState([]);
     const [selectedNotification, setSelectedNotification] = useState(null);
@@ -126,6 +127,10 @@ const Header = () => {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleInfoClick = (event) => {
+        setInfoAnchorEl(event.currentTarget);
+    };
+
     const handleAccountClick = (event) => {
         setAccountAnchorEl(event.currentTarget);
     };
@@ -134,6 +139,7 @@ const Header = () => {
         setAnchorEl(null);
         setAccountAnchorEl(null);
         setNotificationAnchorEl(null);
+        setInfoAnchorEl(null);
     };
 
     const handleSelectNotification = (notification) => {
@@ -178,6 +184,7 @@ const Header = () => {
                             variant="contained"
                             color="error"
                             startIcon={<InfoIcon />}
+                            onClick={handleInfoClick}
                             sx={{
                                 padding: "8px 10px",
                                 color: "white",
@@ -186,6 +193,22 @@ const Header = () => {
                         >
                             HDSD
                         </Button>
+
+                        <Menu
+                            className="mt-1"
+                            anchorEl={infoAnchorEl}
+                            open={Boolean(infoAnchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                <SchoolIcon sx={{ marginRight: 1 }} />
+                                Thực tập sinh
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <PersonSearchIcon sx={{ marginRight: 1 }} />
+                                Nhà tuyển dụng
+                            </MenuItem>
+                        </Menu>
 
                         {isAuthenticated ? (
                             <>
