@@ -136,7 +136,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                         </TableRow>
                     ) : applications.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
