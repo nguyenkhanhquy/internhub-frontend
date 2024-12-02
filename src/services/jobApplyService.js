@@ -18,3 +18,12 @@ export const getAllJobApplyByStudent = async (page, size, search) => {
         },
     });
 };
+
+export const getAllJobApplyByJobPostId = async (jobPostId, page, size) => {
+    return axiosClient.get(JOB_APPLY_API.GET_ALL_BY_JOB_POST_ID + jobPostId, {
+        params: {
+            page: page,
+            size: size,
+        },
+    });
+};

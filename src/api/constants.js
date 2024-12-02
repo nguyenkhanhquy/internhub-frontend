@@ -65,6 +65,7 @@ export const JOBS_SAVED_API = {
 export const JOB_APPLY_API = {
     APPLY: "/jobs/apply",
     GET_ALL_BY_STUDENT: "/jobs/apply/student",
+    GET_ALL_BY_JOB_POST_ID: "/jobs/apply/post/",
 };
 
 export const FILES_API = {

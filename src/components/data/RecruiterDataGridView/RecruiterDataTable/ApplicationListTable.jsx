@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import {
+    Box,
     Table,
     TableBody,
     TableCell,
@@ -14,8 +15,11 @@ import {
 } from "@mui/material";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EmptyBox from "../../../box/EmptyBox";
+import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 
-const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handleAction }) => {
+import { formatDate } from "../../../../utils/dateUtil";
+
+const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPage, handleAction }) => {
     const renderActions = (status, id) => {
         switch (status) {
             case "PROCESSING":
@@ -68,7 +72,7 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
     const getStatusLabel = (status) => {
         switch (status) {
             case "PROCESSING":
-                return "Chờ xử lý";
+                return "Đang chờ xử lý";
             case "INTERVIEW":
                 return "Chờ phỏng vấn";
             case "OFFER":
@@ -102,9 +106,9 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
                         <TableCell align="center" sx={{ width: "5%" }}>
                             STT
                         </TableCell>
-                        <TableCell sx={{ width: "15%" }}>Ứng viên</TableCell>
-                        <TableCell sx={{ width: "10%" }}>Ngày</TableCell>
-                        <TableCell sx={{ width: "30%" }}>Thư giới thiệu</TableCell>
+                        <TableCell sx={{ width: "20%" }}>Ứng viên</TableCell>
+                        <TableCell sx={{ width: "15%" }}>Ngày ứng tuyển</TableCell>
+                        <TableCell sx={{ width: "20%" }}>Thư giới thiệu</TableCell>
                         <TableCell align="center" sx={{ width: "5%" }}>
                             CV
                         </TableCell>
@@ -115,9 +119,24 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {applications.length === 0 ? (
+                    {loading ? (
                         <TableRow>
-                            <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="100%"
+                                    padding={2}
+                                >
+                                    <SuspenseLoader />
+                                </Box>
+                            </TableCell>
+                        </TableRow>
+                    ) : applications.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
@@ -145,7 +164,7 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
                                 >
                                     {application.name}
                                 </TableCell>
-                                <TableCell>{new Date(application.applyDate).toLocaleDateString()}</TableCell>
+                                <TableCell>{formatDate(application.applyDate)}</TableCell>
                                 <TableCell>
                                     <Typography
                                         variant="body2"
@@ -156,17 +175,18 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
                                             textOverflow: "ellipsis",
                                         }}
                                     >
-                                        {application.coverLetter || "Không cung cấp"}
+                                        {application.coverLetter || "Không được cung cấp"}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <IconButton
                                         color="primary"
+                                        title="Xem CV"
                                         onClick={() => {
                                             if (application?.cv) {
                                                 window.location.href = application.cv;
                                             } else {
-                                                alert("Cv không tồn tại!");
+                                                alert("CV không tồn tại!");
                                             }
                                         }}
                                     >
@@ -178,21 +198,21 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
                                         variant="body2"
                                         sx={{
                                             color:
-                                                application.status === "PROCESSING"
+                                                application.applyStatus === "PROCESSING"
                                                     ? "orange"
-                                                    : application.status === "INTERVIEW"
+                                                    : application.applyStatus === "INTERVIEW"
                                                       ? "blue"
-                                                      : application.status === "OFFER"
+                                                      : application.applyStatus === "OFFER"
                                                         ? "green"
-                                                        : application.status === "REJECTED"
+                                                        : application.applyStatus === "REJECTED"
                                                           ? "red"
                                                           : "gray",
                                         }}
                                     >
-                                        {getStatusLabel(application.status)}
+                                        {getStatusLabel(application.applyStatus)}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{renderActions(application.status, application.id)}</TableCell>
+                                <TableCell>{renderActions(application.applyStatus, application.id)}</TableCell>
                             </TableRow>
                         ))
                     )}
@@ -203,6 +223,7 @@ const ApplicationListTable = ({ applications, currentPage, recordsPerPage, handl
 };
 
 ApplicationListTable.propTypes = {
+    loading: PropTypes.bool.isRequired,
     applications: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired,
     recordsPerPage: PropTypes.number.isRequired,

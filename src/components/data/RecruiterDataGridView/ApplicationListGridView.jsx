@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import ApplicationListTable from "./RecruiterDataTable/ApplicationListTable";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 
-const ApplicationListGridView = ({ applications, title, onBack }) => {
+import { getAllJobApplyByJobPostId } from "../../../services/jobApplyService";
+
+const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
+    const [loading, setLoading] = useState(false);
+    const [flag, setFlag] = useState(false);
+    const [applications, setApplications] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
@@ -23,9 +31,30 @@ const ApplicationListGridView = ({ applications, title, onBack }) => {
         console.log(id, action);
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const data = await getAllJobApplyByJobPostId(jobPostId, currentPage, recordsPerPage);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setTotalPages(data.pageInfo.totalPages);
+                setTotalRecords(data.pageInfo.totalElements);
+                setApplications(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [jobPostId, currentPage, recordsPerPage, flag]);
+
     return (
         <GridViewLayout
-            title={"Danh sách ứng viên: " + title}
+            title={"Danh sách hồ sơ ứng viên cho công việc: " + title}
             currentPage={currentPage}
             totalPages={totalPages}
             recordsPerPage={recordsPerPage}
@@ -41,6 +70,7 @@ const ApplicationListGridView = ({ applications, title, onBack }) => {
             }
         >
             <ApplicationListTable
+                loading={loading}
                 applications={applications}
                 currentPage={currentPage}
                 recordsPerPage={recordsPerPage}
@@ -51,8 +81,8 @@ const ApplicationListGridView = ({ applications, title, onBack }) => {
 };
 
 ApplicationListGridView.propTypes = {
-    applications: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
+    jobPostId: PropTypes.string.isRequired,
     onBack: PropTypes.func,
 };
 
