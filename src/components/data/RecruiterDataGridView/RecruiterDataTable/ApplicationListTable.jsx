@@ -11,6 +11,7 @@ import {
     Typography,
     Stack,
     IconButton,
+    Tooltip,
     Paper,
 } from "@mui/material";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
@@ -172,32 +173,62 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                 </TableCell>
                                 <TableCell>{formatDate(application.applyDate)}</TableCell>
                                 <TableCell>
-                                    <Typography
-                                        variant="body2"
+                                    <Tooltip
+                                        title={
+                                            <Typography
+                                                sx={{
+                                                    fontSize: "1rem",
+                                                    lineHeight: "1.5",
+                                                    color: "#fff",
+                                                    padding: "8px 12px",
+                                                }}
+                                            >
+                                                {application.coverLetter || "Không có thư giới thiệu"}
+                                            </Typography>
+                                        }
+                                        arrow
                                         sx={{
-                                            maxWidth: 300,
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
+                                            "& .MuiTooltip-tooltip": {
+                                                maxWidth: "400px", // Độ rộng tối đa của tooltip
+                                                backgroundColor: "#333", // Màu nền tooltip
+                                                color: "#fff", // Màu chữ trong tooltip
+                                                padding: "10px 15px", // Padding bên trong tooltip
+                                                fontSize: "0.875rem", // Kích thước chữ mặc định
+                                            },
+                                            "& .MuiTooltip-arrow": {
+                                                color: "#333", // Màu của mũi tên tooltip
+                                            },
                                         }}
                                     >
-                                        {application.coverLetter || "Không được cung cấp"}
-                                    </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                maxWidth: 300,
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                        >
+                                            {application.coverLetter || "Không được cung cấp"}
+                                        </Typography>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
-                                    <IconButton
-                                        color="primary"
-                                        title="Xem CV"
-                                        onClick={() => {
-                                            if (application?.cv) {
-                                                window.location.href = application.cv;
-                                            } else {
-                                                alert("CV không tồn tại!");
-                                            }
-                                        }}
-                                    >
-                                        <ContactPageOutlinedIcon className="text-green-600" />
-                                    </IconButton>
+                                    <Tooltip title="Xem CV" arrow>
+                                        <IconButton
+                                            color="primary"
+                                            title="Xem CV"
+                                            onClick={() => {
+                                                if (application?.cv) {
+                                                    window.location.href = application.cv;
+                                                } else {
+                                                    alert("CV không tồn tại!");
+                                                }
+                                            }}
+                                        >
+                                            <ContactPageOutlinedIcon className="text-green-600" />
+                                        </IconButton>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>
                                     <Typography
