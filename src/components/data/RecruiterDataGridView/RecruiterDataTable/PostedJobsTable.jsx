@@ -131,7 +131,7 @@ const PostedJobsTable = ({
                                         <Button
                                             variant="outlined"
                                             size="small"
-                                            onClick={() => handleViewApplicationsClick(job.id)}
+                                            onClick={() => handleViewApplicationsClick(job)}
                                         >
                                             Xem
                                         </Button>

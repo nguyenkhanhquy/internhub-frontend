@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
@@ -15,7 +16,7 @@ import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetails
 import { getJobPostsByRecruiter } from "../../../services/jobPostService";
 import { hiddenJobPost } from "../../../services/jobPostService";
 
-const PostedJobsGridView = () => {
+const PostedJobsGridView = ({ onViewApplications }) => {
     const [loading, setLoading] = useState(false);
     const [flag, setFlag] = useState(true);
     const [jobPosts, setJobPosts] = useState([]);
@@ -210,7 +211,7 @@ const PostedJobsGridView = () => {
                             postedJobPosts={jobPosts}
                             currentPage={currentPage}
                             recordsPerPage={recordsPerPage}
-                            handleViewApplicationsClick={() => console.log("View applications")}
+                            handleViewApplicationsClick={(post) => onViewApplications(post)}
                             handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                             handleViewDetails={handleViewDetails}
                             handleToggleVisibility={handleToggleVisibility}
@@ -287,6 +288,10 @@ const PostedJobsGridView = () => {
             )}
         </GridViewLayout>
     );
+};
+
+PostedJobsGridView.propTypes = {
+    onViewApplications: PropTypes.func,
 };
 
 export default PostedJobsGridView;
