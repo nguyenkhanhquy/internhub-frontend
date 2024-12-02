@@ -58,9 +58,10 @@ const Header = () => {
     const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
     const [notifications, setNotifications] = useState([]);
     const [visibleNotifications, setVisibleNotifications] = useState([]);
+    const [selectedNotification, setSelectedNotification] = useState(null);
+
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
-    const [selectedNotification, setSelectedNotification] = useState(null);
 
     const ITEMS_PER_PAGE = 5;
 
@@ -183,7 +184,7 @@ const Header = () => {
                                 "&:hover": { backgroundColor: "#a92a21" },
                             }}
                         >
-                            HSSD
+                            HDSD
                         </Button>
 
                         {isAuthenticated ? (
