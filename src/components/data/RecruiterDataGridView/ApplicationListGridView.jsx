@@ -7,7 +7,7 @@ import ApplicationListTable from "./RecruiterDataTable/ApplicationListTable";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import InterviewInvitationModal from "../../modals/InterviewInvitationModal/InterviewInvitationModal";
 
-import { getAllJobApplyByJobPostId } from "../../../services/jobApplyService";
+import { getAllJobApplyByJobPostId, rejectJobApply } from "../../../services/jobApplyService";
 
 const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
     const [loading, setLoading] = useState(false);
@@ -36,10 +36,22 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
             const application = applications.find((app) => app.id === id);
             setSelectedApplication(application);
             setIsModalOpen(true); // Open modal
+        } esle if (action === "REJECTED") {
+            try {
+                const data = await rejectJobApply(jobApplyId);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setFlag((prev) => !prev);
+                toast.success(data.message);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else {
+            console.log(jobApplyId, action);
         }
-        console.log(id, action);
-    };
-
+    }
+    
     const handleModalClose = () => {
         setIsModalOpen(false); // Close modal
         setSelectedApplication(null);
