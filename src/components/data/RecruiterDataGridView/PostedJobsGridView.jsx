@@ -27,7 +27,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
-    const [selectedMajor, setSelectedMajor] = useState("");
+    const [selectedType, setSelectedType] = useState("");
     const [sort, setSort] = useState("default");
     const [isApproved, setIsApproved] = useState(true);
     const [isHidden, setIsHidden] = useState(false);
@@ -107,9 +107,9 @@ const PostedJobsGridView = ({ onViewApplications }) => {
         setRecordsPerPage(value);
     };
 
-    // useEffect(() => {
-    //     console.log("Ngành đã chọn:", selectedMajor);
-    // }, [selectedMajor]);
+    useEffect(() => {
+        console.log("Loại hợp đồng đã chọn:", selectedType);
+    }, [selectedType]);
 
     // Mở modal Edit
     const handleEditPostClick = (postId) => {
@@ -158,18 +158,17 @@ const PostedJobsGridView = ({ onViewApplications }) => {
         >
             <Box className="mb-4 flex justify-between space-x-4">
                 <FormControl size="small" sx={{ minWidth: 200, width: "30%" }}>
-                    <InputLabel id="major-filter-label">Ngành</InputLabel>
+                    <InputLabel id="type-filter-label">Loại hợp đồng</InputLabel>
                     <Select
-                        labelId="major-filter-label"
-                        id="majorFilter"
-                        value={selectedMajor}
-                        onChange={(e) => setSelectedMajor(e.target.value)}
-                        label="Ngành"
+                        labelId="type-filter-label"
+                        id="typeFilter"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        label="Loại hợp đồng"
                     >
-                        <MenuItem value="">Tất cả ngành</MenuItem>
-                        <MenuItem value="IT">Công nghệ thông tin</MenuItem>
-                        <MenuItem value="DS">Kỹ thuật dữ liệu</MenuItem>
-                        <MenuItem value="IS">An toàn thông tin</MenuItem>
+                        <MenuItem value="Tất cả loại hợp đồng">Tất cả loại hợp đồng</MenuItem>
+                        <MenuItem value="Bán thời gian">Bán thời gian</MenuItem>
+                        <MenuItem value="Toàn thời gian">Toàn thời gian</MenuItem>
                     </Select>
                 </FormControl>
 
@@ -225,7 +224,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
                         recordsPerPage={recordsPerPage}
-                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleViewApplicationsClick={(post) => onViewApplications(post)}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                         handleViewDetails={handleViewDetails}
                         handleToggleVisibility={handleToggleVisibility}
@@ -239,7 +238,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
                         recordsPerPage={recordsPerPage}
-                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleViewApplicationsClick={(post) => onViewApplications(post)}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                         handleViewDetails={handleViewDetails}
                         handleToggleVisibility={handleToggleVisibility}
@@ -252,7 +251,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
                         recordsPerPage={recordsPerPage}
-                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleViewApplicationsClick={(post) => onViewApplications(post)}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                         handleViewDetails={handleViewDetails}
                         handleToggleVisibility={handleToggleVisibility}
@@ -265,7 +264,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         postedJobPosts={[]}
                         currentPage={currentPage}
                         recordsPerPage={recordsPerPage}
-                        handleViewApplicationsClick={() => console.log("View applications")}
+                        handleViewApplicationsClick={(post) => onViewApplications(post)}
                         handleEditPostClick={handleEditPostClick} // Gọi hàm mở modal
                         handleViewDetails={handleViewDetails}
                         handleToggleVisibility={handleToggleVisibility}
