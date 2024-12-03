@@ -22,7 +22,7 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 
 import AppliedJobsPage from "../pages/DataPage/StudentDataPage/AppliedJobsPage";
 import SavedJobsPage from "../pages/DataPage/StudentDataPage/SavedJobsPage";
-import InternShipApplicationsPage from "../pages/DataPage/StudentDataPage/InternShipApplicationsPage";
+import InternshipApplicationsPage from "../pages/DataPage/StudentDataPage/InternshipApplicationsPage";
 import PostedJobsPage from "../pages/DataPage/RecruiterDataPage/PostedJobsPage";
 import CreateJobPostPage from "../pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 
@@ -122,7 +122,7 @@ const AppRoutes = () => {
                                             <Route path="saved-jobs" element={<SavedJobsPage />} />
                                             <Route
                                                 path="internship-applications"
-                                                element={<InternShipApplicationsPage />}
+                                                element={<InternshipApplicationsPage />}
                                             />
                                         </Route>
                                     )}
