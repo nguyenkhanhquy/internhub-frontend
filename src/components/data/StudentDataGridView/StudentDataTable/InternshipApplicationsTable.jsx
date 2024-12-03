@@ -136,7 +136,7 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
                                 </TableCell>
                                 <TableCell align="center">
                                     <IconButton color="primary" onClick={() => handleViewDetailsClick(application)}>
-                                        <InfoOutlinedIcon />
+                                        <InfoOutlinedIcon className="text-blue-800 hover:text-blue-900" />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

@@ -214,17 +214,23 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                     <TableCell align="center">{index + 1}</TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.title} arrow>
-                                            <Typography>{item.title}</Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                                {item.title}
+                                            </Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.jobPosition} arrow>
-                                            <Typography>{item.jobPosition}</Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                                {item.jobPosition}
+                                            </Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.company.name} arrow>
-                                            <Typography>{item.company.name}</Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                                {item.company.name}
+                                            </Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell>{formatDate(item.expiryDate)}</TableCell>
@@ -270,7 +276,7 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                                 color="primary"
                                                 onClick={() => handleViewDetailsClick(item.jobPostId)}
                                             >
-                                                <InfoOutlinedIcon />
+                                                <InfoOutlinedIcon className="text-blue-800 hover:text-blue-900" />
                                             </IconButton>
                                         </Tooltip>
                                     </TableCell>

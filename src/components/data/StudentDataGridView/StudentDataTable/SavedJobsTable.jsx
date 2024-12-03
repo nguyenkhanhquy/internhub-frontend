@@ -120,7 +120,7 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
                                 <TableCell>
                                     <Stack direction="row" spacing={1}>
                                         <IconButton color="primary" onClick={() => handleViewDetailsClick(job.id)}>
-                                            <InfoOutlinedIcon />
+                                            <InfoOutlinedIcon className="text-blue-800 hover:text-blue-900" />
                                         </IconButton>
                                         <IconButton color="error" onClick={() => handleDeleteClick(job.id)}>
                                             <DeleteOutlineIcon />

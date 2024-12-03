@@ -60,9 +60,9 @@ const UpdatePasswordForm = () => {
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
-                    sx={{ height: 420, maxWidth: 400, margin: "auto", p: 4 }}
+                    sx={{ height: 420, maxWidth: 800, margin: "auto", p: 4 }}
                 >
-                    <Typography variant="h5" fontWeight="bold" mb={1} textAlign={"center"}>
+                    <Typography variant="h5" fontWeight="bold" mb={1}>
                         Đổi mật khẩu
                     </Typography>
 
@@ -85,43 +85,50 @@ const UpdatePasswordForm = () => {
                         helperText={errors.oldPassword?.message ?? " "}
                     />
 
-                    <TextField
-                        {...control.register("newPassword")}
-                        label={
-                            <span>
-                                Mật khẩu mới <span style={{ color: "red" }}>*</span>
-                            </span>
-                        }
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        sx={{ mt: 1.5 }}
-                        onBlur={() => trigger("newPassword")}
-                        slotProps={{
-                            inputLabel: { shrink: true },
+                    {/* Hàng chứa "Mật khẩu mới" và "Xác nhận mật khẩu mới" */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            gap: 2, // Khoảng cách giữa các trường
+                            mt: 1.5,
                         }}
-                        error={!!errors.newPassword}
-                        helperText={errors.newPassword?.message ?? " "}
-                    />
+                    >
+                        <TextField
+                            {...control.register("newPassword")}
+                            label={
+                                <span>
+                                    Mật khẩu mới <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            onBlur={() => trigger("newPassword")}
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
+                            error={!!errors.newPassword}
+                            helperText={errors.newPassword?.message ?? " "}
+                        />
 
-                    <TextField
-                        {...control.register("confirmPassword")}
-                        label={
-                            <span>
-                                Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
-                            </span>
-                        }
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        sx={{ mt: 1.5 }}
-                        onBlur={() => trigger("confirmPassword")}
-                        slotProps={{
-                            inputLabel: { shrink: true },
-                        }}
-                        error={!!errors.confirmPassword}
-                        helperText={errors.confirmPassword?.message ?? " "}
-                    />
+                        <TextField
+                            {...control.register("confirmPassword")}
+                            label={
+                                <span>
+                                    Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
+                                </span>
+                            }
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            onBlur={() => trigger("confirmPassword")}
+                            slotProps={{
+                                inputLabel: { shrink: true },
+                            }}
+                            error={!!errors.confirmPassword}
+                            helperText={errors.confirmPassword?.message ?? " "}
+                        />
+                    </Box>
 
                     <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
                         {loading ? (
