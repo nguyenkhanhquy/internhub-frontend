@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
 import { getCompanyById } from "../../services/companyService";
+import { getJobPostsByCompanyId } from "../../services/jobPostService";
 
 const CompanyDetailsPage = () => {
     const navigate = useNavigate();
@@ -29,7 +30,18 @@ const CompanyDetailsPage = () => {
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
+
                 setCompanyData(data.result);
+
+                const dataJobPosts = await getJobPostsByCompanyId(id);
+                if (!dataJobPosts.success) {
+                    throw new Error(dataJobPosts.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+
+                setCompanyData((prevData) => ({
+                    ...prevData,
+                    jobs: dataJobPosts.result,
+                }));
             } catch (error) {
                 if (error?.statusCode === 404) navigate("/404");
                 else toast.error(error.message);
@@ -73,53 +85,7 @@ const CompanyDetailsPage = () => {
                         <CompanyDetailsBody
                             description={companyData.description}
                             address={companyData.address}
-                            jobs={[
-                                {
-                                    id: "1",
-                                    title: "Senior Java Developer",
-                                    company: {
-                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-                                        name: "Axon Active Vietnam",
-                                    },
-                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
-                                    jobPosition: "Java Developer",
-                                    type: "Full-time",
-                                    salary: "1000 - 2000",
-                                    updatedDate: "2021-10-10",
-                                    expiryDate: "2021-12-10",
-                                    saved: false,
-                                },
-                                {
-                                    id: "2",
-                                    title: "Senior Java Developer",
-                                    company: {
-                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-                                        name: "Axon Active Vietnam",
-                                    },
-                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
-                                    jobPosition: "React Developer",
-                                    type: "Full-time",
-                                    salary: "1000 - 2000",
-                                    updatedDate: "2021-10-10",
-                                    expiryDate: "2021-12-10",
-                                    saved: false,
-                                },
-                                {
-                                    id: "3",
-                                    title: "Senior Java Developer",
-                                    company: {
-                                        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-                                        name: "Axon Active Vietnam",
-                                    },
-                                    address: "Tầng 3, Tòa nhà H3, 384 Hoàng Diệu, Hải Châu, Đà Nẵng",
-                                    jobPosition: "QA Tester",
-                                    type: "Full-time",
-                                    salary: "1000 - 2000",
-                                    updatedDate: "2021-10-10",
-                                    expiryDate: "2021-12-10",
-                                    saved: false,
-                                },
-                            ]}
+                            jobs={companyData.jobs}
                         />
                     </Grid>
                 </div>

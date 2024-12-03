@@ -57,6 +57,7 @@ export const JOBS_API = {
     HIDDEN: "/jobs/hidden/",
 
     GET_ALL_BY_RECRUITER: "/jobs/recruiter",
+    GET_ALL_BY_COMPANY_ID: "/jobs/company/",
 };
 
 export const JOBS_SAVED_API = {

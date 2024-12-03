@@ -47,6 +47,17 @@ export const getJobPostsByRecruiter = async (page, size, search, order, isApprov
     });
 };
 
+export const getJobPostsByCompanyId = async (companyId, page, size, search, order) => {
+    return axiosClient.get(JOBS_API.GET_ALL_BY_COMPANY_ID + companyId, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+            order: order,
+        },
+    });
+};
+
 export const updateJobPost = async (jobPostId, jobPost) => {
     return axiosClient.put(JOBS_API.UPDATE + jobPostId, {
         title: jobPost.title,
