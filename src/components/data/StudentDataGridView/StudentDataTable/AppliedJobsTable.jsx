@@ -27,7 +27,7 @@ import { formatDate } from "../../../../utils/dateUtil";
 import OfferConfirmModal from "../../../modals/OfferConfirmModal/OfferConfirmModal";
 import InterviewLetterModal from "../../../modals/InterviewLetterModal/InterviewLetterModal";
 
-import { refuseOfferJobApply } from "../../../../services/jobApplyService";
+import { acceptOfferJobApply, refuseOfferJobApply } from "../../../../services/jobApplyService";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
 const renderStatusChip = (status) => {
@@ -56,12 +56,12 @@ const renderStatusChip = (status) => {
             break;
         case "ACCEPTED":
             color = "success";
-            label = "Đã nhận";
+            label = "Đã nhận việc";
             backgroundColor = "#e8f5e9"; // Màu nền nhạt (light green)
             break;
         case "REFUSED":
             color = "error";
-            label = "Không nhận";
+            label = "Không nhận việc";
             backgroundColor = "#ffebee"; // Màu nền nhạt (light red)
             break;
         default:
@@ -114,10 +114,18 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
         setSelectedJobApply(null);
     };
 
-    const handleAcceptOffer = (jobApplyId) => {
-        console.log("Accept offer");
-        console.log(jobApplyId);
-        handleOfferModalClose();
+    const handleAcceptOffer = async (jobApplyId) => {
+        try {
+            const data = await acceptOfferJobApply(jobApplyId);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFlag((prev) => !prev);
+            handleOfferModalClose();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     const handleRefuseOffer = async (jobApplyId) => {

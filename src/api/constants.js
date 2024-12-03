@@ -71,6 +71,7 @@ export const JOB_APPLY_API = {
     REJECT: "/jobs/apply/reject/",
     INTERVIEW: "/jobs/apply/interview",
     OFFER: "/jobs/apply/offer/",
+    ACCEPT_OFFER: "/jobs/apply/offer/accept/",
     REFUSE_OFFER: "/jobs/apply/offer/refuse/",
 };
 

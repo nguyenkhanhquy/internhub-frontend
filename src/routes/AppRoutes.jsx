@@ -75,7 +75,7 @@ const AppRoutes = () => {
                         <>
                             {user?.role === "RECRUITER" && (
                                 <>
-                                    <Route index element={<Navigate to="/account/profile" replace />} />
+                                    <Route index element={<Navigate to="/recruiter/posted-jobs" replace />} />
 
                                     <Route path="/search" element={<Navigate to="/" replace />} />
                                     <Route path="/search/:id" element={<Navigate to="/" replace />} />
