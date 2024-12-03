@@ -28,6 +28,10 @@ const AppliedJobsGridView = () => {
         setRecordsPerPage(value);
     };
 
+    const handleViewDetailsClick = (id) => {
+        window.open(`/search/${id}`, "_blank");
+    };
+
     useEffect(() => {
         const fetchSavedJobPosts = async () => {
             setLoading(true);
@@ -64,7 +68,11 @@ const AppliedJobsGridView = () => {
         >
             <Box>
                 {/* Nội dung danh sách công việc */}
-                <AppliedJobsTable loading={loading} applyJobs={applyJobs} />
+                <AppliedJobsTable
+                    loading={loading}
+                    applyJobs={applyJobs}
+                    handleViewDetailsClick={handleViewDetailsClick}
+                />
             </Box>
         </GridViewLayout>
     );

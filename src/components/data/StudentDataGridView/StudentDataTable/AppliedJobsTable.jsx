@@ -10,7 +10,11 @@ import {
     Paper,
     Chip,
     Typography,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
@@ -75,7 +79,7 @@ const renderStatusChip = (status) => {
     );
 };
 
-const AppliedJobsTable = ({ loading, applyJobs }) => {
+const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
     return (
         <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
             <Table>
@@ -95,11 +99,14 @@ const AppliedJobsTable = ({ loading, applyJobs }) => {
                         <TableCell align="center" sx={{ width: "5%" }}>
                             STT
                         </TableCell>
-                        <TableCell sx={{ width: "30%" }}>Tên công việc</TableCell>
+                        <TableCell sx={{ width: "25%" }}>Tên công việc</TableCell>
                         <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
                         <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
                         <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
                         <TableCell sx={{ width: "10%" }}>Trạng thái</TableCell>
+                        <TableCell sx={{ width: "5%" }} align="center">
+                            <SettingsIcon />
+                        </TableCell>
                     </TableRow>
                 </TableHead>
 
@@ -143,18 +150,42 @@ const AppliedJobsTable = ({ loading, applyJobs }) => {
                             >
                                 <TableCell align="center">{index + 1}</TableCell>
                                 <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                        {item.title}
-                                    </Typography>
+                                    <Tooltip title={item.title} arrow>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                        >
+                                            {item.title}
+                                        </Typography>
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    {item.jobPosition}
+                                    <Tooltip title={item.jobPosition} arrow>
+                                        {item.jobPosition}
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    {item.company.name}
+                                    <Tooltip title={item.company.name} arrow>
+                                        {item.company.name}
+                                    </Tooltip>
                                 </TableCell>
                                 <TableCell>{formatDate(item.expiryDate)}</TableCell>
                                 <TableCell>{renderStatusChip(item.applyStatus)}</TableCell>
+                                <TableCell align="center">
+                                    <Tooltip title="Xem chi tiết" arrow>
+                                        <IconButton
+                                            color="primary"
+                                            onClick={() => handleViewDetailsClick(item.jobPostId)}
+                                        >
+                                            <InfoOutlinedIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </TableCell>
                             </TableRow>
                         ))
                     )}
@@ -168,6 +199,7 @@ const AppliedJobsTable = ({ loading, applyJobs }) => {
 AppliedJobsTable.propTypes = {
     loading: PropTypes.bool.isRequired,
     applyJobs: PropTypes.array.isRequired,
+    handleViewDetailsClick: PropTypes.func.isRequired,
 };
 
 export default AppliedJobsTable;
