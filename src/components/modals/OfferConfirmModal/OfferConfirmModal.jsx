@@ -64,7 +64,7 @@ const OfferConfirmModal = ({ open, onClose, onAccept, onRefuse, selectedJobApply
                     {confirmationState === null ? (
                         <Typography variant="body1">
                             Bạn đã được nhận vào vị trí <strong>{selectedJobApply.jobPosition}</strong> tại công ty{" "}
-                            <strong>{selectedJobApply.companyName}</strong>.
+                            <strong>{selectedJobApply.company.name}</strong>.
                         </Typography>
                     ) : (
                         <Typography variant="body1">

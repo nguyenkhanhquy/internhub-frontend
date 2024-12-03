@@ -1,5 +1,8 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
     Box,
     Table,
@@ -23,6 +26,8 @@ import EmptyBox from "../../../box/EmptyBox";
 import { formatDate } from "../../../../utils/dateUtil";
 import OfferConfirmModal from "../../../modals/OfferConfirmModal/OfferConfirmModal";
 import InterviewLetterModal from "../../../modals/InterviewLetterModal/InterviewLetterModal";
+
+import { refuseOfferJobApply } from "../../../../services/jobApplyService";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
 const renderStatusChip = (status) => {
@@ -83,7 +88,7 @@ const renderStatusChip = (status) => {
     );
 };
 
-const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
+const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag }) => {
     const [offerModalOpen, setOfferModalOpen] = useState(false);
     const [selectedJobApply, setSelectedJobApply] = useState(null);
     const [interviewModalOpen, setInterviewModalOpen] = useState(false);
@@ -115,10 +120,18 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
         handleOfferModalClose();
     };
 
-    const handleRefuseOffer = (jobApplyId) => {
-        console.log("Refuse offer");
-        console.log(jobApplyId);
-        handleOfferModalClose();
+    const handleRefuseOffer = async (jobApplyId) => {
+        try {
+            const data = await refuseOfferJobApply(jobApplyId);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFlag((prev) => !prev);
+            handleOfferModalClose();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -285,6 +298,7 @@ AppliedJobsTable.propTypes = {
     loading: PropTypes.bool.isRequired,
     applyJobs: PropTypes.array.isRequired,
     handleViewDetailsClick: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default AppliedJobsTable;

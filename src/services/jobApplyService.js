@@ -42,3 +42,7 @@ export const interviewJobApply = async (jobApplyId, interviewLetter) => {
 export const offerJobApply = async (jobApplyId) => {
     return axiosClient.put(JOB_APPLY_API.OFFER + jobApplyId);
 };
+
+export const refuseOfferJobApply = async (jobApplyId) => {
+    return axiosClient.put(JOB_APPLY_API.REFUSE_OFFER + jobApplyId);
+};

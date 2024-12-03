@@ -12,6 +12,7 @@ import { getAllJobApplyByStudent } from "../../../services/jobApplyService";
 const AppliedJobsGridView = () => {
     const [loading, setLoading] = useState(false);
     const [applyJobs, setApplyJobs] = useState([]);
+    const [flag, setFlag] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +52,7 @@ const AppliedJobsGridView = () => {
         };
 
         fetchSavedJobPosts();
-    }, [search, currentPage, recordsPerPage]);
+    }, [search, currentPage, recordsPerPage, flag]);
 
     return (
         <GridViewLayout
@@ -72,6 +73,7 @@ const AppliedJobsGridView = () => {
                     loading={loading}
                     applyJobs={applyJobs}
                     handleViewDetailsClick={handleViewDetailsClick}
+                    setFlag={setFlag}
                 />
             </Box>
         </GridViewLayout>
