@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { Box, Typography, Container, Button } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
 import SearchBar from "../../components/search/SearchBar";
-import JobCardBasic from "../../components/job/JobCard/JobCardBasic";
 import FeaturedCompaniesSection from "../../components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
+import LatestJobsSection from "../../components/section/HomePage/LatestJobsSection/LatestJobsSection";
 
 import { getAllApprovedCompanies } from "../../services/companyService";
 
@@ -144,61 +144,7 @@ const HomePage = () => {
                 </Box>
 
                 {/* VIỆC LÀM MỚI NHẤT */}
-                <Box
-                    sx={{
-                        mt: 4,
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        minHeight: "50vh",
-                    }}
-                >
-                    <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
-                        VIỆC LÀM MỚI NHẤT
-                    </Typography>
-
-                    <Box
-                        sx={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(3, 1fr)",
-                            gap: 2,
-                            "@media (max-width: 900px)": {
-                                gridTemplateColumns: "repeat(2, 1fr)",
-                            },
-                            "@media (max-width: 600px)": {
-                                gridTemplateColumns: "1fr",
-                            },
-                        }}
-                    >
-                        {jobList.map((job, index) => (
-                            <JobCardBasic
-                                key={index}
-                                id={job.id}
-                                logo={job.logo}
-                                title={job.title}
-                                companyName={job.companyName}
-                                address={job.address}
-                                remote={job.remote}
-                                type={job.type}
-                            />
-                        ))}
-                    </Box>
-
-                    {/* Button Xem thêm */}
-                    <Button
-                        variant="container"
-                        sx={{
-                            padding: "8px 16px",
-                            backgroundColor: "#2e3090",
-                            color: "white",
-                            "&:hover": { backgroundColor: "#1f2061" },
-                        }}
-                        onClick={() => navigate("/search")}
-                    >
-                        Xem thêm
-                    </Button>
-                </Box>
+                <LatestJobsSection jobList={jobList} />
 
                 {/* DOANH NGHIỆP NỔI BẬT */}
                 <FeaturedCompaniesSection companies={featuredCompanies} />

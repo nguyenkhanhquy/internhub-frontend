@@ -25,7 +25,7 @@ function NotFoundPage() {
                 <Typography style={{ marginBottom: 20 }} className="text-[20px] font-normal text-gray-500">
                     Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
                 </Typography>
-                <Button color="gray" variant="outlined" className="w-[13rem]" onClick={handleNBackHome}>
+                <Button color="gray" variant="outlined" onClick={handleNBackHome}>
                     <HomeIcon className="mr-1" /> Quay lại trang chủ
                 </Button>
             </div>
