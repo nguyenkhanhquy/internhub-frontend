@@ -26,10 +26,10 @@ const LatestJobsSection = ({ jobList }) => {
                     display: "grid",
                     gridTemplateColumns: "repeat(3, 1fr)",
                     gap: 2,
-                    "@media (max-width: 900px)": {
+                    "@media (max-width: 1400px)": {
                         gridTemplateColumns: "repeat(2, 1fr)",
                     },
-                    "@media (max-width: 600px)": {
+                    "@media (max-width: 960px)": {
                         gridTemplateColumns: "1fr",
                     },
                 }}
@@ -38,10 +38,9 @@ const LatestJobsSection = ({ jobList }) => {
                     <JobCardBasic
                         key={index}
                         id={job.id}
-                        logo={job.logo}
+                        logo={job.company.logo}
                         title={job.title}
-                        companyName={job.companyName}
-                        address={job.address}
+                        companyName={job.company.name}
                         remote={job.remote}
                         type={job.type}
                     />

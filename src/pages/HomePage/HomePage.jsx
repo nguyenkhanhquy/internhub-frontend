@@ -10,103 +10,12 @@ import FeaturedCompaniesSection from "../../components/section/HomePage/Featured
 import LatestJobsSection from "../../components/section/HomePage/LatestJobsSection/LatestJobsSection";
 
 import { getAllApprovedCompanies } from "../../services/companyService";
-
-const jobList = [
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-        title: "Thực tập sinh Frontend",
-        companyName: "Công ty Cổ phần Viễn thông FPT",
-        address: "Thành phố Hồ Chí Minh",
-        jobPosition: "IT Phần mềm",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg",
-        title: "Thực tập sinh Backend",
-        companyName: "CÔNG TY TNHH CÔNG NGHỆ - DỊCH VỤ SMART SERVICES",
-        address: "Hà Nội",
-        jobPosition: "Phát triển phần mềm",
-        type: "Bán thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://dynamic.brandcrowd.com/asset/logo/aa3b9817-26ca-40d0-8c59-b4a8d149bda2/logo-search-grid-2x?logoTemplateVersion=1&v=638550553385470000",
-        title: "Thực tập sinh UI/UX",
-        companyName: "Công ty Thiết kế XYZ",
-        address: "Đà Nẵng",
-        jobPosition: "Thiết kế giao diện",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://bcassetcdn.com/public/blog/wp-content/uploads/2021/10/07203359/australia-tech-map-by-jimjemr-brandcrowd.png",
-        title: "Thực tập sinh Data Analyst",
-        companyName: "Công ty Phân tích số liệu DEF",
-        address: "Cần Thơ",
-        jobPosition: "Phân tích dữ liệu",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg?ts=1561532453",
-        title: "Thực tập sinh Marketing",
-        companyName: "Công ty Tiếp thị GHI",
-        address: "Hải Phòng",
-        jobPosition: "Marketing",
-        type: "Bán thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://cdn.shopify.com/shopifycloud/hatchful_web_two/bundles/7e55eb3d6a1a096058955ae7d64ee9d5.png",
-        title: "Thực tập sinh Web",
-        companyName: "Công ty NEVERLINE",
-        address: "Hải Phòng",
-        jobPosition: "Lập trình Web",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://innhanhhcm.vn/wp-content/uploads/2023/11/logo-fpt-01-1024x774.jpg",
-        title: "Thực tập sinh Frontend",
-        companyName: "Công ty Cổ phần Viễn thông FPT",
-        address: "Thành phố Hồ Chí Minh",
-        jobPosition: "IT Phần mềm",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://marketplace.canva.com/EAE0rNNM2Fg/1/0/1600w/canva-letter-c-trade-marketing-logo-design-template-r9VFYrbB35Y.jpg",
-        title: "Thực tập sinh Backend",
-        companyName: "CÔNG TY TNHH CÔNG NGHỆ - DỊCH VỤ SMART SERVICES",
-        address: "Hà Nội",
-        jobPosition: "Phát triển phần mềm",
-        type: "Bán thời gian",
-        remote: "Trực tiếp",
-    },
-    {
-        id: "01d903ce-793e-44ec-be3f-6364d3828783",
-        logo: "https://dynamic.brandcrowd.com/asset/logo/aa3b9817-26ca-40d0-8c59-b4a8d149bda2/logo-search-grid-2x?logoTemplateVersion=1&v=638550553385470000",
-        title: "Thực tập sinh UI/UX",
-        companyName: "Công ty Thiết kế XYZ",
-        address: "Đà Nẵng",
-        jobPosition: "Thiết kế giao diện",
-        type: "Toàn thời gian",
-        remote: "Trực tiếp",
-    },
-];
+import { getAllJobPosts } from "../../services/jobPostService";
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [featuredCompanies, setFeaturedCompanies] = useState([]);
+    const [jobList, setJobList] = useState([]);
 
     useEffect(() => {
         const fetchFeaturedCompanies = async () => {
@@ -116,6 +25,12 @@ const HomePage = () => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setFeaturedCompanies(data.result);
+
+                const jobData = await getAllJobPosts(1, 12);
+                if (!jobData.success) {
+                    throw new Error(jobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setJobList(jobData.result);
             } catch (error) {
                 toast.error(error.message);
             }

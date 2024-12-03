@@ -15,7 +15,7 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
             onClick={handleCardClick}
             sx={{
                 maxWidth: 420,
-                minHeight: 150,
+                minHeight: 160,
                 mb: 3,
                 boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
                 borderRadius: 2,
