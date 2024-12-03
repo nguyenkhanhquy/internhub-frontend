@@ -38,3 +38,7 @@ export const interviewJobApply = async (jobApplyId, interviewLetter) => {
         interviewLetter: interviewLetter,
     });
 };
+
+export const offerJobApply = async (jobApplyId) => {
+    return axiosClient.put(JOB_APPLY_API.OFFER + jobApplyId);
+};

@@ -47,8 +47,8 @@ const CompanyListingPage = () => {
     }, [currentPage]);
 
     return (
-        <MainLayout title="Danh sách công ty">
-            <PageNavigation pageName="Danh sách công ty" />
+        <MainLayout title="Danh sách doanh nghiệp">
+            <PageNavigation pageName="Danh sách doanh nghiệp" />
             <Box
                 sx={{
                     margin: {

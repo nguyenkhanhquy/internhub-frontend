@@ -18,10 +18,10 @@ const FeaturedCompaniesSection = ({ companies }) => {
             }}
         >
             <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
-                NHÀ TUYỂN DỤNG NỔI BẬT
+                DOANH NGHIỆP NỔI BẬT
             </Typography>
 
-            {/* Các hình ảnh nhà tuyển dụng nổi bật */}
+            {/* Các hình ảnh doanh nhgiệp nổi bật */}
             <Stack direction="row" spacing={4} sx={{ flexWrap: "wrap", justifyContent: "center" }}>
                 {companies.map((company, index) => (
                     <Box

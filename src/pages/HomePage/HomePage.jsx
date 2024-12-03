@@ -218,7 +218,7 @@ const HomePage = () => {
                     </Button>
                 </Box>
 
-                {/* NHÀ TUYỂN DỤNG NỔI BẬT */}
+                {/* DOANH NGHIỆP NỔI BẬT */}
                 <FeaturedCompaniesSection companies={featuredCompanies} />
             </Container>
         </MainLayout>

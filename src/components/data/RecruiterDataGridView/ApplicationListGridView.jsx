@@ -7,7 +7,7 @@ import ApplicationListTable from "./RecruiterDataTable/ApplicationListTable";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import InterviewInvitationModal from "../../modals/InterviewInvitationModal/InterviewInvitationModal";
 
-import { getAllJobApplyByJobPostId, rejectJobApply } from "../../../services/jobApplyService";
+import { getAllJobApplyByJobPostId, rejectJobApply, offerJobApply } from "../../../services/jobApplyService";
 
 const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
     const [loading, setLoading] = useState(false);
@@ -39,6 +39,17 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
         } else if (action === "REJECTED") {
             try {
                 const data = await rejectJobApply(jobApplyId);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setFlag((prev) => !prev);
+                toast.success(data.message);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        } else if (action === "OFFER") {
+            try {
+                const data = await offerJobApply(jobApplyId);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
