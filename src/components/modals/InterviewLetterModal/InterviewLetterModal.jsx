@@ -62,10 +62,7 @@ const InterviewLetterModal = ({ open, onClose, interviewLetter }) => {
                             ":hover": {
                                 bgcolor: "#1e3a8a", // Màu xanh đậm khi hover
                             },
-                            px: 3, // Padding ngang
-                            py: 1.2, // Padding dọc
-                            borderRadius: "8px", // Bo góc nhẹ
-                            fontWeight: "bold",
+                            borderRadius: "4px", // Bo góc nhẹ
                         }}
                     >
                         Đóng

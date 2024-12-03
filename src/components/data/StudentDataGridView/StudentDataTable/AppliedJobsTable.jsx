@@ -21,6 +21,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
 import { formatDate } from "../../../../utils/dateUtil";
+import OfferConfirmModal from "../../../modals/OfferConfirmModal/OfferConfirmModal";
 import InterviewLetterModal from "../../../modals/InterviewLetterModal/InterviewLetterModal";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
@@ -83,17 +84,41 @@ const renderStatusChip = (status) => {
 };
 
 const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
-    const [modalOpen, setModalOpen] = useState(false);
+    const [offerModalOpen, setOfferModalOpen] = useState(false);
+    const [selectedJobApply, setSelectedJobApply] = useState(null);
+    const [interviewModalOpen, setInterviewModalOpen] = useState(false);
     const [selectedLetter, setSelectedLetter] = useState("");
 
-    const handleModalOpen = (letter) => {
+    const handleinterviewModalOpen = (letter) => {
         setSelectedLetter(letter);
-        setModalOpen(true);
+        setInterviewModalOpen(true);
     };
 
     const handleModalClose = () => {
-        setModalOpen(false);
+        setInterviewModalOpen(false);
         setSelectedLetter("");
+    };
+
+    const handleOfferModalOpen = (job) => {
+        setSelectedJobApply(job);
+        setOfferModalOpen(true);
+    };
+
+    const handleOfferModalClose = () => {
+        setOfferModalOpen(false);
+        setSelectedJobApply(null);
+    };
+
+    const handleAcceptOffer = (jobApplyId) => {
+        console.log("Accept offer");
+        console.log(jobApplyId);
+        handleOfferModalClose();
+    };
+
+    const handleRefuseOffer = (jobApplyId) => {
+        console.log("Refuse offer");
+        console.log(jobApplyId);
+        handleOfferModalClose();
     };
 
     return (
@@ -120,8 +145,8 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
                             <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
                             <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
                             <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
-                            <TableCell sx={{ width: "10%" }}>Trạng thái</TableCell>
-                            <TableCell sx={{ width: "5%" }} align="center">
+                            <TableCell sx={{ width: "14%" }}>Trạng thái</TableCell>
+                            <TableCell sx={{ width: "1%" }} align="center">
                                 <SettingsIcon />
                             </TableCell>
                         </TableRow>
@@ -168,47 +193,17 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
                                     <TableCell align="center">{index + 1}</TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.title} arrow>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    fontWeight: 500,
-                                                    whiteSpace: "nowrap",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis",
-                                                }}
-                                            >
-                                                {item.title}
-                                            </Typography>
+                                            <Typography>{item.title}</Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.jobPosition} arrow>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    fontWeight: 500,
-                                                    whiteSpace: "nowrap",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis",
-                                                }}
-                                            >
-                                                {item.jobPosition}
-                                            </Typography>
+                                            <Typography>{item.jobPosition}</Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.company.name} arrow>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    fontWeight: 500,
-                                                    whiteSpace: "nowrap",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis",
-                                                }}
-                                            >
-                                                {item.company.name}
-                                            </Typography>
+                                            <Typography>{item.company.name}</Typography>
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell>{formatDate(item.expiryDate)}</TableCell>
@@ -218,15 +213,31 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
                                                 variant="contained"
                                                 size="small"
                                                 sx={{
+                                                    width: "100%",
                                                     bgcolor: "#1e40af",
                                                     ":hover": { bgcolor: "#1e3a8a" },
                                                     fontSize: "0.75rem",
                                                     padding: "4px 8px",
                                                     textTransform: "none",
                                                 }}
-                                                onClick={() => handleModalOpen(item.interviewLetter)}
+                                                onClick={() => handleinterviewModalOpen(item.interviewLetter)}
                                             >
                                                 Chờ phỏng vấn
+                                            </Button>
+                                        ) : item.applyStatus === "OFFER" ? (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                color="success"
+                                                sx={{
+                                                    width: "100%",
+                                                    fontSize: "0.75rem",
+                                                    padding: "4px 8px",
+                                                    textTransform: "none",
+                                                }}
+                                                onClick={() => handleOfferModalOpen(item)}
+                                            >
+                                                Được đề nghị
                                             </Button>
                                         ) : (
                                             renderStatusChip(item.applyStatus)
@@ -249,7 +260,22 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
                 </Table>
             </TableContainer>
             {/* Modal hiển thị thư phỏng vấn */}
-            <InterviewLetterModal open={modalOpen} onClose={handleModalClose} interviewLetter={selectedLetter} />
+            <InterviewLetterModal
+                open={interviewModalOpen}
+                onClose={handleModalClose}
+                interviewLetter={selectedLetter}
+            />
+
+            {/* Modal cho offer */}
+            {selectedJobApply && (
+                <OfferConfirmModal
+                    open={offerModalOpen}
+                    onClose={handleOfferModalClose}
+                    onAccept={handleAcceptOffer}
+                    onRefuse={handleRefuseOffer}
+                    selectedJobApply={selectedJobApply}
+                />
+            )}
         </>
     );
 };
