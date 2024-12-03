@@ -217,10 +217,9 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                     <Tooltip title="Xem CV" arrow>
                                         <IconButton
                                             color="primary"
-                                            title="Xem CV"
                                             onClick={() => {
                                                 if (application?.cv) {
-                                                    window.location.href = application.cv;
+                                                    window.open(application.cv, "_blank");
                                                 } else {
                                                     alert("CV không tồn tại!");
                                                 }

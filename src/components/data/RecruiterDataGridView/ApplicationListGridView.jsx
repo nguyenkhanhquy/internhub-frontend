@@ -104,11 +104,13 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
                     handleAction={handleAction}
                 />
             </GridViewLayout>
+
             {selectedApplication && (
                 <InterviewInvitationModal
                     open={isModalOpen}
                     onClose={handleModalClose}
                     application={selectedApplication}
+                    setFlag={setFlag}
                 />
             )}
         </>

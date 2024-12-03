@@ -23,22 +23,22 @@ const renderStatusChip = (status) => {
     switch (status) {
         case "PROCESSING":
             color = "warning";
-            label = "Đang xử lý";
+            label = "Chờ xử lý";
             backgroundColor = "#fff3e0"; // Màu nền nhạt (light orange)
             break;
         case "INTERVIEW":
             color = "info";
-            label = "Phỏng vấn";
+            label = "Chờ phỏng vấn";
             backgroundColor = "#e3f2fd"; // Màu nền nhạt (light blue)
             break;
         case "OFFER":
             color = "info";
-            label = "Đề nghị";
+            label = "Được đề nghị";
             backgroundColor = "#e3f2fd"; // Màu nền nhạt (light blue)
             break;
         case "REJECTED":
             color = "error";
-            label = "Đã từ chối";
+            label = "Đã bị từ chối";
             backgroundColor = "#ffebee"; // Màu nền nhạt (light red)
             break;
         case "ACCEPTED":

@@ -1,27 +1,39 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
+
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, TextField } from "@mui/material";
 
-const InterviewInvitationModal = ({ open, onClose, application }) => {
-    const [interviewLetter, setInterviewLetter] = useState(""); // State for interview letter
-    const [isSubmitting, setIsSubmitting] = useState(false); // State for submission status
+import { interviewJobApply } from "../../../services/jobApplyService";
 
-    const handleInvite = () => {
+const InterviewInvitationModal = ({ open, onClose, application, setFlag }) => {
+    const [interviewLetter, setInterviewLetter] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleInvite = async () => {
         if (!interviewLetter.trim()) {
-            return; // Nếu thư mời trống, không làm gì
+            return;
         }
-        setIsSubmitting(true);
-        console.log("Mời phỏng vấn ứng viên:", application.name);
-        console.log("Nội dung thư mời:", interviewLetter);
-        // Giả sử bạn sẽ gửi thư mời phỏng vấn ở đây (API call)
 
-        // Sau khi gửi xong, đóng modal
-        setIsSubmitting(false);
-        onClose();
+        setIsSubmitting(true);
+        try {
+            const data = await interviewJobApply(application.id, interviewLetter);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFlag((prev) => !prev);
+            onClose();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleLetterChange = (event) => {
-        setInterviewLetter(event.target.value); // Cập nhật thư mời
+        setInterviewLetter(event.target.value);
     };
 
     return (
@@ -30,7 +42,7 @@ const InterviewInvitationModal = ({ open, onClose, application }) => {
                 Mời phỏng vấn ứng viên <strong className="text-blue-800">{application.name}</strong>
             </DialogTitle>
             <DialogContent sx={{ paddingTop: 3 }}>
-                <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                <Typography variant="body1" sx={{ marginBottom: 1 }}>
                     Vui lòng nhập nội dung thư mời phỏng vấn dưới đây:
                 </Typography>
                 <TextField
@@ -42,7 +54,6 @@ const InterviewInvitationModal = ({ open, onClose, application }) => {
                     margin="normal"
                     value={interviewLetter}
                     onChange={handleLetterChange}
-                    helperText="Vui lòng nhập thư mời phỏng vấn."
                     sx={{
                         "& .MuiOutlinedInput-root": {
                             borderRadius: "8px",
@@ -61,7 +72,7 @@ const InterviewInvitationModal = ({ open, onClose, application }) => {
                     onClick={handleInvite}
                     color="primary"
                     variant="contained"
-                    disabled={!interviewLetter.trim() || isSubmitting} // Disable nếu thư mời trống hoặc đang gửi
+                    disabled={!interviewLetter.trim() || isSubmitting}
                     sx={{
                         backgroundColor: "#1976d2",
                         "&:hover": {
@@ -69,7 +80,7 @@ const InterviewInvitationModal = ({ open, onClose, application }) => {
                         },
                     }}
                 >
-                    {isSubmitting ? "Đang gửi..." : "Xác nhận"}
+                    {isSubmitting ? "Đang gửi..." : "Gửi thư mời"}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -80,6 +91,7 @@ InterviewInvitationModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     application: PropTypes.object.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default InterviewInvitationModal;

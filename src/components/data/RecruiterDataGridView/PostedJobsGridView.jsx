@@ -166,7 +166,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         onChange={(e) => setSelectedType(e.target.value)}
                         label="Loại hợp đồng"
                     >
-                        <MenuItem value="Tất cả loại hợp đồng">Tất cả loại hợp đồng</MenuItem>
+                        <MenuItem value="Tất cả">Tất cả</MenuItem>
                         <MenuItem value="Bán thời gian">Bán thời gian</MenuItem>
                         <MenuItem value="Toàn thời gian">Toàn thời gian</MenuItem>
                     </Select>

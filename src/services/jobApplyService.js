@@ -31,3 +31,10 @@ export const getAllJobApplyByJobPostId = async (jobPostId, page, size) => {
 export const rejectJobApply = async (jobApplyId) => {
     return axiosClient.put(JOB_APPLY_API.REJECT + jobApplyId);
 };
+
+export const interviewJobApply = async (jobApplyId, interviewLetter) => {
+    return axiosClient.put(JOB_APPLY_API.INTERVIEW, {
+        jobApplyId: jobApplyId,
+        interviewLetter: interviewLetter,
+    });
+};

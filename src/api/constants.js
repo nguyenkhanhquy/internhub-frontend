@@ -68,6 +68,7 @@ export const JOB_APPLY_API = {
     GET_ALL_BY_STUDENT: "/jobs/apply/student",
     GET_ALL_BY_JOB_POST_ID: "/jobs/apply/post/",
     REJECT: "/jobs/apply/reject/",
+    INTERVIEW: "/jobs/apply/interview",
 };
 
 export const FILES_API = {
