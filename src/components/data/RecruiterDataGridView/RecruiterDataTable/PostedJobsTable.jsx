@@ -139,13 +139,34 @@ const PostedJobsTable = ({
                                 </TableCell>
                                 <TableCell align="center">
                                     <Stack direction="row" spacing={1}>
-                                        <Tooltip title="Chi tiết bài đăng">
-                                            <IconButton onClick={() => handleViewDetails(job)}>
-                                                <InfoIcon className="text-blue-800" />
-                                            </IconButton>
-                                        </Tooltip>
-                                        {value !== 2 && (
+                                        {value === 2 ? (
                                             <>
+                                                <Tooltip title="Chi tiết bài đăng">
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        ) : value === 3 ? (
+                                            <>
+                                                <Tooltip title="Chi tiết bài đăng">
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Chỉnh sửa bài đăng">
+                                                    <IconButton onClick={() => handleEditPostClick(job.id)}>
+                                                        <EditIcon className="text-yellow-500" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Tooltip title="Chi tiết bài đăng">
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
+                                                    </IconButton>
+                                                </Tooltip>
                                                 <Tooltip title="Chỉnh sửa bài đăng">
                                                     <IconButton onClick={() => handleEditPostClick(job.id)}>
                                                         <EditIcon className="text-yellow-500" />

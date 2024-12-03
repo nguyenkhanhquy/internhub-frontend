@@ -206,6 +206,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                 <CustomTabPanel value={value} index={0}>
                     <Box>
                         <PostedJobsTable
+                            value={value}
                             loading={loading}
                             postedJobPosts={jobPosts}
                             currentPage={currentPage}
@@ -220,6 +221,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
 
                 <CustomTabPanel value={value} index={1}>
                     <PostedJobsTable
+                        value={value}
                         loading={loading}
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
@@ -247,6 +249,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
 
                 <CustomTabPanel value={value} index={3}>
                     <PostedJobsTable
+                        value={value}
                         loading={loading}
                         postedJobPosts={jobPosts}
                         currentPage={currentPage}
@@ -260,6 +263,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
 
                 <CustomTabPanel value={value} index={4}>
                     <PostedJobsTable
+                        value={value}
                         loading={loading}
                         postedJobPosts={[]}
                         currentPage={currentPage}
