@@ -20,9 +20,7 @@ const jobList = [
         address: "Thành phố Hồ Chí Minh",
         jobPosition: "IT Phần mềm",
         type: "Toàn thời gian",
-        salary: "Thỏa thuận",
-        updateDate: new Date("2024-11-07"),
-        expiryDate: new Date("2024-12-31"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -32,9 +30,7 @@ const jobList = [
         address: "Hà Nội",
         jobPosition: "Phát triển phần mềm",
         type: "Bán thời gian",
-        salary: "5,000,000 VND/tháng",
-        updateDate: new Date("2024-11-05"),
-        expiryDate: new Date("2024-12-20"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -44,9 +40,7 @@ const jobList = [
         address: "Đà Nẵng",
         jobPosition: "Thiết kế giao diện",
         type: "Toàn thời gian",
-        salary: "4,000,000 VND/tháng",
-        updateDate: new Date("2024-11-01"),
-        expiryDate: new Date("2024-12-15"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -56,9 +50,7 @@ const jobList = [
         address: "Cần Thơ",
         jobPosition: "Phân tích dữ liệu",
         type: "Toàn thời gian",
-        salary: "6,000,000 VND/tháng",
-        updateDate: new Date("2024-11-10"),
-        expiryDate: new Date("2024-12-25"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -68,9 +60,7 @@ const jobList = [
         address: "Hải Phòng",
         jobPosition: "Marketing",
         type: "Bán thời gian",
-        salary: "3,500,000 VND/tháng",
-        updateDate: new Date("2024-11-12"),
-        expiryDate: new Date("2024-12-30"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -80,9 +70,7 @@ const jobList = [
         address: "Hải Phòng",
         jobPosition: "Lập trình Web",
         type: "Toàn thời gian",
-        salary: "3,000,000 VND/tháng",
-        updateDate: new Date("2024-11-12"),
-        expiryDate: new Date("2024-12-30"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -92,9 +80,7 @@ const jobList = [
         address: "Thành phố Hồ Chí Minh",
         jobPosition: "IT Phần mềm",
         type: "Toàn thời gian",
-        salary: "Thỏa thuận",
-        updateDate: new Date("2024-11-07"),
-        expiryDate: new Date("2024-12-31"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -104,9 +90,7 @@ const jobList = [
         address: "Hà Nội",
         jobPosition: "Phát triển phần mềm",
         type: "Bán thời gian",
-        salary: "5,000,000 VND/tháng",
-        updateDate: new Date("2024-11-05"),
-        expiryDate: new Date("2024-12-20"),
+        remote: "Trực tiếp",
     },
     {
         id: "01d903ce-793e-44ec-be3f-6364d3828783",
@@ -116,9 +100,7 @@ const jobList = [
         address: "Đà Nẵng",
         jobPosition: "Thiết kế giao diện",
         type: "Toàn thời gian",
-        salary: "4,000,000 VND/tháng",
-        updateDate: new Date("2024-11-01"),
-        expiryDate: new Date("2024-12-15"),
+        remote: "Trực tiếp",
     },
 ];
 
@@ -197,7 +179,7 @@ const HomePage = () => {
                                 title={job.title}
                                 companyName={job.companyName}
                                 address={job.address}
-                                remote="Trực tiếp"
+                                remote={job.remote}
                                 type={job.type}
                             />
                         ))}
