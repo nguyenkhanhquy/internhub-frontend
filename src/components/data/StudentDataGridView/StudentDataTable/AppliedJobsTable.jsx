@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import {
     Box,
     Table,
@@ -10,11 +11,18 @@ import {
     Paper,
     Chip,
     Typography,
+    Tooltip,
+    Button,
+    IconButton,
 } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../../box/EmptyBox";
 import { formatDate } from "../../../../utils/dateUtil";
+import OfferConfirmModal from "../../../modals/OfferConfirmModal/OfferConfirmModal";
+import InterviewLetterModal from "../../../modals/InterviewLetterModal/InterviewLetterModal";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
 const renderStatusChip = (status) => {
@@ -75,92 +83,200 @@ const renderStatusChip = (status) => {
     );
 };
 
-const AppliedJobsTable = ({ loading, applyJobs }) => {
-    return (
-        <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
-            <Table>
-                {/* Tiêu đề bảng */}
-                <TableHead>
-                    <TableRow
-                        sx={{
-                            backgroundColor: "#f5f5f5",
-                            "& th": {
-                                fontWeight: "bold",
-                                fontSize: "0.875rem",
-                                padding: "12px 16px",
-                                borderBottom: "1px solid #ddd",
-                            },
-                        }}
-                    >
-                        <TableCell align="center" sx={{ width: "5%" }}>
-                            STT
-                        </TableCell>
-                        <TableCell sx={{ width: "30%" }}>Tên công việc</TableCell>
-                        <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
-                        <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
-                        <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
-                        <TableCell sx={{ width: "10%" }}>Trạng thái</TableCell>
-                    </TableRow>
-                </TableHead>
+const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick }) => {
+    const [offerModalOpen, setOfferModalOpen] = useState(false);
+    const [selectedJobApply, setSelectedJobApply] = useState(null);
+    const [interviewModalOpen, setInterviewModalOpen] = useState(false);
+    const [selectedLetter, setSelectedLetter] = useState("");
 
-                {/* Nội dung bảng */}
-                <TableBody>
-                    {loading ? (
-                        <TableRow>
-                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                <Box
-                                    display="flex"
-                                    flexDirection="column"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    height="100%"
-                                    padding={2}
-                                >
-                                    <SuspenseLoader />
-                                </Box>
+    const handleinterviewModalOpen = (letter) => {
+        setSelectedLetter(letter);
+        setInterviewModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setInterviewModalOpen(false);
+        setSelectedLetter("");
+    };
+
+    const handleOfferModalOpen = (job) => {
+        setSelectedJobApply(job);
+        setOfferModalOpen(true);
+    };
+
+    const handleOfferModalClose = () => {
+        setOfferModalOpen(false);
+        setSelectedJobApply(null);
+    };
+
+    const handleAcceptOffer = (jobApplyId) => {
+        console.log("Accept offer");
+        console.log(jobApplyId);
+        handleOfferModalClose();
+    };
+
+    const handleRefuseOffer = (jobApplyId) => {
+        console.log("Refuse offer");
+        console.log(jobApplyId);
+        handleOfferModalClose();
+    };
+
+    return (
+        <>
+            <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
+                <Table>
+                    {/* Tiêu đề bảng */}
+                    <TableHead>
+                        <TableRow
+                            sx={{
+                                backgroundColor: "#f5f5f5",
+                                "& th": {
+                                    fontWeight: "bold",
+                                    fontSize: "0.875rem",
+                                    padding: "12px 16px",
+                                    borderBottom: "1px solid #ddd",
+                                },
+                            }}
+                        >
+                            <TableCell align="center" sx={{ width: "5%" }}>
+                                STT
+                            </TableCell>
+                            <TableCell sx={{ width: "25%" }}>Tên công việc</TableCell>
+                            <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
+                            <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
+                            <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
+                            <TableCell sx={{ width: "14%" }}>Trạng thái</TableCell>
+                            <TableCell sx={{ width: "1%" }} align="center">
+                                <SettingsIcon />
                             </TableCell>
                         </TableRow>
-                    ) : applyJobs.length === 0 ? (
-                        <TableRow>
-                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
-                            </TableCell>
-                        </TableRow>
-                    ) : (
-                        applyJobs.map((item, index) => (
-                            <TableRow
-                                key={item.id}
-                                sx={{
-                                    "&:hover": {
-                                        backgroundColor: "#f9f9f9",
-                                    },
-                                    "& td": {
-                                        padding: "10px 16px",
-                                        fontSize: "0.875rem",
-                                        borderBottom: "1px solid #e0e0e0",
-                                    },
-                                }}
-                            >
-                                <TableCell align="center">{index + 1}</TableCell>
-                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                        {item.title}
-                                    </Typography>
+                    </TableHead>
+
+                    {/* Nội dung bảng */}
+                    <TableBody>
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                    <Box
+                                        display="flex"
+                                        flexDirection="column"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        height="100%"
+                                        padding={2}
+                                    >
+                                        <SuspenseLoader />
+                                    </Box>
                                 </TableCell>
-                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    {item.jobPosition}
-                                </TableCell>
-                                <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
-                                    {item.company.name}
-                                </TableCell>
-                                <TableCell>{formatDate(item.expiryDate)}</TableCell>
-                                <TableCell>{renderStatusChip(item.applyStatus)}</TableCell>
                             </TableRow>
-                        ))
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                        ) : applyJobs.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                    <EmptyBox />
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            applyJobs.map((item, index) => (
+                                <TableRow
+                                    key={item.id}
+                                    sx={{
+                                        "&:hover": {
+                                            backgroundColor: "#f9f9f9",
+                                        },
+                                        "& td": {
+                                            padding: "10px 16px",
+                                            fontSize: "0.875rem",
+                                            borderBottom: "1px solid #e0e0e0",
+                                        },
+                                    }}
+                                >
+                                    <TableCell align="center">{index + 1}</TableCell>
+                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                        <Tooltip title={item.title} arrow>
+                                            <Typography>{item.title}</Typography>
+                                        </Tooltip>
+                                    </TableCell>
+                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                        <Tooltip title={item.jobPosition} arrow>
+                                            <Typography>{item.jobPosition}</Typography>
+                                        </Tooltip>
+                                    </TableCell>
+                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                        <Tooltip title={item.company.name} arrow>
+                                            <Typography>{item.company.name}</Typography>
+                                        </Tooltip>
+                                    </TableCell>
+                                    <TableCell>{formatDate(item.expiryDate)}</TableCell>
+                                    <TableCell>
+                                        {item.applyStatus === "INTERVIEW" ? (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                sx={{
+                                                    width: "100%",
+                                                    bgcolor: "#1e40af",
+                                                    ":hover": { bgcolor: "#1e3a8a" },
+                                                    fontSize: "0.75rem",
+                                                    padding: "4px 8px",
+                                                    textTransform: "none",
+                                                }}
+                                                onClick={() => handleinterviewModalOpen(item.interviewLetter)}
+                                            >
+                                                Chờ phỏng vấn
+                                            </Button>
+                                        ) : item.applyStatus === "OFFER" ? (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                color="success"
+                                                sx={{
+                                                    width: "100%",
+                                                    fontSize: "0.75rem",
+                                                    padding: "4px 8px",
+                                                    textTransform: "none",
+                                                }}
+                                                onClick={() => handleOfferModalOpen(item)}
+                                            >
+                                                Được đề nghị
+                                            </Button>
+                                        ) : (
+                                            renderStatusChip(item.applyStatus)
+                                        )}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Tooltip title="Xem chi tiết" arrow>
+                                            <IconButton
+                                                color="primary"
+                                                onClick={() => handleViewDetailsClick(item.jobPostId)}
+                                            >
+                                                <InfoOutlinedIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {/* Modal hiển thị thư phỏng vấn */}
+            <InterviewLetterModal
+                open={interviewModalOpen}
+                onClose={handleModalClose}
+                interviewLetter={selectedLetter}
+            />
+
+            {/* Modal cho offer */}
+            {selectedJobApply && (
+                <OfferConfirmModal
+                    open={offerModalOpen}
+                    onClose={handleOfferModalClose}
+                    onAccept={handleAcceptOffer}
+                    onRefuse={handleRefuseOffer}
+                    selectedJobApply={selectedJobApply}
+                />
+            )}
+        </>
     );
 };
 
@@ -168,6 +284,7 @@ const AppliedJobsTable = ({ loading, applyJobs }) => {
 AppliedJobsTable.propTypes = {
     loading: PropTypes.bool.isRequired,
     applyJobs: PropTypes.array.isRequired,
+    handleViewDetailsClick: PropTypes.func.isRequired,
 };
 
 export default AppliedJobsTable;

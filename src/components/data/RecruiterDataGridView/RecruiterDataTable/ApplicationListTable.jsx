@@ -114,12 +114,12 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                             STT
                         </TableCell>
                         <TableCell sx={{ width: "20%" }}>Ứng viên</TableCell>
-                        <TableCell sx={{ width: "15%" }}>Ngày ứng tuyển</TableCell>
-                        <TableCell sx={{ width: "20%" }}>Thư giới thiệu</TableCell>
+                        <TableCell sx={{ width: "18%" }}>Ngày ứng tuyển</TableCell>
+                        <TableCell sx={{ width: "15%" }}>Thư giới thiệu</TableCell>
                         <TableCell align="center" sx={{ width: "5%" }}>
                             CV
                         </TableCell>
-                        <TableCell sx={{ width: "15%" }}>Trạng thái</TableCell>
+                        <TableCell sx={{ width: "17%" }}>Trạng thái</TableCell>
                         <TableCell align="center" sx={{ width: "20%" }}>
                             Xử lý hồ sơ
                         </TableCell>
@@ -203,7 +203,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                         <Typography
                                             variant="body2"
                                             sx={{
-                                                maxWidth: 300,
+                                                maxWidth: 200,
                                                 whiteSpace: "nowrap",
                                                 overflow: "hidden",
                                                 textOverflow: "ellipsis",
