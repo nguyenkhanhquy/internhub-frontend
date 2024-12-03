@@ -73,6 +73,17 @@ const AppRoutes = () => {
                     {/* Student/Recruiter Routes */}
                     {user?.role !== "FIT" && (
                         <>
+                            {user?.role === "RECRUITER" && (
+                                <>
+                                    <Route index element={<Navigate to="/account/profile" replace />} />
+
+                                    <Route path="/search" element={<Navigate to="/" replace />} />
+                                    <Route path="/search/:id" element={<Navigate to="/" replace />} />
+                                    <Route path="/companies" element={<Navigate to="/" replace />} />
+                                    <Route path="/companies/:id" element={<Navigate to="/" replace />} />
+                                </>
+                            )}
+
                             {/* Public Routes for non-FIT users */}
                             <Route index element={<HomePage />} />
                             <Route path="/search" element={<SearchPage />} />
