@@ -62,7 +62,13 @@ const JobPostDetailsModal = ({ open, onClose, jobPost }) => {
                         </Typography>
                         <Stack direction="row" spacing={1}>
                             <Chip
-                                label={jobPost.approved ? "Đã được duyệt" : "Chưa được duyệt"}
+                                label={
+                                    jobPost.approved
+                                        ? "Đã được duyệt"
+                                        : jobPost.deleted
+                                          ? "Không được duyệt"
+                                          : "Chưa được duyệt"
+                                }
                                 color={jobPost.approved ? "success" : "warning"}
                                 sx={{ fontSize: "0.9rem" }}
                             />

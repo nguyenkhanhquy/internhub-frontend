@@ -40,6 +40,10 @@ const CompanyListingPage = () => {
                 toast.error(error.message);
             } finally {
                 setLoading(false);
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
             }
         };
 

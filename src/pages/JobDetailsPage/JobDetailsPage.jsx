@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
 import useAuth from "../../hooks/useAuth";
-import { getJobPostById } from "../../services/jobPostService";
+import { getJobPostById, getJobPostsByCompanyId } from "../../services/jobPostService";
 
 const JobDetailsPage = () => {
     const { isAuthenticated } = useAuth();
@@ -36,6 +36,16 @@ const JobDetailsPage = () => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setJobData(data.result);
+
+                const dataJobPosts = await getJobPostsByCompanyId(data.result.company.id);
+                if (!dataJobPosts.success) {
+                    throw new Error(dataJobPosts.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+
+                setJobData((prevData) => ({
+                    ...prevData,
+                    jobs: dataJobPosts.result,
+                }));
             } catch (error) {
                 if (error?.statusCode === 404) navigate("/404");
                 else toast.error(error.message);
@@ -81,6 +91,7 @@ const JobDetailsPage = () => {
                             logo={jobData.company.logo}
                             title={jobData.title}
                             companyName={jobData.company.name}
+                            website={jobData.company.website}
                             address={jobData.address}
                             jobPosition={jobData.jobPosition}
                             type={jobData.type}

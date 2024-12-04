@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 
 import JobInfoTab from "./Tabs/JobInfoTab";
 import CompanyInfoTab from "./Tabs/CompanyInfoTab";
+import JobListingTab from "../../../components/section/CompanyDetailsPage/Tabs/JobListingTab";
 
 const JobDetailBody = ({ jobData }) => {
     const [value, setValue] = useState(0);
@@ -43,7 +44,7 @@ const JobDetailBody = ({ jobData }) => {
                         <Tab label="Thông tin việc làm" />
                         <Tab label="Thông tin công ty" />
                         <Tab label="Việc làm khác từ công ty" />
-                        <Tab label="Việc làm khác liên quan" disabled />
+                        <Tab label="Việc làm liên quan" disabled />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -54,12 +55,15 @@ const JobDetailBody = ({ jobData }) => {
                         address={jobData.address}
                     />
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={1}>
                     <CompanyInfoTab description={jobData.company.description} address={jobData.company.address} />
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={2}>
-                    Việc làm khác từ công ty
+                    <JobListingTab jobs={jobData.jobs} />
                 </CustomTabPanel>
+
                 <CustomTabPanel value={value} index={3}>
                     Việc làm liên quan
                 </CustomTabPanel>

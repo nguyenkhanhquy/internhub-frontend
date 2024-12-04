@@ -48,7 +48,7 @@ const CompanyInfoTab = ({ description, address }) => {
                 <Stack direction="row" spacing={1} alignItems="center">
                     <LocationOn />
                     <Typography variant="h6" fontWeight="bold">
-                        Địa chỉ công ty:
+                        Địa chỉ công ty
                     </Typography>
                 </Stack>
                 <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: address }} />

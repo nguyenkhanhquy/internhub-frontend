@@ -14,6 +14,7 @@ const JobDetailHeader = ({
     logo,
     title,
     companyName,
+    website,
     address,
     jobPosition,
     type,
@@ -84,22 +85,29 @@ const JobDetailHeader = ({
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <Business fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="body1">
-                                <strong>Công ty:</strong>
-                                <span style={{ color: "#1976d2", fontWeight: 600 }}> {companyName}</span>
+                                <strong>Công ty: </strong>
+                                <a
+                                    href={website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: "#1976d2", fontWeight: 600 }}
+                                >
+                                    {companyName}
+                                </a>
                             </Typography>
                         </Stack>
 
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <LocationOn fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="subtitle2">
-                                <strong>Nơi làm việc:</strong> {address}
+                                <strong>Địa chỉ làm việc:</strong> {address}
                             </Typography>
                         </Stack>
 
                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
                             <Work fontSize="small" sx={{ color: "#555" }} />
                             <Typography variant="body2">
-                                <strong>Vị trí:</strong> {jobPosition} - {type}
+                                <strong>Vị trí:</strong> {jobPosition} - <strong>Hình thức:</strong> {type}
                             </Typography>
                         </Stack>
 
@@ -116,20 +124,36 @@ const JobDetailHeader = ({
                     spacing={2}
                     sx={{ minWidth: isSmallScreen ? "80%" : 180, mt: isSmallScreen ? 2 : 0 }}
                 >
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={onApplyJob}
-                        fullWidth={isSmallScreen}
-                        sx={{
-                            textTransform: "none",
-                            fontSize: buttonFontSize,
-                            fontWeight: "bold",
-                            py: buttonPaddingY,
-                        }}
-                    >
-                        Ứng tuyển ngay
-                    </Button>
+                    {expiryDate >= new Date().toISOString() ? (
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={onApplyJob}
+                            fullWidth={isSmallScreen}
+                            sx={{
+                                textTransform: "none",
+                                fontSize: buttonFontSize,
+                                fontWeight: "bold",
+                                py: buttonPaddingY,
+                            }}
+                        >
+                            Ứng tuyển ngay
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="contained"
+                            disabled
+                            fullWidth={isSmallScreen}
+                            sx={{
+                                textTransform: "none",
+                                fontSize: buttonFontSize,
+                                fontWeight: "bold",
+                                py: buttonPaddingY,
+                            }}
+                        >
+                            Hết hạn ứng tuyển
+                        </Button>
+                    )}
                     <Button
                         variant="outlined"
                         color="error"
@@ -155,6 +179,7 @@ JobDetailHeader.propTypes = {
     logo: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,
+    website: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     jobPosition: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

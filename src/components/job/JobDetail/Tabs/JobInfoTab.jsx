@@ -16,10 +16,10 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
 
             <Divider sx={{ my: 3 }} />
 
-            {/* Phúc lợi dành cho bạn */}
+            {/* Quyền lợi */}
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h6" fontWeight="bold">
-                    Phúc lợi dành cho bạn
+                    Quyền lợi
                 </Typography>
                 <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: benefits }} />
             </Box>
@@ -41,7 +41,7 @@ const JobInfoTab = ({ description, benefits, requirements, address }) => {
                 <Stack direction="row" spacing={1} alignItems="center">
                     <LocationOn />
                     <Typography variant="h6" fontWeight="bold">
-                        Địa chỉ làm việc:
+                        Địa chỉ làm việc
                     </Typography>
                 </Stack>
                 <Typography variant="body1" sx={{ mt: 2 }} dangerouslySetInnerHTML={{ __html: address }} />

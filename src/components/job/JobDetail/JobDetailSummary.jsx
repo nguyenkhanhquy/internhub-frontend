@@ -63,7 +63,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <Schedule sx={{ mr: 1 }} />
                     <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
-                        Thời gian:
+                        Loại hợp đồng:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
                         {type}

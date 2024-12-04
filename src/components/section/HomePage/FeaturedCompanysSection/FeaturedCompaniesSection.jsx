@@ -36,7 +36,7 @@ const FeaturedCompaniesSection = ({ companies }) => {
                                 cursor: "pointer",
                             },
                         }}
-                        onClick={() => window.open(`/companies/${company.id}`, "_blank")}
+                        onClick={() => navigate(`/companies/${company.id}`)}
                     >
                         <Avatar
                             src={company.logo}

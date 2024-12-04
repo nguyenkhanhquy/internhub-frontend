@@ -71,7 +71,6 @@ const PostedJobsGridView = ({ onViewApplications }) => {
     const handleChangeTab = async (event, newValue) => {
         setSearch("");
         setCurrentPage(1);
-        setJobPosts([]);
         if (newValue === 0) {
             // Lấy dữ liệu việc làm đang hiển thị
             setIsApproved(true);
