@@ -42,7 +42,7 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
                         <TableCell sx={{ width: "40%" }}>Công ty thực tập</TableCell>
                         <TableCell sx={{ width: "20%" }}>Ngày tạo</TableCell>
                         <TableCell sx={{ width: "25%" }} align="center">
-                            Trạng thái đơn
+                            Trạng thái
                         </TableCell>
                         <TableCell sx={{ width: "10%" }} align="center">
                             <SettingsIcon />

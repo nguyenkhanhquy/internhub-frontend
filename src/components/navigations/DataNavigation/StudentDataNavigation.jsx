@@ -122,7 +122,7 @@ const StudentDataNavigation = ({ studentName }) => {
                 <Divider />
                 {/* Đơn đăng ký thực tập */}
                 <ListItemButton
-                    onClick={() => handleNavigate("/student/internship-applications")}
+                    onClick={() => handleNavigate("/student/internship-reports")}
                     sx={{
                         position: "relative",
                         "&::after": {
@@ -143,7 +143,7 @@ const StudentDataNavigation = ({ studentName }) => {
                     <ListItemIcon>
                         <AssignmentTurnedIn />
                     </ListItemIcon>
-                    <ListItemText primary="Đơn đăng ký thực tập" />
+                    <ListItemText primary="Báo cáo thực tập" />
                 </ListItemButton>
             </List>
         </Paper>

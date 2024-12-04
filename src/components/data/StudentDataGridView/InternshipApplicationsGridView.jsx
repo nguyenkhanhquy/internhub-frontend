@@ -31,7 +31,7 @@ const InternshipApplicationsGridView = () => {
 
     return (
         <GridViewLayout
-            title="ĐƠN ĐĂNG KÝ THỰC TẬP"
+            title="BÁO CÁO THỰC TẬP"
             currentPage={currentPage}
             totalPages={totalPages}
             recordsPerPage={recordsPerPage}

@@ -5,7 +5,7 @@ import InternshipApplicationsGridView from "../../../components/data/StudentData
 
 const InternshipApplicationsPage = () => {
     return (
-        <MainLayout title="Đơn đăng ký thực tập">
+        <MainLayout title="Báo cáo thực tập">
             <PageNavigation pageName="Sinh viên" />
             <StudentDataLayout>
                 <InternshipApplicationsGridView />
