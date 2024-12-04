@@ -19,7 +19,7 @@ import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 
 import { formatDate } from "../../../../utils/dateUtil";
 
-const InternshipApplicationsTable = ({ loading, internshipApplications, handleViewDetailsClick }) => {
+const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDetailsClick }) => {
     return (
         <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
             <Table>
@@ -67,14 +67,14 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
                                 </Box>
                             </TableCell>
                         </TableRow>
-                    ) : internshipApplications.length === 0 ? (
+                    ) : internshipReports.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={5} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
                     ) : (
-                        internshipApplications.map((application, index) => (
+                        internshipReports.map((report, index) => (
                             <TableRow
                                 key={index}
                                 sx={{
@@ -96,10 +96,10 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
                                     }}
                                 >
                                     <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                        {application.companyName}
+                                        {report.companyName}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{formatDate(application.createdDate)}</TableCell>
+                                <TableCell>{formatDate(report.createdDate)}</TableCell>
                                 <TableCell
                                     sx={{
                                         whiteSpace: "normal",
@@ -114,28 +114,28 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
                                             padding: "6px 12px",
                                             borderRadius: 1,
                                             color:
-                                                application.registerStatus === "PROCESSING"
+                                                report.reportStatus === "PROCESSING"
                                                     ? "orange"
-                                                    : application.registerStatus === "ACCEPTED"
+                                                    : report.reportStatus === "ACCEPTED"
                                                       ? "green"
                                                       : "red",
                                             backgroundColor:
-                                                application.registerStatus === "PROCESSING"
+                                                report.reportStatus === "PROCESSING"
                                                     ? "rgba(255, 165, 0, 0.1)"
-                                                    : application.registerStatus === "ACCEPTED"
+                                                    : report.reportStatus === "ACCEPTED"
                                                       ? "rgba(0, 128, 0, 0.1)"
                                                       : "rgba(255, 0, 0, 0.1)",
                                         }}
                                     >
-                                        {application.registerStatus === "PROCESSING"
+                                        {report.reportStatus === "PROCESSING"
                                             ? "Chờ duyệt"
-                                            : application.registerStatus === "ACCEPTED"
-                                              ? "Đã duyệt"
+                                            : report.reportStatus === "ACCEPTED"
+                                              ? "Đã được duyệt"
                                               : "Không được duyệt"}
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <IconButton color="primary" onClick={() => handleViewDetailsClick(application)}>
+                                    <IconButton color="primary" onClick={() => handleViewDetailsClick(report)}>
                                         <InfoOutlinedIcon className="text-blue-800 hover:text-blue-900" />
                                     </IconButton>
                                 </TableCell>
@@ -150,7 +150,7 @@ const InternshipApplicationsTable = ({ loading, internshipApplications, handleVi
 
 InternshipApplicationsTable.propTypes = {
     loading: PropTypes.bool.isRequired,
-    internshipApplications: PropTypes.array.isRequired,
+    internshipReports: PropTypes.array.isRequired,
     handleViewDetailsClick: PropTypes.func.isRequired,
 };
 
