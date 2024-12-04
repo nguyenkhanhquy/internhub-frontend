@@ -23,6 +23,7 @@ import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
 import AppliedJobsPage from "../pages/DataPage/StudentDataPage/AppliedJobsPage";
 import SavedJobsPage from "../pages/DataPage/StudentDataPage/SavedJobsPage";
 import InternshipApplicationsPage from "../pages/DataPage/StudentDataPage/InternshipApplicationsPage";
+
 import PostedJobsPage from "../pages/DataPage/RecruiterDataPage/PostedJobsPage";
 import CreateJobPostPage from "../pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 
