@@ -10,6 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-react": "^9.4.0",
         "@emotion/react": "^11.13.5",
         "@emotion/styled": "^11.13.5",
         "@fortawesome/free-solid-svg-icons": "^6.7.1",
@@ -18,9 +19,9 @@
         "@mui/icons-material": "^6.1.9",
         "@mui/material": "^6.1.9",
         "@stomp/stompjs": "^7.0.0",
-        "@tinymce/tinymce-react": "^5.1.1",
         "@toolpad/core": "^0.10.0",
         "axios": "^1.7.8",
+        "ckeditor5": "^44.0.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.53.2",

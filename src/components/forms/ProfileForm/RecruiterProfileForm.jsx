@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { Box, Button, Grid, TextField, Typography, Paper } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import TinyMCEEditor from "../../../components/editors/TinyMCEEditor/TinyMCEEditor";
+import CKEditor5 from "../../../components/editors/CKEditor5/CKEditor5";
 import Loading from "../../loaders/Loading/Loading";
 
 import { useForm } from "react-hook-form";
@@ -306,7 +306,7 @@ const RecruiterProfileForm = () => {
                             error={!!errors.description}
                             helperText={errors.description?.message}
                         /> */}
-                        <TinyMCEEditor
+                        <CKEditor5
                             control={control}
                             name="description"
                             label="Giới thiệu công ty"
