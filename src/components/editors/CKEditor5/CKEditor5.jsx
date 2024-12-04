@@ -298,7 +298,7 @@ export default function CKEditor5({ control, name, label, error }) {
                                         <CKEditor
                                             editor={ClassicEditor}
                                             config={editorConfig}
-                                            data={value} // Đặt giá trị khởi tạo
+                                            data={value || ""} // Đặt giá trị khởi tạo
                                             onChange={(event, editor) => {
                                                 const data = editor.getData(); // Lấy dữ liệu từ CKEditor
                                                 const cleanData = data.replace(/<p>(&nbsp;|\s)*<\/p>/g, "").trim(); // Xóa các thẻ p rỗng

@@ -3,23 +3,23 @@ import { Box, Typography, Button } from "@mui/material";
 
 const images = [
     {
-        url: "/images/cv.png",
+        url: "/images/banner.png",
         title: "Banner 1",
     },
     {
-        url: "/images/cv.png",
+        url: "/images/banner.png",
         title: "Banner 2",
     },
     {
-        url: "/images/cv.png",
+        url: "/images/banner.png",
         title: "Banner 3",
     },
     {
-        url: "/images/cv.png",
+        url: "/images/banner.png",
         title: "Banner 4",
     },
     {
-        url: "/images/cv.png",
+        url: "/images/banner.png",
         title: "Banner 5",
     },
 ];
