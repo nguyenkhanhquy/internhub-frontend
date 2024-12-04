@@ -40,7 +40,7 @@ const NAVIGATION = [
         title: "Bảng điều khiển",
     },
     {
-        segment: "dashboard",
+        segment: "overview",
         title: "Bảng điều khiển",
         icon: <DashboardIcon />,
     },

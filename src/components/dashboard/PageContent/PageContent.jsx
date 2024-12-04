@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+import OverviewPage from "../OverviewPage/OverviewPage";
 import StudentPage from "../StudentPage/StudentPage";
 import TeacherPage from "../TeacherPage/TeacherPage";
 import RecruiterPage from "../RecruiterPage/RecruiterPage";
@@ -21,6 +22,8 @@ function PageContent({ pathname, navigate }) {
                     loading="lazy"
                 />
             );
+        case "/overview":
+            return <OverviewPage />;
         case "/student":
             return <StudentPage />;
         case "/teacher":
