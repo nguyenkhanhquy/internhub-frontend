@@ -1,7 +1,7 @@
 import MainLayout from "../../../layouts/MainLayout/MainLayout";
 import StudentDataLayout from "../../../layouts/DataLayout/StudentDataLayout";
 import PageNavigation from "../../../components/layouts/PageNavigation/PageNavigation";
-import InternshipApplicationsGridView from "../../../components/data/StudentDataGridView/InternShipApplicationsGridView";
+import InternshipApplicationsGridView from "../../../components/data/StudentDataGridView/InternshipApplicationsGridView";
 
 const InternshipApplicationsPage = () => {
     return (
