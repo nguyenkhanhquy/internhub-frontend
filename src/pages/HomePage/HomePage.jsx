@@ -18,25 +18,25 @@ const HomePage = () => {
     const [jobList, setJobList] = useState([]);
 
     useEffect(() => {
-        const fetchFeaturedCompanies = async () => {
+        const fetchData = async () => {
             try {
-                const data = await getAllApprovedCompanies(1, 5);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setFeaturedCompanies(data.result);
-
                 const jobData = await getAllJobPosts(1, 12);
                 if (!jobData.success) {
                     throw new Error(jobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setJobList(jobData.result);
+
+                const data = await getAllApprovedCompanies(1, 5);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setFeaturedCompanies(data.result);
             } catch (error) {
                 toast.error(error.message);
             }
         };
 
-        fetchFeaturedCompanies();
+        fetchData();
     }, []);
 
     return (
