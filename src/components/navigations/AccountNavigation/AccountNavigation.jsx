@@ -31,7 +31,6 @@ const AccountNavigation = () => {
                     paddingX: 5,
                 }}
             >
-                {/* Avatar sinh viên */}
                 <Avatar
                     src={logo}
                     alt={""}
@@ -43,7 +42,7 @@ const AccountNavigation = () => {
                     }}
                 />
                 <Typography variant="h6" fontWeight="bold" sx={{ minWidth: 200 }}>
-                    Tài khoản của tôi
+                    Tài khoản
                 </Typography>
             </Box>
             <List>

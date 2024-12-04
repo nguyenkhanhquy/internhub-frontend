@@ -130,7 +130,7 @@ const StudentDataNavigation = ({ studentName }) => {
                             position: "absolute",
                             left: 0,
                             top: 0,
-                            height: location.pathname === "/student/internship-applications" ? "100%" : "0%",
+                            height: location.pathname === "/student/internship-reports" ? "100%" : "0%",
                             width: "4px",
                             backgroundColor: "primary.main",
                             transition: "height 0.3s ease",
