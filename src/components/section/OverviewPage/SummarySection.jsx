@@ -73,7 +73,7 @@ const SummarySection = ({ overview }) => {
                     color={orange}
                     title="Doanh nghiệp"
                     count={overview.totalRecruiters}
-                    subInfo={"Chưa được duyệt: " + overview.totalRecruitersNotApproved}
+                    subInfo={"Chưa duyệt: " + overview.totalRecruitersNotApproved}
                     Icon={BusinessIcon}
                 />
             </Grid>
@@ -82,7 +82,7 @@ const SummarySection = ({ overview }) => {
                     color={purple}
                     title="Bài đăng"
                     count={overview.totalJobPosts}
-                    subInfo={"Đang hiển thị: " + overview.totalJobPostsDisplayed}
+                    subInfo={"Chưa duyệt: " + overview.totalJobPostsNotApproved}
                     Icon={WorkIcon}
                 />
             </Grid>

@@ -8,11 +8,15 @@ import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import InternshipReportDetailsModal from "../../modals/InternshipReportDetailsModal/InternshipReportDetailsModal";
 
-import { getAllInternshipReports } from "../../../services/adminService";
+import {
+    getAllInternshipReports,
+    approveInternshipReport,
+    rejectInternshipReport,
+} from "../../../services/adminService";
 
 const reportStatusLabels = {
     PROCESSING: "Chờ duyệt",
-    ACCEPTED: "Đã chấp nhận",
+    ACCEPTED: "Đã duyệt",
     REJECTED: "Đã từ chối",
 };
 
@@ -48,6 +52,32 @@ const InternshipReportPage = () => {
     const handleViewDetails = (report) => {
         setSelectedReport(report);
         setIsDetailsModalOpen(true);
+    };
+
+    const handleApprove = async (id) => {
+        try {
+            const data = await approveInternshipReport(id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            fetchData();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleReject = async (id) => {
+        try {
+            const data = await rejectInternshipReport(id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            fetchData();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     useEffect(() => {
@@ -103,6 +133,16 @@ const InternshipReportPage = () => {
                                         <Button onClick={() => handleViewDetails(report)} color="primary">
                                             Chi tiết
                                         </Button>
+                                        {report.reportStatus === "PROCESSING" && (
+                                            <>
+                                                <Button onClick={() => handleApprove(report.id)} color="success">
+                                                    Duyệt
+                                                </Button>
+                                                <Button onClick={() => handleReject(report.id)} color="error">
+                                                    Từ chối
+                                                </Button>
+                                            </>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))

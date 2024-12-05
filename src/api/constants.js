@@ -14,6 +14,8 @@ export const ADMIN_API = {
     APPROVE_RECRUITER: "/admin/recruiters/approve/",
 
     GET_ALL_INTERNSHIP_REPORTS: "/admin/internship-reports",
+    APPROVE_INTERNSHIP_REPORT: "/admin/internship-reports/approve/",
+    REJECT_INTERNSHIP_REPORT: "/admin/internship-reports/reject/",
 };
 
 export const USERS_API = {

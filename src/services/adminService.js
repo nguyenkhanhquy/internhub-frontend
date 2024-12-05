@@ -24,3 +24,11 @@ export const approveRecruiter = async (userId) => {
 export const getAllInternshipReports = async () => {
     return axiosClient.get(ADMIN_API.GET_ALL_INTERNSHIP_REPORTS);
 };
+
+export const approveInternshipReport = async (id) => {
+    return axiosClient.post(ADMIN_API.APPROVE_INTERNSHIP_REPORT + id);
+};
+
+export const rejectInternshipReport = async (id) => {
+    return axiosClient.post(ADMIN_API.REJECT_INTERNSHIP_REPORT + id);
+};
