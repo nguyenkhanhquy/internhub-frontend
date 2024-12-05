@@ -4,9 +4,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Box, Button, TextField, MenuItem, Typography, Grid, IconButton } from "@mui/material";
+import {
+    Checkbox,
+    FormControlLabel,
+    Box,
+    Button,
+    TextField,
+    MenuItem,
+    Typography,
+    Grid,
+    IconButton,
+} from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
+import { createInternshipReport } from "../../../services/internshipReport";
 import { getAllTeachers } from "../../../services/teacherService";
 import { uploadFile } from "../../../services/uploadService";
 
@@ -84,9 +95,8 @@ const InternshipReportForm = () => {
 
     const handleToggleForm = () => {
         if (showForm) {
-            // Xóa lỗi khi form bị đóng
             clearErrors();
-            // reset();
+            reset();
         }
         setShowForm((prev) => !prev);
     };
@@ -115,11 +125,17 @@ const InternshipReportForm = () => {
                 dataForm.evaluationFile = dataUpload.result.secure_url;
             }
 
+            const data = await createInternshipReport(dataForm);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            reset();
+            handleToggleForm();
             toast.success("Nộp báo cáo thành công");
         } catch (error) {
             toast.error(error.message);
         }
-        // reset();
         console.log(dataForm);
     };
 
@@ -195,6 +211,27 @@ const InternshipReportForm = () => {
                                         size="small"
                                         error={!!errors.companyName}
                                         helperText={errors.companyName?.message}
+                                    />
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Controller
+                                name="isSystemCompany"
+                                control={control}
+                                defaultValue={false}
+                                render={({ field }) => (
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                {...field}
+                                                checked={field.value}
+                                                onChange={(e) => field.onChange(e.target.checked)}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Công ty trong hệ thống"
                                     />
                                 )}
                             />

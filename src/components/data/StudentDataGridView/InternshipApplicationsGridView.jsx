@@ -10,7 +10,6 @@ import { getAllInternshipReportsByStudent } from "../../../services/internshipRe
 
 const InternshipApplicationsGridView = () => {
     const [loading, setLoading] = useState(false);
-    const [flag, setFlag] = useState(false);
     const [reports, setReports] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -59,7 +58,7 @@ const InternshipApplicationsGridView = () => {
         };
 
         fetchData();
-    }, [currentPage, recordsPerPage, flag]);
+    }, [currentPage, recordsPerPage]);
 
     return (
         <GridViewLayout

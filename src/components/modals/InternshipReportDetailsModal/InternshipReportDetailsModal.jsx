@@ -15,6 +15,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { formatDate } from "../../../utils/dateUtil";
 
+const majorLabels = {
+    IT: "Công nghệ thông tin",
+    DS: "Kỹ thuật dữ liệu",
+    IS: "An toàn thông tin",
+};
+
 const InternshipReportDetailsModal = ({ open, onClose, report, onDownloadFile }) => {
     return (
         <Dialog open={open} fullWidth maxWidth="md">
@@ -75,13 +81,14 @@ const InternshipReportDetailsModal = ({ open, onClose, report, onDownloadFile })
                         <Divider />
                         <Box mt={2} display="flex" flexDirection="column" gap={1}>
                             <Typography variant="body1">
-                                <strong>Sinh Viên:</strong> {report?.Student?.name || "N/A"}
+                                <strong>Sinh Viên:</strong> {report?.student?.name || "N/A"}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>MSSV:</strong> {report?.Student?.studentId || "N/A"}
+                                <strong>MSSV:</strong> {report?.student?.studentId || "N/A"}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>Chuyên ngành:</strong> {report?.Student?.major || "N/A"}
+                                <strong>Chuyên ngành:</strong>{" "}
+                                {majorLabels[report?.student?.major] || report?.student?.major || "N/A"}
                             </Typography>
                         </Box>
                     </Box>
