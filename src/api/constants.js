@@ -12,6 +12,8 @@ export const ADMIN_API = {
     APPROVE_JOB_POST: "/admin/jobs/approve/",
     DELETE_JOB_POST: "/admin/jobs/delete/",
     APPROVE_RECRUITER: "/admin/recruiters/approve/",
+
+    GET_ALL_INTERNSHIP_REPORTS: "/admin/internship-reports",
 };
 
 export const USERS_API = {

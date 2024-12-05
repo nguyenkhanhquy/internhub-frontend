@@ -20,3 +20,7 @@ export const deleteJobPost = async (id) => {
 export const approveRecruiter = async (userId) => {
     return axiosClient.post(ADMIN_API.APPROVE_RECRUITER + userId);
 };
+
+export const getAllInternshipReports = async () => {
+    return axiosClient.get(ADMIN_API.GET_ALL_INTERNSHIP_REPORTS);
+};

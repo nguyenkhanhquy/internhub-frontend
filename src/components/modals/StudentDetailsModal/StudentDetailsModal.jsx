@@ -91,7 +91,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
                             </Box>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Báo cáo thực tập:</Typography>
-                                <Typography>{student.isReported ? "Đã hoàn thành" : "Chưa hoàn thành"}</Typography>
+                                <Typography>{student.reported ? "Đã hoàn thành" : "Chưa hoàn thành"}</Typography>
                             </Box>
                         </Box>
                         <Box mb={2}>
@@ -100,7 +100,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
                             </Typography>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Trạng thái:</Typography>
-                                <Typography>{student.user.isActive ? "Đã kích hoạt" : "Chưa kích hoạt"}</Typography>
+                                <Typography>{student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}</Typography>
                             </Box>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Ngày tạo:</Typography>

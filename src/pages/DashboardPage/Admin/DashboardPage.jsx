@@ -50,7 +50,7 @@ const NAVIGATION = [
         title: "Quản lý chung",
     },
     {
-        segment: "manage-intern",
+        segment: "internship-report",
         title: "Báo cáo thực tập",
         icon: <WorkspacesIcon />,
     },
