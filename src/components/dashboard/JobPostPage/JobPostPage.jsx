@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
 
 import EmptryBox from "../../../components/box/EmptyBox";
 
@@ -17,6 +18,8 @@ const getStatusStyle = (approved, deleted) => {
 
 const JobPostPage = () => {
     const [jobPosts, setJobPosts] = useState([]);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [selectedJobPost, setSelectedJobPost] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -28,6 +31,11 @@ const JobPostPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
+    };
+
+    const handleViewDetails = (post) => {
+        setSelectedJobPost(post);
+        setIsDetailsModalOpen(true);
     };
 
     const handleApprove = async (id) => {
@@ -64,8 +72,8 @@ const JobPostPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
                 <Typography variant="h5">BÀI ĐĂNG TUYỂN DỤNG</Typography>
-                <Button variant="contained" color="primary">
-                    + Thêm bài đăng
+                <Button onClick={fetchData} variant="contained" color="primary">
+                    Làm mới
                 </Button>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
@@ -74,7 +82,6 @@ const JobPostPage = () => {
                         <TableRow>
                             <TableCell>STT</TableCell>
                             <TableCell>TÊN VIỆC LÀM</TableCell>
-                            <TableCell>VỊ TRÍ CÔNG VIỆC</TableCell>
                             <TableCell>TÊN CÔNG TY</TableCell>
                             <TableCell>NGÀY CẬP NHẬT</TableCell>
                             <TableCell>TRẠNG THÁI</TableCell>
@@ -93,7 +100,6 @@ const JobPostPage = () => {
                                 <TableRow key={index}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{jobPost.title}</TableCell>
-                                    <TableCell>{jobPost.jobPosition}</TableCell>
                                     <TableCell>{jobPost.company.name}</TableCell>
                                     <TableCell>{jobPost.updatedDate}</TableCell>
                                     <TableCell>
@@ -106,6 +112,9 @@ const JobPostPage = () => {
                                         </span>
                                     </TableCell>
                                     <TableCell>
+                                        <Button onClick={() => handleViewDetails(jobPost)} color="primary">
+                                            Chi tiết
+                                        </Button>
                                         {!jobPost.approved && !jobPost.deleted ? (
                                             <>
                                                 <Button onClick={() => handleApprove(jobPost.id)} color="success">
@@ -115,11 +124,7 @@ const JobPostPage = () => {
                                                     Từ chối
                                                 </Button>
                                             </>
-                                        ) : jobPost.approved ? (
-                                            <>Đã duyệt</>
-                                        ) : (
-                                            <>Đã từ chối</>
-                                        )}
+                                        ) : null}
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -127,6 +132,14 @@ const JobPostPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {/* Modal xem chi tiết bài đăng */}
+            {isDetailsModalOpen && (
+                <JobPostDetailsModal
+                    open={isDetailsModalOpen}
+                    jobPost={selectedJobPost}
+                    onClose={() => setIsDetailsModalOpen(false)}
+                />
+            )}
         </div>
     );
 };
