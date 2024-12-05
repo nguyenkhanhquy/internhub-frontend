@@ -1,20 +1,20 @@
 import { Box, Typography } from "@mui/material";
+import DashboardUpdatePasswordForm from "../../forms/DashboardUpdatePasswordForm/DashboardUpdatePasswordForm";
+import AccountDetailsCard from "../../card/AccountDetailsCard/AccountDetailsCard";
 
 const SettingsPage = () => {
     return (
         <Box
             sx={{
-                py: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
+                p: 4,
             }}
         >
             <Typography variant="h4" gutterBottom>
                 Settings Page
             </Typography>
-            <Typography>This is the settings page.</Typography>
+            <Typography mb={2}>This is the settings page.</Typography>
+            <AccountDetailsCard />
+            <DashboardUpdatePasswordForm />
         </Box>
     );
 };
