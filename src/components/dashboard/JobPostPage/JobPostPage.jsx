@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 import CachedIcon from "@mui/icons-material/Cached";
 import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
 
-import EmptryBox from "../../../components/box/EmptyBox";
+import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllJobPosts, approveJobPost, deleteJobPost } from "../../../services/adminService";
@@ -104,7 +104,7 @@ const JobPostPage = () => {
                         ) : jobPosts.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
-                                    <EmptryBox />
+                                    <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (

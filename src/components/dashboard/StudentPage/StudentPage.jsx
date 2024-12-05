@@ -4,7 +4,19 @@ import { toast } from "react-toastify";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 
 import { getAllStudents } from "../../../services/studentService";
-import EmptryBox from "../../../components/box/EmptyBox";
+import EmptyBox from "../../../components/box/EmptyBox";
+
+const majorLabels = {
+    IT: "Công nghệ thông tin",
+    DS: "Kỹ thuật dữ liệu",
+    IS: "An toàn thông tin",
+};
+
+const internLabels = {
+    SEARCHING: "Đang tìm nơi thực tập",
+    WORKING: "Đang thực tập",
+    COMPLETED: "Đã hoàn thành thực tập",
+};
 
 const getStatusStyle = (status) => {
     return status === true
@@ -55,7 +67,7 @@ const StudentPage = () => {
                         {students.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
-                                    <EmptryBox />
+                                    <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
@@ -64,7 +76,7 @@ const StudentPage = () => {
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{student.name}</TableCell>
                                     <TableCell>{student.studentId}</TableCell>
-                                    <TableCell>{student.internStatus}</TableCell>
+                                    <TableCell>{internLabels[student.internStatus] || student.internStatus}</TableCell>
                                     <TableCell>
                                         <span className={getStatusStyle(student.user.active)}>
                                             {student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}

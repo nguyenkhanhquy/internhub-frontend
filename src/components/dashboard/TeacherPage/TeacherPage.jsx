@@ -18,7 +18,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllTeachers, importTeachers } from "../../../services/teacherService";
-import EmptryBox from "../../../components/box/EmptyBox";
+import EmptyBox from "../../../components/box/EmptyBox";
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
@@ -102,7 +102,7 @@ const TeacherPage = () => {
                         ) : teachers.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
-                                    <EmptryBox />
+                                    <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
