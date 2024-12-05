@@ -1,8 +1,7 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Button, TextField, Typography, Paper, Divider } from "@mui/material";
-import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
 import { removeRememberMe } from "../../../services/localStorageService";
 
@@ -19,13 +18,11 @@ const schema = yup.object().shape({
         .required("Không được để trống"),
 });
 
-const DashboardUpdatePasswordForm = () => {
-    const [loading, setLoading] = useState(false);
-
+const DashboardUpdatePasswordForm = ({ setFlag }) => {
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         trigger,
         reset,
     } = useForm({
@@ -34,22 +31,19 @@ const DashboardUpdatePasswordForm = () => {
     });
 
     const onSubmit = async (dataForm) => {
-        setLoading(true);
         try {
             const data = await updatePassword(dataForm.oldPassword, dataForm.newPassword);
-
             if (!data.success) {
                 if (data?.message) throw new Error(data.message);
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
             reset();
+            setFlag((prev) => !prev);
             removeRememberMe();
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {
             toast.error(error.message);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -126,22 +120,19 @@ const DashboardUpdatePasswordForm = () => {
                             helperText={errors.confirmPassword?.message ?? " "}
                         />
                     </Box>
-                </Box>
-
-                <Divider />
-
-                <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
-                    {loading ? (
-                        <Loading />
-                    ) : (
-                        <Button disabled={loading} variant="contained" type="submit">
-                            Lưu
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
+                        <Button disabled={isSubmitting} variant="contained" type="submit">
+                            {isSubmitting ? "Đang lưu..." : "Lưu"}
                         </Button>
-                    )}
+                    </Box>
                 </Box>
             </Paper>
         </>
     );
+};
+
+DashboardUpdatePasswordForm.propTypes = {
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default DashboardUpdatePasswordForm;

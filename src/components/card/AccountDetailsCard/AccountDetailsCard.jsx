@@ -1,9 +1,10 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { Paper, Card, Typography, Grid } from "@mui/material";
+import { Paper, Typography, Grid, Divider, Box } from "@mui/material";
 import { getToken } from "../../../services/localStorageService";
 import { getAuthUser } from "../../../services/authService";
 
-const AccountDetailsCard = () => {
+const AccountDetailsCard = ({ flag }) => {
     const [userDetails, setUserDetails] = useState({});
 
     const getUserDetails = async () => {
@@ -16,26 +17,24 @@ const AccountDetailsCard = () => {
         if (accessToken) {
             getUserDetails();
         }
-    }, []);
+    }, [flag]);
 
     return (
         <Paper>
-            <Card
+            <Typography variant="h5" px={4} py={2}>
+                Thông tin tài khoản
+            </Typography>
+
+            <Divider />
+
+            <Box
                 sx={{
                     minWidth: 400,
                     px: 4,
                     py: 2,
-                    mb: 4,
+                    mb: 2,
                 }}
             >
-                <Typography
-                    variant="h5"
-                    sx={{
-                        mb: 3,
-                    }}
-                >
-                    Thông tin tài khoản
-                </Typography>
                 <Grid container spacing={2}>
                     {[
                         { label: "ID", value: userDetails.id },
@@ -43,15 +42,11 @@ const AccountDetailsCard = () => {
                         { label: "Quyền", value: userDetails.role },
                         {
                             label: "Ngày tạo",
-                            value: userDetails.createdDate
-                                ? new Date(userDetails.createdDate).toLocaleDateString()
-                                : "Chưa cập nhật",
+                            value: userDetails.createdDate || "Chưa cập nhật",
                         },
                         {
                             label: "Ngày cập nhật",
-                            value: userDetails.updatedDate
-                                ? new Date(userDetails.updatedDate).toLocaleDateString()
-                                : "Chưa cập nhật",
+                            value: userDetails.updatedDate || "Chưa cập nhật",
                         },
                         {
                             label: "Trạng thái",
@@ -69,9 +64,13 @@ const AccountDetailsCard = () => {
                         </Grid>
                     ))}
                 </Grid>
-            </Card>
+            </Box>
         </Paper>
     );
+};
+
+AccountDetailsCard.propTypes = {
+    flag: PropTypes.bool,
 };
 
 export default AccountDetailsCard;
