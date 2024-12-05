@@ -13,15 +13,20 @@ import {
     Typography,
     Button,
 } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+
+import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllTeachers, importTeachers } from "../../../services/teacherService";
 import EmptryBox from "../../../components/box/EmptyBox";
 
 const TeacherPage = () => {
+    const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
     const [teachers, setTeachers] = useState([]);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const data = await getAllTeachers();
             if (!data.success) {
@@ -30,6 +35,8 @@ const TeacherPage = () => {
             setTeachers(data.result);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -70,6 +77,9 @@ const TeacherPage = () => {
                     <Button disabled={!file} variant="contained" onClick={handleUpload}>
                         + Import danh sách giảng viên
                     </Button>
+                    <Button onClick={fetchData} variant="contained" color="primary">
+                        Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                    </Button>
                 </Box>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
@@ -83,7 +93,13 @@ const TeacherPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teachers.length === 0 ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <SuspenseLoader />
+                                </TableCell>
+                            </TableRow>
+                        ) : teachers.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptryBox />
@@ -95,7 +111,10 @@ const TeacherPage = () => {
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{teacher.name}</TableCell>
                                     <TableCell>{teacher.email}</TableCell>
-                                    <TableCell>...</TableCell>
+                                    <TableCell>
+                                        <Button color="warning">Chỉnh sửa</Button>
+                                        <Button color="error">Xóa</Button>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         )}
