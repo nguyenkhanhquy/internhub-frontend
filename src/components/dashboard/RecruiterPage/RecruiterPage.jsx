@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 
-import EmptryBox from "../../../components/box/EmptyBox";
+import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
 
@@ -89,7 +89,7 @@ const RecruiterPage = () => {
                         ) : recruiters.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
-                                    <EmptryBox />
+                                    <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
