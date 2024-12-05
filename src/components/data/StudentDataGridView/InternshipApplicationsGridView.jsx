@@ -3,13 +3,16 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { Button } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import InternshipApplicationsTable from "./StudentDataTable/InternshipApplicationsTable";
 import InternshipReportDetailsModal from "../../modals/InternshipReportDetailsModal/InternshipReportDetailsModal";
 
 import { getAllInternshipReportsByStudent } from "../../../services/internshipReport";
 
-const InternshipApplicationsGridView = ({ flag }) => {
+const InternshipApplicationsGridView = ({ flag, setFlag }) => {
     const [loading, setLoading] = useState(false);
     const [reports, setReports] = useState([]);
 
@@ -70,6 +73,29 @@ const InternshipApplicationsGridView = ({ flag }) => {
             totalRecords={totalRecords}
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
+            actions={
+                <Button
+                    onClick={() => setFlag((prev) => !prev)}
+                    variant="contained"
+                    sx={{
+                        padding: "5px 10px",
+                        width: "50%",
+                        minWidth: 120,
+                        borderRadius: 2,
+                        boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                        bgcolor: "#1e40af",
+                        color: "white",
+                        "&:hover": {
+                            bgcolor: "#1f2061",
+                        },
+                        "&:active": {
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                        },
+                    }}
+                >
+                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                </Button>
+            }
         >
             <InternshipApplicationsTable
                 loading={loading}
@@ -93,6 +119,7 @@ const InternshipApplicationsGridView = ({ flag }) => {
 
 InternshipApplicationsGridView.propTypes = {
     flag: PropTypes.bool.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default InternshipApplicationsGridView;

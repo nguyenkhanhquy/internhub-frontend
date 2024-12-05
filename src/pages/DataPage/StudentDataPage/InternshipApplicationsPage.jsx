@@ -14,7 +14,7 @@ const InternshipApplicationsPage = () => {
             <PageNavigation pageName="Sinh viên" />
             <StudentDataLayout>
                 <InternshipReportForm setFlag={setFlag} />
-                <InternshipApplicationsGridView flag={flag} />
+                <InternshipApplicationsGridView flag={flag} setFlag={setFlag} />
             </StudentDataLayout>
         </MainLayout>
     );
