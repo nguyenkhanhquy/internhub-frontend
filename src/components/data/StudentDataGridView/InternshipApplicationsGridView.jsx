@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,7 +9,7 @@ import InternshipReportDetailsModal from "../../modals/InternshipReportDetailsMo
 
 import { getAllInternshipReportsByStudent } from "../../../services/internshipReport";
 
-const InternshipApplicationsGridView = () => {
+const InternshipApplicationsGridView = ({ flag }) => {
     const [loading, setLoading] = useState(false);
     const [reports, setReports] = useState([]);
 
@@ -58,7 +59,7 @@ const InternshipApplicationsGridView = () => {
         };
 
         fetchData();
-    }, [currentPage, recordsPerPage]);
+    }, [currentPage, recordsPerPage, flag]);
 
     return (
         <GridViewLayout
@@ -88,6 +89,10 @@ const InternshipApplicationsGridView = () => {
             />
         </GridViewLayout>
     );
+};
+
+InternshipApplicationsGridView.propTypes = {
+    flag: PropTypes.bool.isRequired,
 };
 
 export default InternshipApplicationsGridView;

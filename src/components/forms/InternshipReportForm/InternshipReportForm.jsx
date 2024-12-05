@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm, Controller } from "react-hook-form";
@@ -46,7 +47,7 @@ const schema = yup.object().shape({
     evaluationFile: yup.mixed().required("Vui lòng tải lên phiếu đánh giá."),
 });
 
-const InternshipReportForm = () => {
+const InternshipReportForm = ({ setFlag }) => {
     const { user } = useAuth();
     const [showForm, setShowForm] = useState(false);
     const [teachers, setTeachers] = useState([]);
@@ -132,6 +133,7 @@ const InternshipReportForm = () => {
 
             reset();
             handleToggleForm();
+            setFlag((prev) => !prev);
             toast.success("Nộp báo cáo thành công");
         } catch (error) {
             toast.error(error.message);
@@ -385,6 +387,10 @@ const InternshipReportForm = () => {
             )}
         </Box>
     );
+};
+
+InternshipReportForm.propTypes = {
+    setFlag: PropTypes.func,
 };
 
 export default InternshipReportForm;
