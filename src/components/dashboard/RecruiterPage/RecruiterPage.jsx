@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 
 import EmptryBox from "../../../components/box/EmptyBox";
 import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
@@ -59,7 +60,7 @@ const RecruiterPage = () => {
             <div className="mb-4 flex items-center justify-between">
                 <Typography variant="h5">DOANH NGHIỆP</Typography>
                 <Button onClick={fetchData} variant="contained" color="primary">
-                    Làm mới
+                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
             <TableContainer className="rounded bg-white shadow-md">

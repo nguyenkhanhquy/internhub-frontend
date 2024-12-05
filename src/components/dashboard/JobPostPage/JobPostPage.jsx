@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
 
 import EmptryBox from "../../../components/box/EmptyBox";
@@ -73,7 +74,7 @@ const JobPostPage = () => {
             <div className="mb-4 flex items-center justify-between">
                 <Typography variant="h5">BÀI ĐĂNG TUYỂN DỤNG</Typography>
                 <Button onClick={fetchData} variant="contained" color="primary">
-                    Làm mới
+                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
