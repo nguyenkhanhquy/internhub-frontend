@@ -1,6 +1,10 @@
 import axiosClient from "../api/axiosClient";
 import { ADMIN_API } from "../api/constants";
 
+export const getOverview = async () => {
+    return axiosClient.get(ADMIN_API.GET_OVERVIEW);
+};
+
 export const getAllJobPosts = async () => {
     return axiosClient.get(ADMIN_API.GET_ALL_JOB_POSTS);
 };

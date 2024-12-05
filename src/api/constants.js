@@ -7,6 +7,7 @@ export const AUTH_API = {
 };
 
 export const ADMIN_API = {
+    GET_OVERVIEW: "/admin/overview",
     GET_ALL_JOB_POSTS: "/admin/jobs",
     APPROVE_JOB_POST: "/admin/jobs/approve/",
     DELETE_JOB_POST: "/admin/jobs/delete/",

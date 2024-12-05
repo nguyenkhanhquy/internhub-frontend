@@ -51,7 +51,7 @@ const NAVIGATION = [
     },
     {
         segment: "manage-intern",
-        title: "Quản lý thực tập",
+        title: "Báo cáo thực tập",
         icon: <WorkspacesIcon />,
     },
     {
@@ -152,7 +152,7 @@ function DashboardPage(props) {
         };
     }, [navigate]);
 
-    const router = useDemoRouter("/dashboard");
+    const router = useDemoRouter("/overview");
 
     return (
         <AppProvider

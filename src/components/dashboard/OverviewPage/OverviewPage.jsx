@@ -1,14 +1,40 @@
+import { useState, useEffect, useMemo } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Box, Typography, Paper } from "@mui/material";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import SummarySection from "../../section/OverviewPage/SummarySection";
 
-const studentInternshipData = [
-    { name: "Đã thực tập", value: 1234, color: "#4caf50" }, // Màu xanh lá
-    { name: "Đang thực tập", value: 567, color: "#2196f3" }, // Màu xanh dương
-    { name: "Đang tìm nơi thực tập", value: 789, color: "#ff9800" }, // Màu cam
-];
+import { getOverview } from "../../../services/adminService";
 
-const DashboardPage = () => {
+const OverviewPage = () => {
+    const [overview, setOverview] = useState({});
+
+    const studentInternshipData = useMemo(
+        () => [
+            { name: "Đã thực tập", value: overview?.totalStudentsCompleted || 0, color: "#4caf50" },
+            { name: "Đang thực tập", value: overview?.totalStudentsWorking || 0, color: "#2196f3" },
+            { name: "Đang tìm nơi thực tập", value: overview?.totalStudentsSearching || 0, color: "#ff9800" },
+        ],
+        [overview],
+    );
+
+    const fetchData = async () => {
+        try {
+            const data = await getOverview();
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setOverview(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <Box
             sx={{
@@ -19,7 +45,7 @@ const DashboardPage = () => {
             }}
         >
             {/* Section: Summary Cards */}
-            <SummarySection />
+            <SummarySection overview={overview} />
 
             {/* Section: Pie Chart */}
             <Paper
@@ -30,7 +56,7 @@ const DashboardPage = () => {
                 }}
             >
                 <Typography variant="h6" gutterBottom>
-                    Thống kê thực tập
+                    Thống kê sinh viên thực tập
                 </Typography>
                 <Box sx={{ height: 300 }}>
                     <ResponsiveContainer>
@@ -42,9 +68,12 @@ const DashboardPage = () => {
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={100}
-                                innerRadius={60} // Biểu đồ tròn rỗng ở giữa (donut chart)
+                                innerRadius={60}
                                 fill="#8884d8"
-                                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(1)}%)`}
+                                label={({ name, percent, value }) => {
+                                    // Kiểm tra cả percent và value
+                                    return percent > 0 && value > 0 ? `${name} (${(percent * 100).toFixed(1)}%)` : null;
+                                }}
                             >
                                 {studentInternshipData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -59,4 +88,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default OverviewPage;

@@ -53,27 +53,27 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
     </Paper>
 );
 
-const SummarySection = () => {
+const SummarySection = ({ overview }) => {
     return (
         <Grid container sx={{ py: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
-                <SummaryCard color={blue} title="Giảng viên" count="45" Icon={PersonIcon} />
-            </Grid>
             <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
                     color={green}
                     title="Sinh viên"
-                    count="3,567"
-                    subInfo="Chưa báo cáo thực tập: 1,234"
+                    count={overview.totalStudents}
+                    subInfo={"Chưa báo cáo thực tập: " + overview.totalStudentsNotReported}
                     Icon={SchoolIcon}
                 />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
+                <SummaryCard color={blue} title="Giảng viên" count={overview.totalTeachers} Icon={PersonIcon} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard
                     color={orange}
-                    title="Nhà tuyển dụng"
-                    count="678"
-                    subInfo="Chưa được duyệt: 123"
+                    title="Doanh nghiệp"
+                    count={overview.totalRecruiters}
+                    subInfo={"Chưa được duyệt: " + overview.totalRecruitersNotApproved}
                     Icon={BusinessIcon}
                 />
             </Grid>
@@ -81,8 +81,8 @@ const SummarySection = () => {
                 <SummaryCard
                     color={purple}
                     title="Bài đăng"
-                    count="2,432"
-                    subInfo="Đang hiển thị: 1,567"
+                    count={overview.totalJobPosts}
+                    subInfo={"Đang hiển thị: " + overview.totalJobPostsDisplayed}
                     Icon={WorkIcon}
                 />
             </Grid>
@@ -91,11 +91,15 @@ const SummarySection = () => {
 };
 
 SummaryCard.propTypes = {
-    color: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
-    count: PropTypes.string.isRequired,
-    subInfo: PropTypes.string, // Thông tin bổ sung là không bắt buộc
-    Icon: PropTypes.elementType.isRequired,
+    color: PropTypes.object,
+    title: PropTypes.string,
+    count: PropTypes.number,
+    subInfo: PropTypes.string,
+    Icon: PropTypes.elementType,
+};
+
+SummarySection.propTypes = {
+    overview: PropTypes.object,
 };
 
 export default SummarySection;
