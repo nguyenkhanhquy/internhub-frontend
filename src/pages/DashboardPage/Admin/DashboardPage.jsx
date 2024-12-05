@@ -43,16 +43,16 @@ const NAVIGATION = [
         icon: <DashboardIcon />,
     },
     {
-        segment: "manage-intern",
-        title: "Quản lý thực tập",
-        icon: <WorkspacesIcon />,
-    },
-    {
         kind: "divider",
     },
     {
         kind: "header",
         title: "Quản lý chung",
+    },
+    {
+        segment: "manage-intern",
+        title: "Quản lý thực tập",
+        icon: <WorkspacesIcon />,
     },
     {
         segment: "student",
@@ -168,7 +168,7 @@ function DashboardPage(props) {
             window={window}
         >
             <DashboardLayout defaultSidebarCollapsed>
-                <PageContent pathname={router.pathname} navigate={router.navigate} />
+                <PageContent pathname={router.pathname} />
             </DashboardLayout>
         </AppProvider>
     );
