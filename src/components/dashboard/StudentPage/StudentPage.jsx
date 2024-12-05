@@ -5,12 +5,13 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 
 import { getAllStudents } from "../../../services/studentService";
 import EmptyBox from "../../../components/box/EmptyBox";
+import StudentDetailsModal from "../../modals/StudentDetailsModal/StudentDetailsModal";
 
-const majorLabels = {
-    IT: "Công nghệ thông tin",
-    DS: "Kỹ thuật dữ liệu",
-    IS: "An toàn thông tin",
-};
+// const majorLabels = {
+//     IT: "Công nghệ thông tin",
+//     DS: "Kỹ thuật dữ liệu",
+//     IS: "An toàn thông tin",
+// };
 
 const internLabels = {
     SEARCHING: "Đang tìm nơi thực tập",
@@ -26,6 +27,8 @@ const getStatusStyle = (status) => {
 
 const StudentPage = () => {
     const [students, setStudents] = useState([]);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -37,6 +40,11 @@ const StudentPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
+    };
+
+    const handleViewDetails = (student) => {
+        setSelectedStudent(student);
+        setIsDetailsModalOpen(true);
     };
 
     useEffect(() => {
@@ -82,13 +90,24 @@ const StudentPage = () => {
                                             {student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
                                         </span>
                                     </TableCell>
-                                    <TableCell>...</TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleViewDetails(student)} color="primary">
+                                            Chi tiết
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
+            {isDetailsModalOpen && (
+                <StudentDetailsModal
+                    isOpen={isDetailsModalOpen}
+                    onClose={() => setIsDetailsModalOpen(false)}
+                    student={selectedStudent}
+                />
+            )}
         </div>
     );
 };
