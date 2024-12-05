@@ -17,6 +17,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
+import UpdateTeacherModal from "../../modals/UpdateTeacherModal/UpdateTeacherModal";
 
 import { getAllTeachers, importTeachers } from "../../../services/teacherService";
 
@@ -24,6 +25,8 @@ const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
     const [teachers, setTeachers] = useState([]);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [selectedTeacher, setSelectedTeacher] = useState(null);
 
     const fetchData = async () => {
         setLoading(true);
@@ -38,6 +41,11 @@ const TeacherPage = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleOpenModal = (teacher) => {
+        setSelectedTeacher(teacher);
+        setIsUpdateModalOpen(true);
     };
 
     useEffect(() => {
@@ -112,7 +120,9 @@ const TeacherPage = () => {
                                     <TableCell>{teacher.name}</TableCell>
                                     <TableCell>{teacher.email}</TableCell>
                                     <TableCell>
-                                        <Button color="warning">Chỉnh sửa</Button>
+                                        <Button onClick={() => handleOpenModal(teacher)} color="warning">
+                                            Chỉnh sửa
+                                        </Button>
                                         <Button color="error">Xóa</Button>
                                     </TableCell>
                                 </TableRow>
@@ -121,6 +131,14 @@ const TeacherPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {isUpdateModalOpen && (
+                <UpdateTeacherModal
+                    teacher={selectedTeacher}
+                    isOpen={isUpdateModalOpen}
+                    onClose={() => setIsUpdateModalOpen(false)}
+                    onSubmit={console.log}
+                />
+            )}
         </div>
     );
 };
