@@ -3,6 +3,12 @@ import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "
 import { MonetizationOn, Group, Work, Schedule, CalendarToday, School, WorkOutline } from "@mui/icons-material";
 import { formatDate } from "../../../utils/dateUtil";
 
+const majorLabels = {
+    IT: "Công nghệ thông tin",
+    DS: "Kỹ thuật dữ liệu",
+    IS: "An toàn thông tin",
+};
+
 const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, majors }) => {
     // Lấy theme và kiểm tra xem màn hình có nhỏ hay không
     const theme = useTheme();
@@ -111,7 +117,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                     </Typography>
                     <Stack direction="column" spacing={1} flexWrap="wrap">
                         {majors.map((major, index) => (
-                            <Chip key={index} label={major} variant="outlined" />
+                            <Chip key={index} label={majorLabels[major] || major} variant="outlined" />
                         ))}
                     </Stack>
                 </Box>
