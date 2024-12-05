@@ -61,7 +61,7 @@ const SummarySection = ({ overview }) => {
                     color={green}
                     title="Sinh viên"
                     count={overview.totalStudents}
-                    subInfo={"Chưa báo cáo thực tập: " + overview.totalStudentsNotReported}
+                    subInfo={"Chưa báo cáo: " + overview.totalStudentsNotReported}
                     Icon={SchoolIcon}
                 />
             </Grid>

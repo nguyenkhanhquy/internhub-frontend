@@ -19,7 +19,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
         <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="lg">
             {/* Tiêu đề Modal */}
             <DialogTitle>
-                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                <Typography component="div" variant="h6" sx={{ fontWeight: "bold" }}>
                     Thông tin sinh viên
                 </Typography>
             </DialogTitle>

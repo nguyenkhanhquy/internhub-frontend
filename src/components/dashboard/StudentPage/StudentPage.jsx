@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import {
+    Box,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Button,
+} from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+
+import EmptyBox from "../../../components/box/EmptyBox";
+import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
+import StudentDetailsModal from "../../modals/StudentDetailsModal/StudentDetailsModal";
 
 import { getAllStudents } from "../../../services/studentService";
-import EmptyBox from "../../../components/box/EmptyBox";
-import StudentDetailsModal from "../../modals/StudentDetailsModal/StudentDetailsModal";
 
 // const majorLabels = {
 //     IT: "Công nghệ thông tin",
@@ -26,11 +39,13 @@ const getStatusStyle = (status) => {
 };
 
 const StudentPage = () => {
+    const [loading, setLoading] = useState(false);
     const [students, setStudents] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(null);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const data = await getAllStudents();
             if (!data.success) {
@@ -39,6 +54,8 @@ const StudentPage = () => {
             setStudents(data.result);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -55,9 +72,14 @@ const StudentPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
                 <Typography variant="h5">SINH VIÊN</Typography>
-                <Button variant="contained" color="primary">
-                    + Thêm sinh viên
-                </Button>
+                <Box display="flex" alignItems="center" gap={2}>
+                    <Button variant="contained" color="primary">
+                        + Thêm sinh viên
+                    </Button>
+                    <Button onClick={fetchData} variant="contained" color="primary">
+                        Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                    </Button>
+                </Box>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
                 <Table>
@@ -72,7 +94,13 @@ const StudentPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {students.length === 0 ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <SuspenseLoader />
+                                </TableCell>
+                            </TableRow>
+                        ) : students.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />

@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 
+import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllTeachers, importTeachers } from "../../../services/teacherService";
-import EmptyBox from "../../../components/box/EmptyBox";
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
