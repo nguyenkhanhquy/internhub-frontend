@@ -241,16 +241,16 @@ const InternshipReportForm = () => {
                                             textAlign: "left",
                                             color: errors.reportFile ? "error.main" : "#1e40af",
                                             borderColor: errors.reportFile ? "error.main" : "#1e40af",
-                                            "&:hover": {
-                                                borderColor: "#1e3a8a",
-                                            },
                                         }}
                                     >
                                         {watchReportFile?.name || "Tải lên báo cáo"}
                                         <input
                                             type="file"
                                             hidden
-                                            onChange={(e) => setValue("reportFile", e.target.files[0])}
+                                            onChange={(e) => {
+                                                setValue("reportFile", e.target.files[0]);
+                                                errors.reportFile && clearErrors("reportFile");
+                                            }}
                                         />
                                     </Button>
                                 )}
@@ -268,18 +268,18 @@ const InternshipReportForm = () => {
                                         fullWidth
                                         sx={{
                                             textAlign: "left",
-                                            color: errors.reportFile ? "error.main" : "#1e40af",
-                                            borderColor: errors.reportFile ? "error.main" : "#1e40af",
-                                            "&:hover": {
-                                                borderColor: "#1e3a8a",
-                                            },
+                                            color: errors.evaluationFile ? "error.main" : "#1e40af",
+                                            borderColor: errors.evaluationFile ? "error.main" : "#1e40af",
                                         }}
                                     >
                                         {watchEvaluationFile?.name || "Tải lên phiếu đánh giá"}
                                         <input
                                             type="file"
                                             hidden
-                                            onChange={(e) => setValue("evaluationFile", e.target.files[0])}
+                                            onChange={(e) => {
+                                                setValue("evaluationFile", e.target.files[0]);
+                                                errors.evaluationFile && clearErrors("evaluationFile");
+                                            }}
                                         />
                                     </Button>
                                 )}
