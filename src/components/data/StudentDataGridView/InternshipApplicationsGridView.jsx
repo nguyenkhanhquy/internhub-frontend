@@ -1,55 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import InternshipApplicationsTable from "./StudentDataTable/InternshipApplicationsTable";
 import InternshipReportDetailsModal from "../../modals/InternshipReportDetailsModal/InternshipReportDetailsModal";
 
-const reports = [
-    {
-        companyName: "Công ty TNHH ABC",
-        createdDate: "2021-10-10",
-        reportStatus: "ACCEPTED",
-        Student: { name: "Nguyễn Văn A", studentId: "123456", major: "Công nghệ thông tin" },
-        teacherName: "Thầy Trần Văn B",
-        instructorName: "Mr. Smith",
-        instructorEmail: "smith@example.com",
-        startDate: "2021-09-01",
-        endDate: "2021-12-31",
-        reportFile: "https://example.com/report1.pdf",
-        evaluationFile: "https://example.com/evaluation1.pdf",
-    },
-    {
-        companyName: "Công ty TNHH XYZ",
-        createdDate: "2021-10-11",
-        reportStatus: "PROCESSING",
-        Student: { name: "Trần Văn B", studentId: "654321", major: "Kỹ thuật phần mềm" },
-        teacherName: "Cô Nguyễn Thị C",
-        instructorName: "Mrs. Johnson",
-        instructorEmail: "johnson@example.com",
-        startDate: "2021-09-15",
-        endDate: "2021-12-15",
-        reportFile: "https://example.com/report2.pdf",
-        evaluationFile: "https://example.com/evaluation2.pdf",
-    },
-    {
-        companyName: "Công ty TNHH KLM",
-        createdDate: "2021-10-12",
-        reportStatus: "REJECTED",
-        Student: { name: "Lê Thị C", studentId: "987654", major: "Hệ thống thông tin" },
-        teacherName: "Thầy Lê Văn D",
-        instructorName: "Dr. Lee",
-        instructorEmail: "lee@example.com",
-        startDate: "2021-08-01",
-        endDate: "2021-11-30",
-        reportFile: "https://example.com/report3.pdf",
-        evaluationFile: "https://example.com/evaluation3.pdf",
-    },
-];
+import { getAllInternshipReportsByStudent } from "../../../services/internshipReport";
 
 const InternshipApplicationsGridView = () => {
     const [loading, setLoading] = useState(false);
-    // const [flag, setFlag] = useState(false);
+    const [flag, setFlag] = useState(false);
+    const [reports, setReports] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -77,6 +39,27 @@ const InternshipApplicationsGridView = () => {
         setModalOpen(false);
         setSelectedReport(null);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const data = await getAllInternshipReportsByStudent(currentPage, recordsPerPage);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setTotalPages(data.pageInfo.totalPages);
+                setTotalRecords(data.pageInfo.totalElements);
+                setReports(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [currentPage, recordsPerPage, flag]);
 
     return (
         <GridViewLayout

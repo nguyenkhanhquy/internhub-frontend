@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Box, Button, TextField, MenuItem, Typography, Grid, IconButton } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+
+import { getAllTeachers } from "../../../services/teacherService";
+import { uploadFile } from "../../../services/uploadService";
+
+import useAuth from "../../../hooks/useAuth";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -29,19 +35,15 @@ const schema = yup.object().shape({
     evaluationFile: yup.mixed().required("Vui lòng tải lên phiếu đánh giá."),
 });
 
-const teachers = [
-    { id: 1, name: "Lê Văn D", email: "levand@gmail.com" },
-    { id: 2, name: "Nguyễn Thị E", email: "nguyenthie@gmail.com" },
-    { id: 3, name: "Trần Văn F", email: "tranvanf@gmail.com" },
-];
-
 const InternshipReportForm = () => {
+    const { user } = useAuth();
     const [showForm, setShowForm] = useState(false);
+    const [teachers, setTeachers] = useState([]);
 
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         setValue,
         watch,
         reset,
@@ -64,6 +66,22 @@ const InternshipReportForm = () => {
     const watchReportFile = watch("reportFile");
     const watchEvaluationFile = watch("evaluationFile");
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAllTeachers();
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setTeachers(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const handleToggleForm = () => {
         if (showForm) {
             // Xóa lỗi khi form bị đóng
@@ -74,9 +92,35 @@ const InternshipReportForm = () => {
     };
 
     const onSubmit = async (dataForm) => {
+        try {
+            if (dataForm.reportFile) {
+                // Tạo đường dẫn tệp với timestamp
+                const timestamp = Date.now();
+                const filePath = `report/${user.id}/${timestamp}`;
+                const dataUpload = await uploadFile(dataForm.reportFile, filePath);
+                if (!dataUpload.success) {
+                    throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                dataForm.reportFile = dataUpload.result.secure_url;
+            }
+
+            if (dataForm.evaluationFile) {
+                // Tạo đường dẫn tệp với timestamp
+                const timestamp = Date.now();
+                const filePath = `evaluation/${user.id}/${timestamp}`;
+                const dataUpload = await uploadFile(dataForm.evaluationFile, filePath);
+                if (!dataUpload.success) {
+                    throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                dataForm.evaluationFile = dataUpload.result.secure_url;
+            }
+
+            toast.success("Nộp báo cáo thành công");
+        } catch (error) {
+            toast.error(error.message);
+        }
+        // reset();
         console.log(dataForm);
-        reset();
-        toast.success("Nộp báo cáo thành công");
     };
 
     return (
@@ -297,7 +341,7 @@ const InternshipReportForm = () => {
                                 "&:hover": { backgroundColor: "#1e3a8a" },
                             }}
                         >
-                            Nộp báo cáo
+                            {isSubmitting ? "Đang nộp..." : "Nộp báo cáo"}
                         </Button>
                     </Box>
                 </Box>

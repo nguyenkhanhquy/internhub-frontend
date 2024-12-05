@@ -76,6 +76,11 @@ export const JOB_APPLY_API = {
     REFUSE_OFFER: "/jobs/apply/offer/refuse/",
 };
 
+export const INTERNSHIP_REPORTS_API = {
+    CREATE: "/internship-reports",
+    GET_ALL_BY_STUDENT: "/internship-reports/student",
+};
+
 export const FILES_API = {
     UPLOAD_IMAGE: "/files/upload/image",
     UPLOAD_RAW: "/files/upload/raw",
