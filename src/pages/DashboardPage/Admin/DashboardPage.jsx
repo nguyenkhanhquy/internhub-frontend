@@ -57,23 +57,6 @@ const NAVIGATION = [
         title: "Quản lý chung",
     },
     {
-        segment: "setting",
-        title: "Cài đặt",
-        icon: <SettingsIcon />,
-        children: [
-            {
-                segment: "manage-account",
-                title: "Quản lý thông tin tài khoản",
-                icon: <ManageAccountsIcon />,
-            },
-            {
-                segment: "data-system",
-                title: "Dữ liệu hệ thống",
-                icon: <DnsIcon />,
-            },
-        ],
-    },
-    {
         segment: "student",
         title: "Sinh viên",
         icon: <SchoolIcon />,
@@ -92,6 +75,15 @@ const NAVIGATION = [
         segment: "job-post",
         title: "Bài đăng tuyển dụng",
         icon: <WorkIcon />,
+    },
+    {
+        kind: "header",
+        title: "Cài đặt",
+    },
+    {
+        segment: "setting",
+        title: "Cài đặt",
+        icon: <SettingsIcon />,
     },
     // {
     //     kind: "divider",
@@ -137,7 +129,7 @@ function DashboardPage(props) {
         user: {
             name: "Khoa Công Nghệ Thông Tin",
             email: "kcntt@hcmute.edu.vn",
-            // image: "",
+            // image: "/images/fit_logo.png",
         },
     });
 
