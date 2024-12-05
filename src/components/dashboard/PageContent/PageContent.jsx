@@ -9,6 +9,7 @@ import StudentPage from "../StudentPage/StudentPage";
 import TeacherPage from "../TeacherPage/TeacherPage";
 import RecruiterPage from "../RecruiterPage/RecruiterPage";
 import JobPostPage from "../JobPostPage/JobPostPage";
+import SettingsPage from "../SettingsPage/SettingsPage";
 
 function PageContent({ pathname, navigate }) {
     switch (pathname) {
@@ -32,6 +33,8 @@ function PageContent({ pathname, navigate }) {
             return <RecruiterPage />;
         case "/job-post":
             return <JobPostPage />;
+        case "/settings":
+            return <SettingsPage />;
         default:
             return (
                 <Box

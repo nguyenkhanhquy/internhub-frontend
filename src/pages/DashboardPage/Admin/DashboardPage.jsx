@@ -84,7 +84,7 @@ const NAVIGATION = [
         title: "Cài đặt",
     },
     {
-        segment: "setting",
+        segment: "settings",
         title: "Cài đặt",
         icon: <SettingsIcon />,
     },
