@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 import CachedIcon from "@mui/icons-material/Cached";
 
 import EmptryBox from "../../../components/box/EmptyBox";
+import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
 
 import { getAllRecruiters } from "../../../services/recruiterService";
@@ -17,11 +18,13 @@ const getStatusStyle = (status) => {
 };
 
 const RecruiterPage = () => {
+    const [loading, setLoading] = useState(false);
     const [recruiters, setRecruiters] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedRecruiter, setSelectedRecruiter] = useState(null);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const data = await getAllRecruiters();
             if (!data.success) {
@@ -30,6 +33,8 @@ const RecruiterPage = () => {
             setRecruiters(data.result);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -75,7 +80,13 @@ const RecruiterPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {recruiters.length === 0 ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <SuspenseLoader />
+                                </TableCell>
+                            </TableRow>
+                        ) : recruiters.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptryBox />

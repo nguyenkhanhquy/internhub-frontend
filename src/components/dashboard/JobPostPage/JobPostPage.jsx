@@ -6,6 +6,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
 
 import EmptryBox from "../../../components/box/EmptyBox";
+import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllJobPosts, approveJobPost, deleteJobPost } from "../../../services/adminService";
 
@@ -18,11 +19,13 @@ const getStatusStyle = (approved, deleted) => {
 };
 
 const JobPostPage = () => {
+    const [loading, setLoading] = useState(false);
     const [jobPosts, setJobPosts] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const data = await getAllJobPosts();
             if (!data.success) {
@@ -31,6 +34,8 @@ const JobPostPage = () => {
             setJobPosts(data.result);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -90,7 +95,13 @@ const JobPostPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {jobPosts.length === 0 ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                    <SuspenseLoader />
+                                </TableCell>
+                            </TableRow>
+                        ) : jobPosts.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptryBox />
