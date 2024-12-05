@@ -58,8 +58,8 @@ const RecruiterPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
                 <Typography variant="h5">DOANH NGHIỆP</Typography>
-                <Button variant="contained" color="primary">
-                    + Thêm doanh nghiệp
+                <Button onClick={fetchData} variant="contained" color="primary">
+                    Làm mới
                 </Button>
             </div>
             <TableContainer className="rounded bg-white shadow-md">
@@ -95,13 +95,12 @@ const RecruiterPage = () => {
                                         <Button onClick={() => handleViewDetails(recruiter)} color="primary">
                                             Chi tiết
                                         </Button>
-                                        <Button
-                                            disabled={recruiter.approved}
-                                            onClick={() => handleApprove(recruiter.userId)}
-                                            color="success"
-                                        >
-                                            {recruiter.approved ? "Đã duyệt" : "Duyệt"}
-                                        </Button>
+
+                                        {!recruiter.approved ? (
+                                            <Button onClick={() => handleApprove(recruiter.userId)} color="success">
+                                                Duyệt
+                                            </Button>
+                                        ) : null}
                                     </TableCell>
                                 </TableRow>
                             ))

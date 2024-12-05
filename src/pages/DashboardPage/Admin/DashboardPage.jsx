@@ -77,6 +77,9 @@ const NAVIGATION = [
         icon: <WorkIcon />,
     },
     {
+        kind: "divider",
+    },
+    {
         kind: "header",
         title: "Cài đặt",
     },

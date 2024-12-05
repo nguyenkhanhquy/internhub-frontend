@@ -7,7 +7,7 @@ const RecruiterDetailsModal = ({ isOpen, onClose, recruiter }) => {
             {/* Tiêu đề Modal */}
             <DialogTitle>
                 <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                    Thông tin công ty
+                    Thông tin doanh nghiệp
                 </Typography>
             </DialogTitle>
 
@@ -22,7 +22,7 @@ const RecruiterDetailsModal = ({ isOpen, onClose, recruiter }) => {
                         {/* Logo */}
                         <Box>
                             <img
-                                src={recruiter.company.logo || "/images/logo.png"}
+                                src={recruiter.company.logo || "/public/images/no_image_available.jpg"}
                                 alt="Company Logo"
                                 style={{
                                     width: "96px",
