@@ -6,12 +6,29 @@ import CachedIcon from "@mui/icons-material/Cached";
 
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
+import InternshipReportDetailsModal from "../../modals/InternshipReportDetailsModal/InternshipReportDetailsModal";
 
 import { getAllInternshipReports } from "../../../services/adminService";
+
+const reportStatusLabels = {
+    PROCESSING: "Chờ duyệt",
+    ACCEPTED: "Đã chấp nhận",
+    REJECTED: "Đã từ chối",
+};
+
+const getStatusStyle = (status) => {
+    return status === "ACCEPTED"
+        ? "bg-green-100 text-green-700 px-2 py-1 rounded"
+        : status === "REJECTED"
+          ? "bg-red-100 text-red-700 px-2 py-1 rounded"
+          : "bg-yellow-100 text-yellow-700 px-2 py-1 rounded";
+};
 
 const InternshipReportPage = () => {
     const [loading, setLoading] = useState(false);
     const [internshipReports, setInternshipReports] = useState([]);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [selectedReport, setSelectedReport] = useState(null);
 
     const fetchData = async () => {
         setLoading(true);
@@ -26,6 +43,11 @@ const InternshipReportPage = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleViewDetails = (report) => {
+        setSelectedReport(report);
+        setIsDetailsModalOpen(true);
     };
 
     useEffect(() => {
@@ -72,14 +94,34 @@ const InternshipReportPage = () => {
                                     <TableCell>{report.student.studentId}</TableCell>
                                     <TableCell>{report.student.name}</TableCell>
                                     <TableCell>{report.companyName}</TableCell>
-                                    <TableCell>{report.reportStatus}</TableCell>
-                                    <TableCell>...</TableCell>
+                                    <TableCell>
+                                        <span className={getStatusStyle(report.reportStatus)}>
+                                            {reportStatusLabels[report.reportStatus]}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleViewDetails(report)} color="primary">
+                                            Chi tiết
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
+            {isDetailsModalOpen && (
+                <InternshipReportDetailsModal
+                    open={isDetailsModalOpen}
+                    onClose={() => setIsDetailsModalOpen(false)}
+                    report={selectedReport}
+                    onDownloadFile={(file) => {
+                        if (file) {
+                            window.open(file, "_blank");
+                        }
+                    }}
+                />
+            )}
         </div>
     );
 };
