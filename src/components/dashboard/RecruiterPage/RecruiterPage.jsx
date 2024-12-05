@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 
 import EmptryBox from "../../../components/box/EmptyBox";
+import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
 
 import { getAllRecruiters } from "../../../services/recruiterService";
 import { approveRecruiter } from "../../../services/adminService";
@@ -16,6 +17,8 @@ const getStatusStyle = (status) => {
 
 const RecruiterPage = () => {
     const [recruiters, setRecruiters] = useState([]);
+    const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [selectedRecruiter, setSelectedRecruiter] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -27,6 +30,11 @@ const RecruiterPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
+    };
+
+    const handleViewDetails = (recruiter) => {
+        setSelectedRecruiter(recruiter);
+        setIsDetailsModalOpen(true);
     };
 
     const handleApprove = async (userId) => {
@@ -84,10 +92,13 @@ const RecruiterPage = () => {
                                         </span>
                                     </TableCell>
                                     <TableCell>
+                                        <Button onClick={() => handleViewDetails(recruiter)} color="primary">
+                                            Chi tiết
+                                        </Button>
                                         <Button
                                             disabled={recruiter.approved}
                                             onClick={() => handleApprove(recruiter.userId)}
-                                            color="primary"
+                                            color="success"
                                         >
                                             {recruiter.approved ? "Đã duyệt" : "Duyệt"}
                                         </Button>
@@ -98,6 +109,13 @@ const RecruiterPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {isDetailsModalOpen && (
+                <RecruiterDetailsModal
+                    isOpen={isDetailsModalOpen}
+                    recruiter={selectedRecruiter}
+                    onClose={() => setIsDetailsModalOpen(false)}
+                />
+            )}
         </div>
     );
 };
