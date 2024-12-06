@@ -50,6 +50,8 @@ export const STUDENTS_API = {
 
 export const TEACHERS_API = {
     GET_ALL: "/teachers",
+    UPDATE: "/teachers/",
+    DELETE: "/teachers/",
     IMPORT: "/teachers/import",
 };
 

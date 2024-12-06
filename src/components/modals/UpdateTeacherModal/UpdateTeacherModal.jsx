@@ -1,8 +1,12 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { updateTeacher } from "../../../services/teacherService";
 
 // Regex kiểm tra email
 const regexEmail =
@@ -14,14 +18,15 @@ const schema = yup.object().shape({
     email: yup.string().required("Email là bắt buộc").matches(regexEmail, "Email không hợp lệ"),
 });
 
-const UpdateTeacherModal = ({ isOpen, onClose, teacher, onSubmit }) => {
+const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         reset,
     } = useForm({
         defaultValues: {
+            id: teacher?.id || "",
             name: teacher?.name || "",
             email: teacher?.email || "",
         },
@@ -33,6 +38,23 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, onSubmit }) => {
     const handleClose = () => {
         reset();
         onClose();
+    };
+
+    // Xử lý nút Lưu
+    const onSubmit = async (formData) => {
+        try {
+            const data = await updateTeacher(formData.id, formData.name, formData.email);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            handleClose();
+            setFlag((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+        console.log(formData);
     };
 
     return (
@@ -90,13 +112,13 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, onSubmit }) => {
                     Hủy
                 </Button>
                 <Button
+                    disabled={isSubmitting}
                     onClick={handleSubmit((data) => {
                         onSubmit(data);
-                        handleClose();
                     })}
                     variant="contained"
                 >
-                    Lưu
+                    {isSubmitting ? "Đang lưu..." : "Lưu"}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -107,7 +129,7 @@ UpdateTeacherModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     teacher: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default UpdateTeacherModal;

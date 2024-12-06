@@ -19,11 +19,12 @@ import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import UpdateTeacherModal from "../../modals/UpdateTeacherModal/UpdateTeacherModal";
 
-import { getAllTeachers, importTeachers } from "../../../services/teacherService";
+import { getAllTeachers, importTeachers, deleteTeacher } from "../../../services/teacherService";
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
+    const [flag, setFlag] = useState(false);
     const [teachers, setTeachers] = useState([]);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedTeacher, setSelectedTeacher] = useState(null);
@@ -48,9 +49,27 @@ const TeacherPage = () => {
         setIsUpdateModalOpen(true);
     };
 
+    const handleDeleteTeacher = async (teacherId) => {
+        try {
+            const isConfirm = confirm("Bạn có chắc chắn muốn xóa giảng viên này?");
+            if (!isConfirm) {
+                return;
+            }
+            const data = await deleteTeacher(teacherId);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setFlag((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [flag]);
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -79,7 +98,20 @@ const TeacherPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
-                <Typography variant="h5">GIẢNG VIÊN</Typography>
+                <Typography
+                    variant="h5"
+                    gutterBottom
+                    color="primary"
+                    sx={{
+                        fontWeight: "bold",
+                        fontSize: "2rem",
+                        color: "linear-gradient(to right, #1976d2, #42a5f5)", // Gradient màu xanh
+                        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", // Bóng chữ
+                        letterSpacing: "0.05em", // Khoảng cách chữ nhẹ
+                    }}
+                >
+                    Giảng viên
+                </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
                     <TextField type="file" onChange={handleFileChange} />
                     <Button disabled={!file} variant="contained" onClick={handleUpload}>
@@ -123,7 +155,9 @@ const TeacherPage = () => {
                                         <Button onClick={() => handleOpenModal(teacher)} color="warning">
                                             Chỉnh sửa
                                         </Button>
-                                        <Button color="error">Xóa</Button>
+                                        <Button onClick={() => handleDeleteTeacher(teacher.id)} color="error">
+                                            Xóa
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -136,7 +170,7 @@ const TeacherPage = () => {
                     teacher={selectedTeacher}
                     isOpen={isUpdateModalOpen}
                     onClose={() => setIsUpdateModalOpen(false)}
-                    onSubmit={console.log}
+                    setFlag={setFlag}
                 />
             )}
         </div>
