@@ -15,6 +15,8 @@ function PageContent({ pathname }) {
     switch (pathname) {
         case "/notification":
             return <NotificationPage />;
+        case "/":
+            return <OverviewPage />;
         case "/overview":
             return <OverviewPage />;
         case "/internship-report":

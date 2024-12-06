@@ -66,7 +66,13 @@ const SummarySection = ({ overview }) => {
                 />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-                <SummaryCard color={blue} title="Giảng viên" count={overview.totalTeachers} Icon={PersonIcon} />
+                <SummaryCard
+                    color={blue}
+                    title="Giảng viên"
+                    count={overview.totalTeachers}
+                    subInfo={"..."}
+                    Icon={PersonIcon}
+                />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
                 <SummaryCard

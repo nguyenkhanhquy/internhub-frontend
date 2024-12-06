@@ -29,57 +29,57 @@ const sampleNotifications = [
     },
     {
         id: 2,
-        title: "Kế hoạch đào tạo",
-        content: "Kế hoạch đào tạo học kỳ mới đã được công bố trên cổng thông tin.",
+        title: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt",
+        content: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt.",
         createdDate: "2024-12-05T14:00:00",
         isRead: true,
     },
     {
         id: 3,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 4,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 5,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 6,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 7,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 8,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
     {
         id: 9,
-        title: "Thời gian đăng ký học phần",
-        content: "Thời gian đăng ký học phần sẽ bắt đầu từ ngày 10/12/2024.",
+        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
+        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
         createdDate: "2024-12-04T09:30:00",
         isRead: false,
     },
@@ -117,7 +117,8 @@ const NotificationPage = () => {
             >
                 Thông báo
             </Typography>
-            <Divider />`{/* Danh sách thông báo */}
+            <Divider />
+            {/* Danh sách thông báo */}
             {selectedNotification === null ? (
                 <Paper sx={{ p: 2, mb: 2 }}>
                     <List>
