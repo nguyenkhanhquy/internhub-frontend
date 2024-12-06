@@ -129,7 +129,7 @@ function DashboardPage(props) {
     const [session, setSession] = useState({
         user: {
             name: "Khoa Công Nghệ Thông Tin",
-            email: "kcntt@hcmute.edu.vn",
+            email: "admin@admin.com",
             // image: "/images/fit_logo.png",
         },
     });
@@ -140,7 +140,7 @@ function DashboardPage(props) {
                 setSession({
                     user: {
                         name: "Khoa Công Nghệ Thông Tin",
-                        email: "kcntt@hcmute.edu.vn",
+                        email: "admin@admin.com",
                         // image: "",
                     },
                 });

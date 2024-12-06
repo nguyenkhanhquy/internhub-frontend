@@ -65,9 +65,9 @@ const CompanyDetailsPage = () => {
     const marginValue = isSmallScreen ? "0px" : isMediumScreen ? "20px 40px" : "20px 80px";
 
     return (
-        <MainLayout title="Chi tiết công ty">
+        <MainLayout title="Chi tiết doanh nghiệp">
             {/* Thanh điều hướng */}
-            <PageNavigation pageName="Chi tiết công ty" />
+            <PageNavigation pageName="Chi tiết doanh nghiệp" />
             {loading ? (
                 <SuspenseLoader />
             ) : (

@@ -86,9 +86,9 @@ const StudentPage = () => {
                     Sinh viên
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    <Button variant="contained" color="primary">
-                        + Thêm sinh viên
-                    </Button>
+                    {/* <Button variant="contained" color="primary">
+                        + Import danh sách sinh viên
+                    </Button> */}
                     <Button onClick={fetchData} variant="contained" color="primary">
                         Làm mới <CachedIcon className="ml-2" fontSize="small" />
                     </Button>

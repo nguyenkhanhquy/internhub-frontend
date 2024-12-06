@@ -44,7 +44,8 @@ const JobDetailBody = ({ jobData }) => {
                         <Tab label="Thông tin việc làm" />
                         <Tab label="Thông tin công ty" />
                         <Tab label="Việc làm khác từ công ty" />
-                        <Tab label="Việc làm liên quan" disabled />
+                        <Tab label="Việc làm liên quan" />
+                        {/* <Tab label="Việc làm liên quan" disabled /> */}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -65,7 +66,7 @@ const JobDetailBody = ({ jobData }) => {
                 </CustomTabPanel>
 
                 <CustomTabPanel value={value} index={3}>
-                    Việc làm liên quan
+                    <JobListingTab jobs={jobData.relatedJobs} />
                 </CustomTabPanel>
             </Box>
         </Box>
