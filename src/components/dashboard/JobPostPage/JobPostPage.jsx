@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
+import RejectJobPostModal from "../../modals/RejectJobPostModal/RejectJobPostModal";
 
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
@@ -22,6 +23,7 @@ const JobPostPage = () => {
     const [loading, setLoading] = useState(false);
     const [jobPosts, setJobPosts] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null);
 
     const fetchData = async () => {
@@ -55,6 +57,22 @@ const JobPostPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
+    };
+
+    const handleOpenRejectModal = (post) => {
+        setSelectedJobPost(post);
+        setIsRejectModalOpen(true);
+    };
+
+    const handleCloseRejectModal = () => {
+        setIsRejectModalOpen(false);
+        setSelectedJobPost(null);
+    };
+
+    const handleRejectPost = (reason) => {
+        console.log("Bài đăng bị từ chối với lý do:", reason);
+        // Gửi lý do từ chối lên API tại đây
+        handleDelete(selectedJobPost.id);
     };
 
     const handleDelete = async (id) => {
@@ -145,7 +163,7 @@ const JobPostPage = () => {
                                                 <Button onClick={() => handleApprove(jobPost.id)} color="success">
                                                     Duyệt
                                                 </Button>
-                                                <Button onClick={() => handleDelete(jobPost.id)} color="error">
+                                                <Button onClick={() => handleOpenRejectModal(jobPost)} color="error">
                                                     Từ chối
                                                 </Button>
                                             </>
@@ -162,7 +180,20 @@ const JobPostPage = () => {
                 <JobPostDetailsModal
                     open={isDetailsModalOpen}
                     jobPost={selectedJobPost}
-                    onClose={() => setIsDetailsModalOpen(false)}
+                    onClose={() => {
+                        setIsDetailsModalOpen(false);
+                        setSelectedJobPost(null);
+                    }}
+                />
+            )}
+
+            {/* Modal từ chối bài đăng */}
+            {isRejectModalOpen && (
+                <RejectJobPostModal
+                    open={isRejectModalOpen}
+                    jobPost={selectedJobPost}
+                    onClose={handleCloseRejectModal}
+                    onConfirm={handleRejectPost}
                 />
             )}
         </div>
