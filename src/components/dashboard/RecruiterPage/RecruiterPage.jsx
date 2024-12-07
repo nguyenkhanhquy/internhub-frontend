@@ -41,7 +41,6 @@ const RecruiterPage = () => {
     };
 
     const fetchData = useCallback(async () => {
-        console.log("Fetching data...");
         setLoading(true);
         try {
             const data = await getAllRecruiters(currentPage, recordsPerPage, search);

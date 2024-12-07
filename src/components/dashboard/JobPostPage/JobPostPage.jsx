@@ -70,14 +70,12 @@ const JobPostPage = () => {
     };
 
     const handleRejectPost = (reason) => {
-        console.log("Bài đăng bị từ chối với lý do:", reason);
-        // Gửi lý do từ chối lên API tại đây
-        handleDelete(selectedJobPost.id);
+        handleDelete(selectedJobPost.id, reason);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, reason) => {
         try {
-            const data = await deleteJobPost(id);
+            const data = await deleteJobPost(id, reason);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
