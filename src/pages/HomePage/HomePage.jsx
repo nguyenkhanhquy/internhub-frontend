@@ -14,11 +14,13 @@ import { getAllJobPosts } from "../../services/jobPostService";
 
 const HomePage = () => {
     const navigate = useNavigate();
-    const [featuredCompanies, setFeaturedCompanies] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [jobList, setJobList] = useState([]);
+    const [featuredCompanies, setFeaturedCompanies] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 const jobData = await getAllJobPosts(1, 12);
                 if (!jobData.success) {
@@ -33,6 +35,8 @@ const HomePage = () => {
                 setFeaturedCompanies(data.result);
             } catch (error) {
                 toast.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -59,10 +63,10 @@ const HomePage = () => {
                 </Box>
 
                 {/* VIỆC LÀM MỚI NHẤT */}
-                <LatestJobsSection jobList={jobList} />
+                <LatestJobsSection loading={loading} jobList={jobList} />
 
                 {/* DOANH NGHIỆP NỔI BẬT */}
-                <FeaturedCompaniesSection companies={featuredCompanies} />
+                <FeaturedCompaniesSection loading={loading} companies={featuredCompanies} />
             </Container>
         </MainLayout>
     );

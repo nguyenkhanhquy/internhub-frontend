@@ -61,7 +61,7 @@ const SummarySection = ({ overview }) => {
                     color={green}
                     title="Sinh viên"
                     count={overview.totalStudents}
-                    subInfo={"Chưa báo cáo: " + overview.totalStudentsNotReported}
+                    subInfo={"Chưa báo cáo: " + (overview.totalStudentsNotReported ?? "...")}
                     Icon={SchoolIcon}
                 />
             </Grid>
@@ -79,7 +79,7 @@ const SummarySection = ({ overview }) => {
                     color={orange}
                     title="Doanh nghiệp"
                     count={overview.totalRecruiters}
-                    subInfo={"Chưa duyệt: " + overview.totalRecruitersNotApproved}
+                    subInfo={"Chưa duyệt: " + (overview.totalRecruitersNotApproved ?? "...")}
                     Icon={BusinessIcon}
                 />
             </Grid>
@@ -88,7 +88,7 @@ const SummarySection = ({ overview }) => {
                     color={purple}
                     title="Bài đăng"
                     count={overview.totalJobPosts}
-                    subInfo={"Chưa duyệt: " + overview.totalJobPostsNotApproved}
+                    subInfo={"Chưa duyệt: " + (overview.totalJobPostsNotApproved ?? "...")}
                     Icon={WorkIcon}
                 />
             </Grid>
