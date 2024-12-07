@@ -8,6 +8,7 @@ import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
 import DashboardSearchBar from "../../search/DashboardSearchBar";
+import CustomPagination from "../../pagination/Pagination";
 
 import { getAllRecruiters } from "../../../services/recruiterService";
 import { approveRecruiter } from "../../../services/adminService";
@@ -23,6 +24,20 @@ const RecruiterPage = () => {
     const [recruiters, setRecruiters] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedRecruiter, setSelectedRecruiter] = useState(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -144,6 +159,19 @@ const RecruiterPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <div className="mt-4 pb-4">
+                {/* Phân trang */}
+                <CustomPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    recordsPerPage={recordsPerPage}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onRecordsPerPageChange={handleRecordsPerPageChange}
+                />
+            </div>
+
             {isDetailsModalOpen && (
                 <RecruiterDetailsModal
                     isOpen={isDetailsModalOpen}
