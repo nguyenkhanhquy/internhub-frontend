@@ -7,6 +7,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
+import DashboardSearchBar from "../../search/DashboardSearchBar";
 
 import { getAllRecruiters } from "../../../services/recruiterService";
 import { approveRecruiter } from "../../../services/adminService";
@@ -80,6 +81,16 @@ const RecruiterPage = () => {
                 <Button onClick={fetchData} variant="contained" color="primary">
                     Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
+            </div>
+            <div className="sticky top-0 z-10 mb-4">
+                <DashboardSearchBar
+                    onSearch={(searchText) => {
+                        // setCurrentPage(1);
+                        //setQuery(searchText);
+                    }}
+                    query={""}
+                    placeholder="Tìm kiếm doanh nghiệp..."
+                />
             </div>
             <TableContainer className="rounded bg-white shadow-md">
                 <Table>
