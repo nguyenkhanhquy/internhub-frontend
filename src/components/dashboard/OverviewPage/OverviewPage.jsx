@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Typography, Paper } from "@mui/material";
@@ -12,14 +12,14 @@ const OverviewPage = () => {
 
     const studentInternshipData = useMemo(
         () => [
-            { name: "Đã thực tập", value: overview?.totalStudentsCompleted || 0, color: "#4caf50" },
-            { name: "Đang thực tập", value: overview?.totalStudentsWorking || 0, color: "#2196f3" },
-            { name: "Đang tìm nơi thực tập", value: overview?.totalStudentsSearching || 0, color: "#ff9800" },
+            { name: "Đã thực tập", value: overview.totalStudentsCompleted ?? 0, color: "#4caf50" },
+            { name: "Đang thực tập", value: overview.totalStudentsWorking ?? 0, color: "#2196f3" },
+            { name: "Đang tìm nơi thực tập", value: overview.totalStudentsSearching ?? 0, color: "#ff9800" },
         ],
         [overview],
     );
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const data = await getOverview();
             if (!data.success) {
@@ -29,11 +29,11 @@ const OverviewPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     return (
         <Box
@@ -62,6 +62,8 @@ const OverviewPage = () => {
                     <ResponsiveContainer>
                         <PieChart>
                             <Pie
+                                isAnimationActive={true}
+                                animationDuration={400}
                                 data={studentInternshipData}
                                 dataKey="value"
                                 nameKey="name"
@@ -70,6 +72,7 @@ const OverviewPage = () => {
                                 outerRadius={100}
                                 innerRadius={60}
                                 fill="#8884d8"
+                                cursor={"pointer"}
                                 label={({ name, percent, value }) => {
                                     // Kiểm tra cả percent và value
                                     return percent > 0 && value > 0 ? `${name} (${(percent * 100).toFixed(1)}%)` : null;
