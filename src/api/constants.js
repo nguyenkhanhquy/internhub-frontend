@@ -11,6 +11,8 @@ export const ADMIN_API = {
     GET_ALL_JOB_POSTS: "/admin/jobs",
     APPROVE_JOB_POST: "/admin/jobs/approve/",
     DELETE_JOB_POST: "/admin/jobs/delete/",
+
+    GET_ALL_RECRUITERS: "/admin/recruiters",
     APPROVE_RECRUITER: "/admin/recruiters/approve/",
 
     GET_ALL_INTERNSHIP_REPORTS: "/admin/internship-reports",

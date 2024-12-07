@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
@@ -10,8 +10,8 @@ import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterD
 import DashboardSearchBar from "../../search/DashboardSearchBar";
 import CustomPagination from "../../pagination/Pagination";
 
-import { getAllRecruiters } from "../../../services/recruiterService";
-import { approveRecruiter } from "../../../services/adminService";
+// import { getAllRecruiters } from "../../../services/recruiterService";
+import { getAllRecruiters, approveRecruiter } from "../../../services/adminService";
 
 const getStatusStyle = (status) => {
     return status === true
@@ -25,6 +25,7 @@ const RecruiterPage = () => {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedRecruiter, setSelectedRecruiter] = useState(null);
 
+    const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
@@ -39,20 +40,23 @@ const RecruiterPage = () => {
         setRecordsPerPage(value);
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
+        console.log("Fetching data...");
         setLoading(true);
         try {
-            const data = await getAllRecruiters();
+            const data = await getAllRecruiters(currentPage, recordsPerPage, search);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
             setRecruiters(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, recordsPerPage, search]);
 
     const handleViewDetails = (recruiter) => {
         setSelectedRecruiter(recruiter);
@@ -74,7 +78,7 @@ const RecruiterPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
@@ -93,17 +97,25 @@ const RecruiterPage = () => {
                 >
                     Doanh nghiệp
                 </Typography>
-                <Button onClick={fetchData} variant="contained" color="primary">
+                <Button
+                    onClick={() => {
+                        setSearch("");
+                        setCurrentPage(1);
+                        setRecordsPerPage(10);
+                    }}
+                    variant="contained"
+                    color="primary"
+                >
                     Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
-            <div className="sticky top-0 z-10 mb-4">
+            <div className="sticky top-2 z-10 mb-4">
                 <DashboardSearchBar
                     onSearch={(searchText) => {
-                        // setCurrentPage(1);
-                        //setQuery(searchText);
+                        setCurrentPage(1);
+                        setSearch(searchText);
                     }}
-                    query={""}
+                    query={search}
                     placeholder="Tìm kiếm doanh nghiệp..."
                 />
             </div>
@@ -133,8 +145,8 @@ const RecruiterPage = () => {
                             </TableRow>
                         ) : (
                             recruiters.map((recruiter, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
+                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                     <TableCell>{recruiter.company.name}</TableCell>
                                     <TableCell>{recruiter.name}</TableCell>
                                     <TableCell>

@@ -17,6 +17,16 @@ export const deleteJobPost = async (id) => {
     return axiosClient.post(ADMIN_API.DELETE_JOB_POST + id);
 };
 
+export const getAllRecruiters = async (page, size, search) => {
+    return axiosClient.get(ADMIN_API.GET_ALL_RECRUITERS, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+        },
+    });
+};
+
 export const approveRecruiter = async (userId) => {
     return axiosClient.post(ADMIN_API.APPROVE_RECRUITER + userId);
 };
