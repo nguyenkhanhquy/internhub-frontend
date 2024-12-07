@@ -49,7 +49,7 @@ const JobDetailsPage = () => {
 
                 setJobData((prevData) => ({
                     ...prevData,
-                    jobs: dataJobPosts.result,
+                    jobs: dataJobPosts.result.filter((job) => job.id !== id),
                     relatedJobs: relatedJobs.result.filter((job) => job.id !== id),
                 }));
             } catch (error) {
