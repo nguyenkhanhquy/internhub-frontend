@@ -8,6 +8,8 @@ import RejectJobPostModal from "../../modals/RejectJobPostModal/RejectJobPostMod
 
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
+import DashboardSearchBar from "../../search/DashboardSearchBar";
+import CustomPagination from "../../pagination/Pagination";
 
 import { getAllJobPosts, approveJobPost, deleteJobPost } from "../../../services/adminService";
 
@@ -25,6 +27,21 @@ const JobPostPage = () => {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null);
+
+    const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -111,6 +128,16 @@ const JobPostPage = () => {
                     Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
+            <div className="sticky top-2 z-10 mb-4">
+                <DashboardSearchBar
+                    onSearch={(searchText) => {
+                        // setCurrentPage(1);
+                        setSearch(searchText);
+                    }}
+                    query={search}
+                    placeholder="Tìm kiếm bài đăng tuyển dụng..."
+                />
+            </div>
             <TableContainer className="rounded bg-white shadow-md">
                 <Table>
                     <TableHead>
@@ -173,6 +200,19 @@ const JobPostPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <div className="mt-4 pb-4">
+                {/* Phân trang */}
+                <CustomPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    recordsPerPage={recordsPerPage}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onRecordsPerPageChange={handleRecordsPerPageChange}
+                />
+            </div>
+
             {/* Modal xem chi tiết bài đăng */}
             {isDetailsModalOpen && (
                 <JobPostDetailsModal
