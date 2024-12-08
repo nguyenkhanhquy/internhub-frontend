@@ -56,8 +56,17 @@ const HomePage = () => {
                 <SliderBanner />
 
                 {/* Search Bar, căn giữa */}
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                    <Box sx={{ width: "70%" }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mt: 4,
+                        position: "sticky",
+                        top: 4,
+                        zIndex: 1000,
+                    }}
+                >
+                    <Box sx={{ width: "80%" }}>
                         <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
                     </Box>
                 </Box>

@@ -200,11 +200,21 @@ const Header = () => {
                             open={Boolean(infoAnchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem
+                                onClick={() => {
+                                    handleClose();
+                                    window.open("https://www.google.com", "_blank");
+                                }}
+                            >
                                 <SchoolIcon sx={{ marginRight: 1 }} />
                                 Thực tập sinh
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem
+                                onClick={() => {
+                                    handleClose();
+                                    window.open("https://www.google.com", "_blank");
+                                }}
+                            >
                                 <PersonSearchIcon sx={{ marginRight: 1 }} />
                                 Nhà tuyển dụng
                             </MenuItem>

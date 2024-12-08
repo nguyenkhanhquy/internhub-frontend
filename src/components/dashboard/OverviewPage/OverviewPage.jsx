@@ -75,7 +75,9 @@ const OverviewPage = () => {
                                 cursor={"pointer"}
                                 label={({ name, percent, value }) => {
                                     // Kiểm tra cả percent và value
-                                    return percent > 0 && value > 0 ? `${name} (${(percent * 100).toFixed(1)}%)` : null;
+                                    return percent >= 0 && value >= 0
+                                        ? `${name} (${(percent * 100).toFixed(1)}%)`
+                                        : null;
                                 }}
                             >
                                 {studentInternshipData.map((entry, index) => (
