@@ -18,6 +18,8 @@ import CachedIcon from "@mui/icons-material/Cached";
 import EmptyBox from "../../../components/box/EmptyBox";
 import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
 import UpdateTeacherModal from "../../modals/UpdateTeacherModal/UpdateTeacherModal";
+import DashboardSearchBar from "../../search/DashboardSearchBar";
+import CustomPagination from "../../pagination/Pagination";
 
 import { getAllTeachers, importTeachers, deleteTeacher } from "../../../services/teacherService";
 
@@ -28,6 +30,21 @@ const TeacherPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedTeacher, setSelectedTeacher] = useState(null);
+
+    const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleRecordsPerPageChange = (value) => {
+        setCurrentPage(1);
+        setRecordsPerPage(value);
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -122,6 +139,18 @@ const TeacherPage = () => {
                     </Button>
                 </Box>
             </div>
+
+            <div className="sticky top-2 z-10 mb-4">
+                <DashboardSearchBar
+                    onSearch={(searchText) => {
+                        setCurrentPage(1);
+                        setSearch(searchText);
+                    }}
+                    query={search}
+                    placeholder="Tìm kiếm giảng viên..."
+                />
+            </div>
+
             <TableContainer className="rounded bg-white shadow-md">
                 <Table>
                     <TableHead>
@@ -165,6 +194,19 @@ const TeacherPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <div className="mt-4 pb-4">
+                {/* Phân trang */}
+                <CustomPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    recordsPerPage={recordsPerPage}
+                    totalRecords={totalRecords}
+                    onPageChange={handlePageChange}
+                    onRecordsPerPageChange={handleRecordsPerPageChange}
+                />
+            </div>
+
             {isUpdateModalOpen && (
                 <UpdateTeacherModal
                     teacher={selectedTeacher}
