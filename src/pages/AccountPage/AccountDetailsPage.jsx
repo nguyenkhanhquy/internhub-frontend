@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getToken } from "../../services/localStorageService";
 import { Box, Card, Typography } from "@mui/material";
 import { getAuthUser } from "../../services/authService";
 import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
@@ -10,26 +8,20 @@ import AccountLayout from "../../layouts/AccountLayout/AccountLayout";
 import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
 
 const AccountDetailsPage = () => {
-    const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const getUserDetails = async () => {
-        setLoading(true);
-        const data = await getAuthUser();
-        setUserDetails(data.result);
-        setLoading(false);
-    };
-
     useEffect(() => {
-        const accessToken = getToken();
+        const getUserDetails = async () => {
+            setLoading(true);
+            const data = await getAuthUser();
+            setUserDetails(data.result);
+            setLoading(false);
+        };
 
-        if (!accessToken) {
-            navigate("/login");
-        } else {
-            getUserDetails();
-        }
-    }, [navigate]);
+        getUserDetails();
+    }, []);
+
     return (
         <MainLayout title="Chi tiết tài khoản">
             <PageNavigation pageName="Tài khoản" />
@@ -41,7 +33,7 @@ const AccountDetailsPage = () => {
                         alignItems="center"
                         justifyContent="center"
                         height="60vh"
-                        bgcolor={"#f0f2f5"}
+                        // bgcolor={"#f0f2f5"}
                     >
                         <Card
                             sx={{

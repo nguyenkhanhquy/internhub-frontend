@@ -21,7 +21,14 @@ import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
 
 import { formatDate } from "../../../../utils/dateUtil";
 
-const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handleDeleteClick }) => {
+const SavedJobsTable = ({
+    loading,
+    savedJobPosts,
+    currentPage,
+    recordsPerPage,
+    handleViewDetailsClick,
+    handleDeleteClick,
+}) => {
     return (
         <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
             <Table>
@@ -77,7 +84,7 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
                     ) : (
                         savedJobPosts.map((job, index) => (
                             <TableRow
-                                key={index}
+                                key={index + 1 + (currentPage - 1) * recordsPerPage}
                                 sx={{
                                     "&:hover": {
                                         backgroundColor: "#f9f9f9",
@@ -89,7 +96,7 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
                                     },
                                 }}
                             >
-                                <TableCell align="center">{index + 1}</TableCell>
+                                <TableCell align="center">{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                 <TableCell
                                     sx={{
                                         whiteSpace: "normal",
@@ -139,6 +146,8 @@ const SavedJobsTable = ({ loading, savedJobPosts, handleViewDetailsClick, handle
 SavedJobsTable.propTypes = {
     loading: PropTypes.bool.isRequired,
     savedJobPosts: PropTypes.array.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    recordsPerPage: PropTypes.number.isRequired,
     handleViewDetailsClick: PropTypes.func.isRequired,
     handleDeleteClick: PropTypes.func.isRequired,
 };

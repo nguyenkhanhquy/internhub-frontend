@@ -3,25 +3,21 @@ import PropTypes from "prop-types";
 import { Paper, Typography, Grid, Divider, Box } from "@mui/material";
 import Loading from "../../../components/loaders/Loading/Loading";
 
-import { getToken } from "../../../services/localStorageService";
 import { getAuthUser } from "../../../services/authService";
 
 const AccountDetailsCard = ({ flag }) => {
     const [loading, setLoading] = useState(true);
     const [userDetails, setUserDetails] = useState({});
 
-    const getUserDetails = async () => {
-        setLoading(true);
-        const data = await getAuthUser();
-        setUserDetails(data.result);
-        setLoading(false);
-    };
-
     useEffect(() => {
-        const accessToken = getToken();
-        if (accessToken) {
-            getUserDetails();
-        }
+        const getUserDetails = async () => {
+            setLoading(true);
+            const data = await getAuthUser();
+            setUserDetails(data.result);
+            setLoading(false);
+        };
+
+        getUserDetails();
     }, [flag]);
 
     return (
