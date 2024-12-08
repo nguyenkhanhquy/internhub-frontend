@@ -39,7 +39,16 @@ const PostedJobsGridView = ({ onViewApplications }) => {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = useState(null);
 
-    const fetchData = async (currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted) => {
+    const fetchData = async (
+        currentPage,
+        recordsPerPage,
+        search,
+        sort,
+        isApproved,
+        isHidden,
+        isDeleted,
+        selectedType,
+    ) => {
         setLoading(true);
         try {
             const data = await getJobPostsByRecruiter(
@@ -50,6 +59,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                 isApproved,
                 isHidden,
                 isDeleted,
+                selectedType,
             );
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -65,8 +75,8 @@ const PostedJobsGridView = ({ onViewApplications }) => {
     };
 
     useEffect(() => {
-        fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted);
-    }, [flag, currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted]);
+        fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType);
+    }, [flag, currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType]);
 
     const handleChangeTab = async (event, newValue) => {
         setSearch("");
@@ -105,10 +115,6 @@ const PostedJobsGridView = ({ onViewApplications }) => {
         setCurrentPage(1);
         setRecordsPerPage(value);
     };
-
-    useEffect(() => {
-        console.log("Loại hợp đồng đã chọn:", selectedType);
-    }, [selectedType]);
 
     // Mở modal Edit
     const handleEditPostClick = (postId) => {
@@ -165,7 +171,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         onChange={(e) => setSelectedType(e.target.value)}
                         label="Loại hợp đồng"
                     >
-                        <MenuItem value="Tất cả">Tất cả</MenuItem>
+                        <MenuItem value="">Tất cả</MenuItem>
                         <MenuItem value="Bán thời gian">Bán thời gian</MenuItem>
                         <MenuItem value="Toàn thời gian">Toàn thời gian</MenuItem>
                     </Select>

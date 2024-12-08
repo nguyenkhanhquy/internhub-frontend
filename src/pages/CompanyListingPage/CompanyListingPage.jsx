@@ -29,7 +29,7 @@ const CompanyListingPage = () => {
         const fetchCompanies = async () => {
             try {
                 setLoading(true);
-                const data = await getAllApprovedCompanies(currentPage);
+                const data = await getAllApprovedCompanies(currentPage, 6);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }

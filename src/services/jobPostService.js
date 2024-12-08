@@ -33,7 +33,7 @@ export const getJobPostById = async (jobPostId) => {
     return axiosClient.get(JOBS_API.GET_BY_ID + jobPostId);
 };
 
-export const getJobPostsByRecruiter = async (page, size, search, order, isApproved, isHidden, isDeleted) => {
+export const getJobPostsByRecruiter = async (page, size, search, order, isApproved, isHidden, isDeleted, type) => {
     return axiosClient.get(JOBS_API.GET_ALL_BY_RECRUITER, {
         params: {
             page: page,
@@ -43,6 +43,7 @@ export const getJobPostsByRecruiter = async (page, size, search, order, isApprov
             isApproved: isApproved,
             isHidden: isHidden,
             isDeleted: isDeleted,
+            type: type,
         },
     });
 };
