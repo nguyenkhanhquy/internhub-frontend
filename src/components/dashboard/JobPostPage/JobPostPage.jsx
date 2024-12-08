@@ -128,10 +128,14 @@ const JobPostPage = () => {
                     Bài đăng tuyển dụng
                 </Typography>
                 <Button
-                    onClick={() => {
-                        setSearch("");
-                        setCurrentPage(1);
-                        setRecordsPerPage(10);
+                    onClick={async () => {
+                        if (search === "" && currentPage === 1 && recordsPerPage === 10) {
+                            fetchData();
+                        } else {
+                            setSearch("");
+                            setCurrentPage(1);
+                            setRecordsPerPage(10);
+                        }
                     }}
                     variant="contained"
                     color="primary"

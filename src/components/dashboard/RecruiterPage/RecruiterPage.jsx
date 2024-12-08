@@ -98,9 +98,13 @@ const RecruiterPage = () => {
                 </Typography>
                 <Button
                     onClick={() => {
-                        setSearch("");
-                        setCurrentPage(1);
-                        setRecordsPerPage(10);
+                        if (search === "" && currentPage === 1 && recordsPerPage === 10) {
+                            fetchData();
+                        } else {
+                            setSearch("");
+                            setCurrentPage(1);
+                            setRecordsPerPage(10);
+                        }
                     }}
                     variant="contained"
                     color="primary"

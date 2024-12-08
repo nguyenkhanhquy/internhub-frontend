@@ -22,10 +22,10 @@ const formatRelativeTime = (createdDate) => {
 const sampleNotifications = [
     {
         id: 1,
-        title: "Hệ thống sẽ được bảo trì vào tối nay từ 22:00 đến 24:00",
-        content: "Hệ thống sẽ được bảo trì vào tối nay từ 22:00 đến 24:00.",
-        createdDate: "2024-12-06T08:00:00",
-        isRead: false,
+        title: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt",
+        content: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt.",
+        createdDate: "2024-12-05T14:00:00",
+        isRead: true,
     },
     {
         id: 2,

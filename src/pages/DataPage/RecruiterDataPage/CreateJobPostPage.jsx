@@ -5,7 +5,7 @@ import CreateJobPostForm from "../../../components/forms/CreateJobPostForm/Creat
 
 const CreateJobPostPage = () => {
     return (
-        <MainLayout title="Thêm bài đăng">
+        <MainLayout title="Tạo bài đăng">
             <PageNavigation pageName="Nhà tuyển dụng" />
             <RecruiterDataLayout>
                 <div className="max-w-5xl rounded-lg shadow-lg">
