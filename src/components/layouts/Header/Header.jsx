@@ -203,7 +203,6 @@ const Header = () => {
                             <MenuItem
                                 onClick={() => {
                                     handleClose();
-                                    window.open("https://www.google.com", "_blank");
                                 }}
                             >
                                 <SchoolIcon sx={{ marginRight: 1 }} />
@@ -212,7 +211,6 @@ const Header = () => {
                             <MenuItem
                                 onClick={() => {
                                     handleClose();
-                                    window.open("https://www.google.com", "_blank");
                                 }}
                             >
                                 <PersonSearchIcon sx={{ marginRight: 1 }} />

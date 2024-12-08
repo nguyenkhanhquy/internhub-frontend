@@ -5,8 +5,14 @@ export const getOverview = async () => {
     return axiosClient.get(ADMIN_API.GET_OVERVIEW);
 };
 
-export const getAllJobPosts = async () => {
-    return axiosClient.get(ADMIN_API.GET_ALL_JOB_POSTS);
+export const getAllJobPosts = async (page, size, search) => {
+    return axiosClient.get(ADMIN_API.GET_ALL_JOB_POSTS, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+        },
+    });
 };
 
 export const approveJobPost = async (id) => {

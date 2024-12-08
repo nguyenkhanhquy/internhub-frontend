@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
@@ -43,20 +44,22 @@ const JobPostPage = () => {
         setRecordsPerPage(value);
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getAllJobPosts();
+            const data = await getAllJobPosts(currentPage, recordsPerPage, search);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
             setJobPosts(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, recordsPerPage, search]);
 
     const handleViewDetails = (post) => {
         setSelectedJobPost(post);
@@ -105,7 +108,7 @@ const JobPostPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
@@ -124,14 +127,22 @@ const JobPostPage = () => {
                 >
                     Bài đăng tuyển dụng
                 </Typography>
-                <Button onClick={fetchData} variant="contained" color="primary">
+                <Button
+                    onClick={() => {
+                        setSearch("");
+                        setCurrentPage(1);
+                        setRecordsPerPage(10);
+                    }}
+                    variant="contained"
+                    color="primary"
+                >
                     Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
             <div className="sticky top-2 z-10 mb-4">
                 <DashboardSearchBar
                     onSearch={(searchText) => {
-                        // setCurrentPage(1);
+                        setCurrentPage(1);
                         setSearch(searchText);
                     }}
                     query={search}
@@ -165,8 +176,8 @@ const JobPostPage = () => {
                             </TableRow>
                         ) : (
                             jobPosts.map((jobPost, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
+                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                     <TableCell>{jobPost.title}</TableCell>
                                     <TableCell>{jobPost.company.name}</TableCell>
                                     <TableCell>{jobPost.updatedDate}</TableCell>
