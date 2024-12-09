@@ -60,3 +60,13 @@ export const getAllStudents = async (page, size, search) => {
         },
     });
 };
+
+export const getAllTeachers = async (page, size, search) => {
+    return axiosClient.get(ADMIN_API.GET_ALL_TEACHERS, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+        },
+    });
+};

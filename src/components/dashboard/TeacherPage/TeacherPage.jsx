@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -21,7 +21,8 @@ import UpdateTeacherModal from "../../modals/UpdateTeacherModal/UpdateTeacherMod
 import DashboardSearchBar from "../../search/DashboardSearchBar";
 import CustomPagination from "../../pagination/Pagination";
 
-import { getAllTeachers, importTeachers, deleteTeacher } from "../../../services/teacherService";
+import { importTeachers, deleteTeacher } from "../../../services/teacherService";
+import { getAllTeachers } from "../../../services/adminService";
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
@@ -46,20 +47,22 @@ const TeacherPage = () => {
         setRecordsPerPage(value);
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getAllTeachers();
+            const data = await getAllTeachers(currentPage, recordsPerPage, search);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
             setTeachers(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, recordsPerPage, search]);
 
     const handleOpenModal = (teacher) => {
         setSelectedTeacher(teacher);
@@ -86,7 +89,7 @@ const TeacherPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, [flag]);
+    }, [fetchData, flag]);
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -134,7 +137,19 @@ const TeacherPage = () => {
                     <Button disabled={!file} variant="contained" onClick={handleUpload}>
                         + Import danh sách giảng viên
                     </Button>
-                    <Button onClick={fetchData} variant="contained" color="primary">
+                    <Button
+                        onClick={() => {
+                            if (search === "" && currentPage === 1 && recordsPerPage === 10) {
+                                fetchData();
+                            } else {
+                                setSearch("");
+                                setCurrentPage(1);
+                                setRecordsPerPage(10);
+                            }
+                        }}
+                        variant="contained"
+                        color="primary"
+                    >
                         Làm mới <CachedIcon className="ml-2" fontSize="small" />
                     </Button>
                 </Box>
@@ -176,8 +191,8 @@ const TeacherPage = () => {
                             </TableRow>
                         ) : (
                             teachers.map((teacher, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
+                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                     <TableCell>{teacher.name}</TableCell>
                                     <TableCell>{teacher.email}</TableCell>
                                     <TableCell>
