@@ -50,3 +50,13 @@ export const approveInternshipReport = async (id) => {
 export const rejectInternshipReport = async (id) => {
     return axiosClient.post(ADMIN_API.REJECT_INTERNSHIP_REPORT + id);
 };
+
+export const getAllStudents = async (page, size, search) => {
+    return axiosClient.get(ADMIN_API.GET_ALL_STUDENTS, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+        },
+    });
+};

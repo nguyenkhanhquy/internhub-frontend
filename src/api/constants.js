@@ -18,6 +18,8 @@ export const ADMIN_API = {
     GET_ALL_INTERNSHIP_REPORTS: "/admin/internship-reports",
     APPROVE_INTERNSHIP_REPORT: "/admin/internship-reports/approve/",
     REJECT_INTERNSHIP_REPORT: "/admin/internship-reports/reject/",
+
+    GET_ALL_STUDENTS: "/admin/students",
 };
 
 export const USERS_API = {

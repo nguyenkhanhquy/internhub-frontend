@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -20,7 +20,8 @@ import StudentDetailsModal from "../../modals/StudentDetailsModal/StudentDetails
 import DashboardSearchBar from "../../search/DashboardSearchBar";
 import CustomPagination from "../../pagination/Pagination";
 
-import { getAllStudents } from "../../../services/studentService";
+// import { getAllStudents } from "../../../services/studentService";
+import { getAllStudents } from "../../../services/adminService";
 
 // const majorLabels = {
 //     IT: "Công nghệ thông tin",
@@ -61,20 +62,22 @@ const StudentPage = () => {
         setRecordsPerPage(value);
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getAllStudents();
+            const data = await getAllStudents(currentPage, recordsPerPage, search);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
             setStudents(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, recordsPerPage, search]);
 
     const handleViewDetails = (student) => {
         setSelectedStudent(student);
@@ -83,7 +86,7 @@ const StudentPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
@@ -106,7 +109,19 @@ const StudentPage = () => {
                     {/* <Button variant="contained" color="primary">
                         + Import danh sách sinh viên
                     </Button> */}
-                    <Button onClick={fetchData} variant="contained" color="primary">
+                    <Button
+                        onClick={() => {
+                            if (search === "" && currentPage === 1 && recordsPerPage === 10) {
+                                fetchData();
+                            } else {
+                                setSearch("");
+                                setCurrentPage(1);
+                                setRecordsPerPage(10);
+                            }
+                        }}
+                        variant="contained"
+                        color="primary"
+                    >
                         Làm mới <CachedIcon className="ml-2" fontSize="small" />
                     </Button>
                 </Box>
@@ -150,8 +165,8 @@ const StudentPage = () => {
                             </TableRow>
                         ) : (
                             students.map((student, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
+                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                     <TableCell>{student.name}</TableCell>
                                     <TableCell>{student.studentId}</TableCell>
                                     <TableCell>{internLabels[student.internStatus] || student.internStatus}</TableCell>
