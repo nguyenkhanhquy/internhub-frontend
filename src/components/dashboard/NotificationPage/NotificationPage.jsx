@@ -1,5 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { Box, Typography, List, Button, Divider, Card, CardContent, Paper } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+
+import EmptyBox from "../../box/EmptyBox";
+
+import { getAllNotificationsByUser, markNotificationAsRead } from "../../../services/notificationService";
 
 // Hàm định dạng thời gian tương đối
 const formatRelativeTime = (createdDate) => {
@@ -18,80 +24,45 @@ const formatRelativeTime = (createdDate) => {
     }
 };
 
-// Dữ liệu mẫu thông báo
-const sampleNotifications = [
-    {
-        id: 1,
-        title: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt",
-        content: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt.",
-        createdDate: "2024-12-05T14:00:00",
-        isRead: true,
-    },
-    {
-        id: 2,
-        title: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt",
-        content: "Có hồ sơ doanh nghiệp mới đăng ký đang chờ duyệt.",
-        createdDate: "2024-12-05T14:00:00",
-        isRead: true,
-    },
-    {
-        id: 3,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 4,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 5,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 6,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 7,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 8,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-    {
-        id: 9,
-        title: "Có bài đăng tuyển dụng mới đang chờ duyệt",
-        content: "Có bài đăng tuyển dụng mới đang chờ duyệt sẽ bắt đầu từ ngày 10/12/2024.",
-        createdDate: "2024-12-04T09:30:00",
-        isRead: false,
-    },
-];
-
 const NotificationPage = () => {
-    const [notifications, setNotifications] = useState(sampleNotifications);
+    const [notifications, setNotifications] = useState([]);
     const [selectedNotification, setSelectedNotification] = useState(null);
 
+    const fetchNotifications = async () => {
+        const data = await getAllNotificationsByUser();
+
+        const sortedNotifications = data.result.sort((a, b) => {
+            if (a.read === b.read) {
+                return new Date(b.createdDate) - new Date(a.createdDate);
+            }
+            return a.read ? 1 : -1;
+        });
+
+        setNotifications(sortedNotifications);
+    };
+
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
+
     // Xử lý khi chọn thông báo
-    const handleNotificationClick = (notification) => {
-        setNotifications((prev) => prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n)));
+    const handleNotificationClick = async (notification) => {
+        if (!notification.read) {
+            await markNotificationAsRead(notification.id);
+
+            const updatedNotifications = notifications.map((n) =>
+                n.id === notification.id ? { ...n, read: true } : n,
+            );
+
+            const sortedNotifications = updatedNotifications.sort((a, b) => {
+                if (a.read === b.read) {
+                    return new Date(b.createdDate) - new Date(a.createdDate);
+                }
+                return a.read ? 1 : -1;
+            });
+
+            setNotifications(sortedNotifications);
+        }
         setSelectedNotification(notification);
     };
 
@@ -102,70 +73,80 @@ const NotificationPage = () => {
 
     return (
         <Box sx={{ p: 4 }}>
-            {/* Tiêu đề */}
-            <Typography
-                variant="h5"
-                gutterBottom
-                color="primary"
-                sx={{
-                    fontWeight: "bold",
-                    fontSize: "2rem",
-                    color: "linear-gradient(to right, #1976d2, #42a5f5)", // Gradient màu xanh
-                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", // Bóng chữ
-                    letterSpacing: "0.05em", // Khoảng cách chữ nhẹ
-                }}
-            >
-                Thông báo
-            </Typography>
-            <Divider />
+            <div className="flex items-center justify-between">
+                {/* Tiêu đề */}
+                <Typography
+                    variant="h5"
+                    gutterBottom
+                    color="primary"
+                    sx={{
+                        fontWeight: "bold",
+                        fontSize: "2rem",
+                        color: "linear-gradient(to right, #1976d2, #42a5f5)", // Gradient màu xanh
+                        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", // Bóng chữ
+                        letterSpacing: "0.05em", // Khoảng cách chữ nhẹ
+                    }}
+                >
+                    Thông báo
+                </Typography>
+                <Button onClick={fetchNotifications} variant="contained" color="primary">
+                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                </Button>
+            </div>
+            {/* <Divider /> */}
             {/* Danh sách thông báo */}
             {selectedNotification === null ? (
                 <Paper sx={{ p: 2, mb: 2 }}>
-                    <List>
-                        {notifications.map((notification) => (
-                            <Box key={notification.id}>
-                                <Card
-                                    onClick={() => handleNotificationClick(notification)}
-                                    sx={{
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                        backgroundColor: notification.isRead ? "white" : "#e3f2fd",
-                                        "&:hover": {
-                                            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                                            backgroundColor: notification.isRead ? "#f5f5f5" : "#bbdefb",
-                                        },
-                                    }}
-                                >
-                                    <CardContent>
-                                        {/* Sử dụng Flexbox để căn tiêu đề và thời gian */}
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <Typography
-                                                variant="body1"
+                    {notifications.length === 0 ? (
+                        <EmptyBox />
+                    ) : (
+                        <List>
+                            {notifications.map((notification) => (
+                                <Box key={notification.id}>
+                                    <Card
+                                        onClick={() => handleNotificationClick(notification)}
+                                        sx={{
+                                            marginBottom: 0.5,
+                                            cursor: "pointer",
+                                            transition: "all 0.3s ease",
+                                            backgroundColor: notification.read ? "white" : "#e3f2fd",
+                                            "&:hover": {
+                                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                                                backgroundColor: notification.read ? "#f5f5f5" : "#bbdefb",
+                                            },
+                                        }}
+                                    >
+                                        <CardContent>
+                                            {/* Sử dụng Flexbox để căn tiêu đề và thời gian */}
+                                            <Box
                                                 sx={{
-                                                    fontWeight: notification.isRead ? "normal" : "bold",
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    alignItems: "center",
                                                 }}
                                             >
-                                                {notification.title}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
-                                            >
-                                                {formatRelativeTime(notification.createdDate)}
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                                <Divider />
-                            </Box>
-                        ))}
-                    </List>
+                                                <Typography
+                                                    variant="body1"
+                                                    sx={{
+                                                        fontWeight: notification.read ? "normal" : "bold",
+                                                    }}
+                                                >
+                                                    {notification.title}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
+                                                >
+                                                    {formatRelativeTime(notification.createdDate)}
+                                                </Typography>
+                                            </Box>
+                                        </CardContent>
+                                    </Card>
+                                    {/* <Divider /> */}
+                                </Box>
+                            ))}
+                        </List>
+                    )}
                 </Paper>
             ) : (
                 // Chi tiết thông báo
