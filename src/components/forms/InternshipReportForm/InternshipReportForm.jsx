@@ -221,7 +221,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             <Controller
                                 name="isSystemCompany"
                                 control={control}
-                                defaultValue={false}
+                                defaultValue={true}
                                 render={({ field }) => (
                                     <FormControlLabel
                                         control={
