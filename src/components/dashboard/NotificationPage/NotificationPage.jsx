@@ -47,6 +47,7 @@ const NotificationPage = () => {
 
     // Xử lý khi chọn thông báo
     const handleNotificationClick = async (notification) => {
+        setSelectedNotification(notification);
         if (!notification.read) {
             await markNotificationAsRead(notification.id);
 
@@ -63,7 +64,6 @@ const NotificationPage = () => {
 
             setNotifications(sortedNotifications);
         }
-        setSelectedNotification(notification);
     };
 
     // Xử lý quay lại danh sách thông báo

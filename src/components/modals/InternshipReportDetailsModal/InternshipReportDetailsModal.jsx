@@ -104,7 +104,8 @@ const InternshipReportDetailsModal = ({ open, onClose, report, onDownloadFile })
                                 <strong>Giảng viên hướng dẫn:</strong> {report?.teacherName || "N/A"}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>Công ty thực tập:</strong> {report?.companyName || "N/A"}
+                                <strong>Công ty thực tập:</strong> {report?.companyName || "N/A"}{" "}
+                                {report?.systemCompany ? " - (Hệ thống)" : " - (Ngoài hệ thống)"}
                             </Typography>
                             <Typography variant="body1">
                                 <strong>Người hướng dẫn:</strong> {report?.instructorName || "N/A"}
