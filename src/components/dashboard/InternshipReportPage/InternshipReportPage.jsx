@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -52,20 +52,22 @@ const InternshipReportPage = () => {
         setRecordsPerPage(value);
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await getAllInternshipReports();
+            const data = await getAllInternshipReports(currentPage, recordsPerPage, search);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
             setInternshipReports(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    };
+    }, [currentPage, recordsPerPage, search]);
 
     const handleViewDetails = (report) => {
         setSelectedReport(report);
@@ -100,7 +102,7 @@ const InternshipReportPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
@@ -119,7 +121,19 @@ const InternshipReportPage = () => {
                 >
                     Báo cáo thực tập
                 </Typography>
-                <Button onClick={fetchData} variant="contained" color="primary">
+                <Button
+                    onClick={() => {
+                        if (search === "" && currentPage === 1 && recordsPerPage === 10) {
+                            fetchData();
+                        } else {
+                            setSearch("");
+                            setCurrentPage(1);
+                            setRecordsPerPage(10);
+                        }
+                    }}
+                    variant="contained"
+                    color="primary"
+                >
                     Làm mới <CachedIcon className="ml-2" fontSize="small" />
                 </Button>
             </div>
@@ -162,8 +176,8 @@ const InternshipReportPage = () => {
                             </TableRow>
                         ) : (
                             internshipReports.map((report, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
+                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
                                     <TableCell>{report.student.studentId}</TableCell>
                                     <TableCell>{report.student.name}</TableCell>
                                     <TableCell>{report.companyName}</TableCell>
