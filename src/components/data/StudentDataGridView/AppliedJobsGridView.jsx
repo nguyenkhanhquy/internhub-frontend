@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
 import AppliedJobsTable from "./StudentDataTable/AppliedJobsTable";
@@ -64,7 +65,35 @@ const AppliedJobsGridView = () => {
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
             actions={
-                <DataSearchBar placeholder="Tìm kiếm" onSearch={(searchText) => setSearch(searchText)} query={search} />
+                <>
+                    <DataSearchBar
+                        placeholder="Tìm kiếm"
+                        onSearch={(searchText) => setSearch(searchText)}
+                        query={search}
+                    />
+                    <Button
+                        variant="contained"
+                        endIcon={<CachedIcon />}
+                        onClick={() => setFlag((prev) => !prev)}
+                        sx={{
+                            padding: "5px 10px",
+                            width: "50%",
+                            minWidth: 130,
+                            borderRadius: 2,
+                            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                            bgcolor: "#2e3090",
+                            color: "white",
+                            "&:hover": {
+                                bgcolor: "#1f2061",
+                            },
+                            "&:active": {
+                                boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                            },
+                        }}
+                    >
+                        Làm mới
+                    </Button>
+                </>
             }
         >
             <Box>

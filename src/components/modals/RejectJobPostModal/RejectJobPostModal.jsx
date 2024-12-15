@@ -42,7 +42,6 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
             alert("Vui lòng chọn hoặc nhập lý do từ chối!");
             return;
         }
-        // console.log("Lý do từ chối:", reasonToSubmit);
         onConfirm(reasonToSubmit);
         onClose();
     };
