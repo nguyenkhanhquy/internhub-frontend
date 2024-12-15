@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { toast } from "react-toastify";
@@ -177,7 +178,36 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                     </Select>
                 </FormControl>
 
-                <DataSearchBar placeholder="Tìm kiếm" onSearch={(searchText) => setSearch(searchText)} query={search} />
+                <Box sx={{ display: "flex", gap: 2 }}>
+                    <DataSearchBar
+                        placeholder="Tìm kiếm"
+                        onSearch={(searchText) => setSearch(searchText)}
+                        query={search}
+                    />
+
+                    <Button
+                        variant="contained"
+                        endIcon={<CachedIcon />}
+                        onClick={() => setFlag((prev) => !prev)}
+                        sx={{
+                            padding: "5px 10px",
+                            width: "50%",
+                            minWidth: 130,
+                            borderRadius: 2,
+                            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                            bgcolor: "#2e3090",
+                            color: "white",
+                            "&:hover": {
+                                bgcolor: "#1f2061",
+                            },
+                            "&:active": {
+                                boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                            },
+                        }}
+                    >
+                        Làm mới
+                    </Button>
+                </Box>
             </Box>
 
             <SortBar
