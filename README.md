@@ -45,9 +45,7 @@ Internhub is a platform that connects students with companies for internships. T
     npm run dev
     ```
 
-6. Open your browser and navigate to:
-
-    [http://localhost:3000](http://localhost:3000)
+6. Open your browser and navigate to `http://localhost:3000`
 
 7. Stop the project:
 
