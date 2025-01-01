@@ -4,6 +4,8 @@ export const AUTH_API = {
     REFRESH: "/auth/refresh",
     ME: "/auth/me",
     PROFILE: "/auth/profile",
+
+    GOOGLE: "/auth/outbound/authentication",
 };
 
 export const ADMIN_API = {

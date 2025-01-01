@@ -27,3 +27,11 @@ export const getAuthUser = async () => {
 export const getAuthProfile = async () => {
     return axiosClient.get(AUTH_API.PROFILE);
 };
+
+export const loginWithGoogle = async (code) => {
+    return axiosClient.get(AUTH_API.GOOGLE, {
+        params: {
+            code: code,
+        },
+    });
+};
