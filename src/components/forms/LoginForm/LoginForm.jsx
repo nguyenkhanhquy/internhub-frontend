@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { login, getAuthUser, getAuthProfile } from "../../../services/authService";
+import { login, getAuthUser, getAuthProfile, loginWithGoogle } from "../../../services/authService";
 import { setToken, setRememberMe, getRememberMe, removeRememberMe } from "../../../services/localStorageService";
 import useAuth from "../../../hooks/useAuth";
+import { OAuthConfig } from "../../../config/config";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -108,6 +109,72 @@ function LoginForm() {
         }
     };
 
+    const handleClickGoogle = () => {
+        const callbackUrl = OAuthConfig.redirectUri;
+        const authUrl = OAuthConfig.authUri;
+        const googleClientId = OAuthConfig.clientId;
+
+        const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+            callbackUrl,
+        )}&response_type=code&client_id=${googleClientId}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline`;
+
+        window.location.href = targetUrl;
+    };
+
+    const hasFetchAuthCode = useRef(false);
+
+    useEffect(() => {
+        const fetchAuthCode = async (authCode) => {
+            try {
+                const data = await loginWithGoogle(authCode);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setToken(data.result?.accessToken);
+
+                const dataUser = await getAuthUser();
+                if (!dataUser.success) {
+                    throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setUser(dataUser.result);
+
+                if (dataUser.result.role !== "FIT") {
+                    const dataProfile = await getAuthProfile();
+                    if (!dataProfile.success) {
+                        throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    }
+                    setUser((prevUser) => ({
+                        ...prevUser,
+                        name: dataProfile.result?.name,
+                        approved: dataProfile.result?.approved ?? true,
+                        logo: dataProfile.result?.company?.logo,
+                    }));
+                }
+
+                setIsAuthenticated(true);
+
+                navigate("/");
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        const authCodeRegex = /code=([^&]+)/;
+        const isMatch = window.location.href.match(authCodeRegex);
+
+        if (isMatch) {
+            // Giải mã URL để tránh lỗi mã hóa hai lần
+            const authCode = decodeURIComponent(isMatch[1]);
+
+            if (!hasFetchAuthCode.current) {
+                fetchAuthCode(authCode);
+                hasFetchAuthCode.current = true;
+            } else {
+                hasFetchAuthCode.current = false;
+            }
+        }
+    }, [navigate, setUser, setIsAuthenticated]);
+
     return (
         <>
             <div className={styles.container}>
@@ -174,6 +241,10 @@ function LoginForm() {
                             Bạn chưa kích hoạt tài khoản? <a onClick={handleOpenActivate}>Kích hoạt ngay</a>
                         </div>
                     </form>
+                </div>
+
+                <div className="mb-3">
+                    <button onClick={handleClickGoogle}>Đăng nhập với Google</button>
                 </div>
 
                 {/* Modal "Quên mật khẩu" */}
