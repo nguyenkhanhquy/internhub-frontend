@@ -10,7 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-react": "^9.4.0",
+        "@ckeditor/ckeditor5-react": "^9.5.0",
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.0",
         "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -44,7 +44,7 @@
         "eslint-plugin-react-refresh": "^0.4.19",
         "globals": "^15.15.0",
         "postcss": "^8.5.2",
-        "prettier": "^3.5.0",
+        "prettier": "^3.5.1",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "tailwindcss": "^4.0.6",
         "vite": "^6.1.0"
