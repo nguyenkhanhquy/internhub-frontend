@@ -19,9 +19,9 @@
         "@mui/icons-material": "^6.4.7",
         "@mui/material": "^6.4.7",
         "@stomp/stompjs": "^7.0.1",
-        "@tailwindcss/postcss": "^4.0.12",
-        "@toolpad/core": "^0.12.1",
-        "axios": "^1.8.2",
+        "@tailwindcss/postcss": "^4.0.14",
+        "@toolpad/core": "^0.13.0",
+        "axios": "^1.8.3",
         "ckeditor5": "^44.3.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -46,7 +46,7 @@
         "postcss": "^8.5.3",
         "prettier": "^3.5.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
-        "tailwindcss": "^4.0.12",
+        "tailwindcss": "^4.0.14",
         "vite": "^6.2.1"
     }
 }
