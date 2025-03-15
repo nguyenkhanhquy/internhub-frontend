@@ -4,7 +4,7 @@ Internhub is a platform that connects students with companies for internships. T
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/en/download/package-manager) v22.12.0 (LTS) or later
+- [Node.js](https://nodejs.org/en/download) v22.14.0 (LTS) or later
 
 ## Installation
 
@@ -31,6 +31,9 @@ Internhub is a platform that connects students with companies for internships. T
 
     ```plaintext
    VITE_BACKEND_URL= # Your backend URL (e.g. http://localhost:8080/api/v1)
+   VITE_GOOGLE_CLIENT_ID=
+   VITE_GOOGLE_REDIRECT_URI=
+   VITE_GOOGLE_AUTH_URI=
    ```
 
 4. Install dependencies:
@@ -45,7 +48,7 @@ Internhub is a platform that connects students with companies for internships. T
     npm run dev
     ```
 
-6. Open your browser and navigate to `http://localhost:3000`
+6. Open `http://localhost:3000` with your browser to see the result.
 
 7. Stop the project:
 
