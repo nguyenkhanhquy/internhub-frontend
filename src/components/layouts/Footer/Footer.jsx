@@ -71,7 +71,7 @@ const Footer = () => {
             {/* Thanh ngang và dòng cuối */}
             <Divider sx={{ my: 2 }} />
             <Typography variant="body2" color="text.secondary">
-                © 2024 FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
+                © {new Date().getFullYear()} FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
                 <Link href="https://github.com/nguyenkhanhquy" target="_blank" rel="noopener">
                     Nguyễn Khánh Quy
                 </Link>{" "}
