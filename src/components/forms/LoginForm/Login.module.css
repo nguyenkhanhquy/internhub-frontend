@@ -24,8 +24,8 @@
 
 .loginContainer {
     display: flex;
-    margin: 30px auto;
-    height: 40vh;
+    margin: 24px auto;
+    height: 50vh;
     justify-content: center;
     background-color: #fff;
 }
@@ -58,7 +58,7 @@
 
 .formGroup input:focus,
 .formGroup select:focus {
-    border: 1px solid #007bff; /* Màu xanh cho viền khi focus */
+    border: 1px solid #0d47a1; /* Màu xanh cho viền khi focus */
     outline: none; /* Bỏ viền mặc định */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Tùy chọn thêm bóng để nổi bật hơn */
 }
@@ -140,8 +140,8 @@
 }
 
 .rememberMeContainer input[type="checkbox"]:checked {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #0d47a1;
+    border-color: #0d47a1;
 }
 
 .rememberMeContainer input[type="checkbox"]:checked::after {
@@ -157,7 +157,7 @@
 }
 
 .rememberMeContainer input[type="checkbox"]:hover {
-    border-color: #007bff;
+    border-color: #0d47a1;
 }
 
 .rememberMeContainer label {
@@ -177,7 +177,7 @@
 
 .forgotPassword,
 .activateAccount a {
-    color: #007bff;
+    color: #1976d2;
     text-decoration: none;
 }
 
@@ -206,6 +206,26 @@
 
 .container button:hover {
     background-color: #2c3162;
+}
+
+.googleLogin {
+    margin-top: 16px;
+}
+
+.googleLogin button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: solid 2px #0d47a1;
+    background-color: white;
+    color: #0d47a1;
+}
+
+.googleLogin button:hover {
+    border: solid 2px #1976d2;
+    background-color: #fafafa;
+    color: #1976d2;
 }
 
 .errors {

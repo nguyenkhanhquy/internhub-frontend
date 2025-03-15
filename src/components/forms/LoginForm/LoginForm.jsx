@@ -13,6 +13,7 @@ import * as yup from "yup";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import logoGoogle from "/google.svg";
 import Loading from "../../loaders/Loading/Loading";
 import ForgotPasswordModal from "../../modals/ForgotPasswordModal/ForgotPasswordModal";
 import ActivateAccountModal from "../../modals/ActivateAccountModal/ActivateAccountModal";
@@ -240,11 +241,14 @@ function LoginForm() {
                         <div className={styles.activateAccount}>
                             Bạn chưa kích hoạt tài khoản? <a onClick={handleOpenActivate}>Kích hoạt ngay</a>
                         </div>
-                    </form>
-                </div>
 
-                <div className="mb-3">
-                    <button onClick={handleClickGoogle}>Đăng nhập với Google</button>
+                        <div className={styles.googleLogin}>
+                            <button type="button" onClick={handleClickGoogle}>
+                                <img src={logoGoogle} alt="Google" width={20} height={20} />
+                                &nbsp;Đăng nhập với Google
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 {/* Modal "Quên mật khẩu" */}
