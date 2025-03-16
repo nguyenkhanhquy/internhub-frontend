@@ -1,5 +1,5 @@
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import StudentRegisterForm from "../../components/forms/RegisterForm/Student/StudentRegisterForm";
+import MainLayout from "@layouts/MainLayout";
+import StudentRegisterForm from "@components/forms/RegisterForm/Student";
 
 const StudentRegisterPage = () => {
     return (

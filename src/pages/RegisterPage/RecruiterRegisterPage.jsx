@@ -1,5 +1,5 @@
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import RecruiterRegisterForm from "../../components/forms/RegisterForm/Recruiter/RecruiterRegisterForm";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import RecruiterRegisterForm from "@components/forms/RegisterForm/Recruiter";
 
 const RecruiterRegisterPage = () => {
     return (
