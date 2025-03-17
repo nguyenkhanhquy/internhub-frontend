@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import logoGoogle from "/google.svg";
 import Loading from "../../loaders/Loading/Loading";
+import LoadingOverlay from "../../loaders/LoadingOverlay/LoadingOverlay";
 import ForgotPasswordModal from "../../modals/ForgotPasswordModal/ForgotPasswordModal";
 import ActivateAccountModal from "../../modals/ActivateAccountModal/ActivateAccountModal";
 
@@ -126,6 +127,7 @@ function LoginForm() {
 
     useEffect(() => {
         const fetchAuthCode = async (authCode) => {
+            setLoading(true);
             try {
                 const data = await loginWithGoogle(authCode);
                 if (!data.success) {
@@ -157,6 +159,8 @@ function LoginForm() {
                 navigate("/");
             } catch (error) {
                 toast.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -257,6 +261,7 @@ function LoginForm() {
                 {/* Modal "Kích hoạt tài khoản" */}
                 <ActivateAccountModal open={openActivate} handleClose={handleCloseActivate} />
             </div>
+            <LoadingOverlay open={loading} />
         </>
     );
 }

@@ -65,12 +65,14 @@ const AppliedJobsGridView = () => {
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
             actions={
-                <>
+                <Box sx={{ display: "flex", gap: 2 }}>
                     <DataSearchBar
                         placeholder="Tìm kiếm"
                         onSearch={(searchText) => setSearch(searchText)}
                         query={search}
                     />
+
+                    {/* Nút Làm mới */}
                     <Button
                         variant="contained"
                         endIcon={<CachedIcon />}
@@ -93,7 +95,7 @@ const AppliedJobsGridView = () => {
                     >
                         Làm mới
                     </Button>
-                </>
+                </Box>
             }
         >
             <Box>
