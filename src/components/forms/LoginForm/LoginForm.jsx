@@ -1,24 +1,36 @@
+// React & Hooks
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { login, getAuthUser, getAuthProfile, loginWithGoogle } from "../../../services/authService";
-import { setToken, setRememberMe, getRememberMe, removeRememberMe } from "../../../services/localStorageService";
-import useAuth from "../../../hooks/useAuth";
-import { OAuthConfig } from "../../../config/config";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+// External Libraries
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import logoGoogle from "/google.svg";
-import Loading from "../../loaders/Loading/Loading";
-import LoadingOverlay from "../../loaders/LoadingOverlay/LoadingOverlay";
-import ForgotPasswordModal from "../../modals/ForgotPasswordModal/ForgotPasswordModal";
-import ActivateAccountModal from "../../modals/ActivateAccountModal/ActivateAccountModal";
 
+// Services
+import { login, getAuthUser, getAuthProfile, loginWithGoogle } from "@services/authService";
+import { setToken, setRememberMe, getRememberMe, removeRememberMe } from "@services/localStorageService";
+
+// Hooks
+import useAuth from "@hooks/useAuth";
+
+// Configs
+import { OAuthConfig } from "@config/config";
+
+// Assets
+import logoGoogle from "/google.svg";
+
+// Components
+import Loading from "@components/loaders/Loading/Loading";
+import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
+import ForgotPasswordModal from "@components/modals/ForgotPasswordModal/ForgotPasswordModal";
+import ActivateAccountModal from "@components/modals/ActivateAccountModal/ActivateAccountModal";
+
+// Styles
 import styles from "./Login.module.css";
 
 const regexEmail =
@@ -127,6 +139,9 @@ function LoginForm() {
 
     useEffect(() => {
         const fetchAuthCode = async (authCode) => {
+            if (!authCode || hasFetchAuthCode.current) return; // Ngăn gọi API lặp lại khi đã lấy authCode
+            hasFetchAuthCode.current = true; // Đặt ngay khi bắt đầu để tránh gọi lại
+
             setLoading(true);
             try {
                 const data = await loginWithGoogle(authCode);
@@ -159,6 +174,7 @@ function LoginForm() {
                 navigate("/");
             } catch (error) {
                 toast.error(error.message);
+                hasFetchAuthCode.current = false; // Đặt lại để có thể thử lại
             } finally {
                 setLoading(false);
             }
@@ -168,15 +184,10 @@ function LoginForm() {
         const isMatch = window.location.href.match(authCodeRegex);
 
         if (isMatch) {
-            // Giải mã URL để tránh lỗi mã hóa hai lần
-            const authCode = decodeURIComponent(isMatch[1]);
-
-            if (!hasFetchAuthCode.current) {
-                fetchAuthCode(authCode);
-                hasFetchAuthCode.current = true;
-            } else {
-                hasFetchAuthCode.current = false;
-            }
+            // Kiểm tra xem mã có chứa ký tự `%` không trước khi decode
+            // Nếu có thì giải mã để tránh lỗi mã hóa hai lần
+            const authCode = isMatch[1].includes("%") ? decodeURIComponent(isMatch[1]) : isMatch[1];
+            fetchAuthCode(authCode);
         }
     }, [navigate, setUser, setIsAuthenticated]);
 
