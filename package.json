@@ -21,7 +21,7 @@
         "@stomp/stompjs": "^7.0.1",
         "@tailwindcss/postcss": "^4.0.14",
         "@toolpad/core": "^0.13.0",
-        "axios": "^1.8.3",
+        "axios": "^1.8.4",
         "ckeditor5": "^44.3.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
