@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getToken } from "../services/localStorageService";
 import { getAuthUser, getAuthProfile } from "../services/authService";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "@context/AuthContext";
 import useWebSocket from "../hooks/useWebSocket";
 
 const AuthProvider = ({ children }) => {
