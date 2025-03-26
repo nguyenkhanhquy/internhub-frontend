@@ -1,35 +1,54 @@
+import { lazy } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import AppWrapper from "../layouts/AppWrapper";
-import Loading from "../components/loaders/Loading/Loading";
-import useAuth from "../hooks/useAuth";
 
-import HomePage from "../pages/HomePage/HomePage";
-import LoginPage from "../pages/LoginPage/LoginPage";
-import LogoutPage from "../pages/LogoutPage/LogoutPage";
-import StudentRegisterPage from "../pages/RegisterPage/StudentRegisterPage";
-import RecruiterRegisterPage from "../pages/RegisterPage/RecruiterRegisterPage";
-import VerifyPage from "../pages/VerifyPage/VerifyPage";
-import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
-import SearchPage from "../pages/SearchPage/SearchPage";
-import JobDetailsPage from "../pages/JobDetailsPage/JobDetailsPage";
-import CompanyListingPage from "../pages/CompanyListingPage/CompanyListingPage";
-import CompanyDetailsPage from "../pages/CompanyDetailsPage/CompanyDetailsPage";
+import AppWrapper from "@layouts/AppWrapper";
+import Loading from "@components/loaders/Loading/Loading";
+import useAuth from "@hooks/useAuth";
 
-import RecruiterProfilePage from "../pages/AccountPage/RecruiterProfilePage";
-import StudentProfilePage from "../pages/AccountPage/StudentProfilePage";
-import UpdatePasswordPage from "../pages/AccountPage/UpdatePasswordPage";
-import AccountDetailsPage from "../pages/AccountPage/AccountDetailsPage";
+import NotFoundPage from "@pages/ErrorPage/404/NotFoundPage";
 
-import AppliedJobsPage from "../pages/DataPage/StudentDataPage/AppliedJobsPage";
-import SavedJobsPage from "../pages/DataPage/StudentDataPage/SavedJobsPage";
-import InternshipApplicationsPage from "../pages/DataPage/StudentDataPage/InternshipApplicationsPage";
+import HomePage from "@pages/HomePage/HomePage";
+import SearchPage from "@pages/SearchPage/SearchPage";
+import JobDetailsPage from "@pages/JobDetailsPage/JobDetailsPage";
+import CompanyListingPage from "@pages/CompanyListingPage/CompanyListingPage";
+import CompanyDetailsPage from "@pages/CompanyDetailsPage/CompanyDetailsPage";
 
-import PostedJobsPage from "../pages/DataPage/RecruiterDataPage/PostedJobsPage";
-import CreateJobPostPage from "../pages/DataPage/RecruiterDataPage/CreateJobPostPage";
+// import LoginPage from "@pages/LoginPage/LoginPage";
+const LoginPage = lazy(() => import("@pages/LoginPage/LoginPage"));
+// import LogoutPage from "@pages/LogoutPage/LogoutPage";
+const LogoutPage = lazy(() => import("@pages/LogoutPage/LogoutPage"));
+// import StudentRegisterPage from "@pages/RegisterPage/StudentRegisterPage";
+const StudentRegisterPage = lazy(() => import("@pages/RegisterPage/StudentRegisterPage"));
+// import RecruiterRegisterPage from "@pages/RegisterPage/RecruiterRegisterPage";
+const RecruiterRegisterPage = lazy(() => import("@pages/RegisterPage/RecruiterRegisterPage"));
+// import VerifyPage from "@pages/VerifyPage/VerifyPage";
+const VerifyPage = lazy(() => import("@pages/VerifyPage/VerifyPage"));
+// import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
+const ResetPasswordPage = lazy(() => import("@pages/ResetPasswordPage/ResetPasswordPage"));
 
-import DashboardPage from "../pages/DashboardPage/Admin/DashboardPage";
+// import RecruiterProfilePage from "@pages/AccountPage/RecruiterProfilePage";
+const RecruiterProfilePage = lazy(() => import("@pages/AccountPage/RecruiterProfilePage"));
+// import StudentProfilePage from "@pages/AccountPage/StudentProfilePage";
+const StudentProfilePage = lazy(() => import("@pages/AccountPage/StudentProfilePage"));
+// import UpdatePasswordPage from "@pages/AccountPage/UpdatePasswordPage";
+const UpdatePasswordPage = lazy(() => import("@pages/AccountPage/UpdatePasswordPage"));
+// import AccountDetailsPage from "@pages/AccountPage/AccountDetailsPage";
+const AccountDetailsPage = lazy(() => import("@pages/AccountPage/AccountDetailsPage"));
 
-import NotFoundPage from "../pages/ErrorPage/404/NotFoundPage";
+// import AppliedJobsPage from "@pages/DataPage/StudentDataPage/AppliedJobsPage";
+const AppliedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/AppliedJobsPage"));
+// import SavedJobsPage from "@pages/DataPage/StudentDataPage/SavedJobsPage";
+const SavedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/SavedJobsPage"));
+// import InternshipApplicationsPage from "@pages/DataPage/StudentDataPage/InternshipApplicationsPage";
+const InternshipApplicationsPage = lazy(() => import("@pages/DataPage/StudentDataPage/InternshipApplicationsPage"));
+
+// import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
+const PostedJobsPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/PostedJobsPage"));
+// import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
+const CreateJobPostPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/CreateJobPostPage"));
+
+// import DashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
+const DashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
 
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();

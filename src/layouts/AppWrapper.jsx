@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import SuspenseLoader from "../components/loaders/SuspenseLoader/SuspenseLoader";
+
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
 const AppWrapper = () => {
     return (
