@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { getToken } from "../services/localStorageService";
-import { getAuthUser, getAuthProfile } from "../services/authService";
+
 import AuthContext from "@context/AuthContext";
-import useWebSocket from "../hooks/useWebSocket";
+
+import useWebSocket from "@hooks/useWebSocket";
+
+import { getToken } from "@services/localStorageService";
+import { getAuthUser, getAuthProfile } from "@services/authService";
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
