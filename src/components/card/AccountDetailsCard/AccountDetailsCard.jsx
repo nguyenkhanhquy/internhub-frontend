@@ -58,7 +58,7 @@ const AccountDetailsCard = ({ flag }) => {
                                 color: userDetails.active ? "green" : "red",
                             },
                         ].map((item, index) => (
-                            <Grid item xs={12} key={index}>
+                            <Grid size={12} key={index}>
                                 <Typography variant="body1" fontWeight="bold" display="inline">
                                     {item.label}:
                                 </Typography>{" "}

@@ -28,7 +28,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
             <DialogContent dividers>
                 <Grid container spacing={2}>
                     {/* Cột trái */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Box mb={2}>
                             <Typography variant="subtitle1" color="blue" sx={{ fontWeight: "bold", mb: 1 }}>
                                 Thông tin cá nhân
@@ -66,7 +66,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
                     </Grid>
 
                     {/* Cột phải */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Box mb={2}>
                             <Typography variant="subtitle1" color="blue" sx={{ fontWeight: "bold", mb: 1 }}>
                                 Thông tin học tập

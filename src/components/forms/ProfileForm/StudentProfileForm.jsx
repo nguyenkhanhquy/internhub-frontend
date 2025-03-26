@@ -136,7 +136,7 @@ const StudentProfileForm = () => {
 
                 <Grid container spacing={2}>
                     {/* Họ và tên */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("name")}
                             label={
@@ -155,7 +155,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Mã sinh viên */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("studentId")}
                             label={
@@ -176,7 +176,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Email */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("email")}
                             label={
@@ -197,7 +197,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Chuyên ngành */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <Controller
                             name="major"
                             control={control}
@@ -227,7 +227,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Số điện thoại */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             label={
                                 <span>
@@ -246,7 +246,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* GPA */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("gpa")}
                             label={
@@ -269,7 +269,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Giới tính */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <Controller
                             name="gender"
                             control={control}
@@ -298,7 +298,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Trạng thái thực tập */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <Controller
                             name="internStatus"
                             control={control}
@@ -328,7 +328,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Ngày sinh */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("dob")}
                             label={
@@ -348,7 +348,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Thời gian tốt nghiệp dự kiến */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("expGrad")}
                             label={
@@ -368,7 +368,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Địa chỉ */}
-                    <Grid item xs={12} md={12}>
+                    <Grid size={12}>
                         <TextField
                             {...control.register("address")}
                             label={
@@ -387,7 +387,7 @@ const StudentProfileForm = () => {
                     </Grid>
 
                     {/* Button Lưu */}
-                    <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                    <Grid size={12} display="flex" justifyContent="center" alignItems="center">
                         {loading ? (
                             <Loading />
                         ) : (

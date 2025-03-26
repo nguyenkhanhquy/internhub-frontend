@@ -10,7 +10,6 @@ import CompanyDetailsBody from "../../components/section/CompanyDetailsPage/Comp
 import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
 
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
 import { getCompanyById } from "../../services/companyService";
@@ -81,13 +80,13 @@ const CompanyDetailsPage = () => {
                             address={companyData.address}
                         />
                     </Box>
-                    <Grid item xs={12} md={8}>
+                    <Box>
                         <CompanyDetailsBody
                             description={companyData.description}
                             address={companyData.address}
                             jobs={companyData.jobs}
                         />
-                    </Grid>
+                    </Box>
                 </div>
             )}
         </MainLayout>

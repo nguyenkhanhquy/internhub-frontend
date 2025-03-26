@@ -176,7 +176,7 @@ const InternshipReportForm = ({ setFlag }) => {
             {showForm && (
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ marginTop: 2 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <Controller
                                 name="teacherName"
                                 control={control}
@@ -200,7 +200,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <Controller
                                 name="companyName"
                                 control={control}
@@ -217,7 +217,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <Controller
                                 name="isSystemCompany"
                                 control={control}
@@ -238,7 +238,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="instructorName"
                                 control={control}
@@ -255,7 +255,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="instructorEmail"
                                 control={control}
@@ -272,7 +272,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="startDate"
                                 control={control}
@@ -291,7 +291,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="endDate"
                                 control={control}
@@ -310,7 +310,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="reportFile"
                                 control={control}
@@ -339,7 +339,7 @@ const InternshipReportForm = ({ setFlag }) => {
                             />
                         </Grid>
 
-                        <Grid item xs={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
                                 name="evaluationFile"
                                 control={control}

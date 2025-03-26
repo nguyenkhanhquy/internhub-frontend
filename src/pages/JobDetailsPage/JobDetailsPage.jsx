@@ -112,12 +112,12 @@ const JobDetailsPage = () => {
                     {/* Chia layout thành 2 phần: Body và Summary */}
                     <Grid container spacing={4}>
                         {/* Phần Body nằm bên trái, chiếm 2/3 */}
-                        <Grid item xs={12} md={8}>
+                        <Grid size={{ xs: 12, md: 8 }}>
                             <JobDetailBody jobData={jobData} />
                         </Grid>
 
                         {/* Phần Summary nằm bên phải, chiếm 1/3 */}
-                        <Grid item xs={12} md={4}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <JobDetailSummary
                                 salary={jobData.salary}
                                 quantity={jobData.quantity}

@@ -149,7 +149,7 @@ const RecruiterProfileForm = () => {
 
                 <Grid container spacing={2}>
                     {/* Họ tên người đại diện */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("name")}
                             label={
@@ -168,7 +168,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Chức vụ */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("position")}
                             label={
@@ -187,7 +187,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Email người đại diện */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("recruiterEmail")}
                             label={
@@ -206,7 +206,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Số điện thoại */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("phone")}
                             label={
@@ -231,7 +231,7 @@ const RecruiterProfileForm = () => {
 
                 <Grid container spacing={2}>
                     {/* Tên công ty */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("companyName")}
                             label={
@@ -250,7 +250,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Website */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             {...control.register("website")}
                             label={
@@ -269,7 +269,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Địa chỉ */}
-                    <Grid item xs={12} md={12}>
+                    <Grid size={12}>
                         <TextField
                             {...control.register("companyAddress")}
                             label={
@@ -288,7 +288,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Giới thiệu công ty */}
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         {/* <TextField
                             {...control.register("description")}
                             label={
@@ -315,7 +315,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Logo công ty URL */}
-                    <Grid item xs={12} md={12}>
+                    <Grid size={12}>
                         <TextField
                             {...control.register("companyLogo")}
                             label={
@@ -335,7 +335,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Chọn logo công ty */}
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         {/* <Typography variant="body1">
                             Logo công ty <span style={{ color: "red" }}>*</span>
                         </Typography> */}
@@ -385,7 +385,7 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Button Lưu */}
-                    <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                    <Grid size={12} display="flex" justifyContent="center" alignItems="center">
                         {loading ? (
                             <Loading />
                         ) : (

@@ -56,7 +56,7 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
 const SummarySection = ({ overview }) => {
     return (
         <Grid container sx={{ py: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
                 <SummaryCard
                     color={green}
                     title="Sinh viên"
@@ -65,7 +65,8 @@ const SummarySection = ({ overview }) => {
                     Icon={SchoolIcon}
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
                 <SummaryCard
                     color={blue}
                     title="Giảng viên"
@@ -74,7 +75,8 @@ const SummarySection = ({ overview }) => {
                     Icon={PersonIcon}
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
                 <SummaryCard
                     color={orange}
                     title="Doanh nghiệp"
@@ -83,7 +85,8 @@ const SummarySection = ({ overview }) => {
                     Icon={BusinessIcon}
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
                 <SummaryCard
                     color={purple}
                     title="Bài đăng"

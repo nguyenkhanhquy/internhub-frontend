@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Box, Button, TextField, Typography, Paper } from "@mui/material";
+import { Box, Button, TextField, Typography, Paper, Grid } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import Loading from "../../loaders/Loading/Loading";
 import { updatePassword } from "../../../services/userService";
@@ -66,89 +66,88 @@ const UpdatePasswordForm = () => {
                         Đổi mật khẩu
                     </Typography>
 
-                    <TextField
-                        {...control.register("oldPassword")}
-                        label={
-                            <span>
-                                Mật khẩu hiện tại <span style={{ color: "red" }}>*</span>
-                            </span>
-                        }
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        sx={{ mt: 1.5 }}
-                        onBlur={() => trigger("oldPassword")}
-                        slotProps={{
-                            inputLabel: { shrink: true },
-                        }}
-                        error={!!errors.oldPassword}
-                        helperText={errors.oldPassword?.message ?? " "}
-                    />
-
-                    {/* Hàng chứa "Mật khẩu mới" và "Xác nhận mật khẩu mới" */}
-                    <Box
-                        sx={{
-                            display: "flex",
-                            gap: 2, // Khoảng cách giữa các trường
-                            mt: 1.5,
-                        }}
-                    >
-                        <TextField
-                            {...control.register("newPassword")}
-                            label={
-                                <span>
-                                    Mật khẩu mới <span style={{ color: "red" }}>*</span>
-                                </span>
-                            }
-                            type="password"
-                            variant="outlined"
-                            fullWidth
-                            onBlur={() => trigger("newPassword")}
-                            slotProps={{
-                                inputLabel: { shrink: true },
-                            }}
-                            error={!!errors.newPassword}
-                            helperText={errors.newPassword?.message ?? " "}
-                        />
-
-                        <TextField
-                            {...control.register("confirmPassword")}
-                            label={
-                                <span>
-                                    Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
-                                </span>
-                            }
-                            type="password"
-                            variant="outlined"
-                            fullWidth
-                            onBlur={() => trigger("confirmPassword")}
-                            slotProps={{
-                                inputLabel: { shrink: true },
-                            }}
-                            error={!!errors.confirmPassword}
-                            helperText={errors.confirmPassword?.message ?? " "}
-                        />
-                    </Box>
-
-                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
-                        {loading ? (
-                            <Loading />
-                        ) : (
-                            <Button
-                                disabled={loading}
-                                variant="contained"
-                                type="submit"
-                                sx={{
-                                    padding: "8px 10px",
-                                    backgroundColor: "#2e3090",
-                                    color: "white",
-                                    "&:hover": { backgroundColor: "#1f2061" },
+                    <Grid container spacing={2}>
+                        <Grid size={12}>
+                            <TextField
+                                {...control.register("oldPassword")}
+                                label={
+                                    <span>
+                                        Mật khẩu hiện tại <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
+                                type="password"
+                                variant="outlined"
+                                fullWidth
+                                sx={{ mt: 1.5 }}
+                                onBlur={() => trigger("oldPassword")}
+                                slotProps={{
+                                    inputLabel: { shrink: true },
                                 }}
-                            >
-                                <SaveIcon sx={{ marginRight: 1 }} /> Lưu
-                            </Button>
-                        )}
-                    </Box>
+                                error={!!errors.oldPassword}
+                                helperText={errors.oldPassword?.message ?? " "}
+                            />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <TextField
+                                {...control.register("newPassword")}
+                                label={
+                                    <span>
+                                        Mật khẩu mới <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
+                                type="password"
+                                variant="outlined"
+                                fullWidth
+                                onBlur={() => trigger("newPassword")}
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.newPassword}
+                                helperText={errors.newPassword?.message ?? " "}
+                            />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <TextField
+                                {...control.register("confirmPassword")}
+                                label={
+                                    <span>
+                                        Xác nhận mật khẩu mới <span style={{ color: "red" }}>*</span>
+                                    </span>
+                                }
+                                type="password"
+                                variant="outlined"
+                                fullWidth
+                                onBlur={() => trigger("confirmPassword")}
+                                slotProps={{
+                                    inputLabel: { shrink: true },
+                                }}
+                                error={!!errors.confirmPassword}
+                                helperText={errors.confirmPassword?.message ?? " "}
+                            />
+                        </Grid>
+
+                        <Grid size={12} display="flex" justifyContent="center" alignItems="center">
+                            {loading ? (
+                                <Loading />
+                            ) : (
+                                <Button
+                                    disabled={loading}
+                                    variant="contained"
+                                    type="submit"
+                                    sx={{
+                                        padding: "8px 10px",
+                                        backgroundColor: "#2e3090",
+                                        color: "white",
+                                        "&:hover": { backgroundColor: "#1f2061" },
+                                    }}
+                                >
+                                    <SaveIcon sx={{ marginRight: 1 }} /> Lưu
+                                </Button>
+                            )}
+                        </Grid>
+                    </Grid>
                 </Box>
             </Paper>
         </>

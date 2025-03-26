@@ -9,7 +9,7 @@ import CompanyCard from "../../components/card/CompanyCard/CompanyCard";
 import CompanyListingPagination from "../../components/pagination/CompanyListingPagination/CompanyListingPagination";
 import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
 import EmptyBox from "../../components/box/EmptyBox";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import { getAllApprovedCompanies } from "../../services/companyService";
 
@@ -79,7 +79,7 @@ const CompanyListingPage = () => {
                         </div>
                     ) : companies.length > 0 ? (
                         companies.map((company, index) => (
-                            <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                                 <CompanyCard company={company} />
                             </Grid>
                         ))
