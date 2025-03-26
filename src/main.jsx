@@ -3,22 +3,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import AuthProvider from "@providers/AuthProvider.jsx";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import ToastProvider from "@providers/ToastProvider";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <AuthProvider>
             <App />
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                closeOnClick={false}
-                pauseOnHover
-                draggable
-                theme="light"
-            />
+            <ToastProvider />
         </AuthProvider>
     </StrictMode>,
 );
