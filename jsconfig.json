@@ -11,7 +11,8 @@
             "@pages/*": ["src/pages/*"],
             "@providers/*": ["src/providers/*"],
             "@routes/*": ["src/routes/*"],
-            "@services/*": ["src/services/*"]
+            "@services/*": ["src/services/*"],
+            "@store/*": ["src/store/*"]
         }
     }
 }
