@@ -2,6 +2,8 @@ import ManufacturerTypes from "./manufacturerTypes";
 
 const initialData = {
     count: 0,
+    profile: null,
+    accountDetails: null,
 };
 
 const ManufaturerReducer = (state = initialData, actions) => {
@@ -16,6 +18,16 @@ const ManufaturerReducer = (state = initialData, actions) => {
             return {
                 ...state,
                 count: state.count - 1,
+            };
+        case ManufacturerTypes.SetProfileRedux:
+            return {
+                ...state,
+                profile: data,
+            };
+        case ManufacturerTypes.SetAccountDetailsRedux:
+            return {
+                ...state,
+                accountDetails: data,
             };
 
         default:

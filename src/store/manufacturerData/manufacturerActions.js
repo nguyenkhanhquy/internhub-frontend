@@ -11,3 +11,17 @@ export const downCount = () => {
         type: ManufacturerTypes.DownCount,
     };
 };
+
+export const setProfileRedux = (profile) => {
+    return {
+        type: ManufacturerTypes.SetProfileRedux,
+        data: profile,
+    };
+};
+
+export const setAccountDetailsRedux = (accountDetails) => {
+    return {
+        type: ManufacturerTypes.SetAccountDetailsRedux,
+        data: accountDetails,
+    };
+};

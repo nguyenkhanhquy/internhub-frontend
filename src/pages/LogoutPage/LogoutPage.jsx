@@ -1,16 +1,22 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { getToken, removeToken } from "../../services/localStorageService";
-import { logout } from "../../services/authService";
-import useAuth from "../../hooks/useAuth";
-import Loading from "../../components/loaders/Loading/Loading";
+
+import { getToken, removeToken } from "@services/localStorageService";
+import { logout } from "@services/authService";
+
+import useAuth from "@hooks/useAuth";
+import Loading from "@components/loaders/Loading/Loading";
+
+import { setProfileRedux, setAccountDetailsRedux } from "@/store/manufacturerData/manufacturerActions";
 
 const LogoutPage = () => {
-    const { setUser, setIsAuthenticated } = useAuth();
-    const hasLogout = useRef(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const hasLogout = useRef(false);
+
+    const { setUser, setIsAuthenticated } = useAuth();
 
     const handleLogout = useCallback(async () => {
         const accessToken = getToken();
@@ -29,6 +35,9 @@ const LogoutPage = () => {
 
                 setIsAuthenticated(false);
 
+                dispatch(setProfileRedux(null));
+                dispatch(setAccountDetailsRedux(null));
+
                 navigate("/login");
                 toast.success(data?.message);
             } else {
@@ -37,7 +46,7 @@ const LogoutPage = () => {
         } catch (error) {
             toast.error(error.message);
         }
-    }, [setUser, setIsAuthenticated, navigate]);
+    }, [setUser, setIsAuthenticated, navigate, dispatch]);
 
     useEffect(() => {
         if (!hasLogout.current) {
