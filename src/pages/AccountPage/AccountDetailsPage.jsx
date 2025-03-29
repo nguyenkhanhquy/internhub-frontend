@@ -1,26 +1,47 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Box, Card, Typography } from "@mui/material";
-import { getAuthUser } from "../../services/authService";
-import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
 
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import AccountLayout from "../../layouts/AccountLayout/AccountLayout";
-import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
+import { getAuthUser } from "@services/authService";
+
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import AccountLayout from "@layouts/AccountLayout/AccountLayout";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectAccountDetails } from "@/store/manufacturerData/manufacturerSelectors";
+import { setAccountDetailsRedux } from "@/store/manufacturerData/manufacturerActions";
 
 const AccountDetailsPage = () => {
-    const [userDetails, setUserDetails] = useState({});
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const accountDetails = useSelector(selectAccountDetails);
+
+    const [userDetails, setUserDetails] = useState(accountDetails);
+    const [loading, setLoading] = useState(!accountDetails);
 
     useEffect(() => {
-        const getUserDetails = async () => {
+        const fetchAccountDetails = async () => {
             setLoading(true);
-            const data = await getAuthUser();
-            setUserDetails(data.result);
-            setLoading(false);
+            try {
+                const data = await getAuthUser();
+                if (!data?.success || !data?.result) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setUserDetails(data.result);
+                dispatch(setAccountDetailsRedux(data.result));
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        getUserDetails();
-    }, []);
+        if (!accountDetails) {
+            fetchAccountDetails();
+        }
+    }, [accountDetails, dispatch]);
 
     return (
         <MainLayout title="Chi tiết tài khoản">
@@ -33,7 +54,7 @@ const AccountDetailsPage = () => {
                         alignItems="center"
                         justifyContent="center"
                         height="60vh"
-                        // bgcolor={"#f0f2f5"}
+                        bgcolor={"#f0f2f5"}
                     >
                         <Card
                             sx={{

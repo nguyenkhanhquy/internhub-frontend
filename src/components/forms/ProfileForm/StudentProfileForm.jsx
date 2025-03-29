@@ -1,16 +1,22 @@
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Box, Button, Grid, MenuItem, TextField, Typography, Paper } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import Loading from "../../loaders/Loading/Loading";
 
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import useAuth from "../../../hooks/useAuth";
-import { useEffect, useState } from "react";
-import { getAuthProfile } from "../../../services/authService";
-import { updateProfile } from "../../../services/studentService";
+import useAuth from "@hooks/useAuth";
+
+import { getAuthProfile } from "@services/authService";
+import { updateProfile } from "@services/studentService";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfile } from "@/store/manufacturerData/manufacturerSelectors";
+import { setProfileRedux } from "@/store/manufacturerData/manufacturerActions";
+
+import Loading from "@/components/loaders/Loading/Loading";
 
 const defaultValues = {
     name: "",
@@ -52,9 +58,13 @@ const schema = yup
     .required();
 
 const StudentProfileForm = () => {
+    const dispatch = useDispatch();
+    const studentProfile = useSelector(selectProfile);
+
     const { user, setUser } = useAuth();
-    const [loading, setLoading] = useState(true);
-    const [profile, setProfile] = useState(null);
+
+    const [profile, setProfile] = useState(studentProfile);
+    const [loading, setLoading] = useState(!studentProfile);
 
     const {
         control,
@@ -68,7 +78,7 @@ const StudentProfileForm = () => {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchProfile = async () => {
             setLoading(true);
             try {
                 const data = await getAuthProfile();
@@ -76,6 +86,7 @@ const StudentProfileForm = () => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setProfile(data?.result);
+                dispatch(setProfileRedux(data?.result));
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -83,8 +94,10 @@ const StudentProfileForm = () => {
             }
         };
 
-        fetchData();
-    }, []);
+        if (!studentProfile) {
+            fetchProfile();
+        }
+    }, [studentProfile, dispatch]);
 
     useEffect(() => {
         if (profile) {
@@ -114,6 +127,8 @@ const StudentProfileForm = () => {
 
             user.name = formData.name;
             setUser(user);
+
+            dispatch(setProfileRedux(formData));
 
             toast.success(data.message);
         } catch (error) {

@@ -20,6 +20,7 @@ export default defineConfig({
             "@providers": "/src/providers",
             "@routes": "/src/routes",
             "@services": "/src/services",
+            "@store": "/src/store",
         },
     },
 });

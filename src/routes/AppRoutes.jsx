@@ -13,18 +13,12 @@ import JobDetailsPage from "@pages/JobDetailsPage/JobDetailsPage";
 import CompanyListingPage from "@pages/CompanyListingPage/CompanyListingPage";
 import CompanyDetailsPage from "@pages/CompanyDetailsPage/CompanyDetailsPage";
 
-// import LoginPage from "@pages/LoginPage/LoginPage";
-const LoginPage = lazy(() => import("@pages/LoginPage/LoginPage"));
-// import LogoutPage from "@pages/LogoutPage/LogoutPage";
-const LogoutPage = lazy(() => import("@pages/LogoutPage/LogoutPage"));
-// import StudentRegisterPage from "@pages/RegisterPage/StudentRegisterPage";
-const StudentRegisterPage = lazy(() => import("@pages/RegisterPage/StudentRegisterPage"));
-// import RecruiterRegisterPage from "@pages/RegisterPage/RecruiterRegisterPage";
-const RecruiterRegisterPage = lazy(() => import("@pages/RegisterPage/RecruiterRegisterPage"));
-// import VerifyPage from "@pages/VerifyPage/VerifyPage";
-const VerifyPage = lazy(() => import("@pages/VerifyPage/VerifyPage"));
-// import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
-const ResetPasswordPage = lazy(() => import("@pages/ResetPasswordPage/ResetPasswordPage"));
+import LoginPage from "@pages/LoginPage/LoginPage";
+import LogoutPage from "@pages/LogoutPage/LogoutPage";
+import StudentRegisterPage from "@pages/RegisterPage/StudentRegisterPage";
+import RecruiterRegisterPage from "@pages/RegisterPage/RecruiterRegisterPage";
+import VerifyPage from "@pages/VerifyPage/VerifyPage";
+import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
 
 // import RecruiterProfilePage from "@pages/AccountPage/RecruiterProfilePage";
 const RecruiterProfilePage = lazy(() => import("@pages/AccountPage/RecruiterProfilePage"));
@@ -50,6 +44,8 @@ const CreateJobPostPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/C
 // import DashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
 const DashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
 
+import ReduxToolkitPage from "@/pages/ReduxToolkitPage";
+
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();
 
@@ -73,6 +69,9 @@ const AppRoutes = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<AppWrapper />}>
+                    {/* Redux Toolkit Page */}
+                    <Route path="/redux-toolkit" element={<ReduxToolkitPage />} />
+
                     {/* Public Routes - Accessible by everyone */}
                     <Route path="/404" element={<NotFoundPage />} />
                     <Route path="/logout" element={<LogoutPage />} />
