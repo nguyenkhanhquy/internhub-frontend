@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectManufacturerCount } from "@/store/manufacturerData/manufacturerSelectors";
+import { selectCount } from "@/store/manufacturerData/manufacturerSelectors";
 import { downCount, upCount } from "@/store/manufacturerData/manufacturerActions";
 import { Button } from "@mui/material";
 
 const ReduxToolkitPage = () => {
-    const count = useSelector(selectManufacturerCount);
     const dispatch = useDispatch();
+    const count = useSelector(selectCount);
 
     return (
         <div className="p-4 text-center">

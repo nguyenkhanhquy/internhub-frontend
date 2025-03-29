@@ -6,7 +6,7 @@ const initialData = {
     accountDetails: null,
 };
 
-const ManufaturerReducer = (state = initialData, actions) => {
+const ManufacturerReducer = (state = initialData, actions) => {
     const { data } = actions;
     switch (actions.type) {
         case ManufacturerTypes.UpCount:
@@ -35,4 +35,4 @@ const ManufaturerReducer = (state = initialData, actions) => {
     }
 };
 
-export default ManufaturerReducer;
+export default ManufacturerReducer;

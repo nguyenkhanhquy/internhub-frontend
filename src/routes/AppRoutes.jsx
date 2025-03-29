@@ -17,10 +17,8 @@ import LoginPage from "@pages/LoginPage/LoginPage";
 import LogoutPage from "@pages/LogoutPage/LogoutPage";
 import StudentRegisterPage from "@pages/RegisterPage/StudentRegisterPage";
 import RecruiterRegisterPage from "@pages/RegisterPage/RecruiterRegisterPage";
-// import VerifyPage from "@pages/VerifyPage/VerifyPage";
-const VerifyPage = lazy(() => import("@pages/VerifyPage/VerifyPage"));
-// import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
-const ResetPasswordPage = lazy(() => import("@pages/ResetPasswordPage/ResetPasswordPage"));
+import VerifyPage from "@pages/VerifyPage/VerifyPage";
+import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
 
 // import RecruiterProfilePage from "@pages/AccountPage/RecruiterProfilePage";
 const RecruiterProfilePage = lazy(() => import("@pages/AccountPage/RecruiterProfilePage"));
