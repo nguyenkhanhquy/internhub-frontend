@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { ADMIN_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { ADMIN_API } from "@api/constants";
 
 export const getOverview = async () => {
     return axiosClient.get(ADMIN_API.GET_OVERVIEW);

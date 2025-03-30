@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { FILES_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { FILES_API } from "@api/constants";
 
 export const uploadImage = async (file, folderName) => {
     const formData = new FormData();

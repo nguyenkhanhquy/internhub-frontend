@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { RECRUITERS_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { RECRUITERS_API } from "@api/constants";
 
 export const getAllRecruiters = async () => {
     return axiosClient.get(RECRUITERS_API.GET_ALL);

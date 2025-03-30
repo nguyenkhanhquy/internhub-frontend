@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { JOBS_SAVED_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { JOBS_SAVED_API } from "@api/constants";
 
 export const getAllJobSaved = async (page, size, search) => {
     return axiosClient.get(JOBS_SAVED_API.GET_ALL, {

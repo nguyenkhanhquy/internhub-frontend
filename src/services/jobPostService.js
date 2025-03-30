@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { JOBS_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { JOBS_API } from "@api/constants";
 
 export const createJobPost = async (jobPost) => {
     return axiosClient.post(JOBS_API.CREATE, {

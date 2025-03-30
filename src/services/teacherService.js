@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { TEACHERS_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { TEACHERS_API } from "@api/constants";
 
 export const getAllTeachers = async () => {
     return axiosClient.get(TEACHERS_API.GET_ALL);

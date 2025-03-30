@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../services/localStorageService";
+import { getToken } from "@services/localStorageService";
 
 const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}`,

@@ -1,5 +1,5 @@
-import axiosClient from "../api/axiosClient";
-import { INTERNSHIP_REPORTS_API } from "../api/constants";
+import axiosClient from "@api/axiosClient";
+import { INTERNSHIP_REPORTS_API } from "@api/constants";
 
 export const createInternshipReport = async (data) => {
     return axiosClient.post(INTERNSHIP_REPORTS_API.CREATE, {
