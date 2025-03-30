@@ -1,12 +1,12 @@
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box, Typography } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
 
-import { updateTeacher } from "../../../services/teacherService";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box, Typography } from "@mui/material";
+
+import { updateTeacher } from "@services/teacherService";
 
 // Regex kiểm tra email
 const regexEmail =
@@ -54,7 +54,6 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
         } catch (error) {
             toast.error(error.message);
         }
-        console.log(formData);
     };
 
     return (
