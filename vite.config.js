@@ -14,7 +14,7 @@ export default defineConfig({
             "@api": "/src/api",
             "@components": "/src/components",
             "@config": "/src/config",
-            "@context": "/src/context",
+            "@contexts": "/src/contexts",
             "@hooks": "/src/hooks",
             "@layouts": "/src/layouts",
             "@pages": "/src/pages",

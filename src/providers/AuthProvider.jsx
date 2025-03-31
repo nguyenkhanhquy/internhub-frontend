@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
-import AuthContext from "@context/AuthContext";
+import AuthContext from "@contexts/AuthContext";
 
 import useWebSocket from "@hooks/useWebSocket";
 
