@@ -45,7 +45,7 @@ const formatRelativeTime = (createdDate) => {
         const diffInHours = Math.floor(diffInMinutes / 60);
         return `${diffInHours} giờ trước`;
     } else {
-        return createdAt.toLocaleString(); // Hiển thị định dạng ngày giờ thông thường
+        return createdAt.toLocaleString("vi-VN");
     }
 };
 
