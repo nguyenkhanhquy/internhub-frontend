@@ -2,7 +2,9 @@
     "git": {
         "deploymentEnabled": {
             "main": false,
-            "develop": false
+            "develop": false,
+            "khanhquy": false,
+            "trungnguyen": false
         }
     },
     "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
