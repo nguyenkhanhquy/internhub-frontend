@@ -7,7 +7,6 @@ import * as yup from "yup";
 
 // External Libraries
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
