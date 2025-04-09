@@ -9,7 +9,8 @@ import { logout } from "@services/authService";
 import useAuth from "@hooks/useAuth";
 import Loading from "@components/loaders/Loading/Loading";
 
-import { setProfileRedux, setAccountDetailsRedux } from "@/store/manufacturerData/manufacturerActions";
+import { resetProfile } from "@/store/slices/profileSlice";
+import { resetAccountDetails } from "@/store/slices/accountSlice";
 
 const LogoutPage = () => {
     const navigate = useNavigate();
@@ -35,8 +36,8 @@ const LogoutPage = () => {
 
                 setIsAuthenticated(false);
 
-                dispatch(setProfileRedux(null));
-                dispatch(setAccountDetailsRedux(null));
+                dispatch(resetProfile());
+                dispatch(resetAccountDetails());
 
                 navigate("/login");
                 toast.success(data?.message);

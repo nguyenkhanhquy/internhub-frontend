@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useDispatch } from "react-redux";
-import { setAccountDetailsRedux } from "@/store/manufacturerData/manufacturerActions";
+import { resetAccountDetails } from "@store/slices/accountSlice";
 
 const schema = yup.object().shape({
     oldPassword: yup.string().min(8, "Mật khẩu hiện tại phải dài ít nhất 8 ký tự").required("Không được để trống"),
@@ -49,7 +49,7 @@ const UpdatePasswordForm = () => {
 
             reset();
             removeRememberMe();
-            dispatch(setAccountDetailsRedux(null));
+            dispatch(resetAccountDetails());
 
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {

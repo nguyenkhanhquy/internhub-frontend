@@ -13,8 +13,7 @@ import { getAuthProfile } from "@services/authService";
 import { updateProfile } from "@services/studentService";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectProfile } from "@/store/manufacturerData/manufacturerSelectors";
-import { setProfileRedux } from "@/store/manufacturerData/manufacturerActions";
+import { selectProfile, setProfile as setProfileRedux } from "@store/slices/profileSlice";
 
 import Loading from "@/components/loaders/Loading/Loading";
 

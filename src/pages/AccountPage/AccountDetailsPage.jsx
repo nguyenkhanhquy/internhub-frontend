@@ -11,8 +11,7 @@ import MainLayout from "@layouts/MainLayout/MainLayout";
 import AccountLayout from "@layouts/AccountLayout/AccountLayout";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectAccountDetails } from "@/store/manufacturerData/manufacturerSelectors";
-import { setAccountDetailsRedux } from "@/store/manufacturerData/manufacturerActions";
+import { selectAccountDetails, setAccountDetails as setAccountDetailsRedux } from "@store/slices/accountSlice";
 
 const AccountDetailsPage = () => {
     const dispatch = useDispatch();
