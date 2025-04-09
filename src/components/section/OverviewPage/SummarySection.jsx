@@ -10,7 +10,6 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
     <Paper
         sx={{
             p: 3,
-            mx: 1,
             display: "flex",
             alignItems: "center",
             gap: 2,
@@ -20,7 +19,7 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
             transition: "transform 0.3s, box-shadow 0.3s",
             "&:hover": {
                 transform: "scale(1.05)",
-                boxShadow: 6,
+                boxShadow: 4,
             },
             minHeight: 150,
         }}
@@ -38,10 +37,10 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
             <Icon sx={{ fontSize: 40, color: color[900] }} />
         </Box>
         <Box>
-            <Typography variant="h6" color="textSecondary">
+            <Typography variant="subtitle1" color="textSecondary">
                 {title}
             </Typography>
-            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 {count}
             </Typography>
             {subInfo && (
@@ -55,7 +54,7 @@ const SummaryCard = ({ color, title, count, subInfo, Icon }) => (
 
 const SummarySection = ({ overview }) => {
     return (
-        <Grid container sx={{ py: 4 }}>
+        <Grid container sx={{ py: 2 }} spacing={2} columns={12}>
             <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
                 <SummaryCard
                     color={green}
