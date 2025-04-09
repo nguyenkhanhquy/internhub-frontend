@@ -106,10 +106,10 @@ const NAVIGATION = [
 ];
 
 const theme = createTheme({
-    cssVariables: {
-        colorSchemeSelector: "data-toolpad-color-scheme",
-    },
-    colorSchemes: { light: true, dark: true },
+    // cssVariables: {
+    //     colorSchemeSelector: "data-toolpad-color-scheme",
+    // },
+    // colorSchemes: { light: true, dark: true },
     breakpoints: {
         values: {
             xs: 0,
