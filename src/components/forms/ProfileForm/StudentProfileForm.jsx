@@ -125,10 +125,9 @@ const StudentProfileForm = () => {
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
-            user.name = formData.name;
-            setUser(user);
+            setUser({ ...user, name: formData.name });
 
-            dispatch(setProfileRedux(formData));
+            dispatch(setProfileRedux({ ...formData }));
 
             toast.success(data.message);
         } catch (error) {
