@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement, reset, selectCounter } from "@/store/slices/counterSlice";
+import { increment, decrement, reset, selectCounter } from "@store/slices/counterSlice";
 
 const ReduxToolkitPage = () => {
     const dispatch = useDispatch();

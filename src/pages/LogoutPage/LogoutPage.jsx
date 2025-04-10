@@ -9,8 +9,8 @@ import { logout } from "@services/authService";
 import useAuth from "@hooks/useAuth";
 import Loading from "@components/loaders/Loading/Loading";
 
-import { resetProfile } from "@/store/slices/profileSlice";
-import { resetAccountDetails } from "@/store/slices/accountSlice";
+import { resetProfile } from "@store/slices/profileSlice";
+import { resetAccountDetails } from "@store/slices/accountSlice";
 
 const LogoutPage = () => {
     const navigate = useNavigate();

@@ -20,14 +20,10 @@ import RecruiterRegisterPage from "@pages/RegisterPage/RecruiterRegisterPage";
 import VerifyPage from "@pages/VerifyPage/VerifyPage";
 import ResetPasswordPage from "@pages/ResetPasswordPage/ResetPasswordPage";
 
-// import RecruiterProfilePage from "@pages/AccountPage/RecruiterProfilePage";
-const RecruiterProfilePage = lazy(() => import("@pages/AccountPage/RecruiterProfilePage"));
-// import StudentProfilePage from "@pages/AccountPage/StudentProfilePage";
-const StudentProfilePage = lazy(() => import("@pages/AccountPage/StudentProfilePage"));
-// import UpdatePasswordPage from "@pages/AccountPage/UpdatePasswordPage";
-const UpdatePasswordPage = lazy(() => import("@pages/AccountPage/UpdatePasswordPage"));
-// import AccountDetailsPage from "@pages/AccountPage/AccountDetailsPage";
-const AccountDetailsPage = lazy(() => import("@pages/AccountPage/AccountDetailsPage"));
+import RecruiterProfilePage from "@pages/AccountPage/RecruiterProfilePage";
+import StudentProfilePage from "@pages/AccountPage/StudentProfilePage";
+import UpdatePasswordPage from "@pages/AccountPage/UpdatePasswordPage";
+import AccountDetailsPage from "@pages/AccountPage/AccountDetailsPage";
 
 // import AppliedJobsPage from "@pages/DataPage/StudentDataPage/AppliedJobsPage";
 const AppliedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/AppliedJobsPage"));
@@ -44,7 +40,7 @@ const CreateJobPostPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/C
 // import DashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
 const DashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
 
-import ReduxToolkitPage from "@/pages/ReduxToolkitPage";
+import ReduxToolkitPage from "@pages/ReduxToolkitPage";
 
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();

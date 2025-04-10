@@ -15,7 +15,7 @@ import { updateProfile } from "@services/studentService";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProfile, setProfile as setProfileRedux } from "@store/slices/profileSlice";
 
-import Loading from "@/components/loaders/Loading/Loading";
+import Loading from "@components/loaders/Loading/Loading";
 
 const defaultValues = {
     name: "",
