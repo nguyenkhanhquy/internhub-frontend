@@ -26,7 +26,7 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
         reset,
     } = useForm({
         defaultValues: {
-            id: teacher?.id || "",
+            id: teacher?.userId || "",
             name: teacher?.name || "",
             email: teacher?.email || "",
         },

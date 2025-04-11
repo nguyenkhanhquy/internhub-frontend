@@ -199,7 +199,7 @@ const TeacherPage = () => {
                                         <Button onClick={() => handleOpenModal(teacher)} color="warning">
                                             Chỉnh sửa
                                         </Button>
-                                        <Button onClick={() => handleDeleteTeacher(teacher.id)} color="error">
+                                        <Button onClick={() => handleDeleteTeacher(teacher.userId)} color="error">
                                             Xóa
                                         </Button>
                                     </TableCell>
