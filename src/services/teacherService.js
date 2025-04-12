@@ -5,10 +5,10 @@ export const getAllTeachers = async () => {
     return axiosClient.get(TEACHERS_API.GET_ALL);
 };
 
-export const updateTeacher = async (teacherId, teacherName, teacherEmail) => {
-    return axiosClient.put(`${TEACHERS_API.UPDATE}${teacherId}`, {
+export const updateTeacher = async (userId, teacherName, teacherId) => {
+    return axiosClient.put(`${TEACHERS_API.UPDATE}${userId}`, {
         name: teacherName,
-        email: teacherEmail,
+        teacherId: teacherId,
     });
 };
 

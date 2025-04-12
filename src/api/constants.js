@@ -60,7 +60,7 @@ export const TEACHERS_API = {
     GET_ALL: "/teachers",
     UPDATE: "/teachers/",
     DELETE: "/teachers/",
-    IMPORT: "/teachers/import",
+    IMPORT: "/users/import/teachers",
 };
 
 export const JOBS_API = {

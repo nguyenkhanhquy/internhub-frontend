@@ -15,7 +15,8 @@ const regexEmail =
 // Schema Yup xác thực
 const schema = yup.object().shape({
     name: yup.string().required("Họ và tên là bắt buộc").max(50, "Họ và tên không được vượt quá 50 ký tự"),
-    email: yup.string().required("Email là bắt buộc").matches(regexEmail, "Email không hợp lệ"),
+    // email: yup.string().required("Email là bắt buộc").matches(regexEmail, "Email không hợp lệ"),
+    teacherId: yup.string().required("Mã giảng viên là bắt buộc").max(10, "Mã giảng viên không được vượt quá 10 ký tự"),
 });
 
 const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
@@ -28,7 +29,7 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
         defaultValues: {
             id: teacher?.userId || "",
             name: teacher?.name || "",
-            email: teacher?.email || "",
+            teacherId: teacher?.teacherId || "",
         },
         resolver: yupResolver(schema),
         mode: "onChange",
@@ -43,7 +44,7 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
     // Xử lý nút Lưu
     const onSubmit = async (formData) => {
         try {
-            const data = await updateTeacher(formData.id, formData.name, formData.email);
+            const data = await updateTeacher(formData.id, formData.name, formData.teacherId);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -86,18 +87,18 @@ const UpdateTeacherModal = ({ isOpen, onClose, teacher, setFlag }) => {
                         />
                     </Box>
                     <Box mb={2}>
-                        {/* Email giảng viên */}
+                        {/* Mã giảng viên */}
                         <Controller
-                            name="email"
+                            name="teacherId"
                             control={control}
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="Email"
+                                    label="Mã giảng viên"
                                     variant="outlined"
                                     fullWidth
-                                    error={!!errors.email}
-                                    helperText={errors.email?.message}
+                                    error={!!errors.teacherId}
+                                    helperText={errors.teacherId?.message}
                                 />
                             )}
                         />

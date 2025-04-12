@@ -108,6 +108,7 @@ const TeacherPage = () => {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
             setFile(null);
+            document.querySelector('input[type="file"]').value = "";
             fetchData();
             toast.success(data.message);
         } catch (error) {
@@ -170,32 +171,36 @@ const TeacherPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>STT</TableCell>
-                            <TableCell>HỌ VÀ TÊN</TableCell>
-                            <TableCell>EMAIL</TableCell>
-                            <TableCell>HÀNH ĐỘNG</TableCell>
+                            <TableCell style={{ width: "10%" }}>STT</TableCell>
+                            <TableCell style={{ width: "15%" }}>MÃ GV</TableCell>
+                            <TableCell style={{ width: "20%" }}>HỌ VÀ TÊN</TableCell>
+                            <TableCell style={{ width: "30%" }}>EMAIL</TableCell>
+                            <TableCell style={{ width: "25%", textAlign: "right" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
                                     <SuspenseLoader />
                                 </TableCell>
                             </TableRow>
                         ) : teachers.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
                             teachers.map((teacher, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
-                                    <TableCell>{teacher.name}</TableCell>
-                                    <TableCell>{teacher.email}</TableCell>
-                                    <TableCell>
+                                    <TableCell style={{ width: "10%" }}>
+                                        {index + 1 + (currentPage - 1) * recordsPerPage}
+                                    </TableCell>
+                                    <TableCell style={{ width: "15%" }}>{teacher.teacherId}</TableCell>
+                                    <TableCell style={{ width: "20%" }}>{teacher.name}</TableCell>
+                                    <TableCell style={{ width: "30%" }}>{teacher.user.email}</TableCell>
+                                    <TableCell style={{ width: "25%", textAlign: "right" }}>
                                         <Button onClick={() => handleOpenModal(teacher)} color="warning">
                                             Chỉnh sửa
                                         </Button>
