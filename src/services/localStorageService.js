@@ -2,18 +2,17 @@
 export const KEY_TOKEN = "accessToken";
 export const EXPIRATION_TIME = "tokenExpiration";
 
-export const setToken = (accessToken) => {
-    const expirationTime = new Date().getTime() + 10800 * 1000; // 3 hours
+export const setToken = (accessToken, expirationTime) => {
     localStorage.setItem(KEY_TOKEN, accessToken);
-    localStorage.setItem(EXPIRATION_TIME, expirationTime);
+    localStorage.setItem(EXPIRATION_TIME, new Date(expirationTime).getTime());
 };
 
 export const getToken = () => {
     const accessToken = localStorage.getItem(KEY_TOKEN);
     const expirationTime = parseInt(localStorage.getItem(EXPIRATION_TIME), 10);
 
-    // Kiểm tra nếu token hoặc expirationTime không tồn tại hoặc đã hết hạn
-    if (!accessToken || !expirationTime || new Date().getTime() > expirationTime) {
+    // Kiểm tra nếu accessToken hoặc expirationTime không tồn tại hoặc đã hết hạn
+    if (!accessToken || isNaN(expirationTime) || Date.now() > expirationTime) {
         removeToken();
         return null;
     }

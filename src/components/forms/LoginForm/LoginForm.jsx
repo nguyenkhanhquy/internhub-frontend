@@ -86,7 +86,7 @@ function LoginForm() {
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-            setToken(data.result?.accessToken);
+            setToken(data.result?.accessToken, data.result?.expirationTime);
 
             const dataUser = await getAuthUser();
             if (!dataUser.success) {
@@ -147,7 +147,7 @@ function LoginForm() {
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setToken(data.result?.accessToken);
+                setToken(data.result?.accessToken, data.result?.expirationTime);
 
                 const dataUser = await getAuthUser();
                 if (!dataUser.success) {
