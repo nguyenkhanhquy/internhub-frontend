@@ -72,8 +72,8 @@ const AppRoutes = () => {
                     <Route path="/404" element={<NotFoundPage />} />
                     <Route path="/logout" element={<LogoutPage />} />
 
-                    {/* FIT Admin Routes */}
-                    {user?.role === "FIT" && (
+                    {/* FIT Admin & Teacher Routes */}
+                    {(user?.role === "FIT" || user?.role === "TEACHER") && (
                         <>
                             <Route index element={<DashboardPage />} />
                             <Route path="/*" element={<Navigate to="/" replace />} />
@@ -169,7 +169,6 @@ const AppRoutes = () => {
                             )}
                         </>
                     )}
-
                     {/* Catch all unmatched routes */}
                     <Route path="/*" element={<Navigate to="/404" replace />} />
                 </Route>
