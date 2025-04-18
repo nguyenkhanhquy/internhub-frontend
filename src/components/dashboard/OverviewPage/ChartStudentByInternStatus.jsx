@@ -102,6 +102,7 @@ export default function ChartStudentByInternStatus({ overview }) {
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <PieChart
+                        aria-label="Số lượng sinh viên theo tình trạng thực tập"
                         colors={colors}
                         margin={{
                             left: 80,
@@ -115,7 +116,7 @@ export default function ChartStudentByInternStatus({ overview }) {
                                 innerRadius: 70,
                                 outerRadius: 100,
                                 paddingAngle: 0,
-                                highlightScope: { faded: "global", highlighted: "item" },
+                                highlightScope: { fade: "global", highlight: "item" },
                             },
                         ]}
                         height={260}
