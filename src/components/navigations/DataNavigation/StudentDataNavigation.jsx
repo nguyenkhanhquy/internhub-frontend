@@ -9,7 +9,7 @@ import {
     Divider,
     Paper,
 } from "@mui/material";
-import { Bookmark, AssignmentTurnedIn } from "@mui/icons-material";
+import { Bookmark, AssignmentTurnedIn, Class } from "@mui/icons-material";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -144,6 +144,33 @@ const StudentDataNavigation = ({ studentName }) => {
                         <AssignmentTurnedIn />
                     </ListItemIcon>
                     <ListItemText primary="Báo cáo thực tập" />
+                </ListItemButton>
+
+                <Divider />
+                {/* Lớp thực tập */}
+                <ListItemButton
+                    onClick={() => handleNavigate("/student/courses")}
+                    sx={{
+                        position: "relative",
+                        "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            height: location.pathname === "/student/courses" ? "100%" : "0%",
+                            width: "4px",
+                            backgroundColor: "primary.main",
+                            transition: "height 0.3s ease",
+                        },
+                        "&:hover::after": {
+                            height: "100%",
+                        },
+                    }}
+                >
+                    <ListItemIcon>
+                        <Class />
+                    </ListItemIcon>
+                    <ListItemText primary="Lớp thực tập" />
                 </ListItemButton>
             </List>
         </Paper>
