@@ -5,6 +5,7 @@ import usePageTitle from "../../../hooks/usePageTitle";
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import ClassIcon from "@mui/icons-material/Class";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import SchoolIcon from "@mui/icons-material/School";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -48,6 +49,11 @@ const NAVIGATION = [
     {
         kind: "header",
         title: "Quản lý chung",
+    },
+    {
+        segment: "course",
+        title: "Lớp thực tập",
+        icon: <ClassIcon />,
     },
     {
         segment: "internship-report",
