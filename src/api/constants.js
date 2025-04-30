@@ -100,3 +100,12 @@ export const FILES_API = {
     UPLOAD_IMAGE: "/files/upload/image",
     UPLOAD_RAW: "/files/upload/raw",
 };
+
+export const ACADEMIC_API = {
+    GET_ALL_YEAR_AND_SEMESTER: "/academic/year-and-semester",
+};
+
+export const COURSES_API = {
+    GET_ALL: "/courses",
+    DELETE: "/courses/",
+};

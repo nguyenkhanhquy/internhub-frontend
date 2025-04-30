@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import NotificationPage from "../NotificationPage/NotificationPage";
 import OverviewPage from "../OverviewPage/OverviewPage";
+import CoursePage from "../CoursePage/CoursePage";
 import InternshipReportPage from "../InternshipReportPage/InternshipReportPage";
 import StudentPage from "../StudentPage/StudentPage";
 import TeacherPage from "../TeacherPage/TeacherPage";
@@ -19,6 +20,8 @@ function PageContent({ pathname }) {
             return <OverviewPage />;
         case "/overview":
             return <OverviewPage />;
+        case "/course":
+            return <CoursePage />;
         case "/internship-report":
             return <InternshipReportPage />;
         case "/student":
