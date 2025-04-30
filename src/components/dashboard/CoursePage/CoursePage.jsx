@@ -37,6 +37,7 @@ const CoursePage = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
+    const [filtersLoaded, setFiltersLoaded] = useState(false);
     const [academicYears, setAcademicYears] = useState([{ id: "ALL", name: "Tất cả năm học" }]);
     const [semesters, setSemesters] = useState([{ id: "ALL", name: "Tất cả học kỳ" }]);
     const [year, setYear] = useState("ALL");
@@ -105,14 +106,18 @@ const CoursePage = () => {
                 setSemester(data.result.currentSemester?.id || "ALL");
             } catch (error) {
                 toast.error(error.message);
+            } finally {
+                setFiltersLoaded(true);
             }
         };
         fetchAcademicYearsAndSemesters();
     }, []);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData, flag]);
+        if (filtersLoaded) {
+            fetchData();
+        }
+    }, [fetchData, flag, filtersLoaded]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
