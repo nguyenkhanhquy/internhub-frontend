@@ -31,6 +31,7 @@ const AppliedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/Appli
 const SavedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/SavedJobsPage"));
 // import InternshipApplicationsPage from "@pages/DataPage/StudentDataPage/InternshipApplicationsPage";
 const InternshipApplicationsPage = lazy(() => import("@pages/DataPage/StudentDataPage/InternshipApplicationsPage"));
+import CoursesPage from "@pages/DataPage/StudentDataPage/CoursesPage";
 
 // import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
 const PostedJobsPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/PostedJobsPage"));
@@ -135,6 +136,7 @@ const AppRoutes = () => {
                                             <Route path="applied-jobs" element={<AppliedJobsPage />} />
                                             <Route path="saved-jobs" element={<SavedJobsPage />} />
                                             <Route path="internship-reports" element={<InternshipApplicationsPage />} />
+                                            <Route path="courses" element={<CoursesPage />} />
                                         </Route>
                                     )}
 
