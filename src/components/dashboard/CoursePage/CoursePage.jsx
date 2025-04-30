@@ -27,7 +27,7 @@ import { getAllYearAndSemester } from "@services/academicService";
 import { getAllCourses, deleteCourse } from "@services/courseService";
 
 const CoursePage = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
 
@@ -40,8 +40,8 @@ const CoursePage = () => {
     const [filtersLoaded, setFiltersLoaded] = useState(false);
     const [academicYears, setAcademicYears] = useState([{ id: "ALL", name: "Tất cả năm học" }]);
     const [semesters, setSemesters] = useState([{ id: "ALL", name: "Tất cả học kỳ" }]);
-    const [year, setYear] = useState("ALL");
-    const [semester, setSemester] = useState("ALL");
+    const [selectedYear, setSelectedYear] = useState("ALL");
+    const [selectedSemester, setSelectedSemester] = useState("ALL");
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -55,8 +55,8 @@ const CoursePage = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const yearParam = year === "ALL" ? null : year;
-            const semesterParam = semester === "ALL" ? null : semester;
+            const yearParam = selectedYear === "ALL" ? null : selectedYear;
+            const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
             const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -69,7 +69,7 @@ const CoursePage = () => {
         } finally {
             setLoading(false);
         }
-    }, [currentPage, recordsPerPage, search, year, semester]);
+    }, [currentPage, recordsPerPage, search, selectedYear, selectedSemester]);
 
     const handleDeleteCourse = async (courseId) => {
         try {
@@ -102,8 +102,8 @@ const CoursePage = () => {
 
                 setAcademicYears([{ id: "ALL", name: "Tất cả năm học" }, ...(data.result.academicYears || [])]);
                 setSemesters([{ id: "ALL", name: "Tất cả học kỳ" }, ...(data.result.semesters || [])]);
-                setYear(data.result.currentAcademicYear?.id || "ALL");
-                setSemester(data.result.currentSemester?.id || "ALL");
+                setSelectedYear(data.result.currentAcademicYear?.id || "ALL");
+                setSelectedSemester(data.result.currentSemester?.id || "ALL");
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -167,16 +167,16 @@ const CoursePage = () => {
             </div>
 
             <Box className="mb-4" sx={{ display: "flex", gap: 2 }}>
-                <FormControl sx={{ minWidth: 180 }}>
+                <FormControl sx={{ minWidth: 200 }} disabled={!filtersLoaded}>
                     <InputLabel id="academic-year-select-label">Năm học</InputLabel>
                     <Select
                         labelId="academic-year-select-label"
                         id="academic-year-select"
-                        value={year}
+                        value={selectedYear}
                         label="Năm học"
                         onChange={(event) => {
                             setCurrentPage(1);
-                            setYear(event.target.value);
+                            setSelectedYear(event.target.value);
                         }}
                     >
                         {academicYears.map((option) => (
@@ -186,16 +186,16 @@ const CoursePage = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 160 }}>
+                <FormControl sx={{ minWidth: 200 }} disabled={!filtersLoaded}>
                     <InputLabel id="semester-select-label">Học kỳ</InputLabel>
                     <Select
                         labelId="semester-select-label"
                         id="semester-select"
-                        value={semester}
+                        value={selectedSemester}
                         label="Học kỳ"
                         onChange={(event) => {
                             setCurrentPage(1);
-                            setSemester(event.target.value);
+                            setSelectedSemester(event.target.value);
                         }}
                     >
                         {semesters.map((option) => (
