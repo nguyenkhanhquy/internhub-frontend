@@ -129,7 +129,7 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                             </TableRow>
                         ) : courses.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
