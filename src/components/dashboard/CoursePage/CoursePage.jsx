@@ -20,6 +20,8 @@ import CachedIcon from "@mui/icons-material/Cached";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
@@ -177,10 +179,20 @@ const CoursePage = () => {
                     Lớp thực tập
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    <Button onClick={() => setOpenImportModal(true)} variant="contained" color="primary">
+                    <Button
+                        onClick={() => setOpenImportModal(true)}
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<UploadFileIcon />}
+                    >
                         Import
                     </Button>
-                    <Button onClick={() => setOpenCreateModal(true)} variant="contained" color="primary">
+                    <Button
+                        onClick={() => setOpenCreateModal(true)}
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                    >
                         Tạo lớp
                     </Button>
                     <Button
