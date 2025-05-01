@@ -67,6 +67,7 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, onSave }) => {
             toast.success("Gán sinh viên thành công!");
             handleClose();
         } catch (error) {
+            console.error("Error saving assigned students:", error);
             toast.error("Gán sinh viên thất bại!");
         }
     };

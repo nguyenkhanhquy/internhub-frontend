@@ -24,6 +24,7 @@ import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import ImportFromExcelModal from "@/components/modals/ImportFromExcelModal/ImportFromExcelModal";
 import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
 import UpdateCourseModal from "@/components/modals/UpdateCourseModal/UpdateCourseModal";
 import AssignStudentsToCourse from "@/components/modals/AssignStudentsToCourseModal/AssignStudentsToCourseModal";
@@ -37,6 +38,7 @@ const CoursePage = () => {
     const [loading, setLoading] = useState(true);
     const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
+    const [openImportModal, setOpenImportModal] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openAssignModal, setOpenAssignModal] = useState(false);
@@ -74,6 +76,11 @@ const CoursePage = () => {
         // Logic gán sinh viên vào lớp ở đây
         console.log("Gán sinh viên cho lớp:", selectedCourse.courseCode, assignedStudents);
         setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
+    };
+
+    const handleImportSubmit = async (file) => {
+        console.log(`Import danh sách lớp thành công`, file);
+        setFlag((prev) => !prev);
     };
 
     const handlePageChange = (page) => {
@@ -170,6 +177,9 @@ const CoursePage = () => {
                     Lớp thực tập
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
+                    <Button onClick={() => setOpenImportModal(true)} variant="contained" color="primary">
+                        Import
+                    </Button>
                     <Button onClick={() => setOpenCreateModal(true)} variant="contained" color="primary">
                         Tạo lớp
                     </Button>
@@ -319,6 +329,16 @@ const CoursePage = () => {
                     onRecordsPerPageChange={handleRecordsPerPageChange}
                 />
             </div>
+
+            {openImportModal && (
+                <ImportFromExcelModal
+                    isOpen={openImportModal}
+                    onClose={() => setOpenImportModal(false)}
+                    entityName="lớp"
+                    templateUrl="/templates/course-template.xlsx"
+                    onImport={handleImportSubmit}
+                />
+            )}
 
             {openCreateModal && (
                 <CreateCourseModal
