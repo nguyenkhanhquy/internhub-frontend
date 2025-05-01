@@ -22,7 +22,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
     (response) => response?.data,
     (error) => {
-        if (error?.response?.status === 401) {
+        if (error?.response?.status === 401 && error?.response?.data?.message === "Chưa được xác thực") {
             removeToken();
             window.location.replace("/login");
         }
