@@ -1,13 +1,15 @@
-import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { Box, Button, TextField, Typography, Paper, Divider } from "@mui/material";
-import { updatePassword } from "../../../services/userService";
-import { removeRememberMe } from "../../../services/localStorageService";
+import { updatePassword } from "@services/userService";
+import { removeRememberMe } from "@services/localStorageService";
 
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { useDispatch } from "react-redux";
+import { resetAccountDetails } from "@store/slices/accountSlice";
 
 const schema = yup.object().shape({
     oldPassword: yup.string().min(8, "Mật khẩu hiện tại phải dài ít nhất 8 ký tự").required("Không được để trống"),
@@ -18,7 +20,9 @@ const schema = yup.object().shape({
         .required("Không được để trống"),
 });
 
-const DashboardUpdatePasswordForm = ({ setFlag }) => {
+const DashboardUpdatePasswordForm = () => {
+    const dispatch = useDispatch();
+
     const {
         control,
         handleSubmit,
@@ -39,8 +43,9 @@ const DashboardUpdatePasswordForm = ({ setFlag }) => {
             }
 
             reset();
-            setFlag((prev) => !prev);
             removeRememberMe();
+            dispatch(resetAccountDetails());
+
             toast.success("Đổi mật khẩu thành công");
         } catch (error) {
             toast.error(error.message);
@@ -56,7 +61,15 @@ const DashboardUpdatePasswordForm = ({ setFlag }) => {
 
                 <Divider />
 
-                <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: 600, px: 4, py: 2 }}>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{
+                        minHeight: 280,
+                        px: 4,
+                        py: 2,
+                    }}
+                >
                     <TextField
                         {...control.register("oldPassword")}
                         label={
@@ -120,8 +133,13 @@ const DashboardUpdatePasswordForm = ({ setFlag }) => {
                             helperText={errors.confirmPassword?.message ?? " "}
                         />
                     </Box>
-                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
-                        <Button disabled={isSubmitting} variant="contained" type="submit">
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                        <Button
+                            disabled={isSubmitting}
+                            variant="contained"
+                            type="submit"
+                            sx={{ width: "120px", py: 1 }}
+                        >
                             {isSubmitting ? "Đang lưu..." : "Lưu"}
                         </Button>
                     </Box>
@@ -129,10 +147,6 @@ const DashboardUpdatePasswordForm = ({ setFlag }) => {
             </Paper>
         </>
     );
-};
-
-DashboardUpdatePasswordForm.propTypes = {
-    setFlag: PropTypes.func.isRequired,
 };
 
 export default DashboardUpdatePasswordForm;

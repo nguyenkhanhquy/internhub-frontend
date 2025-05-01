@@ -1,24 +1,42 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+
 import { Paper, Typography, Grid, Divider, Box } from "@mui/material";
-import Loading from "../../../components/loaders/Loading/Loading";
+import Loading from "@components/loaders/Loading/Loading";
 
-import { getAuthUser } from "../../../services/authService";
+import { getAuthUser } from "@services/authService";
 
-const AccountDetailsCard = ({ flag }) => {
-    const [loading, setLoading] = useState(true);
-    const [userDetails, setUserDetails] = useState({});
+import { useDispatch, useSelector } from "react-redux";
+import { selectAccountDetails, setAccountDetails as setAccountDetailsRedux } from "@store/slices/accountSlice";
+
+const AccountDetailsCard = () => {
+    const dispatch = useDispatch();
+    const accountDetailsRedux = useSelector(selectAccountDetails);
+
+    const [accountDetails, setAccountDetails] = useState(accountDetailsRedux);
+    const [loading, setLoading] = useState(!accountDetailsRedux);
 
     useEffect(() => {
-        const getUserDetails = async () => {
+        const fetchAccountDetails = async () => {
             setLoading(true);
-            const data = await getAuthUser();
-            setUserDetails(data.result);
-            setLoading(false);
+            try {
+                const data = await getAuthUser();
+                if (!data?.success || !data?.result) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setAccountDetails(data.result);
+                dispatch(setAccountDetailsRedux(data.result));
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        getUserDetails();
-    }, [flag]);
+        if (!accountDetailsRedux) {
+            fetchAccountDetails();
+        }
+    }, [accountDetailsRedux, dispatch]);
 
     return (
         <Paper>
@@ -30,10 +48,10 @@ const AccountDetailsCard = ({ flag }) => {
 
             <Box
                 sx={{
-                    minWidth: 400,
+                    minHeight: 280,
+                    maxWidth: 400,
                     px: 4,
                     py: 2,
-                    mb: 2,
                 }}
             >
                 {loading ? (
@@ -41,21 +59,21 @@ const AccountDetailsCard = ({ flag }) => {
                 ) : (
                     <Grid container spacing={2}>
                         {[
-                            { label: "ID", value: userDetails.id },
-                            { label: "Email", value: userDetails.email },
-                            { label: "Quyền", value: userDetails.role },
+                            { label: "ID", value: accountDetails.id },
+                            { label: "Email", value: accountDetails.email },
+                            { label: "Quyền", value: accountDetails.role },
                             {
                                 label: "Ngày tạo",
-                                value: userDetails.createdDate || "Chưa cập nhật",
+                                value: accountDetails.createdDate || "Chưa cập nhật",
                             },
                             {
                                 label: "Ngày cập nhật",
-                                value: userDetails.updatedDate || "Chưa cập nhật",
+                                value: accountDetails.updatedDate || "Chưa cập nhật",
                             },
                             {
                                 label: "Trạng thái",
-                                value: userDetails.active ? "Đã kích hoạt" : "Chưa kích hoạt",
-                                color: userDetails.active ? "green" : "red",
+                                value: accountDetails.active ? "Đã kích hoạt" : "Chưa kích hoạt",
+                                color: accountDetails.active ? "green" : "red",
                             },
                         ].map((item, index) => (
                             <Grid size={12} key={index}>
@@ -72,10 +90,6 @@ const AccountDetailsCard = ({ flag }) => {
             </Box>
         </Paper>
     );
-};
-
-AccountDetailsCard.propTypes = {
-    flag: PropTypes.bool,
 };
 
 export default AccountDetailsCard;

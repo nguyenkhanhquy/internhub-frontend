@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import {
     Box,
@@ -21,8 +20,8 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
-import EmptyBox from "../../../box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import EmptyBox from "@components/box/EmptyBox";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
 const renderStatusChip = (status) => {
@@ -114,7 +113,7 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
                                     <Box
                                         display="flex"
                                         flexDirection="column"

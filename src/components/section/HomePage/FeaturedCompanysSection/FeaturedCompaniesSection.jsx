@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { Box, Typography, Avatar, Button, IconButton } from "@mui/material";
-import Loading from "../../../loaders/Loading/Loading";
+import Loading from "@components/loaders/Loading/Loading";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 const FeaturedCompaniesSection = ({ loading, companies }) => {
@@ -72,7 +72,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                         >
                             {[...companies, ...companies].map((company, index) => (
                                 <Box
-                                    key={company.id || index}
+                                    key={index}
                                     sx={{
                                         flex: "0 0 auto",
                                         display: "flex",
