@@ -23,13 +23,9 @@ axiosClient.interceptors.response.use(
     (response) => response?.data,
     (error) => {
         if (error?.response?.status === 401) {
-            const accessToken = getToken();
-            if (accessToken) {
-                removeToken();
-                window.location.href = "/login";
-            }
+            removeToken();
+            window.location.replace("/login");
         }
-
         return Promise.reject(error?.response?.data);
     },
 );
