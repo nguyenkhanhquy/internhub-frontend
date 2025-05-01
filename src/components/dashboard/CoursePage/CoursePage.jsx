@@ -20,6 +20,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
@@ -30,6 +31,7 @@ const CoursePage = () => {
     const [loading, setLoading] = useState(true);
     const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -137,6 +139,9 @@ const CoursePage = () => {
                     Lớp thực tập
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
+                    <Button onClick={() => setOpenCreateModal(true)} variant="contained" color="primary">
+                        Thêm
+                    </Button>
                     <Button
                         onClick={() => {
                             if (search === "" && currentPage === 1 && recordsPerPage === 10) {
@@ -214,8 +219,8 @@ const CoursePage = () => {
                             <TableCell style={{ width: "5%" }}>STT</TableCell>
                             <TableCell style={{ width: "10%" }}>MÃ HỌC PHẦN</TableCell>
                             <TableCell style={{ width: "15%" }}>TÊN HỌC PHẦN</TableCell>
-                            <TableCell style={{ width: "10%" }}>HỌC KỲ</TableCell>
                             <TableCell style={{ width: "10%" }}>NĂM HỌC</TableCell>
+                            <TableCell style={{ width: "10%" }}>HỌC KỲ</TableCell>
                             <TableCell style={{ width: "15%" }}>GIẢNG VIÊN</TableCell>
                             <TableCell style={{ width: "10%" }}>SỐ SINH VIÊN</TableCell>
                             <TableCell style={{ width: "15%" }}>TRẠNG THÁI</TableCell>
@@ -243,8 +248,8 @@ const CoursePage = () => {
                                     </TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.courseCode}</TableCell>
                                     <TableCell style={{ width: "15%" }}>{course.courseName}</TableCell>
-                                    <TableCell style={{ width: "10%" }}>{course.semester}</TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.academicYear}</TableCell>
+                                    <TableCell style={{ width: "10%" }}>{course.semester}</TableCell>
                                     <TableCell style={{ width: "15%" }}>{course.teacherName}</TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.totalStudents}</TableCell>
                                     <TableCell style={{ width: "15%" }}>{course.courseStatus}</TableCell>
@@ -271,6 +276,15 @@ const CoursePage = () => {
                     onRecordsPerPageChange={handleRecordsPerPageChange}
                 />
             </div>
+
+            {openCreateModal && (
+                <CreateCourseModal
+                    isOpen={openCreateModal}
+                    onClose={() => setOpenCreateModal(false)}
+                    academicYear={selectedYear}
+                    semester={selectedSemester}
+                />
+            )}
         </div>
     );
 };
