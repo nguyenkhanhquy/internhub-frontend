@@ -26,6 +26,7 @@ import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
 import UpdateCourseModal from "@/components/modals/UpdateCourseModal/UpdateCourseModal";
+import AssignStudentsToCourse from "@/components/modals/AssignStudentsToCourseModal/AssignStudentsToCourseModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
@@ -38,6 +39,7 @@ const CoursePage = () => {
     const [courses, setCourses] = useState([]);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
+    const [openAssignModal, setOpenAssignModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
 
     const [search, setSearch] = useState("");
@@ -57,9 +59,20 @@ const CoursePage = () => {
         setOpenUpdateModal(true);
     };
 
+    const handleAssignStudents = (course) => {
+        setSelectedCourse(course);
+        setOpenAssignModal(true);
+    };
+
     const handleUpdateSubmit = async (formData) => {
         // Logic cập nhật lớp học ở đây
         console.log("Cập nhật lớp học với dữ liệu:", formData);
+        setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
+    };
+
+    const handleAssignSubmit = async (assignedStudents) => {
+        // Logic gán sinh viên vào lớp ở đây
+        console.log("Gán sinh viên cho lớp:", selectedCourse.courseCode, assignedStudents);
         setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
     };
 
@@ -322,6 +335,15 @@ const CoursePage = () => {
                     onClose={() => setOpenUpdateModal(false)}
                     course={selectedCourse}
                     onUpdate={handleUpdateSubmit}
+                />
+            )}
+
+            {openAssignModal && (
+                <AssignStudentsToCourse
+                    isOpen={openAssignModal}
+                    onClose={() => setOpenAssignModal(false)}
+                    course={selectedCourse}
+                    onSave={handleAssignSubmit}
                 />
             )}
         </div>
