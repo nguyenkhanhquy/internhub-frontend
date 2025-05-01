@@ -24,7 +24,6 @@ import { OAuthConfig } from "@config/config";
 import logoGoogle from "/google.svg";
 
 // Components
-import Loading from "@components/loaders/Loading/Loading";
 import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
 import ForgotPasswordModal from "@components/modals/ForgotPasswordModal/ForgotPasswordModal";
 import ActivateAccountModal from "@components/modals/ActivateAccountModal/ActivateAccountModal";
@@ -249,7 +248,7 @@ function LoginForm() {
                         </div>
 
                         <div className={styles.buttonWrapper}>
-                            {loading ? <Loading /> : <button type="submit">Đăng nhập</button>}
+                            <button type="submit">Đăng nhập</button>
                         </div>
 
                         <div className={styles.activateAccount}>

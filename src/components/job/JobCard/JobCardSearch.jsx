@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import useAuth from "@hooks/useAuth";
+
 import { Card, CardContent, Typography, Box, IconButton, Avatar, Divider, Stack } from "@mui/material";
 import {
     BookmarkBorder,
@@ -12,8 +14,8 @@ import {
     MonetizationOn,
     CalendarToday,
 } from "@mui/icons-material";
-import { formatDate } from "../../../utils/dateUtil";
-import { saveJobPost } from "../../../services/jobPostService";
+import { formatDate } from "@utils/dateUtil";
+import { saveJobPost } from "@services/jobPostService";
 
 const JobCardSearch = ({
     id,
@@ -28,6 +30,7 @@ const JobCardSearch = ({
     expiryDate,
     saved,
 }) => {
+    const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
 
     const handleCardClick = () => {
@@ -36,6 +39,10 @@ const JobCardSearch = ({
 
     const handleSaveJob = async () => {
         try {
+            if (!isAuthenticated) {
+                toast.info("Vui lòng đăng nhập để lưu");
+                return;
+            }
             const data = await saveJobPost(id);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -43,11 +50,7 @@ const JobCardSearch = ({
             setIsSaved((prev) => !prev);
             toast.success(data.message);
         } catch (error) {
-            if (error.statusCode === 401) {
-                toast.info("Vui lòng đăng nhập để lưu");
-            } else {
-                toast.error(error.message);
-            }
+            toast.error(error.message);
         }
     };
 

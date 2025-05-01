@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import DashboardUpdatePasswordForm from "../../forms/DashboardUpdatePasswordForm/DashboardUpdatePasswordForm";
 import AccountDetailsCard from "../../card/AccountDetailsCard/AccountDetailsCard";
 
@@ -27,8 +27,14 @@ const SettingsPage = () => {
             >
                 Cài đặt
             </Typography>
-            <AccountDetailsCard flag={flag} />
-            <DashboardUpdatePasswordForm setFlag={setFlag} />
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                    <AccountDetailsCard flag={flag} />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                    <DashboardUpdatePasswordForm setFlag={setFlag} />
+                </Grid>
+            </Grid>
         </Box>
     );
 };

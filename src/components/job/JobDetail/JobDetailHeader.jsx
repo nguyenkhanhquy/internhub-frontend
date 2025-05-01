@@ -1,13 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import useAuth from "@hooks/useAuth";
 
 import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/material";
 import { Business, LocationOn, Work, CalendarToday } from "@mui/icons-material";
 
-import { formatDate } from "../../../utils/dateUtil";
-import { saveJobPost } from "../../../services/jobPostService";
+import { formatDate } from "@utils/dateUtil";
+import { saveJobPost } from "@services/jobPostService";
 
 const JobDetailHeader = ({
     id,
@@ -32,10 +33,15 @@ const JobDetailHeader = ({
     const buttonPaddingY = isSmallScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
     const avatarSize = isSmallScreen ? 80 : isMediumScreen ? 120 : 140;
 
+    const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
 
     const handleSaveJob = async () => {
         try {
+            if (!isAuthenticated) {
+                toast.info("Vui lòng đăng nhập để lưu");
+                return;
+            }
             const data = await saveJobPost(id);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -43,11 +49,7 @@ const JobDetailHeader = ({
             setIsSaved((prev) => !prev);
             toast.success(data.message);
         } catch (error) {
-            if (error.statusCode === 401) {
-                toast.info("Vui lòng đăng nhập để lưu");
-            } else {
-                toast.error(error.message);
-            }
+            toast.error(error.message);
         }
     };
 

@@ -109,3 +109,7 @@ export const COURSES_API = {
     GET_ALL: "/courses",
     DELETE: "/courses/",
 };
+
+export const ENROLLMENT_API = {
+    GET_ALL_BY_STUDENT: "/enrollments/student",
+};
