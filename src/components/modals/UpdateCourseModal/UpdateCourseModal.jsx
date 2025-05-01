@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     teacherName: yup.string().required("Vui lòng chọn giảng viên"),
 });
 
-const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
+const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
     const [teachers, setTeachers] = useState([]);
 
     const {
@@ -36,8 +36,8 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
         defaultValues: {
             courseCode: "",
             courseName: "Thực tập tốt nghiệp",
-            academicYear: academicYear || "",
-            semester: semester || "",
+            academicYear: "",
+            semester: "",
             teacherName: "",
         },
         resolver: yupResolver(schema),
@@ -60,28 +60,43 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (course && teachers.length > 0) {
+            const selectedTeacher = teachers.find((teacher) => teacher.name === course.teacherName) || { name: "" };
+            reset({
+                courseCode: course.courseCode || "",
+                courseName: "Thực tập tốt nghiệp",
+                academicYear: course.academicYear || "",
+                semester: course.semester || "",
+                teacherName: selectedTeacher.name,
+            });
+        }
+    }, [course, teachers, reset]);
+
     const handleClose = () => {
         reset();
         onClose();
     };
 
     const onSubmit = async (formData) => {
-        console.log("Dữ liệu từ form:", {
-            ...formData,
-            courseName: "Thực tập tốt nghiệp",
-            academicYear,
-            semester,
-        });
+        try {
+            await onUpdate(formData); // Cập nhật lớp học
+            toast.success("Cập nhật lớp học thành công!");
+            handleClose();
+        } catch (error) {
+            console.error("Error updating course:", error);
+            toast.error("Cập nhật lớp học thất bại!");
+        }
     };
 
     return (
         <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm">
             <DialogTitle>
-                <Typography fontWeight="bold">Thêm lớp thực tập</Typography>
+                <Typography fontWeight="bold">Chỉnh sửa lớp thực tập</Typography>
             </DialogTitle>
 
             <DialogContent dividers>
-                <Box component="form" noValidate>
+                <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
                     <Box mb={2}>
                         <Controller
                             name="courseCode"
@@ -102,10 +117,10 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
                         <TextField label="Tên học phần" value="Thực tập tốt nghiệp" fullWidth disabled />
                     </Box>
                     <Box mb={2}>
-                        <TextField label="Năm học" value={academicYear} fullWidth disabled />
+                        <TextField label="Năm học" value={course?.academicYear} fullWidth disabled />
                     </Box>
                     <Box mb={2}>
-                        <TextField label="Học kỳ" value={semester} fullWidth disabled />
+                        <TextField label="Học kỳ" value={course?.semester} fullWidth disabled />
                     </Box>
                     <Controller
                         name="teacherName"
@@ -129,26 +144,25 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
                             </TextField>
                         )}
                     />
+                    <DialogActions>
+                        <Button onClick={handleClose} variant="outlined">
+                            Hủy
+                        </Button>
+                        <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+                            Lưu
+                        </Button>
+                    </DialogActions>
                 </Box>
             </DialogContent>
-
-            <DialogActions>
-                <Button onClick={handleClose} variant="outlined">
-                    Hủy
-                </Button>
-                <Button disabled={isSubmitting} onClick={handleSubmit(onSubmit)} variant="contained">
-                    {isSubmitting ? "Đang lưu..." : "Thêm lớp"}
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };
 
-CreateCourseModal.propTypes = {
+UpdateCourseModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    academicYear: PropTypes.string.isRequired,
-    semester: PropTypes.string.isRequired,
+    course: PropTypes.object.isRequired,
+    onUpdate: PropTypes.func.isRequired,
 };
 
-export default CreateCourseModal;
+export default UpdateCourseModal;

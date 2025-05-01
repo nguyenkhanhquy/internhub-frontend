@@ -17,10 +17,15 @@ import {
     Select,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
+import UpdateCourseModal from "@/components/modals/UpdateCourseModal/UpdateCourseModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
@@ -32,6 +37,8 @@ const CoursePage = () => {
     const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
     const [openCreateModal, setOpenCreateModal] = useState(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +51,17 @@ const CoursePage = () => {
     const [semesters, setSemesters] = useState([{ id: "ALL", name: "Tất cả học kỳ" }]);
     const [selectedYear, setSelectedYear] = useState("ALL");
     const [selectedSemester, setSelectedSemester] = useState("ALL");
+
+    const handleUpdateCourse = async (course) => {
+        setSelectedCourse(course);
+        setOpenUpdateModal(true);
+    };
+
+    const handleUpdateSubmit = async (formData) => {
+        // Logic cập nhật lớp học ở đây
+        console.log("Cập nhật lớp học với dữ liệu:", formData);
+        setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
+    };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -140,7 +158,7 @@ const CoursePage = () => {
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
                     <Button onClick={() => setOpenCreateModal(true)} variant="contained" color="primary">
-                        Thêm
+                        Tạo lớp
                     </Button>
                     <Button
                         onClick={() => {
@@ -216,15 +234,15 @@ const CoursePage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ width: "5%" }}>STT</TableCell>
+                            <TableCell style={{ width: "2%" }}>STT</TableCell>
                             <TableCell style={{ width: "10%" }}>MÃ HỌC PHẦN</TableCell>
                             <TableCell style={{ width: "15%" }}>TÊN HỌC PHẦN</TableCell>
                             <TableCell style={{ width: "10%" }}>NĂM HỌC</TableCell>
                             <TableCell style={{ width: "10%" }}>HỌC KỲ</TableCell>
                             <TableCell style={{ width: "15%" }}>GIẢNG VIÊN</TableCell>
-                            <TableCell style={{ width: "10%" }}>SỐ SINH VIÊN</TableCell>
+                            <TableCell style={{ width: "10%" }}>SĨ SỐ</TableCell>
                             <TableCell style={{ width: "15%" }}>TRẠNG THÁI</TableCell>
-                            <TableCell style={{ width: "20%", textAlign: "right" }}>HÀNH ĐỘNG</TableCell>
+                            <TableCell style={{ width: "23%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -243,7 +261,7 @@ const CoursePage = () => {
                         ) : (
                             courses.map((course, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell style={{ width: "5%" }}>
+                                    <TableCell style={{ width: "2%" }}>
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.courseCode}</TableCell>
@@ -253,10 +271,22 @@ const CoursePage = () => {
                                     <TableCell style={{ width: "15%" }}>{course.teacherName}</TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.totalStudents}</TableCell>
                                     <TableCell style={{ width: "15%" }}>{course.courseStatus}</TableCell>
-                                    <TableCell style={{ width: "20%", textAlign: "right" }}>
-                                        <Button onClick={() => handleDeleteCourse(course.id)} color="error">
-                                            Xóa
-                                        </Button>
+                                    <TableCell style={{ width: "23%" }}>
+                                        <Tooltip title="Chỉnh sửa">
+                                            <IconButton color="primary" onClick={() => handleUpdateCourse(course)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Gán sinh viên">
+                                            <IconButton color="primary" onClick={() => handleAssignStudents(course)}>
+                                                <PersonAddIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Xóa">
+                                            <IconButton color="error" onClick={() => handleDeleteCourse(course.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -283,6 +313,15 @@ const CoursePage = () => {
                     onClose={() => setOpenCreateModal(false)}
                     academicYear={selectedYear}
                     semester={selectedSemester}
+                />
+            )}
+
+            {openUpdateModal && (
+                <UpdateCourseModal
+                    isOpen={openUpdateModal}
+                    onClose={() => setOpenUpdateModal(false)}
+                    course={selectedCourse}
+                    onUpdate={handleUpdateSubmit}
                 />
             )}
         </div>
