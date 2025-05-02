@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
-import { Box, Typography, List, Button, Divider, Card, CardContent, Paper } from "@mui/material";
+import { Box, Typography, Button, Card, Paper } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 
-import EmptyBox from "../../box/EmptyBox";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
-import { getAllNotificationsByUser, markNotificationAsRead } from "../../../services/notificationService";
+import { getAllNotificationsByUser, markNotificationAsRead } from "@services/notificationService";
 
 // Hàm định dạng thời gian tương đối
 const formatRelativeTime = (createdDate) => {
@@ -20,25 +22,37 @@ const formatRelativeTime = (createdDate) => {
         const diffInHours = Math.floor(diffInMinutes / 60);
         return `${diffInHours} giờ trước`;
     } else {
-        return createdAt.toLocaleString(); // Hiển thị định dạng ngày giờ thông thường
+        return createdAt.toLocaleString("vi-VN");
     }
 };
 
 const NotificationPage = () => {
     const [notifications, setNotifications] = useState([]);
     const [selectedNotification, setSelectedNotification] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const fetchNotifications = async () => {
-        const data = await getAllNotificationsByUser();
-
-        const sortedNotifications = data.result.sort((a, b) => {
-            if (a.read === b.read) {
-                return new Date(b.createdDate) - new Date(a.createdDate);
+        setLoading(true);
+        setSelectedNotification(null);
+        try {
+            const data = await getAllNotificationsByUser();
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-            return a.read ? 1 : -1;
-        });
 
-        setNotifications(sortedNotifications);
+            const sortedNotifications = data.result.sort((a, b) => {
+                if (a.read === b.read) {
+                    return new Date(b.createdDate) - new Date(a.createdDate);
+                }
+                return a.read ? 1 : -1;
+            });
+
+            setNotifications(sortedNotifications);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -89,75 +103,78 @@ const NotificationPage = () => {
                 >
                     Thông báo
                 </Typography>
-                <Button onClick={fetchNotifications} variant="contained" color="primary">
-                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                <Button onClick={fetchNotifications} variant="contained" color="primary" disabled={loading}>
+                    <CachedIcon className="mr-2" fontSize="small" /> Làm mới
                 </Button>
             </div>
-            {/* <Divider /> */}
+
             {/* Danh sách thông báo */}
             {selectedNotification === null ? (
-                <Paper sx={{ p: 2, mb: 2 }}>
-                    {notifications.length === 0 ? (
-                        <EmptyBox />
+                <Paper sx={{ p: 2, borderRadius: 2 }} elevation={3}>
+                    {loading ? (
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                            <SuspenseLoader />
+                        </Box>
+                    ) : notifications.length === 0 ? (
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                            <EmptyBox />
+                        </Box>
                     ) : (
-                        <List>
-                            {notifications.map((notification) => (
-                                <Box key={notification.id}>
-                                    <Card
-                                        onClick={() => handleNotificationClick(notification)}
+                        notifications.map((notification) => (
+                            <Box key={notification.id}>
+                                <Card
+                                    onClick={() => handleNotificationClick(notification)}
+                                    sx={{
+                                        mb: 1,
+                                        cursor: "pointer",
+                                        transition: "all 0.3s ease",
+                                        backgroundColor: notification.read ? "white" : "#e3f2fd",
+                                        "&:hover": {
+                                            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                                            backgroundColor: notification.read ? "#f5f5f5" : "#bbdefb",
+                                        },
+                                        borderRadius: 2,
+                                    }}
+                                    elevation={2}
+                                >
+                                    <Box
                                         sx={{
-                                            marginBottom: 0.5,
-                                            cursor: "pointer",
-                                            transition: "all 0.3s ease",
-                                            backgroundColor: notification.read ? "white" : "#e3f2fd",
-                                            "&:hover": {
-                                                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                                                backgroundColor: notification.read ? "#f5f5f5" : "#bbdefb",
-                                            },
+                                            p: 2,
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
                                         }}
                                     >
-                                        <CardContent>
-                                            {/* Sử dụng Flexbox để căn tiêu đề và thời gian */}
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center",
-                                                }}
-                                            >
-                                                <Typography
-                                                    variant="body1"
-                                                    sx={{
-                                                        fontWeight: notification.read ? "normal" : "bold",
-                                                    }}
-                                                >
-                                                    {notification.title}
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
-                                                >
-                                                    {formatRelativeTime(notification.createdDate)}
-                                                </Typography>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
-                                    {/* <Divider /> */}
-                                </Box>
-                            ))}
-                        </List>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                fontWeight: notification.read ? "normal" : "bold",
+                                            }}
+                                        >
+                                            {notification.title}
+                                        </Typography>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
+                                        >
+                                            {formatRelativeTime(notification.createdDate)}
+                                        </Typography>
+                                    </Box>
+                                </Card>
+                            </Box>
+                        ))
                     )}
                 </Paper>
             ) : (
                 // Chi tiết thông báo
                 <Paper
-                    elevation={3}
                     sx={{
                         p: 4,
                         mb: 4,
                         borderRadius: 2,
                         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
                     }}
+                    elevation={3}
                 >
                     <Box>
                         {/* Tiêu đề thông báo */}
@@ -185,7 +202,6 @@ const NotificationPage = () => {
 
                         {/* Nội dung thông báo */}
                         <Typography
-                            paragraph
                             sx={{
                                 lineHeight: 1.7,
                                 fontSize: "1rem",
