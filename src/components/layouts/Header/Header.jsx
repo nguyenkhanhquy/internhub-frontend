@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
+
+import useAuth from "@hooks/useAuth";
 
 import {
     Typography,
@@ -28,10 +29,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 
 import logoImage from "/images/hcmute_fit_logo.png";
-import NotificationModal from "../../modals/NotificationModal/NotfificationModal";
-import EmptyBox from "../../box/EmptyBox";
+import NotificationModal from "@components/modals/NotificationModal/NotfificationModal";
+import EmptyBox from "@components/box/EmptyBox";
 
-import { getAllNotificationsByUser, markNotificationAsRead } from "../../../services/notificationService";
+import { getAllNotificationsByUser, markNotificationAsRead } from "@services/notificationService";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectNotifications, setNotifications as setNotificationsRedux } from "@store/slices/notificationSlice";
 
 const formatRelativeTime = (createdDate) => {
     const now = new Date();
@@ -49,22 +53,27 @@ const formatRelativeTime = (createdDate) => {
     }
 };
 
+const ITEMS_PER_PAGE = 5;
+
 const Header = () => {
-    const { user, isAuthenticated, flag } = useAuth();
+    const dispatch = useDispatch();
+    const notificationsRedux = useSelector(selectNotifications);
+
+    const { user, isAuthenticated } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [accountAnchorEl, setAccountAnchorEl] = useState(null);
     const [infoAnchorEl, setInfoAnchorEl] = useState(null);
     const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
 
-    const [notifications, setNotifications] = useState([]);
-    const [visibleNotifications, setVisibleNotifications] = useState([]);
+    const [notifications, setNotifications] = useState(notificationsRedux ?? []);
+    const [visibleNotifications, setVisibleNotifications] = useState(
+        (notificationsRedux ?? []).slice(0, ITEMS_PER_PAGE),
+    );
     const [selectedNotification, setSelectedNotification] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
-
-    const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
         if (!isAuthenticated) return;
@@ -80,11 +89,14 @@ const Header = () => {
             });
 
             setNotifications(sortedNotifications);
+            dispatch(setNotificationsRedux(sortedNotifications));
             setVisibleNotifications(sortedNotifications.slice(0, ITEMS_PER_PAGE));
         };
 
-        fetchNotifications();
-    }, [isAuthenticated, flag]);
+        if (!notificationsRedux) {
+            fetchNotifications();
+        }
+    }, [isAuthenticated, notificationsRedux, dispatch]);
 
     const handleNotificationClick = (event) => {
         setNotificationAnchorEl(event.currentTarget);

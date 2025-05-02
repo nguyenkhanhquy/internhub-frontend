@@ -11,6 +11,7 @@ import Loading from "@components/loaders/Loading/Loading";
 
 import { resetProfile } from "@store/slices/profileSlice";
 import { resetAccountDetails } from "@store/slices/accountSlice";
+import { resetNotifications } from "@store/slices/notificationSlice";
 
 const LogoutPage = () => {
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ const LogoutPage = () => {
 
                 dispatch(resetProfile());
                 dispatch(resetAccountDetails());
+                dispatch(resetNotifications());
 
                 navigate("/login");
                 toast.success(data?.message);

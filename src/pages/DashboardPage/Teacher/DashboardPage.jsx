@@ -2,26 +2,20 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import usePageTitle from "@hooks/usePageTitle";
 import useAuth from "@hooks/useAuth";
-import usePageTitle from "../../../hooks/usePageTitle";
 
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ClassIcon from "@mui/icons-material/Class";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
-import SchoolIcon from "@mui/icons-material/School";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import BusinessIcon from "@mui/icons-material/Business";
 import SettingsIcon from "@mui/icons-material/Settings";
-import WorkIcon from "@mui/icons-material/Work";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import MapIcon from "@mui/icons-material/Map";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useDemoRouter } from "@toolpad/core/internal";
-import PageContent from "../../../components/dashboard/PageContent/PageContent";
+
+import PageContent from "@components/dashboard/PageContent/PageContent";
 
 const NAVIGATION = [
     {
@@ -32,19 +26,7 @@ const NAVIGATION = [
         segment: "notification",
         title: "Thông báo",
         icon: <NotificationsIcon />,
-        // action: <Chip label={7} color="primary" size="small" />,
-    },
-    {
-        kind: "divider",
-    },
-    {
-        kind: "header",
-        title: "Bảng điều khiển",
-    },
-    {
-        segment: "overview",
-        title: "Bảng điều khiển",
-        icon: <DashboardIcon />,
+        action: <Chip label={7} color="error" size="small" />,
     },
     {
         kind: "divider",
@@ -64,26 +46,6 @@ const NAVIGATION = [
         icon: <WorkspacesIcon />,
     },
     {
-        segment: "student",
-        title: "Sinh viên",
-        icon: <SchoolIcon />,
-    },
-    {
-        segment: "teacher",
-        title: "Giảng viên",
-        icon: <SupervisorAccountIcon />,
-    },
-    {
-        segment: "business",
-        title: "Doanh nghiệp",
-        icon: <BusinessIcon />,
-    },
-    {
-        segment: "job-post",
-        title: "Bài đăng tuyển dụng",
-        icon: <WorkIcon />,
-    },
-    {
         kind: "divider",
     },
     {
@@ -95,23 +57,6 @@ const NAVIGATION = [
         title: "Cài đặt",
         icon: <SettingsIcon />,
     },
-    // {
-    //     kind: "divider",
-    // },
-    // {
-    //     kind: "header",
-    //     title: "Hổ trợ",
-    // },
-    // {
-    //     segment: "map",
-    //     title: "Bản đồ",
-    //     icon: <MapIcon />,
-    // },
-    // {
-    //     segment: "technical-support",
-    //     title: "Hổ trợ kỹ thuật",
-    //     icon: <SupportAgentIcon />,
-    // },
 ];
 
 const theme = createTheme({
@@ -138,7 +83,7 @@ function DashboardPage(props) {
     const { window } = props;
     const [session, setSession] = useState({
         user: {
-            name: "Khoa Công Nghệ Thông Tin",
+            name: user?.name,
             email: user?.email,
             // image: "/images/fit_logo.png",
         },
@@ -149,9 +94,9 @@ function DashboardPage(props) {
             signIn: () => {
                 setSession({
                     user: {
-                        name: "Khoa Công Nghệ Thông Tin",
+                        name: user?.name,
                         email: user?.email,
-                        // image: "",
+                        // image: "/images/fit_logo.png",
                     },
                 });
             },
@@ -160,9 +105,9 @@ function DashboardPage(props) {
                 navigate("/logout");
             },
         };
-    }, [navigate]);
+    }, [navigate, user]);
 
-    const router = useDemoRouter("/overview");
+    const router = useDemoRouter("/notification");
 
     return (
         <AppProvider
@@ -173,6 +118,7 @@ function DashboardPage(props) {
             branding={{
                 // logo: <img src="" />,
                 title: "INTERN HUB",
+                homeUrl: "/notification",
             }}
             theme={theme}
             window={window}
