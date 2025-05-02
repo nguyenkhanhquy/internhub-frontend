@@ -1,17 +1,20 @@
 // @ts-nocheck
 
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback } from "react";
 
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
 
 import { toast } from "react-toastify";
 
+import { useDispatch } from "react-redux";
+import { resetNotifications } from "@store/slices/notificationSlice";
+
 const isDevelopment = import.meta.env.MODE === "development";
 
 const useWebSocket = (id) => {
     const stompClientRef = useRef(null);
-    const [flag, setFlag] = useState(false);
+    const dispatch = useDispatch();
 
     const connectWebSocket = useCallback(async () => {
         if (stompClientRef.current) {
@@ -35,7 +38,7 @@ const useWebSocket = (id) => {
                 if (id) {
                     client.subscribe(`/user/${id}/private`, (message) => {
                         const receivedMessage = JSON.parse(message.body);
-                        setFlag((prev) => !prev);
+                        dispatch(resetNotifications());
                         toast.info(`${receivedMessage.message}`);
                     });
                 }
@@ -50,7 +53,7 @@ const useWebSocket = (id) => {
 
         client.activate();
         stompClientRef.current = client;
-    }, [id]);
+    }, [id, dispatch]);
 
     const disconnectWebSocket = useCallback(async () => {
         if (stompClientRef.current) {
@@ -59,7 +62,7 @@ const useWebSocket = (id) => {
         }
     }, []);
 
-    return { connectWebSocket, disconnectWebSocket, flag };
+    return { connectWebSocket, disconnectWebSocket };
 };
 
 export default useWebSocket;

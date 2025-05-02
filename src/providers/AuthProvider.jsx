@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const { connectWebSocket, disconnectWebSocket, flag } = useWebSocket(user.id);
+    const { connectWebSocket, disconnectWebSocket } = useWebSocket(user.id);
 
     const fetchUser = useCallback(async () => {
         try {
@@ -67,7 +67,7 @@ const AuthProvider = ({ children }) => {
     }, [isAuthenticated, user?.email, connectWebSocket, disconnectWebSocket]);
 
     return (
-        <AuthContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated, loading, flag }}>
+        <AuthContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated, loading }}>
             {children}
         </AuthContext.Provider>
     );

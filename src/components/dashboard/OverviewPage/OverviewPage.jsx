@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { Box, Grid, Stack } from "@mui/material";
-import SummarySection from "../../section/OverviewPage/SummarySection";
+import SummarySection from "@components/section/OverviewPage/SummarySection";
 import ChartStudentByInternStatus from "./ChartStudentByInternStatus";
 
 import { getOverview } from "@services/adminService";
@@ -10,19 +10,19 @@ import { getOverview } from "@services/adminService";
 const OverviewPage = () => {
     const [overview, setOverview] = useState({});
 
-    const fetchData = async () => {
-        try {
-            const data = await getOverview();
-            if (!data.success) {
-                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-            }
-            setOverview(data.result);
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
-
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getOverview();
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setOverview(data.result);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
         fetchData();
     }, []);
 
