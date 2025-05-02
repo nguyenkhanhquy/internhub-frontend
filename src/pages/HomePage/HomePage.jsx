@@ -8,6 +8,7 @@ import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
 import SearchBar from "../../components/search/SearchBar";
 import FeaturedCompaniesSection from "../../components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
 import LatestJobsSection from "../../components/section/HomePage/LatestJobsSection/LatestJobsSection";
+import SuitableJobsSection from "../../components/section/HomePage/SuitableJobsSection/SuitableJobsSection";
 
 import { getAllApprovedCompanies } from "../../services/companyService";
 import { getAllJobPosts } from "../../services/jobPostService";
@@ -70,6 +71,9 @@ const HomePage = () => {
                         <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
                     </Box>
                 </Box>
+
+                {/* VIỆC LÀM PHÙ HỢP NHẤT */}
+                <SuitableJobsSection loading={loading} jobList={jobList} />
 
                 {/* VIỆC LÀM MỚI NHẤT */}
                 <LatestJobsSection loading={loading} jobList={jobList} />
