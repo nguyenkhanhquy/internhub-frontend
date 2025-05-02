@@ -26,25 +26,19 @@ import StudentProfilePage from "@pages/AccountPage/StudentProfilePage";
 import UpdatePasswordPage from "@pages/AccountPage/UpdatePasswordPage";
 import AccountDetailsPage from "@pages/AccountPage/AccountDetailsPage";
 
-// import AppliedJobsPage from "@pages/DataPage/StudentDataPage/AppliedJobsPage";
-const AppliedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/AppliedJobsPage"));
-// import SavedJobsPage from "@pages/DataPage/StudentDataPage/SavedJobsPage";
-const SavedJobsPage = lazy(() => import("@pages/DataPage/StudentDataPage/SavedJobsPage"));
-// import InternshipApplicationsPage from "@pages/DataPage/StudentDataPage/InternshipApplicationsPage";
-const InternshipApplicationsPage = lazy(() => import("@pages/DataPage/StudentDataPage/InternshipApplicationsPage"));
+import AppliedJobsPage from "@pages/DataPage/StudentDataPage/AppliedJobsPage";
+import SavedJobsPage from "@pages/DataPage/StudentDataPage/SavedJobsPage";
+import InternshipApplicationsPage from "@pages/DataPage/StudentDataPage/InternshipApplicationsPage";
 import CoursesPage from "@pages/DataPage/StudentDataPage/CoursesPage";
 
-// import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
-const PostedJobsPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/PostedJobsPage"));
-// import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
-const CreateJobPostPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/CreateJobPostPage"));
+import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
+import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 
-// import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
-const AdminDashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
-// import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
-const TeacherDashboardPage = lazy(() => import("@pages/DashboardPage/Teacher/DashboardPage"));
+import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
+import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
 
-import ReduxToolkitPage from "@pages/ReduxToolkitPage";
+// import ReduxToolkitPage from "@pages/ReduxToolkitPage";
+const ReduxToolkitPage = lazy(() => import("@pages/ReduxToolkitPage"));
 
 const AppRoutes = () => {
     const { user, isAuthenticated, loading } = useAuth();

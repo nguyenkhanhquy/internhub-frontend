@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import LoadingOverlay from "../../loaders/LoadingOverlay/LoadingOverlay";
+
+import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
 import {
     Box,
     Button,
@@ -15,8 +15,10 @@ import {
     Typography,
     InputAdornment,
 } from "@mui/material";
-import { Email } from "@mui/icons-material";
-import { sendOTP } from "../../../services/userService";
+
+import Email from "@mui/icons-material/Email";
+
+import { sendOTP } from "@services/userService";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

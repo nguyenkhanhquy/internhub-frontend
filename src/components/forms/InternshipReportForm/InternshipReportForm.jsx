@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -16,13 +16,14 @@ import {
     Grid,
     IconButton,
 } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { createInternshipReport } from "../../../services/internshipReport";
-import { getAllTeachers } from "../../../services/teacherService";
-import { uploadFile } from "../../../services/uploadService";
+import { createInternshipReport } from "@services/internshipReport";
+import { getAllTeachers } from "@services/teacherService";
+import { uploadFile } from "@services/uploadService";
 
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "@hooks/useAuth";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

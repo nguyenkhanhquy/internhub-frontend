@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { Box, Typography, Avatar, Button, IconButton } from "@mui/material";
+
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronRight from "@mui/icons-material/ChevronRight";
+
 import Loading from "@components/loaders/Loading/Loading";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 const FeaturedCompaniesSection = ({ loading, companies }) => {
     const navigate = useNavigate();

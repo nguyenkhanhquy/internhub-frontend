@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
 import { Box, TextField, InputAdornment, Button } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
+
+import SearchIcon from "@mui/icons-material/Search";
 
 const DashboardSearchBar = ({ onSearch, query, placeholder }) => {
     const [searchText, setSearchText] = useState(query || "");

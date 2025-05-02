@@ -1,3 +1,6 @@
+import { useNavigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import {
     Avatar,
     Box,
@@ -9,10 +12,12 @@ import {
     Divider,
     Paper,
 } from "@mui/material";
-import { Bookmark, AssignmentTurnedIn, Class } from "@mui/icons-material";
+
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import { useNavigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
+import Bookmark from "@mui/icons-material/Bookmark";
+import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
+import Class from "@mui/icons-material/Class";
+
 import logo from "/images/ute_logo_c.png";
 
 const StudentDataNavigation = ({ studentName }) => {
