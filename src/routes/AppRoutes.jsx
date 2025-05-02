@@ -1,9 +1,10 @@
 import { lazy } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
+import useAuth from "@hooks/useAuth";
+
 import AppWrapper from "@layouts/AppWrapper";
 import Loading from "@components/loaders/Loading/Loading";
-import useAuth from "@hooks/useAuth";
 
 import NotFoundPage from "@pages/ErrorPage/404/NotFoundPage";
 
@@ -38,8 +39,10 @@ const PostedJobsPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/Post
 // import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 const CreateJobPostPage = lazy(() => import("@pages/DataPage/RecruiterDataPage/CreateJobPostPage"));
 
-// import DashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
-const DashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
+// import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
+const AdminDashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
+// import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
+const TeacherDashboardPage = lazy(() => import("@pages/DashboardPage/Teacher/DashboardPage"));
 
 import ReduxToolkitPage from "@pages/ReduxToolkitPage";
 
@@ -73,16 +76,24 @@ const AppRoutes = () => {
                     <Route path="/404" element={<NotFoundPage />} />
                     <Route path="/logout" element={<LogoutPage />} />
 
-                    {/* FIT Admin & Teacher Routes */}
-                    {(user?.role === "FIT" || user?.role === "TEACHER") && (
+                    {/* FIT Admin Routes */}
+                    {user?.role === "FIT" && (
                         <>
-                            <Route index element={<DashboardPage />} />
+                            <Route index element={<AdminDashboardPage />} />
                             <Route path="/*" element={<Navigate to="/" replace />} />
                         </>
                     )}
 
-                    {/* Student/Recruiter Routes */}
-                    {user?.role !== "FIT" && (
+                    {/* Teacher Routes */}
+                    {user?.role === "TEACHER" && (
+                        <>
+                            <Route index element={<TeacherDashboardPage />} />
+                            <Route path="/*" element={<Navigate to="/" replace />} />
+                        </>
+                    )}
+
+                    {/* Student - Recruiter Routes */}
+                    {user?.role !== "FIT" && user?.role !== "TEACHER" && (
                         <>
                             {user?.role === "RECRUITER" && (
                                 <>
