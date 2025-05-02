@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import {
     Box,
     Table,
@@ -17,10 +18,15 @@ import {
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EmptyBox from "../../../box/EmptyBox";
 import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
+import ViewCvModal from "@/components/modals/ViewCVModal/ViewCVModal";
 
 import { formatDate } from "../../../../utils/dateUtil";
 
 const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPage, handleAction }) => {
+    const [openCvModal, setOpenCvModal] = useState(false);
+    const [cvUrl, setCvUrl] = useState(null);
+    const [stt, setStt] = useState(null);
+
     const renderActions = (status, id) => {
         switch (status) {
             case "PROCESSING":
@@ -95,6 +101,12 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
         }
     };
 
+    const handleViewCv = (url, stt) => {
+        setCvUrl(url);
+        setStt(stt);
+        setOpenCvModal(true);
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table>
@@ -128,7 +140,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                 <TableBody>
                     {loading ? (
                         <TableRow>
-                            <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
                                 <Box
                                     display="flex"
                                     flexDirection="column"
@@ -143,7 +155,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                         </TableRow>
                     ) : applications.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
@@ -189,14 +201,14 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                         arrow
                                         sx={{
                                             "& .MuiTooltip-tooltip": {
-                                                maxWidth: "400px", // Độ rộng tối đa của tooltip
-                                                backgroundColor: "#333", // Màu nền tooltip
-                                                color: "#fff", // Màu chữ trong tooltip
-                                                padding: "10px 15px", // Padding bên trong tooltip
-                                                fontSize: "0.875rem", // Kích thước chữ mặc định
+                                                maxWidth: "400px",
+                                                backgroundColor: "#333",
+                                                color: "#fff",
+                                                padding: "10px 15px",
+                                                fontSize: "0.875rem",
                                             },
                                             "& .MuiTooltip-arrow": {
-                                                color: "#333", // Màu của mũi tên tooltip
+                                                color: "#333",
                                             },
                                         }}
                                     >
@@ -217,13 +229,13 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                     <Tooltip title="Xem CV" arrow>
                                         <IconButton
                                             color="primary"
-                                            onClick={() => {
-                                                if (application?.cv) {
-                                                    window.open(application.cv, "_blank");
-                                                } else {
-                                                    alert("CV không tồn tại!");
-                                                }
-                                            }}
+                                            onClick={() =>
+                                                handleViewCv(
+                                                    application?.cv,
+                                                    index + 1 + (currentPage - 1) * recordsPerPage,
+                                                )
+                                            }
+                                            disabled={!application?.cv}
                                         >
                                             <ContactPageOutlinedIcon className="text-green-600" />
                                         </IconButton>
@@ -254,6 +266,9 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                     )}
                 </TableBody>
             </Table>
+            {openCvModal && (
+                <ViewCvModal isOpen={openCvModal} onClose={() => setOpenCvModal(false)} cvUrl={cvUrl} stt={stt} />
+            )}
         </TableContainer>
     );
 };
