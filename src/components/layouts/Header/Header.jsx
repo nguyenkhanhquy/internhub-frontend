@@ -131,6 +131,7 @@ const Header = () => {
             });
 
             setNotifications(sortedNotifications);
+            dispatch(setNotificationsRedux(sortedNotifications));
             setVisibleNotifications(sortedNotifications.slice(0, page * ITEMS_PER_PAGE));
         }
     };
