@@ -17,34 +17,72 @@ import {
     Select,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import AddIcon from "@mui/icons-material/Add";
+import PeopleIcon from "@mui/icons-material/People";
 import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
-import ImportFromExcelModal from "@/components/modals/ImportFromExcelModal/ImportFromExcelModal";
-import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
-import UpdateCourseModal from "@/components/modals/UpdateCourseModal/UpdateCourseModal";
-import AssignStudentsToCourse from "@/components/modals/AssignStudentsToCourseModal/AssignStudentsToCourseModal";
+import CourseStudentsModal from "@/components/modals/CourseStudentsModal/CourseStudentsModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
 import { getAllYearAndSemester } from "@services/academicService";
-import { getAllCourses, deleteCourse } from "@services/courseService";
+// import { getAllCourses, deleteCourse } from "@services/courseService";
+
+const mockCourses = [
+    {
+        id: 1,
+        courseCode: "CS101",
+        courseName: "Lập trình cơ bản",
+        academicYear: "2023-2024",
+        semester: "Học kỳ 1",
+        totalStudents: 30,
+        courseStatus: "Đang diễn ra",
+    },
+    {
+        id: 2,
+        courseCode: "CS102",
+        courseName: "Cấu trúc dữ liệu",
+        academicYear: "2023-2024",
+        semester: "Học kỳ 1",
+        totalStudents: 25,
+        courseStatus: "Đang diễn ra",
+    },
+    {
+        id: 3,
+        courseCode: "CS103",
+        courseName: "Thuật toán",
+        academicYear: "2023-2024",
+        semester: "Học kỳ 2",
+        totalStudents: 28,
+        courseStatus: "Đã kết thúc",
+    },
+    {
+        id: 4,
+        courseCode: "CS104",
+        courseName: "Hệ điều hành",
+        academicYear: "2024-2025",
+        semester: "Học kỳ 1",
+        totalStudents: 35,
+        courseStatus: "Đang diễn ra",
+    },
+    {
+        id: 5,
+        courseCode: "CS105",
+        courseName: "Mạng máy tính",
+        academicYear: "2024-2025",
+        semester: "Học kỳ 1",
+        totalStudents: 32,
+        courseStatus: "Đang diễn ra",
+    },
+];
 
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
     const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
-    const [openImportModal, setOpenImportModal] = useState(false);
-    const [openCreateModal, setOpenCreateModal] = useState(false);
-    const [openUpdateModal, setOpenUpdateModal] = useState(false);
-    const [openAssignModal, setOpenAssignModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [openStudentsModal, setOpenStudentsModal] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -58,33 +96,6 @@ const CoursePage = () => {
     const [selectedYear, setSelectedYear] = useState("ALL");
     const [selectedSemester, setSelectedSemester] = useState("ALL");
 
-    const handleUpdateCourse = async (course) => {
-        setSelectedCourse(course);
-        setOpenUpdateModal(true);
-    };
-
-    const handleAssignStudents = (course) => {
-        setSelectedCourse(course);
-        setOpenAssignModal(true);
-    };
-
-    const handleUpdateSubmit = async (formData) => {
-        // Logic cập nhật lớp học ở đây
-        console.log("Cập nhật lớp học với dữ liệu:", formData);
-        setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
-    };
-
-    const handleAssignSubmit = async (assignedStudents) => {
-        // Logic gán sinh viên vào lớp ở đây
-        console.log("Gán sinh viên cho lớp:", selectedCourse.courseCode, assignedStudents);
-        setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
-    };
-
-    const handleImportSubmit = async (file) => {
-        console.log(`Import danh sách lớp thành công`, file);
-        setFlag((prev) => !prev);
-    };
-
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -94,45 +105,65 @@ const CoursePage = () => {
         setRecordsPerPage(value);
     };
 
+    const handleOpenStudentsModal = (course) => {
+        setSelectedCourse(course);
+        setOpenStudentsModal(true);
+    };
+
+    const handleCloseStudentsModal = () => {
+        setOpenStudentsModal(false);
+        setSelectedCourse(null);
+    };
+
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const yearParam = selectedYear === "ALL" ? null : selectedYear;
-            const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
-            const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
-            if (!data.success) {
-                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            //     const yearParam = selectedYear === "ALL" ? null : selectedYear;
+            //     const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
+            //     const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
+            //     if (!data.success) {
+            //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            //     }
+            //     setTotalPages(data.pageInfo.totalPages);
+            //     setTotalRecords(data.pageInfo.totalElements);
+            //     setCourses(data.result);
+            // Sử dụng mock data thay vì gọi API
+            let filteredCourses = mockCourses;
+
+            // Lọc theo năm học
+            if (selectedYear !== "ALL") {
+                filteredCourses = filteredCourses.filter((course) => course.academicYear === selectedYear);
             }
-            setTotalPages(data.pageInfo.totalPages);
-            setTotalRecords(data.pageInfo.totalElements);
-            setCourses(data.result);
+
+            // Lọc theo học kỳ
+            if (selectedSemester !== "ALL") {
+                filteredCourses = filteredCourses.filter((course) => course.semester === selectedSemester);
+            }
+
+            // Tìm kiếm
+            if (search) {
+                const searchLower = search.toLowerCase();
+                filteredCourses = filteredCourses.filter(
+                    (course) =>
+                        course.courseCode.toLowerCase().includes(searchLower) ||
+                        course.courseName.toLowerCase().includes(searchLower),
+                );
+            }
+
+            // Tính toán phân trang
+            const totalFilteredRecords = filteredCourses.length;
+            const totalFilteredPages = Math.ceil(totalFilteredRecords / recordsPerPage);
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const paginatedCourses = filteredCourses.slice(startIndex, startIndex + recordsPerPage);
+            setTotalPages(totalFilteredPages);
+            setTotalRecords(totalFilteredRecords);
+            setCourses(paginatedCourses);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
     }, [currentPage, recordsPerPage, search, selectedYear, selectedSemester]);
-
-    const handleDeleteCourse = async (courseId) => {
-        try {
-            const isConfirm = confirm("Bạn có chắc chắn muốn xóa lớp học này?");
-            if (!isConfirm) {
-                return;
-            }
-
-            try {
-                await deleteCourse(courseId);
-            } catch (error) {
-                toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                return;
-            }
-
-            setFlag((prev) => !prev);
-            toast.success("Xóa lớp học thành công!");
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
 
     useEffect(() => {
         const fetchAcademicYearsAndSemesters = async () => {
@@ -179,22 +210,6 @@ const CoursePage = () => {
                     Lớp thực tập
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    <Button
-                        onClick={() => setOpenImportModal(true)}
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<UploadFileIcon />}
-                    >
-                        Import
-                    </Button>
-                    <Button
-                        onClick={() => setOpenCreateModal(true)}
-                        variant="contained"
-                        color="primary"
-                        startIcon={<AddIcon />}
-                    >
-                        Tạo lớp
-                    </Button>
                     <Button
                         onClick={() => {
                             if (search === "" && currentPage === 1 && recordsPerPage === 10) {
@@ -270,57 +285,57 @@ const CoursePage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ width: "2%" }}>STT</TableCell>
-                            <TableCell style={{ width: "10%" }}>MÃ HỌC PHẦN</TableCell>
+                            <TableCell style={{ width: "5%" }} align="center">
+                                STT
+                            </TableCell>
+                            <TableCell style={{ width: "15%" }}>MÃ HỌC PHẦN</TableCell>
                             <TableCell style={{ width: "15%" }}>TÊN HỌC PHẦN</TableCell>
-                            <TableCell style={{ width: "10%" }}>NĂM HỌC</TableCell>
+                            <TableCell style={{ width: "15%" }}>NĂM HỌC</TableCell>
                             <TableCell style={{ width: "10%" }}>HỌC KỲ</TableCell>
-                            <TableCell style={{ width: "15%" }}>GIẢNG VIÊN</TableCell>
-                            <TableCell style={{ width: "10%" }}>SĨ SỐ</TableCell>
-                            <TableCell style={{ width: "15%" }}>TRẠNG THÁI</TableCell>
-                            <TableCell style={{ width: "23%" }}>HÀNH ĐỘNG</TableCell>
+                            <TableCell style={{ width: "10%" }} align="center">
+                                SĨ SỐ
+                            </TableCell>
+                            <TableCell style={{ width: "20%" }} align="center">
+                                TRẠNG THÁI
+                            </TableCell>
+                            <TableCell style={{ width: "10%" }} align="center">
+                                HÀNH ĐỘNG
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                                     <SuspenseLoader />
                                 </TableCell>
                             </TableRow>
                         ) : courses.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
                             courses.map((course, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell style={{ width: "2%" }}>
+                                    <TableCell style={{ width: "5%" }} align="center">
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
-                                    <TableCell style={{ width: "10%" }}>{course.courseCode}</TableCell>
+                                    <TableCell style={{ width: "15%" }}>{course.courseCode}</TableCell>
                                     <TableCell style={{ width: "15%" }}>{course.courseName}</TableCell>
-                                    <TableCell style={{ width: "10%" }}>{course.academicYear}</TableCell>
+                                    <TableCell style={{ width: "15%" }}>{course.academicYear}</TableCell>
                                     <TableCell style={{ width: "10%" }}>{course.semester}</TableCell>
-                                    <TableCell style={{ width: "15%" }}>{course.teacherName}</TableCell>
-                                    <TableCell style={{ width: "10%" }}>{course.totalStudents}</TableCell>
-                                    <TableCell style={{ width: "15%" }}>{course.courseStatus}</TableCell>
-                                    <TableCell style={{ width: "23%" }}>
-                                        <Tooltip title="Chỉnh sửa">
-                                            <IconButton color="primary" onClick={() => handleUpdateCourse(course)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Gán sinh viên">
-                                            <IconButton color="primary" onClick={() => handleAssignStudents(course)}>
-                                                <PersonAddIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Xóa">
-                                            <IconButton color="error" onClick={() => handleDeleteCourse(course.id)}>
-                                                <DeleteIcon />
+                                    <TableCell style={{ width: "10%" }} align="center">
+                                        {course.totalStudents}
+                                    </TableCell>
+                                    <TableCell style={{ width: "20%" }} align="center">
+                                        {course.courseStatus}
+                                    </TableCell>
+                                    <TableCell style={{ width: "10%" }} align="center">
+                                        <Tooltip title="Xem danh sách sinh viên">
+                                            <IconButton color="primary" onClick={() => handleOpenStudentsModal(course)}>
+                                                <PeopleIcon />
                                             </IconButton>
                                         </Tooltip>
                                     </TableCell>
@@ -343,40 +358,11 @@ const CoursePage = () => {
                 />
             </div>
 
-            {openImportModal && (
-                <ImportFromExcelModal
-                    isOpen={openImportModal}
-                    onClose={() => setOpenImportModal(false)}
-                    entityName="lớp"
-                    templateUrl="/templates/course-template.xlsx"
-                    onImport={handleImportSubmit}
-                />
-            )}
-
-            {openCreateModal && (
-                <CreateCourseModal
-                    isOpen={openCreateModal}
-                    onClose={() => setOpenCreateModal(false)}
-                    academicYear={selectedYear}
-                    semester={selectedSemester}
-                />
-            )}
-
-            {openUpdateModal && (
-                <UpdateCourseModal
-                    isOpen={openUpdateModal}
-                    onClose={() => setOpenUpdateModal(false)}
+            {openStudentsModal && (
+                <CourseStudentsModal
+                    isOpen={openStudentsModal}
+                    onClose={handleCloseStudentsModal}
                     course={selectedCourse}
-                    onUpdate={handleUpdateSubmit}
-                />
-            )}
-
-            {openAssignModal && (
-                <AssignStudentsToCourse
-                    isOpen={openAssignModal}
-                    onClose={() => setOpenAssignModal(false)}
-                    course={selectedCourse}
-                    onSave={handleAssignSubmit}
                 />
             )}
         </div>

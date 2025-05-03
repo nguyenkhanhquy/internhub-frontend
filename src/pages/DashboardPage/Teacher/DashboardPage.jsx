@@ -36,7 +36,7 @@ const NAVIGATION = [
         title: "Quản lý chung",
     },
     {
-        segment: "course",
+        segment: "course/teacher",
         title: "Lớp thực tập",
         icon: <ClassIcon />,
     },
