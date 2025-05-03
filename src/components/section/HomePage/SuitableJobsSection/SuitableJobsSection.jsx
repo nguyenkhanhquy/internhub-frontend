@@ -16,7 +16,7 @@ const SuitableJobsSection = ({ loading, jobList }) => {
             }}
         >
             <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
-                VIỆC LÀM PHÙ HỢP NHẤT
+                VIỆC LÀM PHÙ HỢP
             </Typography>
 
             {loading ? (

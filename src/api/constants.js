@@ -73,6 +73,8 @@ export const JOBS_API = {
 
     GET_ALL_BY_RECRUITER: "/jobs/recruiter",
     GET_ALL_BY_COMPANY_ID: "/jobs/company/",
+
+    GET_ALL_SUITABLE_FOR_STUDENT: "/jobs/suitable",
 };
 
 export const JOBS_SAVED_API = {
