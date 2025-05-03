@@ -5,15 +5,15 @@ import { toast } from "react-toastify";
 import useAuth from "@hooks/useAuth";
 
 import { Card, CardContent, Typography, Box, IconButton, Avatar, Divider, Stack } from "@mui/material";
-import {
-    BookmarkBorder,
-    Bookmark,
-    Business,
-    LocationOn,
-    Work,
-    MonetizationOn,
-    CalendarToday,
-} from "@mui/icons-material";
+
+import BookmarkBorder from "@mui/icons-material/BookmarkBorder";
+import Bookmark from "@mui/icons-material/Bookmark";
+import Business from "@mui/icons-material/Business";
+import LocationOn from "@mui/icons-material/LocationOn";
+import Work from "@mui/icons-material/Work";
+import MonetizationOn from "@mui/icons-material/MonetizationOn";
+import CalendarToday from "@mui/icons-material/CalendarToday";
+
 import { formatDate } from "@utils/dateUtil";
 import { saveJobPost } from "@services/jobPostService";
 
@@ -130,12 +130,12 @@ const JobCardSearch = ({
                         </Typography>
                     </Stack>
 
-                    {/* Lương */}
+                    {/* Trợ cấp */}
                     {salary && (
                         <Stack direction="row" spacing={1} alignItems="center">
                             <MonetizationOn fontSize="small" color="action" sx={{ color: "black" }} />
                             <Typography variant="body2" color="textPrimary">
-                                Lương: {salary}
+                                Trợ cấp: {salary}
                             </Typography>
                         </Stack>
                     )}

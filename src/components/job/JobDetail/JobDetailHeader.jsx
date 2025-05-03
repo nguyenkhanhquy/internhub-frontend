@@ -5,7 +5,11 @@ import { toast } from "react-toastify";
 import useAuth from "@hooks/useAuth";
 
 import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/material";
-import { Business, LocationOn, Work, CalendarToday } from "@mui/icons-material";
+
+import Business from "@mui/icons-material/Business";
+import LocationOn from "@mui/icons-material/LocationOn";
+import Work from "@mui/icons-material/Work";
+import CalendarToday from "@mui/icons-material/CalendarToday";
 
 import { formatDate } from "@utils/dateUtil";
 import { saveJobPost } from "@services/jobPostService";

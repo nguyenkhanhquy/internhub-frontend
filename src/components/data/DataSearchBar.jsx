@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 import { Box, TextField, Button } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 
 const DataSearchBar = ({ placeholder, onSearch, query }) => {
     const [searchText, setSearchText] = useState(query || "");

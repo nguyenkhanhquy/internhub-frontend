@@ -1,8 +1,12 @@
-import { List, ListItemButton, ListItemText, ListItemIcon, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AccountCircle, Lock } from "@mui/icons-material";
+
+import { List, ListItemButton, ListItemText, ListItemIcon, Typography } from "@mui/material";
 import { Paper, Box, Divider, Avatar } from "@mui/material";
+
 import PersonIcon from "@mui/icons-material/Person";
+import Lock from "@mui/icons-material/Lock";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+
 import logo from "/images/ute_logo_c.png";
 
 const AccountNavigation = () => {
