@@ -1,4 +1,4 @@
-# Internhub Frontend 🚀
+# Internhub Frontend
 
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-Latest-purple.svg)](https://vitejs.dev/)
@@ -136,16 +136,6 @@ src/
 |-----------|------------|--------|
 | Nguyen Khanh Quy | 21110282 | [@nguyenkhanhquy](https://github.com/nguyenkhanhquy) |
 | Dinh Trung Nguyen | 21110259 | [@NguyenDink](https://github.com/NguyenDink) |
-
-## 🤝 Contribution
-
-If you want to contribute to the project, please follow these steps:
-
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Create a pull request
 
 ## 📄 License
 

@@ -96,12 +96,12 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                             <TableCell sx={{ width: "15%" }}>Mã học phần</TableCell>
                             <TableCell sx={{ width: "15%" }}>Năm học</TableCell>
                             <TableCell sx={{ width: "15%" }}>Học kỳ</TableCell>
-                            <TableCell sx={{ width: "20%" }}>Giảng viên</TableCell>
-                            <TableCell sx={{ width: "10%" }} align="center">
-                                Điểm
+                            <TableCell sx={{ width: "15%" }}>Giảng viên</TableCell>
+                            <TableCell sx={{ width: "15%" }} align="center">
+                                Điểm hệ 10
                             </TableCell>
-                            <TableCell sx={{ width: "20%" }} align="center">
-                                Kết quả
+                            <TableCell sx={{ width: "15%" }} align="center">
+                                Trạng thái
                             </TableCell>
                             <TableCell sx={{ width: "5%" }} align="center">
                                 <SettingsIcon />

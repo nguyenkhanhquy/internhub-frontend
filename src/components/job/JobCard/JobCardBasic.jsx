@@ -16,7 +16,7 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
             sx={{
                 maxWidth: 420,
                 minHeight: 160,
-                mb: 3,
+                mb: 2,
                 boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
                 borderRadius: 2,
                 border: "1px solid #e0e0e0",

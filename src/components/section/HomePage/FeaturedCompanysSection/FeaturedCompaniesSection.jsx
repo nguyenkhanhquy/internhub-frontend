@@ -33,7 +33,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
     return (
         <Box
             sx={{
-                my: 6,
+                my: 4,
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
@@ -41,7 +41,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                 position: "relative",
             }}
         >
-            <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 1 }}>
+            <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
                 DOANH NGHIỆP NỔI BẬT
             </Typography>
 
@@ -55,7 +55,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                             alignItems: "center",
                             position: "relative",
                             width: "100%",
-                            height: "260px",
+                            height: "250px",
                             maxWidth: "1200px",
                             overflow: "hidden",
                         }}
@@ -68,8 +68,8 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                             sx={{
                                 display: "flex",
                                 gap: 4,
-                                px: 6,
-                                transform: `translateX(-${currentIndex * (200 + 32)}px)`, // 200px avatar + 32px spacing (gap=4)
+                                px: 4,
+                                transform: `translateX(-${currentIndex * (200 + 30)}px)`,
                                 transition: "transform 0.5s ease-in-out",
                             }}
                         >
@@ -111,7 +111,6 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                     <Button
                         variant="contained"
                         sx={{
-                            mt: 1,
                             padding: "8px 16px",
                             backgroundColor: "#2e3090",
                             color: "white",
