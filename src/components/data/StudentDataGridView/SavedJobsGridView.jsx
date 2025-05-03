@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { Box, Button } from "@mui/material";
-import { Delete } from "@mui/icons-material";
-import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
-import DataSearchBar from "../DataSearchBar";
+import Delete from "@mui/icons-material/Delete";
+import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
+import DataSearchBar from "@components/data/DataSearchBar";
 import SavedJobsTable from "./StudentDataTable/SavedJobsTable";
-import ConfirmModal from "../../modals/ConfirmModal/ConfirmModal";
+import ConfirmModal from "@components/modals/ConfirmModal/ConfirmModal";
 
-import { saveJobPost } from "../../../services/jobPostService";
-import { getAllJobSaved, deleteAllJobSaved } from "../../../services/jobSavedService";
+import { saveJobPost } from "@services/jobPostService";
+import { getAllJobSaved, deleteAllJobSaved } from "@services/jobSavedService";
 
 const SavedJobsGridView = () => {
     const [loading, setLoading] = useState(false);

@@ -26,4 +26,24 @@ export default defineConfig({
             "@utils": "/src/utils",
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ["react", "react-dom"],
+                    router: ["react-router-dom"],
+                    redux: ["@reduxjs/toolkit", "react-redux"],
+
+                    mui: ["@mui/material"],
+                    muiIcons: ["@mui/icons-material"],
+                    muiCharts: ["@mui/x-charts"],
+
+                    ckeditor: ["@ckeditor/ckeditor5-react", "ckeditor5"],
+
+                    form: ["react-hook-form", "@hookform/resolvers", "yup"],
+                    toast: ["react-toastify"],
+                },
+            },
+        },
+    },
 });

@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 
 import { Box, Typography, Divider, Stack } from "@mui/material";
-import { LocationOn } from "@mui/icons-material";
+
+import LocationOn from "@mui/icons-material/LocationOn";
 
 const JobInfoTab = ({ description, benefits, requirements, address }) => {
     return (

@@ -1,6 +1,9 @@
-import { Box, Typography, Avatar, Stack, useMediaQuery } from "@mui/material";
-import { Language, LocationOn } from "@mui/icons-material";
 import PropTypes from "prop-types";
+
+import { Box, Typography, Avatar, Stack, useMediaQuery } from "@mui/material";
+
+import Language from "@mui/icons-material/Language";
+import LocationOn from "@mui/icons-material/LocationOn";
 
 const CompanyDetailsHeader = ({ logo, name, website, address }) => {
     // Kiểm tra kích thước màn hình

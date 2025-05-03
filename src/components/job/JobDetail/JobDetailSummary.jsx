@@ -1,7 +1,16 @@
 import PropTypes from "prop-types";
+
 import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "@mui/material";
-import { MonetizationOn, Group, Work, Schedule, CalendarToday, School, WorkOutline } from "@mui/icons-material";
-import { formatDate } from "../../../utils/dateUtil";
+
+import MonetizationOn from "@mui/icons-material/MonetizationOn";
+import Group from "@mui/icons-material/Group";
+import Work from "@mui/icons-material/Work";
+import WorkOutline from "@mui/icons-material/WorkOutline";
+import Schedule from "@mui/icons-material/Schedule";
+import CalendarToday from "@mui/icons-material/CalendarToday";
+import School from "@mui/icons-material/School";
+
+import { formatDate } from "@utils/dateUtil";
 
 const majorLabels = {
     IT: "Công nghệ thông tin",
@@ -32,11 +41,11 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
             <Divider sx={{ mb: 2 }} />
 
             <Stack spacing={2}>
-                {/* Mức lương */}
+                {/* Trợ cấp */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <MonetizationOn sx={{ mr: 1 }} />
                     <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
-                        Mức lương:
+                        Trợ cấp:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
                         {salary}
