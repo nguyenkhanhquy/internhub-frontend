@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Box, Container } from "@mui/material";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import SliderBanner from "../../components/banners/SliderBanner/SliderBanner";
-import SearchBar from "../../components/search/SearchBar";
-import FeaturedCompaniesSection from "../../components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
-import LatestJobsSection from "../../components/section/HomePage/LatestJobsSection/LatestJobsSection";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import SliderBanner from "@components/banners/SliderBanner/SliderBanner";
+import SearchBar from "@components/search/SearchBar";
+import FeaturedCompaniesSection from "@components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
+import LatestJobsSection from "@components/section/HomePage/LatestJobsSection/LatestJobsSection";
 
-import { getAllApprovedCompanies } from "../../services/companyService";
-import { getAllJobPosts } from "../../services/jobPostService";
+import { getAllApprovedCompanies } from "@services/companyService";
+import { getAllJobPosts } from "@services/jobPostService";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ const HomePage = () => {
                         mt: 4,
                         position: "sticky",
                         top: 4,
-                        zIndex: 1000,
+                        zIndex: 1,
                     }}
                 >
                     <Box sx={{ width: "80%" }}>
