@@ -37,7 +37,7 @@ const CoursesGridView = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const data = await getAllEnrollmentsByStudent(currentPage, recordsPerPage, search);
+                const data = await getAllEnrollmentsByStudent(currentPage - 1, recordsPerPage, search);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
@@ -75,7 +75,7 @@ const CoursesGridView = () => {
                     {/* Nút Làm mới */}
                     <Button
                         variant="contained"
-                        endIcon={<CachedIcon />}
+                        startIcon={<CachedIcon />}
                         onClick={() => setFlag((prev) => !prev)}
                         sx={{
                             padding: "5px 10px",
