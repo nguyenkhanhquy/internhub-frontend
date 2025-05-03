@@ -14,22 +14,12 @@ import {
     Box,
     TableContainer,
     Button,
-    TextField,
-    TextareaAutosize,
-    Paper,
-    Divider,
+    Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import DescriptionIcon from "@mui/icons-material/Description";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
-import { formatDate } from "../../../utils/dateUtil";
-
-// Nhãn chuyên ngành
-const majorLabels = {
-    IT: "Công nghệ thông tin",
-    DS: "Kỹ thuật dữ liệu",
-    IS: "An toàn thông tin",
-};
+import ReportDetails from "./ReportDetails";
+import ScoreEntry from "./ScoreEntry";
 
 const mockStudents = {
     1: [
@@ -255,6 +245,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const [selectedReportStudent, setSelectedReportStudent] = useState(null);
     const [score, setScore] = useState("");
     const [comment, setComment] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         if (isOpen && course) {
@@ -267,6 +258,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             setSelectedReportStudent(null);
             setScore("");
             setComment("");
+            setError("");
         }
     }, [isOpen, course]);
 
@@ -293,6 +285,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             setSelectedStudent(student);
             setSelectedReport(null);
             setSelectedReportStudent(null);
+            setError("");
         }
     };
 
@@ -301,6 +294,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             setSelectedReport(student.report);
             setSelectedReportStudent(student);
             setSelectedStudent(null);
+            setError("");
         }
     };
 
@@ -310,22 +304,50 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
         setSelectedReportStudent(null);
         setScore("");
         setComment("");
+        setError("");
+    };
+
+    const handleScoreChange = (newScore) => {
+        setScore(newScore);
+        setError("");
+    };
+
+    const handleCommentChange = (newComment) => {
+        setComment(newComment);
+        setError("");
     };
 
     const handleSaveScore = () => {
-        if (selectedStudent && score !== "" && !isNaN(score)) {
-            const updatedStudents = students.map((student) =>
-                student.id === selectedStudent.id ? { ...student, score: Number(score) } : student,
-            );
-            setStudents(updatedStudents);
-            setFilteredStudents(updatedStudents);
-            console.log({
-                studentId: selectedStudent.studentId,
-                name: "Nguyen Van A",
-                score: score,
-                comment: comment,
-            });
+        // Kiểm tra điểm
+        if (score === "" || isNaN(score)) {
+            setError("Vui lòng nhập điểm.");
+            return;
         }
+
+        const scoreValue = Number(score);
+        if (scoreValue < 0 || scoreValue > 10) {
+            setError("Điểm không hợp lệ. Điểm phải nằm trong khoảng từ 0 đến 10.");
+            return;
+        }
+
+        // Kiểm tra nhận xét
+        if (!comment.trim()) {
+            setError("Vui lòng thêm nhận xét.");
+            return;
+        }
+
+        // Nếu không có lỗi, tiến hành lưu
+        const updatedStudents = students.map((student) =>
+            student.id === selectedStudent.id ? { ...student, score: scoreValue } : student,
+        );
+        setStudents(updatedStudents);
+        setFilteredStudents(updatedStudents);
+        console.log({
+            studentId: selectedStudent.studentId,
+            name: selectedStudent.name,
+            score: scoreValue,
+            comment: comment,
+        });
         handleBackToList();
     };
 
@@ -374,7 +396,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                 placeholder="Tìm kiếm sinh viên..."
                             />
                         </Box>
-                        <TableContainer sx={{ flex: 1, overflowY: "auto" }}>
+                        <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "600px" }}>
                             <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
@@ -388,10 +410,10 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                         <TableCell align="center" style={{ width: "25%" }}>
                                             BÁO CÁO THỰC TẬP
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "10%" }}>
+                                        <TableCell align="center" style={{ width: "15%" }}>
                                             ĐIỂM HỆ 10
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "20%" }}>
+                                        <TableCell align="center" style={{ width: "15%" }}>
                                             HÀNH ĐỘNG
                                         </TableCell>
                                     </TableRow>
@@ -448,14 +470,14 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
-                                                    style={{ width: "10%" }}
+                                                    style={{ width: "15%" }}
                                                     sx={{ padding: "8px" }}
                                                 >
                                                     {student.score !== null ? student.score : "-"}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
-                                                    style={{ width: "20%" }}
+                                                    style={{ width: "15%" }}
                                                     sx={{ padding: "8px" }}
                                                 >
                                                     <Button
@@ -476,196 +498,27 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                         </TableContainer>
                     </>
                 ) : selectedStudent ? (
-                    <Box sx={{ display: "flex", flexDirection: "column", gap: 3, padding: 2 }}>
-                        <Box>
-                            <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                                Điểm
-                            </Typography>
-                            <TextField
-                                type="number"
-                                label="Nhập điểm"
-                                value={score}
-                                onChange={(e) => setScore(e.target.value)}
-                                variant="outlined"
-                                fullWidth
-                                inputProps={{ min: 0, max: 10, step: 0.1 }}
-                            />
-                        </Box>
-                        <Box>
-                            <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                                Nhận xét chung
-                            </Typography>
-                            <TextareaAutosize
-                                minRows={5}
-                                placeholder="Nhập nhận xét..."
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                style={{
-                                    width: "100%",
-                                    padding: "8px",
-                                    borderRadius: "4px",
-                                    border: "1px solid #ccc",
-                                    resize: "vertical",
-                                }}
-                            />
-                        </Box>
-                        <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
-                            <Button variant="contained" color="primary" onClick={handleSaveScore}>
-                                Lưu
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => handleOpenReportDetails(selectedStudent)}
-                                disabled={!selectedStudent.report}
-                            >
-                                Báo cáo chi tiết
-                            </Button>
-                            <Button variant="outlined" color="primary" onClick={handleBackToList}>
-                                Quay lại
-                            </Button>
-                        </Box>
-                    </Box>
+                    <>
+                        <ScoreEntry
+                            student={selectedStudent}
+                            score={score}
+                            comment={comment}
+                            onScoreChange={handleScoreChange}
+                            onCommentChange={handleCommentChange}
+                            onSaveScore={handleSaveScore}
+                            onBackToList={handleBackToList}
+                            onOpenReportDetails={handleOpenReportDetails}
+                        />
+                        {error && <Alert severity="error">{error}</Alert>}
+                    </>
                 ) : (
-                    <Box sx={{ padding: 2 }}>
-                        <Paper sx={{ padding: 3, borderRadius: 2, boxShadow: 2 }}>
-                            {/* Ngày tạo và trạng thái báo cáo */}
-                            <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                                <Typography variant="caption" color="text.secondary">
-                                    Ngày tạo:{" "}
-                                    {selectedReport?.createdDate ? formatDate(selectedReport.createdDate) : "N/A"}
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        fontWeight: 500,
-                                        padding: "4px 8px",
-                                        borderRadius: 1,
-                                        color:
-                                            selectedReport?.reportStatus === "PROCESSING"
-                                                ? "orange"
-                                                : selectedReport?.reportStatus === "ACCEPTED"
-                                                  ? "green"
-                                                  : "red",
-                                        backgroundColor:
-                                            selectedReport?.reportStatus === "PROCESSING"
-                                                ? "rgba(255, 165, 0, 0.1)"
-                                                : selectedReport?.reportStatus === "ACCEPTED"
-                                                  ? "rgba(0, 128, 0, 0.1)"
-                                                  : "rgba(255, 0, 0, 0.1)",
-                                    }}
-                                >
-                                    {selectedReport?.reportStatus === "PROCESSING"
-                                        ? "Chờ duyệt"
-                                        : selectedReport?.reportStatus === "ACCEPTED"
-                                          ? "Đã được duyệt"
-                                          : "Không được duyệt"}
-                                </Typography>
-                            </Box>
-
-                            {/* Thông tin sinh viên và thông tin thực tập theo chiều ngang */}
-                            <Box mt={2} display="flex" gap={4}>
-                                {/* Thông tin sinh viên */}
-                                <Box flex={1}>
-                                    <Typography variant="h6" gutterBottom>
-                                        Thông tin sinh viên
-                                    </Typography>
-                                    <Divider />
-                                    <Box mt={2} display="flex" flexDirection="column" gap={1}>
-                                        <Typography variant="body1">
-                                            <strong>Sinh Viên:</strong> {selectedReport?.student?.name || "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>MSSV:</strong> {selectedReport?.student?.studentId || "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Chuyên ngành:</strong>{" "}
-                                            {majorLabels[selectedReport?.student?.major] ||
-                                                selectedReport?.student?.major ||
-                                                "N/A"}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-
-                                {/* Thông tin thực tập */}
-                                <Box flex={1}>
-                                    <Typography variant="h6" gutterBottom>
-                                        Thông tin thực tập
-                                    </Typography>
-                                    <Divider />
-                                    <Box mt={2} display="flex" flexDirection="column" gap={1}>
-                                        <Typography variant="body1">
-                                            <strong>Giảng viên hướng dẫn:</strong>{" "}
-                                            {selectedReport?.teacherName || "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Công ty thực tập:</strong> {selectedReport?.companyName || "N/A"}{" "}
-                                            {selectedReport?.systemCompany ? " - (Hệ thống)" : " - (Ngoài hệ thống)"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Người hướng dẫn:</strong> {selectedReport?.instructorName || "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Email người hướng dẫn:</strong>{" "}
-                                            {selectedReport?.instructorEmail || "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Ngày bắt đầu:</strong>{" "}
-                                            {selectedReport?.startDate ? formatDate(selectedReport.startDate) : "N/A"}
-                                        </Typography>
-                                        <Typography variant="body1">
-                                            <strong>Ngày kết thúc:</strong>{" "}
-                                            {selectedReport?.endDate ? formatDate(selectedReport.endDate) : "N/A"}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-
-                            {/* Nút hành động */}
-                            <Box mt={4} display="flex" justifyContent="center" gap={2}>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<DescriptionIcon />}
-                                    sx={{
-                                        backgroundColor: "#1e40af",
-                                        color: "white",
-                                        "&:hover": { backgroundColor: "#1e3a8a" },
-                                    }}
-                                    onClick={() => handleDownloadFile(selectedReport?.reportFile)}
-                                    disabled={!selectedReport?.reportFile}
-                                >
-                                    File báo cáo
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<DescriptionIcon />}
-                                    sx={{
-                                        backgroundColor: "#1e40af",
-                                        color: "white",
-                                        "&:hover": { backgroundColor: "#1e3a8a" },
-                                    }}
-                                    onClick={() => handleDownloadFile(selectedReport?.evaluationFile)}
-                                    disabled={!selectedReport?.evaluationFile}
-                                >
-                                    Phiếu đánh giá
-                                </Button>
-                            </Box>
-                        </Paper>
-                        <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end", mt: 2 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                onClick={() => handleOpenScoreForm(selectedReportStudent)}
-                                disabled={selectedReportStudent?.score !== null}
-                            >
-                                Nhập điểm
-                            </Button>
-                            <Button variant="outlined" color="primary" onClick={handleBackToList}>
-                                Quay lại
-                            </Button>
-                        </Box>
-                    </Box>
+                    <ReportDetails
+                        report={selectedReport}
+                        student={selectedReportStudent}
+                        onDownloadFile={handleDownloadFile}
+                        onOpenScoreForm={handleOpenScoreForm}
+                        onBackToList={handleBackToList}
+                    />
                 )}
             </DialogContent>
         </Dialog>
