@@ -57,7 +57,7 @@ const mockStudents = {
             id: 2,
             studentId: "SV002",
             name: "Tran Thi B",
-            report: null, // Chưa nộp báo cáo
+            report: null,
             score: null,
         },
         {
@@ -76,7 +76,7 @@ const mockStudents = {
                 startDate: "2025-01-10",
                 endDate: "2025-03-10",
                 reportFile: "report_sv003.pdf",
-                evaluationFile: null, // Không có phiếu đánh giá
+                evaluationFile: null,
             },
             score: 7.0,
         },
@@ -185,7 +185,7 @@ const mockStudents = {
                 reportFile: "report_sv010.pdf",
                 evaluationFile: "evaluation_sv010.pdf",
             },
-            score: 6.5,
+            score: null,
         },
         {
             id: 11,
@@ -250,12 +250,12 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const [students, setStudents] = useState([]);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedStudent, setSelectedStudent] = useState(null); // Sinh viên được chọn để nhập điểm
-    const [selectedReport, setSelectedReport] = useState(null); // Báo cáo được chọn để xem chi tiết
+    const [selectedStudent, setSelectedStudent] = useState(null);
+    const [selectedReport, setSelectedReport] = useState(null);
+    const [selectedReportStudent, setSelectedReportStudent] = useState(null);
     const [score, setScore] = useState("");
     const [comment, setComment] = useState("");
 
-    // Load danh sách sinh viên khi modal mở
     useEffect(() => {
         if (isOpen && course) {
             const studentsData = mockStudents[course.id] || [];
@@ -264,12 +264,12 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             setSearchQuery("");
             setSelectedStudent(null);
             setSelectedReport(null);
+            setSelectedReportStudent(null);
             setScore("");
             setComment("");
         }
     }, [isOpen, course]);
 
-    // Lọc sinh viên khi thay đổi từ khóa tìm kiếm
     useEffect(() => {
         if (searchQuery) {
             const searchLower = searchQuery.toLowerCase();
@@ -292,12 +292,14 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
         if (!student.score) {
             setSelectedStudent(student);
             setSelectedReport(null);
+            setSelectedReportStudent(null);
         }
     };
 
-    const handleOpenReportDetails = (report) => {
-        if (report) {
-            setSelectedReport(report);
+    const handleOpenReportDetails = (student) => {
+        if (student.report) {
+            setSelectedReport(student.report);
+            setSelectedReportStudent(student);
             setSelectedStudent(null);
         }
     };
@@ -305,6 +307,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const handleBackToList = () => {
         setSelectedStudent(null);
         setSelectedReport(null);
+        setSelectedReportStudent(null);
         setScore("");
         setComment("");
     };
@@ -318,7 +321,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             setFilteredStudents(updatedStudents);
             console.log({
                 studentId: selectedStudent.studentId,
-                name: selectedStudent.name,
+                name: "Nguyen Van A",
                 score: score,
                 comment: comment,
             });
@@ -437,7 +440,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                         variant="outlined"
                                                         color="primary"
                                                         size="small"
-                                                        onClick={() => handleOpenReportDetails(student.report)}
+                                                        onClick={() => handleOpenReportDetails(student)}
                                                         disabled={!student.report}
                                                     >
                                                         Chi tiết
@@ -507,11 +510,19 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                             />
                         </Box>
                         <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
-                            <Button variant="outlined" color="primary" onClick={handleBackToList}>
-                                Quay lại
-                            </Button>
                             <Button variant="contained" color="primary" onClick={handleSaveScore}>
                                 Lưu
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => handleOpenReportDetails(selectedStudent)}
+                                disabled={!selectedStudent.report}
+                            >
+                                Báo cáo chi tiết
+                            </Button>
+                            <Button variant="outlined" color="primary" onClick={handleBackToList}>
+                                Quay lại
                             </Button>
                         </Box>
                     </Box>
@@ -640,7 +651,16 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                 </Button>
                             </Box>
                         </Paper>
-                        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                        <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end", mt: 2 }}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => handleOpenScoreForm(selectedReportStudent)}
+                                disabled={selectedReportStudent?.score !== null}
+                            >
+                                Nhập điểm
+                            </Button>
                             <Button variant="outlined" color="primary" onClick={handleBackToList}>
                                 Quay lại
                             </Button>
