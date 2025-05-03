@@ -108,6 +108,7 @@ export const ACADEMIC_API = {
 };
 
 export const COURSES_API = {
+    CREATE: "/courses",
     GET_ALL: "/courses",
     DELETE: "/courses/",
 };

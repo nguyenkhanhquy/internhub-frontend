@@ -357,8 +357,9 @@ const CoursePage = () => {
                 <CreateCourseModal
                     isOpen={openCreateModal}
                     onClose={() => setOpenCreateModal(false)}
-                    academicYear={selectedYear}
-                    semester={selectedSemester}
+                    academicYear={academicYears.find((year) => year.id === selectedYear)}
+                    semester={semesters.find((sem) => sem.id === selectedSemester)}
+                    setFlag={setFlag}
                 />
             )}
 

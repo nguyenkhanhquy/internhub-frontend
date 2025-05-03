@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 
+import { createCourse } from "@services/courseService";
 import { getAllTeachers } from "@services/teacherService";
 
 import {
@@ -21,10 +22,10 @@ import {
 
 const schema = yup.object().shape({
     courseCode: yup.string().required("Không được để trống"),
-    teacherName: yup.string().required("Vui lòng chọn giảng viên"),
+    teacherId: yup.string().required("Vui lòng chọn giảng viên"),
 });
 
-const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
+const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag }) => {
     const [teachers, setTeachers] = useState([]);
 
     const {
@@ -36,9 +37,7 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
         defaultValues: {
             courseCode: "",
             courseName: "Thực tập tốt nghiệp",
-            academicYear: academicYear || "",
-            semester: semester || "",
-            teacherName: "",
+            teacherId: "",
         },
         resolver: yupResolver(schema),
         mode: "onChange",
@@ -66,12 +65,23 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
     };
 
     const onSubmit = async (formData) => {
-        console.log("Dữ liệu từ form:", {
-            ...formData,
-            courseName: "Thực tập tốt nghiệp",
-            academicYear,
-            semester,
-        });
+        try {
+            const data = await createCourse({
+                ...formData,
+                courseName: "Thực tập tốt nghiệp",
+                academicYearId: academicYear.id,
+                semester: semester.id,
+            });
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            handleClose();
+            setFlag((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -102,13 +112,13 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
                         <TextField label="Tên học phần" value="Thực tập tốt nghiệp" fullWidth disabled />
                     </Box>
                     <Box mb={2}>
-                        <TextField label="Năm học" value={academicYear} fullWidth disabled />
+                        <TextField label="Năm học" value={academicYear.name} fullWidth disabled />
                     </Box>
                     <Box mb={2}>
-                        <TextField label="Học kỳ" value={semester} fullWidth disabled />
+                        <TextField label="Học kỳ" value={semester.name} fullWidth disabled />
                     </Box>
                     <Controller
-                        name="teacherName"
+                        name="teacherId"
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <TextField
@@ -118,11 +128,11 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester }) => {
                                 variant="outlined"
                                 value={value}
                                 onChange={(e) => onChange(e.target.value)}
-                                error={!!errors.teacherName}
-                                helperText={errors.teacherName?.message}
+                                error={!!errors.teacherId}
+                                helperText={errors.teacherId?.message}
                             >
                                 {teachers.map((teacher) => (
-                                    <MenuItem key={teacher.id} value={teacher.name}>
+                                    <MenuItem key={teacher.userId} value={teacher.teacherId}>
                                         {teacher.name}
                                     </MenuItem>
                                 ))}
@@ -149,6 +159,7 @@ CreateCourseModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     academicYear: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default CreateCourseModal;
