@@ -29,6 +29,15 @@ export const getAllJobPosts = async (page, size, search, order) => {
     });
 };
 
+export const getJobPostsSuitableForStudent = async (page, size) => {
+    return axiosClient.get(JOBS_API.GET_ALL_SUITABLE_FOR_STUDENT, {
+        params: {
+            page: page,
+            size: size,
+        },
+    });
+};
+
 export const getJobPostById = async (jobPostId) => {
     return axiosClient.get(JOBS_API.GET_BY_ID + jobPostId);
 };

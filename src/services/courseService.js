@@ -1,6 +1,10 @@
 import axiosClient from "@api/axiosClient";
 import { COURSES_API } from "@api/constants";
 
+export const createCourse = async (course) => {
+    return axiosClient.post(COURSES_API.CREATE, course);
+};
+
 export const getAllCourses = async (page, size, search, year, semester) => {
     return axiosClient.get(COURSES_API.GET_ALL, {
         params: {
@@ -11,6 +15,10 @@ export const getAllCourses = async (page, size, search, year, semester) => {
             semester: semester,
         },
     });
+};
+
+export const updateCourse = async (courseId, course) => {
+    return axiosClient.put(COURSES_API.UPDATE + courseId, course);
 };
 
 export const deleteCourse = async (courseId) => {

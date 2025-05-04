@@ -59,6 +59,9 @@ VITE_BACKEND_URL=http://localhost:8080/api/v1
 VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
 VITE_GOOGLE_REDIRECT_URI=your_redirect_uri_here
 VITE_GOOGLE_AUTH_URI=your_auth_uri_here
+
+# Chatbot API URL
+VITE_CHATBOT_URL=your_chatbot_url_here
 ```
 
 ### 4. Install dependencies
