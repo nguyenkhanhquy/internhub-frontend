@@ -58,6 +58,9 @@ const CoursePage = () => {
     const [selectedYear, setSelectedYear] = useState("ALL");
     const [selectedSemester, setSelectedSemester] = useState("ALL");
 
+    const [currentAcademicYear, setCurrentAcademicYear] = useState(null);
+    const [currentSemester, setCurrentSemester] = useState(null);
+
     const handleUpdateCourse = async (course) => {
         setSelectedCourse(course);
         setOpenUpdateModal(true);
@@ -66,12 +69,6 @@ const CoursePage = () => {
     const handleAssignStudents = (course) => {
         setSelectedCourse(course);
         setOpenAssignModal(true);
-    };
-
-    const handleUpdateSubmit = async (formData) => {
-        // Logic cập nhật lớp học ở đây
-        console.log("Cập nhật lớp học với dữ liệu:", formData);
-        setFlag((prev) => !prev); // Cập nhật lại danh sách lớp học
     };
 
     const handleAssignSubmit = async (assignedStudents) => {
@@ -144,6 +141,10 @@ const CoursePage = () => {
 
                 setAcademicYears([{ id: "ALL", name: "Tất cả năm học" }, ...(data.result.academicYears || [])]);
                 setSemesters([{ id: "ALL", name: "Tất cả học kỳ" }, ...(data.result.semesters || [])]);
+
+                setCurrentAcademicYear(data.result.currentAcademicYear);
+                setCurrentSemester(data.result.currentSemester);
+
                 setSelectedYear(data.result.currentAcademicYear?.id || "ALL");
                 setSelectedSemester(data.result.currentSemester?.id || "ALL");
             } catch (error) {
@@ -357,8 +358,9 @@ const CoursePage = () => {
                 <CreateCourseModal
                     isOpen={openCreateModal}
                     onClose={() => setOpenCreateModal(false)}
-                    academicYear={selectedYear}
-                    semester={selectedSemester}
+                    academicYear={academicYears.find((year) => year.id === currentAcademicYear.id)}
+                    semester={semesters.find((sem) => sem.id === currentSemester.id)}
+                    setFlag={setFlag}
                 />
             )}
 
@@ -366,8 +368,10 @@ const CoursePage = () => {
                 <UpdateCourseModal
                     isOpen={openUpdateModal}
                     onClose={() => setOpenUpdateModal(false)}
+                    academicYear={academicYears.find((year) => year.name === selectedCourse.academicYear)}
+                    semester={semesters.find((sem) => sem.name === selectedCourse.semester)}
                     course={selectedCourse}
-                    onUpdate={handleUpdateSubmit}
+                    setFlag={setFlag}
                 />
             )}
 

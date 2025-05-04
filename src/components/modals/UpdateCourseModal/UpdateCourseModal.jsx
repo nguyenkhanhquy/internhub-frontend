@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 
+import { updateCourse } from "@services/courseService";
 import { getAllTeachers } from "@services/teacherService";
 
 import {
@@ -21,10 +22,10 @@ import {
 
 const schema = yup.object().shape({
     courseCode: yup.string().required("Không được để trống"),
-    teacherName: yup.string().required("Vui lòng chọn giảng viên"),
+    teacherId: yup.string().required("Vui lòng chọn giảng viên"),
 });
 
-const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
+const UpdateCourseModal = ({ isOpen, onClose, academicYear, semester, course, setFlag }) => {
     const [teachers, setTeachers] = useState([]);
 
     const {
@@ -36,9 +37,7 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
         defaultValues: {
             courseCode: "",
             courseName: "Thực tập tốt nghiệp",
-            academicYear: "",
-            semester: "",
-            teacherName: "",
+            teacherId: "",
         },
         resolver: yupResolver(schema),
         mode: "onChange",
@@ -62,13 +61,11 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
 
     useEffect(() => {
         if (course && teachers.length > 0) {
-            const selectedTeacher = teachers.find((teacher) => teacher.name === course.teacherName) || { name: "" };
+            const selectedTeacher = teachers.find((teacher) => teacher.teacherId === course.teacherId);
             reset({
                 courseCode: course.courseCode || "",
                 courseName: "Thực tập tốt nghiệp",
-                academicYear: course.academicYear || "",
-                semester: course.semester || "",
-                teacherName: selectedTeacher.name,
+                teacherId: selectedTeacher ? selectedTeacher.teacherId : "",
             });
         }
     }, [course, teachers, reset]);
@@ -80,12 +77,21 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
 
     const onSubmit = async (formData) => {
         try {
-            await onUpdate(formData); // Cập nhật lớp học
-            toast.success("Cập nhật lớp học thành công!");
+            const data = await updateCourse(course.id, {
+                ...formData,
+                courseName: "Thực tập tốt nghiệp",
+                academicYearId: academicYear.id,
+                semester: semester.id,
+            });
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
             handleClose();
+            setFlag((prev) => !prev);
+            toast.success(data.message);
         } catch (error) {
-            console.error("Error updating course:", error);
-            toast.error("Cập nhật lớp học thất bại!");
+            toast.error(error.message);
         }
     };
 
@@ -123,7 +129,7 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
                         <TextField label="Học kỳ" value={course?.semester} fullWidth disabled />
                     </Box>
                     <Controller
-                        name="teacherName"
+                        name="teacherId"
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <TextField
@@ -133,11 +139,11 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
                                 variant="outlined"
                                 value={value}
                                 onChange={(e) => onChange(e.target.value)}
-                                error={!!errors.teacherName}
-                                helperText={errors.teacherName?.message}
+                                error={!!errors.teacherId}
+                                helperText={errors.teacherId?.message}
                             >
                                 {teachers.map((teacher) => (
-                                    <MenuItem key={teacher.id} value={teacher.name}>
+                                    <MenuItem key={teacher.userId} value={teacher.teacherId}>
                                         {teacher.name}
                                     </MenuItem>
                                 ))}
@@ -161,8 +167,10 @@ const UpdateCourseModal = ({ isOpen, onClose, course, onUpdate }) => {
 UpdateCourseModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    academicYear: PropTypes.object.isRequired,
+    semester: PropTypes.object.isRequired,
     course: PropTypes.object.isRequired,
-    onUpdate: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default UpdateCourseModal;

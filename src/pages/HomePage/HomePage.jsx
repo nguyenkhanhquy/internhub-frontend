@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import useAuth from "@hooks/useAuth";
+
 import { Box, Container } from "@mui/material";
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import SliderBanner from "@components/banners/SliderBanner/SliderBanner";
@@ -10,12 +12,16 @@ import FeaturedCompaniesSection from "@components/section/HomePage/FeaturedCompa
 import LatestJobsSection from "@components/section/HomePage/LatestJobsSection/LatestJobsSection";
 import SuitableJobsSection from "@components/section/HomePage/SuitableJobsSection/SuitableJobsSection";
 
-import { getAllApprovedCompanies } from "@services/companyService";
+import { getJobPostsSuitableForStudent } from "@services/jobPostService";
 import { getAllJobPosts } from "@services/jobPostService";
+import { getAllApprovedCompanies } from "@services/companyService";
 
 const HomePage = () => {
+    const { isAuthenticated } = useAuth();
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [suitableJobList, setSuitableJobList] = useState([]);
     const [jobList, setJobList] = useState([]);
     const [featuredCompanies, setFeaturedCompanies] = useState([]);
 
@@ -23,6 +29,14 @@ const HomePage = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
+                if (isAuthenticated) {
+                    const suitableJobData = await getJobPostsSuitableForStudent(0, 6);
+                    if (!suitableJobData.success) {
+                        throw new Error(suitableJobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    }
+                    setSuitableJobList(suitableJobData.result);
+                }
+
                 const jobData = await getAllJobPosts(1, 12);
                 if (!jobData.success) {
                     throw new Error(jobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -42,7 +56,7 @@ const HomePage = () => {
         };
 
         fetchData();
-    }, []);
+    }, [isAuthenticated]);
 
     return (
         <MainLayout title="Trang chủ">
@@ -72,8 +86,8 @@ const HomePage = () => {
                     </Box>
                 </Box>
 
-                {/* VIỆC LÀM PHÙ HỢP NHẤT */}
-                <SuitableJobsSection loading={loading} jobList={jobList} />
+                {/* VIỆC LÀM PHÙ HỢP */}
+                {isAuthenticated && <SuitableJobsSection loading={loading} jobList={suitableJobList} />}
 
                 {/* VIỆC LÀM MỚI NHẤT */}
                 <LatestJobsSection loading={loading} jobList={jobList} />
