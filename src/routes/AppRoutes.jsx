@@ -73,7 +73,7 @@ const AppRoutes = () => {
                     {/* FIT Admin Routes */}
                     {user?.role === "FIT" && (
                         <>
-                            <Route index element={<AdminDashboardPage />} />
+                            <Route index element={<AdminDashboardPage user={user} />} />
                             <Route path="/*" element={<Navigate to="/" replace />} />
                         </>
                     )}
@@ -81,7 +81,7 @@ const AppRoutes = () => {
                     {/* Teacher Routes */}
                     {user?.role === "TEACHER" && (
                         <>
-                            <Route index element={<TeacherDashboardPage />} />
+                            <Route index element={<TeacherDashboardPage user={user} />} />
                             <Route path="/*" element={<Navigate to="/" replace />} />
                         </>
                     )}

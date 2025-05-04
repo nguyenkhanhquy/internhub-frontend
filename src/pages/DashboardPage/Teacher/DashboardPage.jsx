@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import usePageTitle from "@hooks/usePageTitle";
-import useAuth from "@hooks/useAuth";
 
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
 import ClassIcon from "@mui/icons-material/Class";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { AppProvider } from "@toolpad/core/AppProvider";
@@ -39,11 +37,6 @@ const NAVIGATION = [
         segment: "course/teacher",
         title: "Lớp thực tập",
         icon: <ClassIcon />,
-    },
-    {
-        segment: "internship-report",
-        title: "Báo cáo thực tập",
-        icon: <WorkspacesIcon />,
     },
     {
         kind: "divider",
@@ -77,10 +70,9 @@ const theme = createTheme({
 
 function DashboardPage(props) {
     usePageTitle("Bảng điều khiển");
-    const { user } = useAuth();
 
     const navigate = useNavigate();
-    const { window } = props;
+    const { window, user } = props;
     const [session, setSession] = useState({
         user: {
             name: user?.name,
@@ -132,6 +124,7 @@ function DashboardPage(props) {
 
 DashboardPage.propTypes = {
     window: PropTypes.func,
+    user: PropTypes.object,
 };
 
 export default DashboardPage;

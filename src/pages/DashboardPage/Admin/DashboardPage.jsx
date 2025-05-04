@@ -2,8 +2,7 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import useAuth from "@hooks/useAuth";
-import usePageTitle from "../../../hooks/usePageTitle";
+import usePageTitle from "@hooks/usePageTitle";
 
 import Chip from "@mui/material/Chip";
 import { createTheme } from "@mui/material/styles";
@@ -21,7 +20,7 @@ import MapIcon from "@mui/icons-material/Map";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useDemoRouter } from "@toolpad/core/internal";
-import PageContent from "../../../components/dashboard/PageContent/PageContent";
+import PageContent from "@components/dashboard/PageContent/PageContent";
 
 const NAVIGATION = [
     {
@@ -132,10 +131,9 @@ const theme = createTheme({
 
 function DashboardPage(props) {
     usePageTitle("Bảng điều khiển");
-    const { user } = useAuth();
 
     const navigate = useNavigate();
-    const { window } = props;
+    const { window, user } = props;
     const [session, setSession] = useState({
         user: {
             name: "Khoa Công Nghệ Thông Tin",
@@ -160,7 +158,7 @@ function DashboardPage(props) {
                 navigate("/logout");
             },
         };
-    }, [navigate]);
+    }, [navigate, user]);
 
     const router = useDemoRouter("/overview");
 
@@ -186,6 +184,7 @@ function DashboardPage(props) {
 
 DashboardPage.propTypes = {
     window: PropTypes.func,
+    user: PropTypes.object,
 };
 
 export default DashboardPage;

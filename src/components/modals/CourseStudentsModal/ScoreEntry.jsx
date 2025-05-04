@@ -46,6 +46,9 @@ const ScoreEntry = ({
                 />
             </Box>
             <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+                <Button variant="contained" color="primary" onClick={onSaveScore}>
+                    Lưu
+                </Button>
                 <Button
                     variant="outlined"
                     color="primary"
@@ -56,9 +59,6 @@ const ScoreEntry = ({
                 </Button>
                 <Button variant="outlined" color="primary" onClick={onBackToList}>
                     Quay lại
-                </Button>
-                <Button variant="contained" color="primary" onClick={onSaveScore}>
-                    Lưu
                 </Button>
             </Box>
         </Box>
