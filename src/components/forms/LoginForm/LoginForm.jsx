@@ -91,21 +91,22 @@ function LoginForm() {
             if (!dataUser.success) {
                 throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-            setUser(dataUser.result);
+            let userData = dataUser.result;
 
             if (dataUser.result.role !== "FIT") {
                 const dataProfile = await getAuthProfile();
                 if (!dataProfile.success) {
                     throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setUser((prevUser) => ({
-                    ...prevUser,
+                userData = {
+                    ...userData,
                     name: dataProfile.result?.name,
                     approved: dataProfile.result?.approved ?? true,
                     logo: dataProfile.result?.company?.logo,
-                }));
+                };
             }
 
+            setUser(userData);
             setIsAuthenticated(true);
 
             if (formData.rememberMe) {
@@ -152,23 +153,25 @@ function LoginForm() {
                 if (!dataUser.success) {
                     throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setUser(dataUser.result);
+                let userData = dataUser.result;
 
                 if (dataUser.result.role !== "FIT") {
                     const dataProfile = await getAuthProfile();
                     if (!dataProfile.success) {
                         throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                     }
-                    setUser((prevUser) => ({
-                        ...prevUser,
+                    userData = {
+                        ...userData,
                         name: dataProfile.result?.name,
                         approved: dataProfile.result?.approved ?? true,
                         logo: dataProfile.result?.company?.logo,
-                    }));
+                    };
                 }
 
+                setUser(userData);
                 setIsAuthenticated(true);
 
+                removeRememberMe();
                 navigate("/");
             } catch (error) {
                 toast.error(error.message);
