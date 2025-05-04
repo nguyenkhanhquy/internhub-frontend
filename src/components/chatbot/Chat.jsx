@@ -8,7 +8,7 @@ import LoadingAnimation from "./LoadingAnimation";
 
 const CHATBOT_URL = import.meta.env.VITE_CHATBOT_URL;
 
-const SEESION_ID = Math.random().toString(36).substring(2, 15);
+const SESSION_ID = Math.random().toString(36).substring(2, 15);
 
 const Chat = ({ isOpen, onClose }) => {
     const [messages, setMessages] = useState([]);
@@ -46,7 +46,7 @@ const Chat = ({ isOpen, onClose }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     query: userMessage,
-                    sessionId: SEESION_ID,
+                    sessionId: SESSION_ID,
                 }),
             });
 
@@ -92,7 +92,7 @@ const Chat = ({ isOpen, onClose }) => {
 
         setIsResetting(true);
         try {
-            await fetch(`${CHATBOT_URL}/reset/${SEESION_ID}`, {
+            await fetch(`${CHATBOT_URL}/reset/${SESSION_ID}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
             });
