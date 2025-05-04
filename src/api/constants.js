@@ -110,6 +110,7 @@ export const ACADEMIC_API = {
 export const COURSES_API = {
     CREATE: "/courses",
     GET_ALL: "/courses",
+    UPDATE: "/courses/",
     DELETE: "/courses/",
 };
 

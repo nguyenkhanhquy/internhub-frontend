@@ -17,6 +17,10 @@ export const getAllCourses = async (page, size, search, year, semester) => {
     });
 };
 
+export const updateCourse = async (courseId, course) => {
+    return axiosClient.put(COURSES_API.UPDATE + courseId, course);
+};
+
 export const deleteCourse = async (courseId) => {
     return axiosClient.delete(COURSES_API.DELETE + courseId);
 };
