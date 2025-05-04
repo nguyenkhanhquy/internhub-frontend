@@ -22,21 +22,29 @@ const AuthProvider = ({ children }) => {
             if (!dataUser.success) {
                 throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-            setUser(dataUser.result);
+            // setUser(dataUser.result);
+            let userData = dataUser.result;
 
             if (dataUser.result.role !== "FIT") {
                 const dataProfile = await getAuthProfile();
                 if (!dataProfile.success) {
                     throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setUser((prevUser) => ({
-                    ...prevUser,
+                // setUser((prevUser) => ({
+                //     ...prevUser,
+                //     name: dataProfile.result?.name,
+                //     approved: dataProfile.result?.approved ?? true,
+                //     logo: dataProfile.result?.company?.logo,
+                // }));
+                userData = {
+                    ...userData,
                     name: dataProfile.result?.name,
                     approved: dataProfile.result?.approved ?? true,
                     logo: dataProfile.result?.company?.logo,
-                }));
+                };
             }
 
+            setUser(userData);
             setIsAuthenticated(true);
         } catch (error) {
             toast.error(error.message);
