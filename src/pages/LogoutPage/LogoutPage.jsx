@@ -44,7 +44,7 @@ const LogoutPage = () => {
                 navigate("/login");
                 toast.success(data?.message);
             } else {
-                navigate("/");
+                navigate("/login");
             }
         } catch (error) {
             toast.error(error.message);

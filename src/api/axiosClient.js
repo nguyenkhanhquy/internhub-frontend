@@ -24,7 +24,9 @@ axiosClient.interceptors.response.use(
     (error) => {
         if (error?.response?.status === 401 && error?.response?.data?.message === "Chưa được xác thực") {
             removeToken();
-            window.location.replace("/login");
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 500);
         }
         return Promise.reject(error?.response?.data);
     },
