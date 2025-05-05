@@ -65,14 +65,14 @@ const AuthProvider = ({ children }) => {
     }, [fetchUser]);
 
     useEffect(() => {
-        if (isAuthenticated && user?.email) {
+        if (isAuthenticated && user?.id) {
             connectWebSocket();
         } else {
             disconnectWebSocket();
         }
 
         return () => disconnectWebSocket();
-    }, [isAuthenticated, user?.email, connectWebSocket, disconnectWebSocket]);
+    }, [isAuthenticated, user?.id, connectWebSocket, disconnectWebSocket]);
 
     return (
         <AuthContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated, loading }}>
