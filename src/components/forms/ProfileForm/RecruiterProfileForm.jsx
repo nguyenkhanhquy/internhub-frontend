@@ -47,7 +47,7 @@ const schema = yup
     .required();
 
 const RecruiterProfileForm = () => {
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -120,8 +120,10 @@ const RecruiterProfileForm = () => {
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
-            user.logo = formData.companyLogo;
-            setUser(user);
+            setUser((prevUser) => ({
+                ...prevUser,
+                logo: formData.companyLogo,
+            }));
 
             toast.success(data.message);
         } catch (error) {

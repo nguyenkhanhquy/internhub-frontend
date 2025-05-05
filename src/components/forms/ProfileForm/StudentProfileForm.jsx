@@ -60,7 +60,7 @@ const StudentProfileForm = () => {
     const dispatch = useDispatch();
     const studentProfile = useSelector(selectProfile);
 
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
 
     const [profile, setProfile] = useState(studentProfile);
     const [loading, setLoading] = useState(!studentProfile);
@@ -124,7 +124,10 @@ const StudentProfileForm = () => {
                 else throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
             }
 
-            setUser({ ...user, name: formData.name });
+            setUser((prevUser) => ({
+                ...prevUser,
+                name: formData.name,
+            }));
 
             dispatch(setProfileRedux({ ...formData }));
 
