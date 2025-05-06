@@ -65,6 +65,7 @@ const InternshipReportForm = ({ setFlag }) => {
         resolver: yupResolver(schema),
         mode: "all",
         defaultValues: {
+            courseId: "",
             teacherName: "",
             companyName: "",
             instructorName: "",
@@ -87,18 +88,22 @@ const InternshipReportForm = ({ setFlag }) => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setTeachers(data.result);
+                setValue("courseId", "21110CL4");
+                setValue("teacherName", data.result[0].name);
             } catch (error) {
                 toast.error(error.message);
             }
         };
 
         fetchData();
-    }, []);
+    }, [setValue]);
 
     const handleToggleForm = () => {
         if (showForm) {
             clearErrors();
             reset();
+            setValue("courseId", "21110CL4");
+            setValue("teacherName", teachers[0].name);
         }
         setShowForm((prev) => !prev);
     };
@@ -177,7 +182,40 @@ const InternshipReportForm = ({ setFlag }) => {
             {showForm && (
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ marginTop: 2 }}>
                     <Grid container spacing={2}>
-                        <Grid size={12}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Controller
+                                name="courseId"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField {...field} label="Mã lớp học phần" fullWidth size="small" disabled />
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Controller
+                                name="teacherName"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        select
+                                        label="Giảng viên hướng dẫn"
+                                        fullWidth
+                                        size="small"
+                                        disabled
+                                    >
+                                        {teachers.map((teacher) => (
+                                            <MenuItem key={teacher.id} value={teacher.name}>
+                                                {teacher.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                )}
+                            />
+                        </Grid>
+
+                        {/* <Grid size={12}>
                             <Controller
                                 name="teacherName"
                                 control={control}
@@ -199,7 +237,7 @@ const InternshipReportForm = ({ setFlag }) => {
                                     </TextField>
                                 )}
                             />
-                        </Grid>
+                        </Grid> */}
 
                         <Grid size={12}>
                             <Controller

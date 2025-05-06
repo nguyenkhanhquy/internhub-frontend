@@ -18,6 +18,7 @@ import {
     MenuItem,
     Typography,
     Box,
+    Grid,
 } from "@mui/material";
 
 const schema = yup.object().shape({
@@ -111,17 +112,12 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag })
                     <Box mb={2}>
                         <TextField label="Tên học phần" value="Thực tập tốt nghiệp" fullWidth disabled />
                     </Box>
-                    <Box mb={2}>
-                        <TextField label="Năm học" value={academicYear.name} fullWidth disabled />
-                    </Box>
-                    <Box mb={2}>
-                        <TextField label="Học kỳ" value={semester.name} fullWidth disabled />
-                    </Box>
                     <Controller
                         name="teacherId"
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <TextField
+                                sx={{ mb: 2 }}
                                 select
                                 label="Giảng viên"
                                 fullWidth
@@ -133,12 +129,24 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag })
                             >
                                 {teachers.map((teacher) => (
                                     <MenuItem key={teacher.userId} value={teacher.teacherId}>
-                                        {teacher.name}
+                                        {teacher.teacherId} - {teacher.name}
                                     </MenuItem>
                                 ))}
                             </TextField>
                         )}
                     />
+                    <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Box mb={2}>
+                                <TextField label="Năm học" value={academicYear.name} fullWidth disabled />
+                            </Box>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Box mb={2}>
+                                <TextField label="Học kỳ" value={semester.name} fullWidth disabled />
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </Box>
             </DialogContent>
 
