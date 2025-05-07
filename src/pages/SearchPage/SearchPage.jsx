@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import Box from "@mui/material/Box";
 
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
-import SearchBar from "../../components/search/SearchBar";
-import SortBar from "../../components/sort/SortBar";
-import JobCardSearch from "../../components/job/JobCard/JobCardSearch";
-import CustomPagination from "../../components/pagination/Pagination";
-import LoadingOverlay from "../../components/loaders/LoadingOverlay/LoadingOverlay";
-import EmptyBox from "../../components/box/EmptyBox";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import SearchBar from "@components/search/SearchBar";
+import SortBar from "@components/sort/SortBar";
+import JobCardSearch from "@components/job/JobCard/JobCardSearch";
+import CustomPagination from "@components/pagination/Pagination";
+import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
+import EmptyBox from "@components/box/EmptyBox";
 
-import { getAllJobPosts } from "../../services/jobPostService";
+import { getAllJobPosts } from "@services/jobPostService";
 
 const SearchPage = () => {
     const location = useLocation();
@@ -85,7 +85,7 @@ const SearchPage = () => {
                 }}
             >
                 {/* Thanh tìm kiếm */}
-                <Box sx={{ position: "sticky", top: 4, zIndex: 1000, mb: 2 }}>
+                <Box sx={{ position: "sticky", top: 4, zIndex: 1, mb: 2 }}>
                     <SearchBar
                         onSearch={(searchText) => {
                             setCurrentPage(1);
