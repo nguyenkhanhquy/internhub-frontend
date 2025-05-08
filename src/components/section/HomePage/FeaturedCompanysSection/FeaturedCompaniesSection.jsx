@@ -47,7 +47,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
 
     useEffect(() => {
         if (isPaused) return;
-        const interval = setInterval(goToNext, 1000);
+        const interval = setInterval(goToNext, 2000);
         return () => clearInterval(interval);
     }, [goToNext, index, isPaused]);
 
