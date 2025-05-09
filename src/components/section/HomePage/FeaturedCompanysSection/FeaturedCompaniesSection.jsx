@@ -73,12 +73,12 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
     return (
         <Box
             sx={{
+                my: 4,
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
                 position: "relative",
-                my: 4,
             }}
         >
             <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 4 }}>
@@ -95,7 +95,6 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                             width: "100%",
                             maxWidth: 1160,
                             overflow: "hidden",
-                            marginBottom: 2,
                         }}
                     >
                         <Box
@@ -113,6 +112,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                                 <Box
                                     key={i}
                                     sx={{
+                                        mb: 2,
                                         flexShrink: 0,
                                         display: "flex",
                                         justifyContent: "center",
