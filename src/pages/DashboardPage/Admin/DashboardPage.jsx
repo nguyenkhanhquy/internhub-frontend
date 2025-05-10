@@ -175,7 +175,17 @@ function DashboardPage(props) {
             theme={theme}
             window={window}
         >
-            <DashboardLayout defaultSidebarCollapsed>
+            <DashboardLayout
+                defaultSidebarCollapsed
+                slotProps={{
+                    toolbarAccount: {
+                        localeText: {
+                            accountSignInLabel: "Đăng nhập",
+                            accountSignOutLabel: "Đăng xuất",
+                        },
+                    },
+                }}
+            >
                 <PageContent pathname={router.pathname} />
             </DashboardLayout>
         </AppProvider>

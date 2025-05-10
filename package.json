@@ -21,7 +21,7 @@
         "@mui/x-charts": "^8.3.0",
         "@reduxjs/toolkit": "^2.8.1",
         "@stomp/stompjs": "^7.1.1",
-        "@tailwindcss/vite": "^4.1.5",
+        "@tailwindcss/vite": "^4.1.6",
         "@toolpad/core": "^0.13.0",
         "axios": "^1.9.0",
         "ckeditor5": "^45.0.0",
@@ -34,7 +34,7 @@
         "react-toastify": "^11.0.5",
         "remark-gfm": "^4.0.1",
         "sockjs-client": "^1.6.1",
-        "tailwindcss": "^4.1.5",
+        "tailwindcss": "^4.1.6",
         "yup": "^1.6.1"
     },
     "devDependencies": {
