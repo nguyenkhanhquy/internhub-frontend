@@ -88,7 +88,7 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag })
     return (
         <Dialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm">
             <DialogTitle>
-                <Typography fontWeight="bold">Thêm lớp thực tập</Typography>
+                <Typography fontWeight="bold">Tạo lớp thực tập</Typography>
             </DialogTitle>
 
             <DialogContent dividers>

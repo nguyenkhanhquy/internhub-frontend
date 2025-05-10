@@ -102,7 +102,7 @@ const JobDetailsPage = () => {
                             jobPosition={jobData.jobPosition}
                             type={jobData.type}
                             salary={jobData.salary}
-                            updateDate={jobData.createdDate}
+                            updateDate={jobData.updatedDate}
                             expiryDate={jobData.expiryDate}
                             saved={jobData.saved}
                             onApplyJob={handleApplyJob}

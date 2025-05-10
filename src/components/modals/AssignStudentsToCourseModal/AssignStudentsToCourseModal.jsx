@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -20,20 +20,42 @@ import {
     Checkbox,
 } from "@mui/material";
 
-// Mock data cho sinh viên
-const mockStudents = [
-    { id: 1, studentId: "SV001", name: "Nguyễn Văn A" },
-    { id: 2, studentId: "SV002", name: "Trần Thị B" },
-    { id: 3, studentId: "SV003", name: "Lê Văn C" },
-    { id: 4, studentId: "SV004", name: "Phạm Thị D" },
-    { id: 5, studentId: "SV005", name: "Hoàng Văn E" },
-];
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
-const AssignStudentsToCourse = ({ isOpen, onClose, course, onSave }) => {
-    const [allStudents, setAllStudents] = useState(mockStudents);
-    const [assignedStudents, setAssignedStudents] = useState(mockStudents.slice(0, 2));
+import { getAllStudentsByCourseId, assignStudentsToCourse } from "@services/courseService";
+import { getAllStudents } from "@/services/studentService";
+
+const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
+    const [allStudents, setAllStudents] = useState([]);
+    const [assignedStudents, setAssignedStudents] = useState([]);
     const [searchAll, setSearchAll] = useState("");
     const [searchAssigned, setSearchAssigned] = useState("");
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const [studentsRes, assignedRes] = await Promise.all([
+                    getAllStudents(),
+                    getAllStudentsByCourseId(course.id),
+                ]);
+
+                if (!studentsRes.success || !assignedRes.success) {
+                    throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+
+                setAllStudents(studentsRes.result);
+                setAssignedStudents(assignedRes.result);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (isOpen) fetchData();
+    }, [isOpen, course.id]);
 
     // Lọc danh sách sinh viên theo tìm kiếm
     const filteredAllStudents = allStudents.filter(
@@ -50,9 +72,9 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, onSave }) => {
 
     // Xử lý khi chọn/bỏ chọn sinh viên
     const handleCheckboxChange = (student) => {
-        if (assignedStudents.some((s) => s.id === student.id)) {
+        if (assignedStudents.some((s) => s.userId === student.userId)) {
             // Bỏ chọn: xóa khỏi danh sách đã gán
-            setAssignedStudents(assignedStudents.filter((s) => s.id !== student.id));
+            setAssignedStudents(assignedStudents.filter((s) => s.userId !== student.userId));
         } else {
             // Chọn: thêm vào danh sách đã gán
             setAssignedStudents([...assignedStudents, student]);
@@ -61,14 +83,20 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, onSave }) => {
 
     // Xử lý lưu
     const handleSave = async () => {
+        setLoading(true);
         try {
-            // Gọi hàm onSave với danh sách sinh viên đã gán
-            await onSave(assignedStudents);
-            toast.success("Gán sinh viên thành công!");
+            const studentIds = assignedStudents.map((student) => student.studentId);
+            const data = await assignStudentsToCourse(course.id, studentIds);
+            if (!data.success) {
+                throw new Error("Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFlag((prev) => !prev);
             handleClose();
+            toast.success("Gán sinh viên thành công!");
         } catch (error) {
-            console.error("Error saving assigned students:", error);
-            toast.error("Gán sinh viên thất bại!");
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -108,103 +136,115 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, onSave }) => {
                     overflowY: "auto",
                 }}
             >
-                <Box
-                    display="flex"
-                    flexDirection={{ xs: "column", md: "row" }} // Một cột trên mobile, hai cột trên desktop
-                    gap={2}
-                    flex={1}
-                >
-                    {/* Danh sách sinh viên trong hệ thống */}
-                    <Box flex={1}>
-                        <Typography mb={1}>Sinh viên trong hệ thống</Typography>
-                        <TextField
-                            label="Tìm kiếm theo mssv hoặc tên"
-                            variant="outlined"
-                            fullWidth
-                            value={searchAll}
-                            onChange={(e) => setSearchAll(e.target.value)}
-                            sx={{ mb: 1 }}
-                        />
-                        <TableContainer sx={{ maxHeight: { xs: "300px", md: "400px" }, overflowY: "auto" }}>
-                            <Table stickyHeader>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
-                                        <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
-                                        <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {filteredAllStudents.map((student) => (
-                                        <TableRow key={student.id}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={assignedStudents.some((s) => s.id === student.id)}
-                                                    onChange={() => handleCheckboxChange(student)}
-                                                />
-                                            </TableCell>
-                                            <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
-                                                {student.studentId}
-                                            </TableCell>
-                                            <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
-                                                {student.name}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                {loading ? (
+                    <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+                        <SuspenseLoader />
                     </Box>
+                ) : (
+                    <Box
+                        display="flex"
+                        flexDirection={{ xs: "column", md: "row" }} // Một cột trên mobile, hai cột trên desktop
+                        gap={2}
+                        flex={1}
+                    >
+                        {/* Danh sách sinh viên trong hệ thống */}
+                        <Box flex={1}>
+                            <Typography mb={1}>Sinh viên trong hệ thống ({allStudents.length} sinh viên)</Typography>
+                            <TextField
+                                label="Tìm kiếm theo mssv hoặc tên"
+                                variant="outlined"
+                                fullWidth
+                                value={searchAll}
+                                onChange={(e) => setSearchAll(e.target.value)}
+                                sx={{ mb: 1 }}
+                            />
+                            <TableContainer sx={{ maxHeight: { xs: "300px", md: "400px" }, overflowY: "auto" }}>
+                                <Table stickyHeader>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
+                                            <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
+                                            <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {filteredAllStudents.map((student) => (
+                                            <TableRow key={student.userId}>
+                                                <TableCell>
+                                                    <Checkbox
+                                                        checked={assignedStudents.some(
+                                                            (s) => s.userId === student.userId,
+                                                        )}
+                                                        onChange={() => handleCheckboxChange(student)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                                                    {student.studentId}
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                                                    {student.name}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
 
-                    {/* Danh sách sinh viên đã gán */}
-                    <Box flex={1}>
-                        <Typography mb={1}>Sinh viên thuộc lớp</Typography>
-                        <TextField
-                            label="Tìm kiếm theo mssv hoặc tên"
-                            variant="outlined"
-                            fullWidth
-                            value={searchAssigned}
-                            onChange={(e) => setSearchAssigned(e.target.value)}
-                            sx={{ mb: 1 }}
-                        />
-                        <TableContainer sx={{ maxHeight: { xs: "300px", md: "400px" }, overflowY: "auto" }}>
-                            <Table stickyHeader>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
-                                        <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
-                                        <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {filteredAssignedStudents.map((student) => (
-                                        <TableRow key={student.id}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={assignedStudents.some((s) => s.id === student.id)}
-                                                    onChange={() => handleCheckboxChange(student)}
-                                                />
-                                            </TableCell>
-                                            <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
-                                                {student.studentId}
-                                            </TableCell>
-                                            <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
-                                                {student.name}
-                                            </TableCell>
+                        {/* Danh sách sinh viên đã gán */}
+                        <Box flex={1}>
+                            <Typography mb={1}>
+                                Sinh viên đã được gán vào lớp ({assignedStudents.length} sinh viên)
+                            </Typography>
+                            <TextField
+                                label="Tìm kiếm theo mssv hoặc tên"
+                                variant="outlined"
+                                fullWidth
+                                value={searchAssigned}
+                                onChange={(e) => setSearchAssigned(e.target.value)}
+                                sx={{ mb: 1 }}
+                            />
+                            <TableContainer sx={{ maxHeight: { xs: "300px", md: "400px" }, overflowY: "auto" }}>
+                                <Table stickyHeader>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
+                                            <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
+                                            <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                    </TableHead>
+                                    <TableBody>
+                                        {filteredAssignedStudents.map((student) => (
+                                            <TableRow key={student.userId}>
+                                                <TableCell>
+                                                    <Checkbox
+                                                        checked={assignedStudents.some(
+                                                            (s) => s.userId === student.userId,
+                                                        )}
+                                                        onChange={() => handleCheckboxChange(student)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                                                    {student.studentId}
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                                                    {student.name}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
                     </Box>
-                </Box>
+                )}
             </DialogContent>
 
             <DialogActions sx={{ px: 2, py: 1 }}>
                 <Button onClick={handleClose} variant="outlined">
                     Hủy
                 </Button>
-                <Button onClick={handleSave} variant="contained" color="primary">
+                <Button disabled={loading} onClick={handleSave} variant="contained" color="primary">
                     Lưu
                 </Button>
             </DialogActions>
@@ -216,7 +256,7 @@ AssignStudentsToCourse.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     course: PropTypes.object.isRequired,
-    onSave: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default AssignStudentsToCourse;
