@@ -92,7 +92,7 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
             }
             setFlag((prev) => !prev);
             handleClose();
-            toast.success("Gán sinh viên thành công!");
+            toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
         } finally {

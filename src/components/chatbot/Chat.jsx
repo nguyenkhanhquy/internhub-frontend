@@ -115,7 +115,7 @@ const Chat = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="animate-slide-up fixed right-4 bottom-24 z-40 flex h-[500px] w-[500px] flex-col rounded-xl border border-gray-200 bg-white shadow-2xl sm:h-[600px] sm:w-[600px]">
+        <div className="fixed right-4 bottom-24 z-40 flex h-[500px] w-[500px] flex-col rounded-xl border border-gray-200 bg-white shadow-2xl sm:h-[600px] sm:w-[600px]">
             <div className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-blue-500 p-3 text-white">
                 <div className="flex items-center">
                     <h1 className="text-lg font-semibold">AI Assistant</h1>
@@ -133,7 +133,7 @@ const Chat = ({ isOpen, onClose }) => {
                 </button>
             </div>
 
-            <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-50 flex-1 overflow-y-auto bg-gray-50 p-4">
+            <div className="scrollbar-thumb-gray-300 scrollbar-track-gray-50 flex-1 overflow-y-auto bg-gray-50 p-4">
                 {messages.length === 0 && (
                     <div className="mt-4 text-center text-gray-500">
                         <p className="font-medium">Chào bạn!</p>

@@ -54,6 +54,7 @@ export const COMPANIES_API = {
 export const STUDENTS_API = {
     GET_ALL: "/students",
     UPDATE_PROFILE: "/students/update-profile",
+    GET_CURRENT_COURSE: "/students/current-course",
 };
 
 export const TEACHERS_API = {

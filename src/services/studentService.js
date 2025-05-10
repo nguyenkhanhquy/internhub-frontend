@@ -18,3 +18,7 @@ export const updateProfile = async (profile) => {
         address: profile.address,
     });
 };
+
+export const getCurrentCourse = async () => {
+    return axiosClient.get(STUDENTS_API.GET_CURRENT_COURSE);
+};

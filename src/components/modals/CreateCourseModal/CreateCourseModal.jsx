@@ -155,7 +155,7 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag })
                     Hủy
                 </Button>
                 <Button disabled={isSubmitting} onClick={handleSubmit(onSubmit)} variant="contained">
-                    {isSubmitting ? "Đang lưu..." : "Thêm lớp"}
+                    {isSubmitting ? "Đang tạo..." : "Tạo lớp"}
                 </Button>
             </DialogActions>
         </Dialog>

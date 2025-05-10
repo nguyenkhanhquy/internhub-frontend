@@ -5,22 +5,12 @@ import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {
-    Checkbox,
-    FormControlLabel,
-    Box,
-    Button,
-    TextField,
-    MenuItem,
-    Typography,
-    Grid,
-    IconButton,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, Box, Button, TextField, Typography, Grid, IconButton } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
+import { getCurrentCourse } from "@/services/studentService";
 import { createInternshipReport } from "@services/internshipReport";
-import { getAllTeachers } from "@services/teacherService";
 import { uploadFile } from "@services/uploadService";
 
 import useAuth from "@hooks/useAuth";
@@ -29,7 +19,8 @@ const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = yup.object().shape({
-    teacherName: yup.string().required("Vui lòng chọn giảng viên hướng dẫn."),
+    courseCode: yup.string().required("Không tìm thấy mã lớp học phần."),
+    teacherName: yup.string().required("Không tìm thấy giảng viên hướng dẫn."),
     companyName: yup.string().required("Vui lòng nhập tên công ty thực tập."),
     instructorName: yup.string().required("Vui lòng nhập tên người hướng dẫn."),
     instructorEmail: yup
@@ -51,7 +42,7 @@ const schema = yup.object().shape({
 const InternshipReportForm = ({ setFlag }) => {
     const { user } = useAuth();
     const [showForm, setShowForm] = useState(false);
-    const [teachers, setTeachers] = useState([]);
+    const [currentCourse, setCurrentCourse] = useState(null);
 
     const {
         control,
@@ -65,7 +56,7 @@ const InternshipReportForm = ({ setFlag }) => {
         resolver: yupResolver(schema),
         mode: "all",
         defaultValues: {
-            courseId: "",
+            courseCode: "",
             teacherName: "",
             companyName: "",
             instructorName: "",
@@ -83,27 +74,38 @@ const InternshipReportForm = ({ setFlag }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getAllTeachers();
+                const data = await getCurrentCourse();
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setTeachers(data.result);
-                setValue("courseId", "21110CL4");
-                setValue("teacherName", data.result[0].name);
+                setCurrentCourse(data.result);
+                reset((prev) => ({
+                    ...prev,
+                    courseCode: data?.result?.courseCode || "",
+                    teacherName: data?.result?.teacherName || "",
+                }));
             } catch (error) {
                 toast.error(error.message);
             }
         };
 
         fetchData();
-    }, [setValue]);
+    }, [reset]);
 
     const handleToggleForm = () => {
         if (showForm) {
             clearErrors();
-            reset();
-            setValue("courseId", "21110CL4");
-            setValue("teacherName", teachers[0].name);
+            reset({
+                courseCode: currentCourse?.courseCode || "",
+                teacherName: currentCourse?.teacherName || "",
+                companyName: "",
+                instructorName: "",
+                instructorEmail: "",
+                startDate: "",
+                endDate: "",
+                reportFile: null,
+                evaluationFile: null,
+            });
         }
         setShowForm((prev) => !prev);
     };
@@ -184,10 +186,18 @@ const InternshipReportForm = ({ setFlag }) => {
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6 }}>
                             <Controller
-                                name="courseId"
+                                name="courseCode"
                                 control={control}
                                 render={({ field }) => (
-                                    <TextField {...field} label="Mã lớp học phần" fullWidth size="small" disabled />
+                                    <TextField
+                                        {...field}
+                                        label="Mã lớp học phần"
+                                        fullWidth
+                                        size="small"
+                                        disabled
+                                        error={!!errors.teacherName}
+                                        helperText={errors.teacherName?.message}
+                                    />
                                 )}
                             />
                         </Grid>
@@ -199,18 +209,13 @@ const InternshipReportForm = ({ setFlag }) => {
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
-                                        select
                                         label="Giảng viên hướng dẫn"
                                         fullWidth
                                         size="small"
                                         disabled
-                                    >
-                                        {teachers.map((teacher) => (
-                                            <MenuItem key={teacher.id} value={teacher.name}>
-                                                {teacher.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
+                                        error={!!errors.teacherName}
+                                        helperText={errors.teacherName?.message}
+                                    />
                                 )}
                             />
                         </Grid>

@@ -273,7 +273,7 @@ const CoursePage = () => {
                             <TableCell style={{ textAlign: "center", width: "15%" }}>GIẢNG VIÊN</TableCell>
                             <TableCell style={{ textAlign: "center", width: "10%" }}>SĨ SỐ</TableCell>
                             <TableCell style={{ textAlign: "center", width: "15%" }}>TRẠNG THÁI</TableCell>
-                            <TableCell style={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -302,7 +302,7 @@ const CoursePage = () => {
                                     <TableCell style={{ textAlign: "center" }}>{course.teacherName}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{course.totalStudents}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{course.courseStatus}</TableCell>
-                                    <TableCell style={{ textAlign: "right" }}>
+                                    <TableCell style={{ textAlign: "center" }}>
                                         <Tooltip title="Chỉnh sửa">
                                             <IconButton color="primary" onClick={() => handleUpdateCourse(course)}>
                                                 <EditIcon />
