@@ -110,8 +110,10 @@ export const ACADEMIC_API = {
 export const COURSES_API = {
     CREATE: "/courses",
     GET_ALL: "/courses",
-    UPDATE: "/courses/",
-    DELETE: "/courses/",
+    UPDATE: (id) => `/courses/${id}`,
+    DELETE: (id) => `/courses/${id}`,
+    GET_STUDENTS: (id) => `/courses/${id}/students`,
+    ASSIGN_STUDENTS: (id) => `/courses/${id}/students/assign`,
 };
 
 export const ENROLLMENT_API = {
