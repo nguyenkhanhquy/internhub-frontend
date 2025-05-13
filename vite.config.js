@@ -33,15 +33,15 @@ export default defineConfig({
                     react: ["react", "react-dom"],
                     router: ["react-router-dom"],
                     redux: ["@reduxjs/toolkit", "react-redux"],
-
                     mui: ["@mui/material"],
                     muiIcons: ["@mui/icons-material"],
                     muiCharts: ["@mui/x-charts"],
-
                     ckeditor: ["@ckeditor/ckeditor5-react", "ckeditor5"],
-
                     form: ["react-hook-form", "@hookform/resolvers", "yup"],
                     toast: ["react-toastify"],
+                    fontawesome: ["@fortawesome/react-fontawesome", "@fortawesome/free-solid-svg-icons"],
+                    markdown: ["react-markdown", "remark-gfm"],
+                    websocket: ["@stomp/stompjs", "sockjs-client"],
                 },
             },
         },
