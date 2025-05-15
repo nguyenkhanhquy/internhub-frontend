@@ -34,10 +34,8 @@ import CoursesPage from "@pages/DataPage/StudentDataPage/CoursesPage";
 import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
 import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
 
-// import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
-const AdminDashboardPage = lazy(() => import("@pages/DashboardPage/Admin/DashboardPage"));
-// import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
-const TeacherDashboardPage = lazy(() => import("@pages/DashboardPage/Teacher/DashboardPage"));
+import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
+import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
 
 // import ReduxToolkitPage from "@pages/ReduxToolkitPage";
 const ReduxToolkitPage = lazy(() => import("@pages/ReduxToolkitPage"));
