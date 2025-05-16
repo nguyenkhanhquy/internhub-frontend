@@ -26,3 +26,15 @@ export const importTeachers = async (file) => {
         },
     });
 };
+
+export const getAllCourses = async (page, size, search, year, semester) => {
+    const params = {
+        page,
+        size,
+        ...(search && { search }),
+        ...(year && { year }),
+        ...(semester && { semester }),
+    };
+
+    return axiosClient.get(TEACHERS_API.GET_ALL_COURSES, { params });
+};
