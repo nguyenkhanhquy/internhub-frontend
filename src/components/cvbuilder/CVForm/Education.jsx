@@ -1,4 +1,4 @@
-"use client";
+import PropTypes from "prop-types";
 
 const Education = ({ education, onChange, onAdd, onDelete }) => {
     const handleChange = (index, e) => {
@@ -146,6 +146,13 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
             )}
         </div>
     );
+};
+
+Education.propTypes = {
+    education: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };
 
 export default Education;

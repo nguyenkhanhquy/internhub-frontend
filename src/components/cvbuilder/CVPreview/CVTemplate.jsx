@@ -1,7 +1,8 @@
-"use client";
 // @ts-nocheck
 
 import { useRef } from "react";
+import PropTypes from "prop-types";
+
 import html2pdf from "html2pdf.js";
 
 const CVTemplate = ({ cvData }) => {
@@ -274,6 +275,10 @@ const CVTemplate = ({ cvData }) => {
             </button>
         </div>
     );
+};
+
+CVTemplate.propTypes = {
+    cvData: PropTypes.object.isRequired,
 };
 
 export default CVTemplate;

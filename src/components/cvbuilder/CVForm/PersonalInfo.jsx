@@ -1,4 +1,4 @@
-"use client";
+import PropTypes from "prop-types";
 
 const PersonalInfo = ({ personalInfo, onChange }) => {
     const handleChange = (e) => {
@@ -8,7 +8,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                     <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                         Họ và tên
@@ -21,7 +21,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="Nguyễn Văn A"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -36,12 +36,12 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="Java Intern"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         Email
@@ -54,7 +54,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="example@gmail.com"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -69,7 +69,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="0912345678"
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
             </div>
@@ -85,7 +85,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                     value={personalInfo.location || ""}
                     onChange={handleChange}
                     placeholder="Hà Nội, Việt Nam"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 />
             </div>
 
@@ -100,11 +100,11 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                     onChange={handleChange}
                     placeholder="Giới thiệu ngắn gọn về bản thân, mục tiêu nghề nghiệp và điểm mạnh của bạn..."
                     rows="4"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition resize-y min-h-[100px]"
+                    className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                     <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700">
                         LinkedIn URL
@@ -116,7 +116,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         value={personalInfo.linkedin || ""}
                         onChange={handleChange}
                         placeholder="https://linkedin.com/in/username"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -130,12 +130,17 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         value={personalInfo.github || ""}
                         onChange={handleChange}
                         placeholder="https://github.com/username"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     />
                 </div>
             </div>
         </div>
     );
+};
+
+PersonalInfo.propTypes = {
+    personalInfo: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default PersonalInfo;

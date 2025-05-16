@@ -1,4 +1,4 @@
-"use client";
+import PropTypes from "prop-types";
 
 import { useState } from "react";
 
@@ -112,6 +112,11 @@ const Skills = ({ skills, onChange }) => {
             ))}
         </div>
     );
+};
+
+Skills.propTypes = {
+    skills: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default Skills;

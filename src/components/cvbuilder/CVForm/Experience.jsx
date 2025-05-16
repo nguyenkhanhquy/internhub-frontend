@@ -1,4 +1,4 @@
-"use client";
+import PropTypes from "prop-types";
 
 const Experience = ({ experience, onChange, onAdd, onDelete }) => {
     const handleChange = (index, e) => {
@@ -162,6 +162,13 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
             )}
         </div>
     );
+};
+
+Experience.propTypes = {
+    experience: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };
 
 export default Experience;
