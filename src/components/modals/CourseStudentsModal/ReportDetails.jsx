@@ -9,7 +9,7 @@ const majorLabels = {
     IS: "An toàn thông tin",
 };
 
-const ReportDetails = ({ report, student, onDownloadFile, onOpenScoreForm, onBackToList }) => {
+const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, onBackToList }) => {
     return (
         <Box sx={{ padding: 2 }}>
             <Paper sx={{ padding: 3, borderRadius: 2, boxShadow: 2 }}>
@@ -155,8 +155,8 @@ const ReportDetails = ({ report, student, onDownloadFile, onOpenScoreForm, onBac
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => onOpenScoreForm(student)}
-                    disabled={student?.score !== null}
+                    onClick={() => onOpenScoreForm(enrollment)}
+                    disabled={enrollment.finalScore}
                     sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
                 >
                     Nhập điểm
@@ -176,7 +176,7 @@ const ReportDetails = ({ report, student, onDownloadFile, onOpenScoreForm, onBac
 
 ReportDetails.propTypes = {
     report: PropTypes.object.isRequired,
-    student: PropTypes.object.isRequired,
+    enrollment: PropTypes.object.isRequired,
     onDownloadFile: PropTypes.func.isRequired,
     onOpenScoreForm: PropTypes.func.isRequired,
     onBackToList: PropTypes.func.isRequired,

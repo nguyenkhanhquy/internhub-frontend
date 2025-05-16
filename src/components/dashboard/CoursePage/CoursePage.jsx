@@ -266,7 +266,7 @@ const CoursePage = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ textAlign: "center", width: "5%" }}>STT</TableCell>
-                            <TableCell style={{ textAlign: "center", width: "20%" }}>MÃ HỌC PHẦN</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "20%" }}>MÃ LỚP HỌC PHẦN</TableCell>
                             {/* <TableCell style={{ textAlign: "center", width: "10%" }}>TÊN HỌC PHẦN</TableCell> */}
                             <TableCell style={{ textAlign: "center", width: "10%" }}>NĂM HỌC</TableCell>
                             <TableCell style={{ textAlign: "center", width: "10%" }}>HỌC KỲ</TableCell>
@@ -279,13 +279,13 @@ const CoursePage = () => {
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                                     <SuspenseLoader />
                                 </TableCell>
                             </TableRow>
                         ) : courses.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={9} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>

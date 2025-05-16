@@ -62,6 +62,8 @@ export const TEACHERS_API = {
     UPDATE: "/teachers/",
     DELETE: "/teachers/",
     IMPORT: "/users/import/teachers",
+
+    GET_ALL_COURSES: "/teachers/courses",
 };
 
 export const JOBS_API = {
@@ -117,6 +119,7 @@ export const COURSES_API = {
     DELETE: (id) => `/courses/${id}`,
     GET_STUDENTS: (id) => `/courses/${id}/students`,
     ASSIGN_STUDENTS: (id) => `/courses/${id}/students/assign`,
+    GET_ENROLLMENTS: (id) => `/courses/${id}/enrollments`,
 };
 
 export const ENROLLMENT_API = {

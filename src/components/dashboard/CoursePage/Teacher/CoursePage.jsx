@@ -27,55 +27,7 @@ import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
 import { getAllYearAndSemester } from "@services/academicService";
-// import { getAllCourses, deleteCourse } from "@services/courseService";
-
-const mockCourses = [
-    {
-        id: 1,
-        courseCode: "CS101",
-        courseName: "Lập trình cơ bản",
-        academicYear: "2023-2024",
-        semester: "Học kỳ 1",
-        totalStudents: 30,
-        courseStatus: "Đang diễn ra",
-    },
-    {
-        id: 2,
-        courseCode: "CS102",
-        courseName: "Cấu trúc dữ liệu",
-        academicYear: "2023-2024",
-        semester: "Học kỳ 1",
-        totalStudents: 25,
-        courseStatus: "Đang diễn ra",
-    },
-    {
-        id: 3,
-        courseCode: "CS103",
-        courseName: "Thuật toán",
-        academicYear: "2023-2024",
-        semester: "Học kỳ 2",
-        totalStudents: 28,
-        courseStatus: "Đã kết thúc",
-    },
-    {
-        id: 4,
-        courseCode: "CS104",
-        courseName: "Hệ điều hành",
-        academicYear: "2024-2025",
-        semester: "Học kỳ 1",
-        totalStudents: 35,
-        courseStatus: "Đang diễn ra",
-    },
-    {
-        id: 5,
-        courseCode: "CS105",
-        courseName: "Mạng máy tính",
-        academicYear: "2024-2025",
-        semester: "Học kỳ 1",
-        totalStudents: 32,
-        courseStatus: "Đang diễn ra",
-    },
-];
+import { getAllCourses } from "@services/teacherService";
 
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
@@ -93,7 +45,7 @@ const CoursePage = () => {
     const [filtersLoaded, setFiltersLoaded] = useState(false);
     const [academicYears, setAcademicYears] = useState([{ id: "ALL", name: "Tất cả năm học" }]);
     const [semesters, setSemesters] = useState([{ id: "ALL", name: "Tất cả học kỳ" }]);
-    const [selectedYear, setSelectedYear] = useState("ALL");
+    const [selectedYear, setSelectedYear] = useState("Tất cả năm học");
     const [selectedSemester, setSelectedSemester] = useState("ALL");
 
     const handlePageChange = (page) => {
@@ -118,46 +70,15 @@ const CoursePage = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            //     const yearParam = selectedYear === "ALL" ? null : selectedYear;
-            //     const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
-            //     const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
-            //     if (!data.success) {
-            //         throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-            //     }
-            //     setTotalPages(data.pageInfo.totalPages);
-            //     setTotalRecords(data.pageInfo.totalElements);
-            //     setCourses(data.result);
-            // Sử dụng mock data thay vì gọi API
-            let filteredCourses = mockCourses;
-
-            // Lọc theo năm học
-            if (selectedYear !== "ALL") {
-                filteredCourses = filteredCourses.filter((course) => course.academicYear === selectedYear);
+            const yearParam = selectedYear === "Tất cả năm học" ? null : selectedYear;
+            const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
+            const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-
-            // Lọc theo học kỳ
-            if (selectedSemester !== "ALL") {
-                filteredCourses = filteredCourses.filter((course) => course.semester === selectedSemester);
-            }
-
-            // Tìm kiếm
-            if (search) {
-                const searchLower = search.toLowerCase();
-                filteredCourses = filteredCourses.filter(
-                    (course) =>
-                        course.courseCode.toLowerCase().includes(searchLower) ||
-                        course.courseName.toLowerCase().includes(searchLower),
-                );
-            }
-
-            // Tính toán phân trang
-            const totalFilteredRecords = filteredCourses.length;
-            const totalFilteredPages = Math.ceil(totalFilteredRecords / recordsPerPage);
-            const startIndex = (currentPage - 1) * recordsPerPage;
-            const paginatedCourses = filteredCourses.slice(startIndex, startIndex + recordsPerPage);
-            setTotalPages(totalFilteredPages);
-            setTotalRecords(totalFilteredRecords);
-            setCourses(paginatedCourses);
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
+            setCourses(data.result);
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -175,7 +96,8 @@ const CoursePage = () => {
 
                 setAcademicYears([{ id: "ALL", name: "Tất cả năm học" }, ...(data.result.academicYears || [])]);
                 setSemesters([{ id: "ALL", name: "Tất cả học kỳ" }, ...(data.result.semesters || [])]);
-                setSelectedYear(data.result.currentAcademicYear?.id || "ALL");
+
+                setSelectedYear(data.result.currentAcademicYear?.name || "ALL");
                 setSelectedSemester(data.result.currentSemester?.id || "ALL");
             } catch (error) {
                 toast.error(error.message);
@@ -254,7 +176,7 @@ const CoursePage = () => {
                         }}
                     >
                         {academicYears.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
+                            <MenuItem key={option.id} value={option.name}>
                                 {option.name}
                             </MenuItem>
                         ))}
@@ -285,22 +207,14 @@ const CoursePage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ width: "5%" }} align="center">
-                                STT
-                            </TableCell>
-                            <TableCell style={{ width: "15%" }}>MÃ HỌC PHẦN</TableCell>
-                            <TableCell style={{ width: "15%" }}>TÊN HỌC PHẦN</TableCell>
-                            <TableCell style={{ width: "15%" }}>NĂM HỌC</TableCell>
-                            <TableCell style={{ width: "10%" }}>HỌC KỲ</TableCell>
-                            <TableCell style={{ width: "10%" }} align="center">
-                                SĨ SỐ
-                            </TableCell>
-                            <TableCell style={{ width: "20%" }} align="center">
-                                TRẠNG THÁI
-                            </TableCell>
-                            <TableCell style={{ width: "10%" }} align="center">
-                                HÀNH ĐỘNG
-                            </TableCell>
+                            <TableCell style={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "20%" }}>MÃ LỚP HỌC PHẦN</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "15%" }}>TÊN HỌC PHẦN</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "10%" }}>NĂM HỌC</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "10%" }}>HỌC KỲ</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "10%" }}>SĨ SỐ</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "15%" }}>TRẠNG THÁI</TableCell>
+                            <TableCell style={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -319,20 +233,16 @@ const CoursePage = () => {
                         ) : (
                             courses.map((course, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell style={{ width: "5%" }} align="center">
+                                    <TableCell style={{ textAlign: "center" }}>
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
-                                    <TableCell style={{ width: "15%" }}>{course.courseCode}</TableCell>
-                                    <TableCell style={{ width: "15%" }}>{course.courseName}</TableCell>
-                                    <TableCell style={{ width: "15%" }}>{course.academicYear}</TableCell>
-                                    <TableCell style={{ width: "10%" }}>{course.semester}</TableCell>
-                                    <TableCell style={{ width: "10%" }} align="center">
-                                        {course.totalStudents}
-                                    </TableCell>
-                                    <TableCell style={{ width: "20%" }} align="center">
-                                        {course.courseStatus}
-                                    </TableCell>
-                                    <TableCell style={{ width: "10%" }} align="center">
+                                    <TableCell style={{ textAlign: "center" }}>{course.courseCode}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{course.courseName}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{course.academicYear}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{course.semester}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{course.totalStudents}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{course.courseStatus}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
                                         <Tooltip title="Xem danh sách sinh viên">
                                             <IconButton color="primary" onClick={() => handleOpenStudentsModal(course)}>
                                                 <PeopleIcon />

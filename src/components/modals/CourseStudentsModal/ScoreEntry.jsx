@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import { Box, Typography, TextField, TextareaAutosize, Button } from "@mui/material";
 
 const ScoreEntry = ({
-    student,
+    enrollment,
     score,
-    comment,
+    feedback,
     onScoreChange,
-    onCommentChange,
+    onFeedbackChange,
     onSaveScore,
     onBackToList,
     onOpenReportDetails,
@@ -34,8 +34,8 @@ const ScoreEntry = ({
                 <TextareaAutosize
                     minRows={5}
                     placeholder="Nhập nhận xét..."
-                    value={comment}
-                    onChange={(e) => onCommentChange(e.target.value)}
+                    value={feedback}
+                    onChange={(e) => onFeedbackChange(e.target.value)}
                     style={{
                         width: "100%",
                         padding: "8px",
@@ -52,8 +52,8 @@ const ScoreEntry = ({
                 <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => onOpenReportDetails(student)}
-                    disabled={!student.report}
+                    onClick={() => onOpenReportDetails(enrollment)}
+                    disabled={!enrollment.internshipReport}
                 >
                     Báo cáo chi tiết
                 </Button>
@@ -66,11 +66,11 @@ const ScoreEntry = ({
 };
 
 ScoreEntry.propTypes = {
-    student: PropTypes.object.isRequired,
+    enrollment: PropTypes.object.isRequired,
     score: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    comment: PropTypes.string.isRequired,
+    feedback: PropTypes.string.isRequired,
     onScoreChange: PropTypes.func.isRequired,
-    onCommentChange: PropTypes.func.isRequired,
+    onFeedbackChange: PropTypes.func.isRequired,
     onSaveScore: PropTypes.func.isRequired,
     onBackToList: PropTypes.func.isRequired,
     onOpenReportDetails: PropTypes.func.isRequired,
