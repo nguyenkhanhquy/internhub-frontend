@@ -37,6 +37,8 @@ import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPa
 import AdminDashboardPage from "@pages/DashboardPage/Admin/DashboardPage";
 import TeacherDashboardPage from "@pages/DashboardPage/Teacher/DashboardPage";
 
+import CVBuilderPage from "@/pages/CVBuilderPage/CVBuilderPage";
+
 // import ReduxToolkitPage from "@pages/ReduxToolkitPage";
 const ReduxToolkitPage = lazy(() => import("@pages/ReduxToolkitPage"));
 
@@ -60,6 +62,8 @@ const AppRoutes = () => {
             ) : (
                 <Routes>
                     <Route path="/" element={<AppWrapper />}>
+                        {/* CV Builder Page */}
+                        <Route path="/cv-builder" element={<CVBuilderPage />} />
                         {/* Redux Toolkit Page */}
                         <Route path="/redux-toolkit" element={<ReduxToolkitPage />} />
 
