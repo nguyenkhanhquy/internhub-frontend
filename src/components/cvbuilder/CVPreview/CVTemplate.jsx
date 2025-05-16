@@ -253,7 +253,7 @@ const CVTemplate = ({ cvData }) => {
             </div>
             <button
                 onClick={exportToPDF}
-                className="mt-8 flex items-center rounded-lg bg-[#0d9488] px-8 py-3 text-lg font-semibold text-white shadow-md hover:bg-[#0f766e]"
+                className="mt-8 flex items-center rounded-lg bg-[#193cb8] px-8 py-3 text-lg font-semibold text-white shadow-md hover:bg-[#1c398e]"
                 aria-label="Xuất PDF"
             >
                 <svg

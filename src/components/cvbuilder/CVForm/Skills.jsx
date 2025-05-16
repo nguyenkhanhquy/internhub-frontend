@@ -42,13 +42,13 @@ const Skills = ({ skills, onChange }) => {
 
     return (
         <div className="space-y-6">
-            <div className="flex gap-4 mb-4">
+            <div className="mb-4 flex gap-4">
                 <button
                     type="button"
                     onClick={() => setSelectedCategory("technical")}
-                    className={`px-4 py-2 rounded-md ${
+                    className={`rounded-md px-4 py-2 ${
                         selectedCategory === "technical"
-                            ? "bg-teal-600 text-white"
+                            ? "bg-[#193cb8] text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                 >
@@ -57,9 +57,9 @@ const Skills = ({ skills, onChange }) => {
                 <button
                     type="button"
                     onClick={() => setSelectedCategory("soft")}
-                    className={`px-4 py-2 rounded-md ${
+                    className={`rounded-md px-4 py-2 ${
                         selectedCategory === "soft"
-                            ? "bg-teal-600 text-white"
+                            ? "bg-[#193cb8] text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                 >
@@ -68,9 +68,9 @@ const Skills = ({ skills, onChange }) => {
                 <button
                     type="button"
                     onClick={() => setSelectedCategory("language")}
-                    className={`px-4 py-2 rounded-md ${
+                    className={`rounded-md px-4 py-2 ${
                         selectedCategory === "language"
-                            ? "bg-teal-600 text-white"
+                            ? "bg-[#193cb8] text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                 >
@@ -81,17 +81,17 @@ const Skills = ({ skills, onChange }) => {
             {Object.entries(categoryLabels).map(([category, label]) => (
                 <div key={category} className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">{label}</label>
-                    <div className="flex flex-wrap gap-2 mb-2">
+                    <div className="mb-2 flex flex-wrap gap-2">
                         {skills[category].map((skill, index) => (
                             <span
                                 key={index}
-                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800"
+                                className="inline-flex items-center rounded-full bg-[#dbeafe] px-3 py-1 text-sm font-medium text-[#1c398e]"
                             >
                                 {skill}
                                 <button
                                     type="button"
                                     onClick={() => removeSkill(category, index)}
-                                    className="ml-2 text-teal-600 hover:text-teal-800"
+                                    className="ml-2 text-[#193cb8] hover:text-[#1c398e]"
                                 >
                                     ×
                                 </button>
@@ -105,7 +105,7 @@ const Skills = ({ skills, onChange }) => {
                             onChange={handleChange}
                             onKeyDown={handleKeyDown}
                             placeholder={`Nhập ${label.toLowerCase()} và nhấn Enter hoặc dấu phẩy để thêm`}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                            className="0 w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-[#155dfc] focus:outline-none"
                         />
                     )}
                 </div>

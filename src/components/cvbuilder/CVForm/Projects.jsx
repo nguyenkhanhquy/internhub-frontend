@@ -11,16 +11,16 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
     return (
         <div className="space-y-6">
             {projects.length === 0 ? (
-                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                    <p className="text-gray-500 mb-4">Chưa có thông tin dự án</p>
+                <div className="rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 py-8 text-center">
+                    <p className="mb-4 text-gray-500">Chưa có thông tin dự án</p>
                     <button
                         type="button"
                         onClick={onAdd}
-                        className="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+                        className="inline-flex items-center rounded-md bg-[#193cb8] px-4 py-2 text-white transition hover:bg-[#1c398e]"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 mr-2"
+                            className="mr-2 h-5 w-5"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
@@ -38,10 +38,10 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                     {projects.map((project, index) => (
                         <div
                             key={index}
-                            className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm relative hover:shadow-md transition"
+                            className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
                         >
                             <div className="space-y-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <label className="block text-sm font-medium text-gray-700">Tên dự án</label>
                                         <input
@@ -51,7 +51,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Tên dự án"
                                             required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -62,7 +62,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                             value={project.url || ""}
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="https://example.com"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         placeholder="Mô tả chi tiết về dự án, mục tiêu và vai trò của bạn..."
                                         rows="4"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition resize-y min-h-[100px]"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -86,7 +86,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         value={project.technologies || ""}
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="React, Node.js, MongoDB, ..."
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -99,14 +99,14 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="Các thành tích, kết quả đạt được từ dự án..."
                                         rows="3"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition resize-y min-h-[100px]"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
                                     />
                                 </div>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => onDelete(index)}
-                                className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition"
+                                className="absolute top-4 right-4 text-gray-400 transition hover:text-red-500"
                                 aria-label="Xóa"
                             >
                                 <svg
@@ -127,11 +127,11 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                     <button
                         type="button"
                         onClick={onAdd}
-                        className="w-full flex items-center justify-center py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition"
+                        className="flex w-full items-center justify-center rounded-md bg-gray-100 py-3 text-gray-700 transition hover:bg-gray-200"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 mr-2"
+                            className="mr-2 h-5 w-5"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
