@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
-import { formatDate } from "../../../utils/dateUtil";
+import { formatDate } from "@utils/dateUtil";
 
 const majorLabels = {
     IT: "Công nghệ thông tin",

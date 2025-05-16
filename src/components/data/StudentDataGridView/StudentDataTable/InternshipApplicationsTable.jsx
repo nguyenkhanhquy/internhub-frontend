@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import EmptyBox from "../../../box/EmptyBox";
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
-import { formatDate } from "../../../../utils/dateUtil";
+import { formatDate } from "@utils/dateUtil";
 
 const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDetailsClick }) => {
     return (
@@ -40,7 +40,9 @@ const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDet
                             STT
                         </TableCell>
                         <TableCell sx={{ width: "40%" }}>Công ty thực tập</TableCell>
-                        <TableCell sx={{ width: "20%" }}>Ngày tạo</TableCell>
+                        <TableCell sx={{ width: "20%" }} align="center">
+                            Ngày nộp
+                        </TableCell>
                         <TableCell sx={{ width: "25%" }} align="center">
                             Trạng thái
                         </TableCell>
@@ -99,7 +101,7 @@ const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDet
                                         {report.companyName}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{formatDate(report.createdDate)}</TableCell>
+                                <TableCell align="center">{formatDate(report.createdDate)}</TableCell>
                                 <TableCell
                                     sx={{
                                         whiteSpace: "normal",

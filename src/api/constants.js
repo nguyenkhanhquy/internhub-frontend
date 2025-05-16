@@ -97,6 +97,8 @@ export const JOB_APPLY_API = {
 export const INTERNSHIP_REPORTS_API = {
     CREATE: "/internship-reports",
     GET_ALL_BY_STUDENT: "/internship-reports/student",
+
+    SUBMIT: "/internship-reports/submit",
 };
 
 export const FILES_API = {

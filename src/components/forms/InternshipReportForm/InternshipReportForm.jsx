@@ -10,7 +10,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { getCurrentCourse } from "@/services/studentService";
-import { createInternshipReport } from "@services/internshipReport";
+import { submitInternshipReport } from "@services/internshipReport";
 import { uploadFile } from "@services/uploadService";
 
 import useAuth from "@hooks/useAuth";
@@ -112,29 +112,31 @@ const InternshipReportForm = ({ setFlag }) => {
 
     const onSubmit = async (dataForm) => {
         try {
-            if (dataForm.reportFile) {
-                // Tạo đường dẫn tệp với timestamp
-                const timestamp = Date.now();
-                const filePath = `report/${user.id}/${timestamp}`;
-                const dataUpload = await uploadFile(dataForm.reportFile, filePath);
-                if (!dataUpload.success) {
-                    throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                dataForm.reportFile = dataUpload.result.secure_url;
-            }
+            // if (dataForm.reportFile) {
+            //     // Tạo đường dẫn tệp với timestamp
+            //     const timestamp = Date.now();
+            //     const filePath = `report/${user.id}/${timestamp}`;
+            //     const dataUpload = await uploadFile(dataForm.reportFile, filePath);
+            //     if (!dataUpload.success) {
+            //         throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            //     }
+            //     dataForm.reportFile = dataUpload.result.secure_url;
+            // }
+            dataForm.reportFile = "report.pdf";
 
-            if (dataForm.evaluationFile) {
-                // Tạo đường dẫn tệp với timestamp
-                const timestamp = Date.now();
-                const filePath = `evaluation/${user.id}/${timestamp}`;
-                const dataUpload = await uploadFile(dataForm.evaluationFile, filePath);
-                if (!dataUpload.success) {
-                    throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                dataForm.evaluationFile = dataUpload.result.secure_url;
-            }
+            // if (dataForm.evaluationFile) {
+            //     // Tạo đường dẫn tệp với timestamp
+            //     const timestamp = Date.now();
+            //     const filePath = `evaluation/${user.id}/${timestamp}`;
+            //     const dataUpload = await uploadFile(dataForm.evaluationFile, filePath);
+            //     if (!dataUpload.success) {
+            //         throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            //     }
+            //     dataForm.evaluationFile = dataUpload.result.secure_url;
+            // }
+            dataForm.evaluationFile = "evaluation.pdf";
 
-            const data = await createInternshipReport(dataForm);
+            const data = await submitInternshipReport(dataForm);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -195,8 +197,8 @@ const InternshipReportForm = ({ setFlag }) => {
                                         fullWidth
                                         size="small"
                                         disabled
-                                        error={!!errors.teacherName}
-                                        helperText={errors.teacherName?.message}
+                                        error={!!errors.courseCode}
+                                        helperText={errors.courseCode?.message}
                                     />
                                 )}
                             />
