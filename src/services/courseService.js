@@ -34,3 +34,7 @@ export const assignStudentsToCourse = async (courseId, studentIds) => {
         studentIds: studentIds,
     });
 };
+
+export const getAllEnrollmentsByCourseId = async (courseId) => {
+    return axiosClient.get(COURSES_API.GET_ENROLLMENTS(courseId));
+};

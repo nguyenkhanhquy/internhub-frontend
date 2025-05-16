@@ -119,6 +119,7 @@ export const COURSES_API = {
     DELETE: (id) => `/courses/${id}`,
     GET_STUDENTS: (id) => `/courses/${id}/students`,
     ASSIGN_STUDENTS: (id) => `/courses/${id}/students/assign`,
+    GET_ENROLLMENTS: (id) => `/courses/${id}/enrollments`,
 };
 
 export const ENROLLMENT_API = {
