@@ -21,7 +21,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="Nguyễn Văn A"
                         required
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -36,7 +36,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="Java Intern"
                         required
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
             </div>
@@ -54,7 +54,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="example@gmail.com"
                         required
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -69,7 +69,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         onChange={handleChange}
                         placeholder="0912345678"
                         required
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
             </div>
@@ -85,7 +85,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                     value={personalInfo.location || ""}
                     onChange={handleChange}
                     placeholder="Hà Nội, Việt Nam"
-                    className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
             </div>
 
@@ -100,7 +100,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                     onChange={handleChange}
                     placeholder="Giới thiệu ngắn gọn về bản thân, mục tiêu nghề nghiệp và điểm mạnh của bạn..."
                     rows="4"
-                    className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
             </div>
 
@@ -116,7 +116,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         value={personalInfo.linkedin || ""}
                         onChange={handleChange}
                         placeholder="https://linkedin.com/in/username"
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
                 <div className="space-y-2">
@@ -130,7 +130,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                         value={personalInfo.github || ""}
                         onChange={handleChange}
                         placeholder="https://github.com/username"
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                 </div>
             </div>

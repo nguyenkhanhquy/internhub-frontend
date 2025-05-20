@@ -51,7 +51,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Công ty ABC"
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -65,7 +65,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Frontend Developer"
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                             value={exp.startDate || ""}
                                             onChange={(e) => handleChange(index, e)}
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -88,7 +88,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                             name="endDate"
                                             value={exp.endDate || ""}
                                             onChange={(e) => handleChange(index, e)}
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                         placeholder="Mô tả chi tiết về trách nhiệm, dự án và thành tích đạt được..."
                                         rows="4"
                                         required
-                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -114,7 +114,7 @@ const Experience = ({ experience, onChange, onAdd, onDelete }) => {
                                         value={exp.technologies || ""}
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="React, Node.js, MongoDB, ..."
-                                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                             </div>
