@@ -19,8 +19,8 @@ function App() {
             <AppRoutes />
 
             {/* Chatbot components */}
-            <ChatButton onClick={toggleChat} />
-            <Chat isOpen={isChatOpen} onClose={toggleChat} />
+            {/* <ChatButton onClick={toggleChat} />
+            <Chat isOpen={isChatOpen} onClose={toggleChat} /> */}
         </>
     );
 }
