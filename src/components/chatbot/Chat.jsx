@@ -150,7 +150,23 @@ const Chat = ({ isOpen, onClose }) => {
                             }`}
                         >
                             <div className={`prose prose-sm ${message.isUser ? "prose-invert" : ""} text-left`}>
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        a: ({ href, children }) => (
+                                            <a
+                                                href={href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                {children}
+                                            </a>
+                                        ),
+                                    }}
+                                >
+                                    {message.text}
+                                </ReactMarkdown>
                             </div>
                             <div
                                 className={`mt-1 text-[10px] ${
@@ -191,7 +207,7 @@ const Chat = ({ isOpen, onClose }) => {
                     <input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="Nhập tin nhắn của bạn..."
+                        placeholder="Hỏi bất kỳ điều gì"
                         disabled={isLoading}
                         className="flex-1 rounded-full border border-gray-300 bg-gray-50 px-4 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
                     />
