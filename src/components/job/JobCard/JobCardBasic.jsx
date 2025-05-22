@@ -16,7 +16,7 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
             sx={{
                 maxWidth: 420,
                 minHeight: 160,
-                mb: 2,
+                mb: 1,
                 boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
                 borderRadius: 2,
                 border: "1px solid #e0e0e0",
@@ -29,11 +29,13 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
                 },
             }}
         >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", minWidth: 400 }}>
                 <Avatar
                     src={logo}
                     alt={`${companyName} logo`}
                     variant="square"
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     sx={{
                         height: 100,
                         width: 100,
@@ -51,9 +53,12 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
                             fontWeight: 700,
                             color: "#333",
                             mb: 0.5,
-                            whiteSpace: "normal", // Cho phép xuống dòng
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2, // Giới hạn số dòng hiển thị
                             overflow: "hidden",
-                            textOverflow: "ellipsis",
+                            textOverflow: "ellipsis", // Hiển thị dấu "..."
+                            whiteSpace: "normal", // cho phép xuống dòng
                         }}
                     >
                         {title}
