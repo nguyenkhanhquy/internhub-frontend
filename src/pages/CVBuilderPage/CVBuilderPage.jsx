@@ -8,7 +8,10 @@ import Education from "@components/cvbuilder/CVForm/Education";
 import Experience from "@components/cvbuilder/CVForm/Experience";
 import Skills from "@components/cvbuilder/CVForm/Skills";
 import Projects from "@components/cvbuilder/CVForm/Projects";
+import TemplateSelector from "@/components/cvbuilder/CVPreview/TemplateSelector";
 import CVTemplate from "@components/cvbuilder/CVPreview/CVTemplate";
+import ModernTemplate from "@/components/cvbuilder/CVPreview/ModernTemplate";
+import CreativeTemplate from "@/components/cvbuilder/CVPreview/CreativeTemplate";
 
 const CVBuilderPage = () => {
     const [cvData, setCvData] = useState({
@@ -32,7 +35,8 @@ const CVBuilderPage = () => {
         projects: [],
     });
 
-    const [activeTab, setActiveTab] = useState("personal");
+    const [activeTab, setActiveTab] = useState("template");
+    const [selectedTemplate, setSelectedTemplate] = useState("classic");
 
     const handlePersonalInfoChange = (newPersonalInfo) => {
         setCvData({ ...cvData, personalInfo: newPersonalInfo });
@@ -110,6 +114,7 @@ const CVBuilderPage = () => {
     };
 
     const tabs = [
+        { id: "template", label: "Mẫu CV" },
         { id: "personal", label: "Thông tin cá nhân" },
         { id: "education", label: "Học vấn" },
         { id: "experience", label: "Kinh nghiệm" },
@@ -150,8 +155,23 @@ const CVBuilderPage = () => {
                         onDelete={deleteProject}
                     />
                 );
+            case "template":
+                return <TemplateSelector selectedTemplate={selectedTemplate} onSelectTemplate={setSelectedTemplate} />;
             default:
                 return <PersonalInfo personalInfo={cvData.personalInfo} onChange={handlePersonalInfoChange} />;
+        }
+    };
+
+    const renderSelectedTemplate = () => {
+        switch (selectedTemplate) {
+            case "classic":
+                return <CVTemplate cvData={cvData} />;
+            case "modern":
+                return <ModernTemplate cvData={cvData} />;
+            case "creative":
+                return <CreativeTemplate cvData={cvData} />;
+            default:
+                return <CVTemplate cvData={cvData} />;
         }
     };
 
@@ -185,7 +205,7 @@ const CVBuilderPage = () => {
 
                         {/* Bên phải: Hiển thị CV */}
                         <div className="h-screen overflow-auto bg-gray-50 p-10 lg:sticky lg:top-0 lg:w-[60%]">
-                            <CVTemplate cvData={cvData} />
+                            {renderSelectedTemplate()}
                         </div>
                     </div>
                 </div>

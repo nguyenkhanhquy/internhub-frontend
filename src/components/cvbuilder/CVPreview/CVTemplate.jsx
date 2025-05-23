@@ -56,10 +56,7 @@ const CVTemplate = ({ cvData }) => {
 
     return (
         <div className="relative flex flex-col items-center">
-            <div
-                ref={cvRef}
-                className="mx-auto w-full max-w-4xl rounded-xl bg-white p-10 shadow-lg print:p-2 print:shadow-none"
-            >
+            <div ref={cvRef} className="mx-auto w-full max-w-4xl bg-white p-10 shadow-lg print:p-2 print:shadow-none">
                 <div className="pb-2 text-center">
                     <h1 className="text-3xl font-bold text-[#1f2937]">
                         {personalInfo.fullName || "Họ và tên"}
@@ -211,46 +208,48 @@ const CVTemplate = ({ cvData }) => {
                 )}
 
                 {/* Kỹ năng */}
-                <div className="mb-6">
-                    <h2 className="mb-1 pb-1 text-lg font-bold text-[#1f2937]">KỸ NĂNG</h2>
-                    <hr className="mb-1 border-1 border-[#111827]" />
-                    {skills.technical.length > 0 && (
-                        <div className="mb-4">
-                            <h3 className="mb-2 text-base font-medium text-[#1f2937]">KỸ NĂNG CHUYÊN MÔN</h3>
-                            <div className="ml-6 space-y-1 pl-2">
-                                {skills.technical.map((skill, index) => (
-                                    <div key={index} className="text-sm break-words text-[#1f2937]">
-                                        {skill}
-                                    </div>
-                                ))}
+                {(skills.technical.length > 0 || skills.soft.length > 0 || skills.language.length > 0) && (
+                    <div className="mb-6">
+                        <h2 className="mb-1 pb-1 text-lg font-bold text-[#1f2937]">KỸ NĂNG</h2>
+                        <hr className="mb-1 border-1 border-[#111827]" />
+                        {skills.technical.length > 0 && (
+                            <div className="mb-4">
+                                <h3 className="mb-2 text-base font-medium text-[#1f2937]">KỸ NĂNG CHUYÊN MÔN</h3>
+                                <div className="ml-6 space-y-1 pl-2">
+                                    {skills.technical.map((skill, index) => (
+                                        <div key={index} className="text-sm break-words text-[#1f2937]">
+                                            {skill}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    {skills.soft.length > 0 && (
-                        <div className="mb-4">
-                            <h3 className="mb-2 text-base font-medium text-[#1f2937]">KỸ NĂNG MỀM</h3>
-                            <div className="ml-6 space-y-1 pl-2">
-                                {skills.soft.map((skill, index) => (
-                                    <div key={index} className="text-sm break-words text-[#1f2937]">
-                                        {skill}
-                                    </div>
-                                ))}
+                        )}
+                        {skills.soft.length > 0 && (
+                            <div className="mb-4">
+                                <h3 className="mb-2 text-base font-medium text-[#1f2937]">KỸ NĂNG MỀM</h3>
+                                <div className="ml-6 space-y-1 pl-2">
+                                    {skills.soft.map((skill, index) => (
+                                        <div key={index} className="text-sm break-words text-[#1f2937]">
+                                            {skill}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    {skills.language.length > 0 && (
-                        <div className="mb-4">
-                            <h3 className="mb-2 text-base font-medium text-[#1f2937]">NGOẠI NGỮ</h3>
-                            <div className="ml-6 space-y-1 pl-2">
-                                {skills.language.map((skill, index) => (
-                                    <div key={index} className="text-sm break-words text-[#1f2937]">
-                                        {skill}
-                                    </div>
-                                ))}
+                        )}
+                        {skills.language.length > 0 && (
+                            <div className="mb-4">
+                                <h3 className="mb-2 text-base font-medium text-[#1f2937]">NGOẠI NGỮ</h3>
+                                <div className="ml-6 space-y-1 pl-2">
+                                    {skills.language.map((skill, index) => (
+                                        <div key={index} className="text-sm break-words text-[#1f2937]">
+                                            {skill}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
             <button
                 onClick={exportToPDF}
