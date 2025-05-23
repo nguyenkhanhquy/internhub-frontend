@@ -50,15 +50,25 @@ const CreativeTemplate = ({ cvData }) => {
             >
                 <div className="flex h-full min-h-[1122px] flex-col md:flex-row">
                     {/* Sidebar */}
-                    <div className="flex h-full min-h-[1122px] flex-col bg-purple-900 p-6 text-white md:w-1/3">
+                    <div
+                        className="flex h-full min-h-[1122px] flex-col p-6 md:w-1/3"
+                        style={{ backgroundColor: "#312e81", color: "#fff" }}
+                    >
                         <div className="mb-8 text-center">
                             <h1 className="mb-1 text-2xl font-bold">{personalInfo.fullName || "Họ và tên"}</h1>
-                            <h2 className="text-lg text-purple-200">{personalInfo.position || "Vị trí ứng tuyển"}</h2>
+                            <h2 className="text-lg" style={{ color: "#e2e8f0" }}>
+                                {personalInfo.position || "Vị trí ứng tuyển"}
+                            </h2>
                         </div>
 
                         <div className="space-y-6">
                             <div>
-                                <h3 className="mb-3 border-b border-purple-700 pb-1 text-lg font-semibold">Liên hệ</h3>
+                                <h3
+                                    className="mb-3 pb-1 text-lg font-semibold"
+                                    style={{ borderBottom: "1px solid #4c1d95" }}
+                                >
+                                    Liên hệ
+                                </h3>
                                 <ul className="space-y-2">
                                     {personalInfo.email && (
                                         <li className="flex items-start">
@@ -164,7 +174,7 @@ const CreativeTemplate = ({ cvData }) => {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-sm hover:underline"
-                                                style={{ display: "inline-block" }}
+                                                style={{ display: "inline-block", color: "#fff" }}
                                             >
                                                 LinkedIn
                                             </a>
@@ -190,7 +200,7 @@ const CreativeTemplate = ({ cvData }) => {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-sm hover:underline"
-                                                style={{ display: "inline-block" }}
+                                                style={{ display: "inline-block", color: "#fff" }}
                                             >
                                                 GitHub
                                             </a>
@@ -201,11 +211,18 @@ const CreativeTemplate = ({ cvData }) => {
 
                             {/* Kỹ năng */}
                             <div>
-                                <h3 className="mb-3 border-b border-purple-700 pb-1 text-lg font-semibold">Kỹ năng</h3>
+                                <h3
+                                    className="mb-3 pb-1 text-lg font-semibold"
+                                    style={{ borderBottom: "1px solid #4c1d95" }}
+                                >
+                                    Kỹ năng
+                                </h3>
 
                                 {skills.technical.length > 0 && (
                                     <div className="mb-4">
-                                        <h4 className="mb-2 text-sm font-medium text-purple-300">Kỹ năng chuyên môn</h4>
+                                        <h4 className="mb-2 text-sm font-medium" style={{ color: "#e2e8f0" }}>
+                                            Kỹ năng chuyên môn
+                                        </h4>
                                         <div className="space-y-1 text-sm text-white">
                                             {skills.technical.map((skill, index) => (
                                                 <div key={index}>{skill}</div>
@@ -216,7 +233,9 @@ const CreativeTemplate = ({ cvData }) => {
 
                                 {skills.soft.length > 0 && (
                                     <div className="mb-4">
-                                        <h4 className="mb-2 text-sm font-medium text-purple-300">Kỹ năng mềm</h4>
+                                        <h4 className="mb-2 text-sm font-medium" style={{ color: "#e2e8f0" }}>
+                                            Kỹ năng mềm
+                                        </h4>
                                         <div className="space-y-1 text-sm text-white">
                                             {skills.soft.map((skill, index) => (
                                                 <div key={index}>{skill}</div>
@@ -227,7 +246,9 @@ const CreativeTemplate = ({ cvData }) => {
 
                                 {skills.language.length > 0 && (
                                     <div>
-                                        <h4 className="mb-2 text-sm font-medium text-purple-300">Ngoại ngữ</h4>
+                                        <h4 className="mb-2 text-sm font-medium" style={{ color: "#e2e8f0" }}>
+                                            Ngoại ngữ
+                                        </h4>
                                         <div className="space-y-1 text-sm text-white">
                                             {skills.language.map((skill, index) => (
                                                 <div key={index}>{skill}</div>
@@ -244,35 +265,50 @@ const CreativeTemplate = ({ cvData }) => {
                         {/* Tóm tắt */}
                         {personalInfo.summary && (
                             <div className="mb-6">
-                                <h2 className="mb-3 flex items-center text-xl font-bold text-purple-900">Tóm tắt</h2>
-                                <p className="leading-relaxed text-gray-700">{personalInfo.summary}</p>
+                                <h2 className="mb-3 flex items-center text-xl font-bold" style={{ color: "#312e81" }}>
+                                    Tóm tắt
+                                </h2>
+                                <p className="leading-relaxed" style={{ color: "#374151" }}>
+                                    {personalInfo.summary}
+                                </p>
                             </div>
                         )}
 
                         {/* Kinh nghiệm */}
                         {experience.length > 0 && (
                             <div className="mb-6">
-                                <h2 className="mb-3 flex items-center text-xl font-bold text-purple-900">
+                                <h2 className="mb-3 flex items-center text-xl font-bold" style={{ color: "#312e81" }}>
                                     Kinh nghiệm làm việc
                                 </h2>
 
                                 <div className="space-y-4">
                                     {experience.map((exp, index) => (
-                                        <div key={index} className="relative border-l-2 border-purple-200 pb-4 pl-6">
-                                            <div className="absolute top-1.5 -left-1.5 h-3 w-3 rounded-full bg-purple-500"></div>
+                                        <div
+                                            key={index}
+                                            className="relative border-l-2 pb-4 pl-6"
+                                            style={{ borderColor: "#e2e8f0" }}
+                                        >
+                                            <div
+                                                className="absolute top-1.5 -left-1.5 h-3 w-3 rounded-full"
+                                                style={{ backgroundColor: "#6b21a8" }}
+                                            ></div>
                                             <div className="mb-1">
-                                                <h3 className="text-lg font-semibold text-purple-900">
+                                                <h3 className="text-lg font-semibold" style={{ color: "#312e81" }}>
                                                     {exp.position || "Vị trí"}
                                                 </h3>
-                                                <p className="font-medium text-gray-600">{exp.company || "Công ty"}</p>
-                                                <p className="text-sm text-gray-500 italic">
+                                                <p className="font-medium" style={{ color: "#6b7280" }}>
+                                                    {exp.company || "Công ty"}
+                                                </p>
+                                                <p className="text-sm italic" style={{ color: "#6b7280" }}>
                                                     {exp.startDate ? exp.startDate.replace(/-/g, "/") : ""} -{" "}
                                                     {exp.endDate ? exp.endDate.replace(/-/g, "/") : "Hiện tại"}
                                                 </p>
                                             </div>
-                                            <p className="mb-2 text-gray-700">{exp.description}</p>
+                                            <p className="mb-2" style={{ color: "#374151" }}>
+                                                {exp.description}
+                                            </p>
                                             {exp.technologies && (
-                                                <p className="text-sm text-gray-600">
+                                                <p className="text-sm" style={{ color: "#6b7280" }}>
                                                     <span className="font-semibold">Công nghệ:</span> {exp.technologies}
                                                 </p>
                                             )}
@@ -285,23 +321,34 @@ const CreativeTemplate = ({ cvData }) => {
                         {/* Học vấn */}
                         {education.length > 0 && (
                             <div className="mb-6">
-                                <h2 className="mb-3 flex items-center text-xl font-bold text-purple-900">Học vấn</h2>
+                                <h2 className="mb-3 flex items-center text-xl font-bold" style={{ color: "#312e81" }}>
+                                    Học vấn
+                                </h2>
 
                                 <div className="space-y-4">
                                     {education.map((edu, index) => (
-                                        <div key={index} className="relative border-l-2 border-purple-200 pb-4 pl-6">
-                                            <div className="absolute top-1.5 -left-1.5 h-3 w-3 rounded-full bg-purple-500"></div>
+                                        <div
+                                            key={index}
+                                            className="relative border-l-2 pb-4 pl-6"
+                                            style={{ borderColor: "#e2e8f0" }}
+                                        >
+                                            <div
+                                                className="absolute top-1.5 -left-1.5 h-3 w-3 rounded-full"
+                                                style={{ backgroundColor: "#6b21a8" }}
+                                            ></div>
                                             <div className="mb-1">
-                                                <h3 className="text-lg font-semibold text-purple-900">
+                                                <h3 className="text-lg font-semibold" style={{ color: "#312e81" }}>
                                                     {edu.school || "Tên trường"}
                                                 </h3>
-                                                <p className="font-medium text-gray-600">{edu.degree || "Bằng cấp"}</p>
-                                                <p className="text-sm text-gray-500 italic">
+                                                <p className="font-medium" style={{ color: "#6b7280" }}>
+                                                    {edu.degree || "Bằng cấp"}
+                                                </p>
+                                                <p className="text-sm italic" style={{ color: "#6b7280" }}>
                                                     {edu.startDate ? edu.startDate.replace(/-/g, "/") : ""} -{" "}
                                                     {edu.endDate ? edu.endDate.replace(/-/g, "/") : "Hiện tại"}
                                                 </p>
                                             </div>
-                                            {edu.description && <p className="text-gray-700">{edu.description}</p>}
+                                            {edu.description && <p style={{ color: "#374151" }}>{edu.description}</p>}
                                         </div>
                                     ))}
                                 </div>
@@ -311,18 +358,25 @@ const CreativeTemplate = ({ cvData }) => {
                         {/* Dự án */}
                         {projects.length > 0 && (
                             <div>
-                                <h2 className="mb-3 flex items-center text-xl font-bold text-purple-900">Dự án</h2>
+                                <h2 className="mb-3 flex items-center text-xl font-bold" style={{ color: "#312e81" }}>
+                                    Dự án
+                                </h2>
 
                                 <div className="space-y-4">
                                     {projects.map((project, index) => (
-                                        <div key={index} className="rounded-lg bg-gray-50 p-4">
-                                            <h3 className="mb-2 text-lg font-semibold text-purple-900">
+                                        <div
+                                            key={index}
+                                            className="rounded-lg p-4"
+                                            style={{ backgroundColor: "#f8fafc" }}
+                                        >
+                                            <h3 className="mb-2 text-lg font-semibold" style={{ color: "#312e81" }}>
                                                 {project.url ? (
                                                     <a
                                                         href={project.url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-purple-600 hover:underline"
+                                                        style={{ color: "#6b21a8" }}
+                                                        className="hover:underline"
                                                     >
                                                         {project.name || "Tên dự án"}
                                                     </a>
@@ -330,16 +384,18 @@ const CreativeTemplate = ({ cvData }) => {
                                                     project.name || "Tên dự án"
                                                 )}
                                             </h3>
-                                            <p className="mb-2 text-gray-700">{project.description}</p>
+                                            <p className="mb-2" style={{ color: "#374151" }}>
+                                                {project.description}
+                                            </p>
                                             <div className="flex flex-col gap-4 sm:flex-row">
                                                 {project.technologies && (
-                                                    <p className="text-sm text-gray-600">
+                                                    <p className="text-sm" style={{ color: "#6b7280" }}>
                                                         <span className="font-semibold">Công nghệ:</span>{" "}
                                                         {project.technologies}
                                                     </p>
                                                 )}
                                                 {project.achievements && (
-                                                    <p className="text-sm text-gray-600">
+                                                    <p className="text-sm" style={{ color: "#6b7280" }}>
                                                         <span className="font-semibold">Thành tích:</span>{" "}
                                                         {project.achievements}
                                                     </p>
@@ -355,8 +411,11 @@ const CreativeTemplate = ({ cvData }) => {
             </div>
             <button
                 onClick={exportToPDF}
-                className="mt-8 flex items-center rounded-lg bg-purple-800 px-8 py-3 text-lg font-semibold text-white shadow-md transition-colors hover:bg-purple-900"
+                className="mt-8 flex items-center rounded-lg px-8 py-3 text-lg font-semibold text-white shadow-md"
+                style={{ backgroundColor: "#312e81", transition: "background-color 0.2s" }}
                 aria-label="Xuất PDF"
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#1e1b4b")}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#312e81")}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
