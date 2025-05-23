@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const ViewCvModal = ({ isOpen, onClose, cvUrl, stt }) => {
+const ViewCvModal = ({ isOpen, onClose, cvUrl, title }) => {
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth="lg" fullWidth>
             <DialogTitle
@@ -12,7 +12,7 @@ const ViewCvModal = ({ isOpen, onClose, cvUrl, stt }) => {
                     alignItems: "center",
                 }}
             >
-                <Typography fontWeight="bold">Hồ sơ ứng viên {stt}</Typography>
+                <Typography fontWeight="bold">{title}</Typography>
                 <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close">
                     <CloseIcon />
                 </IconButton>
@@ -50,7 +50,7 @@ ViewCvModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     cvUrl: PropTypes.string,
-    stt: PropTypes.number.isRequired,
+    title: PropTypes.number.isRequired,
 };
 
 export default ViewCvModal;

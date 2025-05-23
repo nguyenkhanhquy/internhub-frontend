@@ -17,6 +17,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import Bookmark from "@mui/icons-material/Bookmark";
 import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
 import Class from "@mui/icons-material/Class";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 import logo from "/images/ute_logo_c.png";
 
@@ -70,6 +71,33 @@ const StudentDataNavigation = ({ studentName }) => {
 
             {/* Danh sách menu */}
             <List>
+                <Divider />
+                {/* CV */}
+                <ListItemButton
+                    onClick={() => handleNavigate("/student/my-cv")}
+                    sx={{
+                        position: "relative",
+                        "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            height: location.pathname === "/student/my-cv" ? "100%" : "0%",
+                            width: "4px",
+                            backgroundColor: "primary.main",
+                            transition: "height 0.3s ease",
+                        },
+                        "&:hover::after": {
+                            height: "100%",
+                        },
+                    }}
+                >
+                    <ListItemIcon>
+                        <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="CV" />
+                </ListItemButton>
+
                 <Divider />
                 {/* Công việc ứng tuyển */}
                 <ListItemButton

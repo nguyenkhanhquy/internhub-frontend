@@ -267,7 +267,12 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                 </TableBody>
             </Table>
             {openCvModal && (
-                <ViewCvModal isOpen={openCvModal} onClose={() => setOpenCvModal(false)} cvUrl={cvUrl} stt={stt} />
+                <ViewCvModal
+                    isOpen={openCvModal}
+                    onClose={() => setOpenCvModal(false)}
+                    cvUrl={cvUrl}
+                    title={"Hồ sơ ứng viên: " + stt}
+                />
             )}
         </TableContainer>
     );

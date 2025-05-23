@@ -30,6 +30,7 @@ import AppliedJobsPage from "@pages/DataPage/StudentDataPage/AppliedJobsPage";
 import SavedJobsPage from "@pages/DataPage/StudentDataPage/SavedJobsPage";
 import InternshipApplicationsPage from "@pages/DataPage/StudentDataPage/InternshipApplicationsPage";
 import CoursesPage from "@pages/DataPage/StudentDataPage/CoursesPage";
+import MyCVsPage from "@pages/DataPage/StudentDataPage/MyCVsPage";
 
 import PostedJobsPage from "@pages/DataPage/RecruiterDataPage/PostedJobsPage";
 import CreateJobPostPage from "@pages/DataPage/RecruiterDataPage/CreateJobPostPage";
@@ -138,10 +139,7 @@ const AppRoutes = () => {
                                         {/* Student Specific Routes */}
                                         {user?.role === "STUDENT" && (
                                             <Route path="/student">
-                                                <Route
-                                                    index
-                                                    element={<Navigate to="/student/applied-jobs" replace />}
-                                                />
+                                                <Route index element={<Navigate to="/student/my-cv" replace />} />
                                                 <Route path="applied-jobs" element={<AppliedJobsPage />} />
                                                 <Route path="saved-jobs" element={<SavedJobsPage />} />
                                                 <Route
@@ -149,6 +147,7 @@ const AppRoutes = () => {
                                                     element={<InternshipApplicationsPage />}
                                                 />
                                                 <Route path="courses" element={<CoursesPage />} />
+                                                <Route path="my-cv" element={<MyCVsPage />} />
                                             </Route>
                                         )}
 
