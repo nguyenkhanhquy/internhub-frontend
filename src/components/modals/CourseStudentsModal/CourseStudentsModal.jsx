@@ -23,6 +23,7 @@ import ReportDetails from "./ReportDetails";
 import ScoreEntry from "./ScoreEntry";
 
 import { getAllEnrollmentsByCourseId } from "@services/courseService";
+import { updateFinalScore } from "@services/enrollmentService";
 
 const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const [enrollments, setEnrollments] = useState([]);
@@ -32,7 +33,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const [selectedReport, setSelectedReport] = useState(null);
     const [selectedReportEnrollment, setSelectedReportEnrollment] = useState(null);
     const [score, setScore] = useState("");
-    const [comment, setComment] = useState("");
+    const [feedback, setFeedback] = useState("");
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -56,7 +57,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                     setSelectedReport(null);
                     setSelectedReportEnrollment(null);
                     setScore("");
-                    setComment("");
+                    setFeedback("");
                     setError("");
                 }
             };
@@ -106,21 +107,21 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
         setSelectedReport(null);
         setSelectedReportEnrollment(null);
         setScore("");
-        setComment("");
+        setFeedback("");
         setError("");
     };
 
-    const handleScoreChange = (newScore) => {
+    const handleFinalScoreChange = (newScore) => {
         setScore(newScore);
         setError("");
     };
 
-    const handleCommentChange = (newComment) => {
-        setComment(newComment);
+    const handleFeedbackChange = (newFeedback) => {
+        setFeedback(newFeedback);
         setError("");
     };
 
-    const handleSaveScore = () => {
+    const handleSaveScore = async () => {
         // Kiểm tra điểm
         if (score === "" || isNaN(score)) {
             setError("Vui lòng nhập điểm.");
@@ -134,23 +135,35 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
         }
 
         // Kiểm tra nhận xét
-        if (!comment.trim()) {
+        if (!feedback.trim()) {
             setError("Vui lòng thêm nhận xét.");
             return;
         }
 
-        // Nếu không có lỗi, tiến hành lưu
-        const updatedStudents = enrollments.map((enrollment) =>
-            enrollment.id === selectedEnrollment.id ? { ...enrollment, finalScore: scoreValue } : enrollment,
-        );
-        setEnrollments(updatedStudents);
-        setFilteredEnrollments(updatedStudents);
-        console.log({
-            studentId: selectedEnrollment.student.studentId,
-            name: selectedEnrollment.student.name,
-            score: scoreValue,
-            comment: comment,
-        });
+        // Gọi API cập nhật điểm
+        // setLoading(true);
+        try {
+            const data = await updateFinalScore(selectedEnrollment.id, {
+                finalScore: scoreValue,
+                feedback: feedback,
+            });
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            // Nếu không có lỗi, tiến hành lưu
+            const updatedStudents = enrollments.map((enrollment) =>
+                enrollment.id === selectedEnrollment.id ? { ...enrollment, finalScore: scoreValue } : enrollment,
+            );
+            setEnrollments(updatedStudents);
+            setFilteredEnrollments(updatedStudents);
+
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            // setLoading(false);
+        }
         handleBackToList();
     };
 
@@ -275,9 +288,9 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                         <ScoreEntry
                             enrollment={selectedEnrollment}
                             score={score}
-                            comment={comment}
-                            onScoreChange={handleScoreChange}
-                            onCommentChange={handleCommentChange}
+                            feedback={feedback}
+                            onScoreChange={handleFinalScoreChange}
+                            onFeedbackChange={handleFeedbackChange}
                             onSaveScore={handleSaveScore}
                             onBackToList={handleBackToList}
                             onOpenReportDetails={handleOpenReportDetails}

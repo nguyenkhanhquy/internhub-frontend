@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import usePageTitle from "../../hooks/usePageTitle";
-import Header from "../../components/layouts/Header/Header";
-import Footer from "../../components/layouts/Footer/Footer";
+import usePageTitle from "@hooks/usePageTitle";
+import Header from "@components/layouts/Header/Header";
+import Footer from "@components/layouts/Footer/Footer";
 
 const MainLayout = ({ children, title }) => {
     usePageTitle(title);

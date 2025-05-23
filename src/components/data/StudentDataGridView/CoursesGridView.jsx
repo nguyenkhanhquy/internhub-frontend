@@ -99,7 +99,6 @@ const CoursesGridView = () => {
             }
         >
             <Box>
-                {/* Nội dung danh sách công việc */}
                 <CoursesTable
                     loading={loading}
                     courses={courses}
