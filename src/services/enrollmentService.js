@@ -10,3 +10,7 @@ export const getAllEnrollmentsByStudent = async (page, size, search) => {
         },
     });
 };
+
+export const updateFinalScore = async (enrollmentId, data) => {
+    return axiosClient.patch(ENROLLMENT_API.UPDATE_FINAL_SCORE(enrollmentId), data);
+};

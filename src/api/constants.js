@@ -124,4 +124,5 @@ export const COURSES_API = {
 
 export const ENROLLMENT_API = {
     GET_ALL_BY_STUDENT: "/enrollments/student",
+    UPDATE_FINAL_SCORE: (id) => `/enrollments/${id}/final-score`,
 };

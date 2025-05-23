@@ -1,6 +1,4 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
-import { toast } from "react-toastify";
 
 import {
     Box,
@@ -14,7 +12,6 @@ import {
     Chip,
     Typography,
     Tooltip,
-    Button,
     IconButton,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -90,20 +87,14 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                                 },
                             }}
                         >
-                            <TableCell align="center" sx={{ width: "5%" }}>
-                                STT
-                            </TableCell>
-                            <TableCell sx={{ width: "15%" }}>Mã học phần</TableCell>
-                            <TableCell sx={{ width: "15%" }}>Năm học</TableCell>
-                            <TableCell sx={{ width: "15%" }}>Học kỳ</TableCell>
-                            <TableCell sx={{ width: "15%" }}>Giảng viên</TableCell>
-                            <TableCell sx={{ width: "15%" }} align="center">
-                                Điểm hệ 10
-                            </TableCell>
-                            <TableCell sx={{ width: "15%" }} align="center">
-                                Trạng thái
-                            </TableCell>
-                            <TableCell sx={{ width: "5%" }} align="center">
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>Mã học phần</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "11%" }}>Năm học</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "11%" }}>Học kỳ</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "20%" }}>Giảng viên</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "11%" }}>Điểm hệ 10</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "17%" }}>Trạng thái</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>
                                 <SettingsIcon />
                             </TableCell>
                         </TableRow>
@@ -147,36 +138,44 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                                         },
                                     }}
                                 >
-                                    <TableCell align="center">{index + 1}</TableCell>
-                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
+                                    <TableCell sx={{ textAlign: "left", whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                                 {item.courseCode}
                                             </Typography>
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    <TableCell
+                                        sx={{ textAlign: "center", whiteSpace: "normal", wordWrap: "break-word" }}
+                                    >
                                         <Tooltip arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                                 {item.academicYear}
                                             </Typography>
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    <TableCell
+                                        sx={{ textAlign: "center", whiteSpace: "normal", wordWrap: "break-word" }}
+                                    >
                                         <Tooltip arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                                 {item.semester}
                                             </Typography>
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+                                    <TableCell
+                                        sx={{ textAlign: "center", whiteSpace: "normal", wordWrap: "break-word" }}
+                                    >
                                         <Tooltip arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                                 {item.teacherName}
                                             </Typography>
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }} align="center">
+                                    <TableCell
+                                        sx={{ textAlign: "center", whiteSpace: "normal", wordWrap: "break-word" }}
+                                    >
                                         <Tooltip arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                                 {item.finalScore ?? "–"}
@@ -184,7 +183,7 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                                         </Tooltip>
                                     </TableCell>
                                     <TableCell>{renderStatusChip(item.enrollmentStatus)}</TableCell>
-                                    <TableCell align="center">
+                                    <TableCell>
                                         <Tooltip title="Xem chi tiết" arrow>
                                             <IconButton
                                                 color="primary"
