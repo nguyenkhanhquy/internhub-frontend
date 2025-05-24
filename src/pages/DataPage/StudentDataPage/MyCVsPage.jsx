@@ -6,7 +6,7 @@ import MyCVsGridView from "../../../components/data/StudentDataGridView/MyCVsGri
 const MyCVsPage = () => {
     return (
         <MainLayout title="CV">
-            <PageNavigation pageName="CV" />
+            <PageNavigation pageName="Sinh viên" />
             <StudentDataLayout>
                 <MyCVsGridView />
             </StudentDataLayout>

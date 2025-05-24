@@ -9,6 +9,8 @@ import Tooltip from "@mui/material/Tooltip";
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "../DataSearchBar";
 import MyCVsTable from "./StudentDataTable/MyCVsTable";
+import ConfirmModal from "@/components/modals/ConfirmModal/ConfirmModal";
+import ImportCVModal from "@/components/modals/ImportCVModal/ImportCVModal";
 
 // Mock data cho danh sách CV
 const mockCVs = [
@@ -35,6 +37,9 @@ const mockCVs = [
 const MyCVsGridView = () => {
     const [loading, setLoading] = useState(false);
     const [flag, setFlag] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [selectedCvId, setSelectedCvId] = useState(null);
+    const [importModalOpen, setImportModalOpen] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +59,29 @@ const MyCVsGridView = () => {
     };
 
     const handleDeleteClick = (id) => {
-        alert(`Xóa CV có id: ${id}`);
+        setSelectedCvId(id);
+        setDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        // TODO: Gọi API xóa CV ở đây
+        alert(`Xóa CV có id: ${selectedCvId}`);
+        setDeleteModalOpen(false);
+        setSelectedCvId(null);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteModalOpen(false);
+        setSelectedCvId(null);
+    };
+
+    const handleImportClick = () => {
+        setImportModalOpen(true);
+    };
+
+    const handleImportClose = () => {
+        setImportModalOpen(false);
+        setFlag((prev) => !prev); // Refresh danh sách CV sau khi import
     };
 
     return (
@@ -73,6 +100,68 @@ const MyCVsGridView = () => {
                         onSearch={(searchText) => setSearch(searchText)}
                         query={search}
                     />
+
+                    {/* Nút Làm mới */}
+                    <Tooltip title="Làm mới" arrow>
+                        <Button
+                            variant="outlined"
+                            onClick={() => setFlag((prev) => !prev)}
+                            sx={{
+                                minWidth: 44,
+                                width: 44,
+                                height: 44,
+                                borderRadius: 2,
+                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                                color: "#2e3090",
+                                borderColor: "#2e3090",
+                                p: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                "&:hover": {
+                                    bgcolor: "#1f2061",
+                                    color: "white",
+                                    borderColor: "#1f2061",
+                                },
+                                "&:active": {
+                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                                },
+                            }}
+                        >
+                            <CachedIcon />
+                        </Button>
+                    </Tooltip>
+
+                    {/* Nút Import CV */}
+                    <Tooltip title="Import CV" arrow>
+                        <Button
+                            variant="outlined"
+                            onClick={handleImportClick}
+                            sx={{
+                                minWidth: 44,
+                                width: 44,
+                                height: 44,
+                                borderRadius: 2,
+                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                                color: "#2e3090",
+                                borderColor: "#2e3090",
+                                p: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                "&:hover": {
+                                    bgcolor: "#1f2061",
+                                    color: "white",
+                                    borderColor: "#1f2061",
+                                },
+                                "&:active": {
+                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                                },
+                            }}
+                        >
+                            <UploadFileIcon />
+                        </Button>
+                    </Tooltip>
 
                     {/* Nút Tạo CV */}
                     <Tooltip title="Tạo CV" arrow>
@@ -102,71 +191,20 @@ const MyCVsGridView = () => {
                             <AddIcon />
                         </Button>
                     </Tooltip>
-
-                    {/* Nút Import CV */}
-                    <Tooltip title="Import CV" arrow>
-                        <Button
-                            variant="outlined"
-                            sx={{
-                                minWidth: 44,
-                                width: 44,
-                                height: 44,
-                                borderRadius: 2,
-                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-                                color: "#2e3090",
-                                borderColor: "#2e3090",
-                                p: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                "&:hover": {
-                                    bgcolor: "#1f2061",
-                                    color: "white",
-                                    borderColor: "#1f2061",
-                                },
-                                "&:active": {
-                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
-                                },
-                            }}
-                        >
-                            <UploadFileIcon />
-                        </Button>
-                    </Tooltip>
-
-                    {/* Nút Làm mới */}
-                    <Tooltip title="Làm mới" arrow>
-                        <Button
-                            variant="contained"
-                            onClick={() => setFlag((prev) => !prev)}
-                            sx={{
-                                minWidth: 44,
-                                width: 44,
-                                height: 44,
-                                borderRadius: 2,
-                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-                                bgcolor: "#2e3090",
-                                color: "white",
-                                p: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                "&:hover": {
-                                    bgcolor: "#1f2061",
-                                },
-                                "&:active": {
-                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
-                                },
-                            }}
-                        >
-                            <CachedIcon />
-                        </Button>
-                    </Tooltip>
                 </Box>
             }
         >
             <Box>
                 <MyCVsTable loading={loading} data={mockCVs} setFlag={setFlag} handleDeleteClick={handleDeleteClick} />
             </Box>
+            <ConfirmModal
+                isOpen={deleteModalOpen}
+                loading={loading}
+                title="Xóa CV"
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+            />
+            <ImportCVModal isOpen={importModalOpen} onClose={handleImportClose} />
         </GridViewLayout>
     );
 };
