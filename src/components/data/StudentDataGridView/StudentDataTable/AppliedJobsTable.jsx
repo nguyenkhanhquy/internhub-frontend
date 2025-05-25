@@ -183,8 +183,7 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                         flexDirection="column"
                                         justifyContent="center"
                                         alignItems="center"
-                                        height="100%"
-                                        padding={2}
+                                        height="200px"
                                     >
                                         <SuspenseLoader />
                                     </Box>
@@ -193,7 +192,15 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                         ) : applyJobs.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                    <EmptyBox />
+                                    <Box
+                                        display="flex"
+                                        flexDirection="column"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        height="200px"
+                                    >
+                                        <EmptyBox />
+                                    </Box>
                                 </TableCell>
                             </TableRow>
                         ) : (

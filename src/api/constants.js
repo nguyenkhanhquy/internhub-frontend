@@ -126,3 +126,9 @@ export const ENROLLMENT_API = {
     GET_ALL_BY_STUDENT: "/enrollments/student",
     UPDATE_FINAL_SCORE: (id) => `/enrollments/${id}/final-score`,
 };
+
+export const CV_API = {
+    CREATE: "/curriculum-vitae",
+    GET_ALL_BY_STUDENT: "/curriculum-vitae/student",
+    DELETE: (id) => `/curriculum-vitae/${id}`,
+};
