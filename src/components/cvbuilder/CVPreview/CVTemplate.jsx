@@ -3,56 +3,10 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
 
-import html2pdf from "html2pdf.js";
-
-const CVTemplate = ({ cvData }) => {
+const CVTemplate = ({ cvData, forwardedRef }) => {
     const { personalInfo, education, experience, skills, projects } = cvData;
-    const cvRef = useRef(null);
-
-    const exportToPDF = () => {
-        const element = cvRef.current;
-        const opt = {
-            filename: `${personalInfo.fullName || "CV"}.pdf`,
-            image: { type: "jpeg", quality: 0.98 },
-            html2canvas: {
-                scale: 2,
-                useCORS: true,
-            },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        };
-
-        // Thông báo đang xuất PDF
-        const notification = document.createElement("div");
-        notification.className = "fixed top-4 right-4 bg-teal-600 text-white px-4 py-2 rounded-md shadow-lg z-50";
-        notification.textContent = "Đang xuất PDF...";
-        document.body.appendChild(notification);
-
-        // Xuất PDF
-        html2pdf()
-            .set(opt)
-            .from(element)
-            .save()
-            .then(() => {
-                // Thay đổi thông báo khi hoàn tất
-                notification.textContent = "Xuất PDF thành công!";
-                notification.className =
-                    "fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-md shadow-lg z-50";
-
-                // Xóa thông báo sau 3 giây
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 3000);
-            })
-            .catch((error) => {
-                console.error("Lỗi khi xuất PDF:", error);
-                notification.textContent = "Lỗi khi xuất PDF!";
-                notification.className =
-                    "fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-md shadow-lg z-50";
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 3000);
-            });
-    };
+    const innerRef = useRef(null);
+    const cvRef = forwardedRef ? forwardedRef : innerRef;
 
     return (
         <div className="relative flex flex-col items-center">
@@ -251,33 +205,13 @@ const CVTemplate = ({ cvData }) => {
                     </div>
                 )}
             </div>
-            <button
-                onClick={exportToPDF}
-                className="mt-8 flex items-center rounded-lg bg-[#193cb8] px-8 py-3 text-lg font-semibold text-white shadow-md hover:bg-[#1c398e]"
-                aria-label="Xuất PDF"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="mr-3 h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                </svg>
-                Xuất PDF
-            </button>
         </div>
     );
 };
 
 CVTemplate.propTypes = {
     cvData: PropTypes.object.isRequired,
+    forwardedRef: PropTypes.object,
 };
 
 export default CVTemplate;
