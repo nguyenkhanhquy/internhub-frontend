@@ -51,7 +51,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Tên dự án"
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -62,7 +62,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                             value={project.url || ""}
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="https://example.com"
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         placeholder="Mô tả chi tiết về dự án, mục tiêu và vai trò của bạn..."
                                         rows="4"
                                         required
-                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -86,7 +86,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         value={project.technologies || ""}
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="React, Node.js, MongoDB, ..."
-                                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -99,7 +99,7 @@ const Projects = ({ projects, onChange, onAdd, onDelete }) => {
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="Các thành tích, kết quả đạt được từ dự án..."
                                         rows="3"
-                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                             </div>

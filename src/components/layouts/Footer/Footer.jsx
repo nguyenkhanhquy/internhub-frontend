@@ -18,19 +18,35 @@ const Footer = () => {
             <Box
                 sx={{
                     display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
                     justifyContent: "space-between",
-                    alignItems: "center",
+                    alignItems: { xs: "center", sm: "center" },
                     flexWrap: "wrap",
-                    gap: 4,
-                    textAlign: { xs: "center", sm: "left" },
+                    gap: { xs: 2, sm: 4 },
+                    textAlign: "left",
                     maxWidth: "1200px",
                     margin: "0 auto",
-                    paddingX: 3,
+                    paddingX: { xs: 1, sm: 3 },
+                    paddingY: { xs: 1, sm: 0 },
                 }}
             >
                 {/* Phần bên trái */}
-                <Box display="flex" alignItems="center" sx={{ flex: 1 }}>
-                    <Box component="img" src={logoImage} alt="Logo" sx={{ width: 92, marginRight: 2 }} />
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                        flex: 1,
+                        justifyContent: { xs: "center", sm: "flex-start" },
+                        mb: { xs: 2, sm: 0 },
+                        textAlign: "left",
+                    }}
+                >
+                    <Box
+                        component="img"
+                        src={logoImage}
+                        alt="Logo"
+                        sx={{ width: { xs: 60, sm: 92 }, marginRight: 2 }}
+                    />
                     <Box>
                         <Typography variant="body1" fontWeight="600">
                             Trường Đại Học Sư Phạm Kỹ Thuật
@@ -45,7 +61,7 @@ const Footer = () => {
                 </Box>
 
                 {/* Phần bên phải */}
-                <Box sx={{ flex: 1 }}>
+                <Box sx={{ flex: 1, textAlign: "left" }}>
                     <Typography variant="body1" fontWeight="600">
                         Liên hệ với chúng tôi
                     </Typography>
@@ -69,8 +85,8 @@ const Footer = () => {
             </Box>
 
             {/* Thanh ngang và dòng cuối */}
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Divider sx={{ my: { xs: 1, sm: 2 } }} />
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
                 © {new Date().getFullYear()} FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
                 <Link href="https://github.com/nguyenkhanhquy" target="_blank" rel="noopener">
                     Nguyễn Khánh Quy

@@ -51,7 +51,7 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Đại học ABC"
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -63,7 +63,7 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
                                             onChange={(e) => handleChange(index, e)}
                                             placeholder="Cử nhân Khoa học máy tính"
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
                                             value={edu.startDate || ""}
                                             onChange={(e) => handleChange(index, e)}
                                             required
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -86,7 +86,7 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
                                             name="endDate"
                                             value={edu.endDate || ""}
                                             onChange={(e) => handleChange(index, e)}
-                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                            className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@ const Education = ({ education, onChange, onAdd, onDelete }) => {
                                         onChange={(e) => handleChange(index, e)}
                                         placeholder="Mô tả thành tích học tập, các khóa học nổi bật, hoạt động ngoại khóa..."
                                         rows="3"
-                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                        className="min-h-[100px] w-full resize-y rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     />
                                 </div>
                             </div>
