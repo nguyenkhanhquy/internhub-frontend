@@ -110,8 +110,7 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                                         flexDirection="column"
                                         justifyContent="center"
                                         alignItems="center"
-                                        height="100%"
-                                        padding={2}
+                                        height="200px"
                                     >
                                         <SuspenseLoader />
                                     </Box>
@@ -120,7 +119,15 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                         ) : courses.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
-                                    <EmptyBox />
+                                    <Box
+                                        display="flex"
+                                        flexDirection="column"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        height="200px"
+                                    >
+                                        <EmptyBox />
+                                    </Box>
                                 </TableCell>
                             </TableRow>
                         ) : (

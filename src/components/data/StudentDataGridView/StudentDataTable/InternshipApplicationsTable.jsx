@@ -62,8 +62,7 @@ const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDet
                                     flexDirection="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    height="100%"
-                                    padding={2}
+                                    height="200px"
                                 >
                                     <SuspenseLoader />
                                 </Box>
@@ -72,7 +71,15 @@ const InternshipApplicationsTable = ({ loading, internshipReports, handleViewDet
                     ) : internshipReports.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={5} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="200px"
+                                >
+                                    <EmptyBox />
+                                </Box>
                             </TableCell>
                         </TableRow>
                     ) : (

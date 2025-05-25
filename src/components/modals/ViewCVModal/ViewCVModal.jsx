@@ -33,6 +33,7 @@ const ViewCvModal = ({ isOpen, onClose, cvUrl, title }) => {
                             width: "100%",
                             height: "100%",
                             border: "none",
+                            borderRadius: 8,
                         }}
                         onError={() => {
                             alert("Không thể tải CV. Vui lòng kiểm tra liên kết!");

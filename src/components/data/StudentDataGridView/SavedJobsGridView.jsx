@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { Box, Button } from "@mui/material";
+import { Box, Button, Tooltip } from "@mui/material";
 import Delete from "@mui/icons-material/Delete";
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "@components/data/DataSearchBar";
@@ -110,28 +110,33 @@ const SavedJobsGridView = () => {
                     />
 
                     {/* Nút Xóa tất cả */}
-                    <Button
-                        variant="contained"
-                        startIcon={<Delete />}
-                        onClick={handleOpenConfirmModal} // Mở Modal xác nhận
-                        sx={{
-                            padding: "5px 10px",
-                            width: "50%",
-                            minWidth: 130,
-                            borderRadius: 2,
-                            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-                            bgcolor: "#2e3090",
-                            color: "white",
-                            "&:hover": {
-                                bgcolor: "#1f2061",
-                            },
-                            "&:active": {
-                                boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
-                            },
-                        }}
-                    >
-                        Xóa tất cả
-                    </Button>
+                    <Tooltip title="Xóa tất cả" arrow>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                minWidth: 44,
+                                width: 44,
+                                height: 44,
+                                borderRadius: 2,
+                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                                bgcolor: "#2e3090",
+                                color: "white",
+                                p: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                "&:hover": {
+                                    bgcolor: "#1f2061",
+                                },
+                                "&:active": {
+                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                                },
+                            }}
+                            onClick={handleOpenConfirmModal} // Mở Modal xác nhận
+                        >
+                            <Delete />
+                        </Button>
+                    </Tooltip>
                 </Box>
             }
         >

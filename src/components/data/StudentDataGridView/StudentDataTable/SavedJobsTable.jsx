@@ -16,10 +16,10 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import EmptyBox from "../../../box/EmptyBox";
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
-import { formatDate } from "../../../../utils/dateUtil";
+import { formatDate } from "@utils/dateUtil";
 
 const SavedJobsTable = ({
     loading,
@@ -68,8 +68,7 @@ const SavedJobsTable = ({
                                     flexDirection="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    height="100%"
-                                    padding={2}
+                                    height="200px"
                                 >
                                     <SuspenseLoader />
                                 </Box>
@@ -78,7 +77,15 @@ const SavedJobsTable = ({
                     ) : savedJobPosts.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="200px"
+                                >
+                                    <EmptyBox />
+                                </Box>
                             </TableCell>
                         </TableRow>
                     ) : (

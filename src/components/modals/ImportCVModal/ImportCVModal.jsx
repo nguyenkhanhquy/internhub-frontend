@@ -1,12 +1,18 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+
+import useAuth from "@hooks/useAuth";
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { uploadCV } from "../../../services/uploadService";
+import { uploadCV } from "@services/uploadService";
+import { createCV } from "@services/cvService";
 
-const ImportCVModal = ({ isOpen, onClose }) => {
+const ImportCVModal = ({ isOpen, onClose, setFlag }) => {
+    const { user } = useAuth();
+
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -14,6 +20,9 @@ const ImportCVModal = ({ isOpen, onClose }) => {
         if (isOpen) {
             // Khóa cuộn trang khi mở modal
             document.body.style.overflow = "hidden";
+        } else {
+            // Reset file đã chọn khi modal đóng
+            setSelectedFile(null);
         }
 
         return () => {
@@ -28,12 +37,21 @@ const ImportCVModal = ({ isOpen, onClose }) => {
             if (selectedFile) {
                 // Tạo đường dẫn tệp với timestamp
                 const timestamp = Date.now();
-                const filePath = `cv/${timestamp}`;
+                const filePath = `student/${user.id}/cv/${timestamp}`;
                 const dataUpload = await uploadCV(selectedFile, filePath);
                 if (!dataUpload.success) {
                     throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                toast.success("Tải lên CV thành công!");
+
+                const data = await createCV({
+                    title: selectedFile.name.split(".")[0],
+                    filePath: dataUpload.result.secure_url,
+                });
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                setFlag((prev) => !prev);
+                toast.success(data.message);
                 onClose();
             } else {
                 toast.info("Vui lòng chọn file CV để tải lên");
@@ -48,6 +66,13 @@ const ImportCVModal = ({ isOpen, onClose }) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Kiểm tra dung lượng file (5MB = 5 * 1024 * 1024 bytes)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                toast.warn("File quá lớn! Vui lòng chọn file có dung lượng dưới 5MB.");
+                e.target.value = "";
+                return;
+            }
             setSelectedFile(file);
         }
     };
@@ -84,7 +109,8 @@ const ImportCVModal = ({ isOpen, onClose }) => {
                             </svg>
                             <p className="text-base font-medium text-gray-700">Tải lên CV từ máy tính</p>
                             <p className="mt-1 text-sm text-gray-500">
-                                Hỗ trợ định dạng <span className="font-semibold">.doc, .docx, .pdf</span>
+                                Hỗ trợ định dạng <span className="font-semibold">.doc, .docx, .pdf</span> và dung lượng
+                                dưới <span className="font-semibold">5MB</span>
                             </p>
                             <label className="mt-3 inline-block cursor-pointer rounded-lg bg-blue-800 px-4 py-2 text-base font-semibold text-white hover:bg-blue-900">
                                 <input
@@ -118,14 +144,18 @@ const ImportCVModal = ({ isOpen, onClose }) => {
                     <button
                         onClick={onClose}
                         disabled={loading}
-                        className="w-1/5 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100"
+                        className={`w-1/5 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 ${
+                            !loading ? "hover:bg-gray-100" : ""
+                        }`}
                     >
                         Hủy
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={loading}
-                        className="w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-900"
+                        className={`w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white ${
+                            !loading ? "hover:bg-blue-900" : ""
+                        }`}
                     >
                         {loading ? "Đang tải lên..." : "Lưu"}
                     </button>
@@ -138,6 +168,7 @@ const ImportCVModal = ({ isOpen, onClose }) => {
 ImportCVModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    setFlag: PropTypes.func.isRequired,
 };
 
 export default ImportCVModal;

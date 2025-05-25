@@ -29,7 +29,9 @@ const DataSearchBar = ({ placeholder, onSearch, query }) => {
                 sx={{
                     display: "flex",
                     flexGrow: 1,
+                    height: 44,
                     borderRadius: 2,
+                    boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
                     overflow: "hidden",
                     border: "2px solid #ccc", // Viền mặc định
                     transition: "border-color 0.3s", // Hiệu ứng mượt khi đổi màu

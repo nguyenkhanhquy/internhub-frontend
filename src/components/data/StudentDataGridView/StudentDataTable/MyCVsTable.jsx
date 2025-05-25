@@ -17,9 +17,9 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EmptyBox from "@components/box/EmptyBox";
-import ViewCvModal from "@/components/modals/ViewCVModal/ViewCVModal";
+import ViewCvModal from "@components/modals/ViewCVModal/ViewCVModal";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
-import { formatDate } from "../../../../utils/dateUtil";
+import { formatDateTime } from "@utils/dateUtil";
 
 const MyCVsTable = ({ loading, data, handleDeleteClick }) => {
     const [openCvModal, setOpenCvModal] = useState(false);
@@ -47,14 +47,10 @@ const MyCVsTable = ({ loading, data, handleDeleteClick }) => {
                             },
                         }}
                     >
-                        <TableCell align="center" sx={{ width: "5%" }}>
-                            STT
-                        </TableCell>
-                        <TableCell sx={{ width: "45%" }}>Tiêu đề</TableCell>
-                        <TableCell sx={{ width: "25%" }}>Ngày tạo</TableCell>
-                        <TableCell sx={{ width: "25%" }} align="center">
-                            Hành động
-                        </TableCell>
+                        <TableCell sx={{ width: "5%", textAlign: "center" }}>STT</TableCell>
+                        <TableCell sx={{ width: "63%", textAlign: "left" }}>Tiêu đề</TableCell>
+                        <TableCell sx={{ width: "17%", textAlign: "left" }}>Ngày tạo</TableCell>
+                        <TableCell sx={{ width: "15%", textAlign: "right" }}>Hành động</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -66,8 +62,7 @@ const MyCVsTable = ({ loading, data, handleDeleteClick }) => {
                                     flexDirection="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    height="100%"
-                                    padding={2}
+                                    height="200px"
                                 >
                                     <SuspenseLoader />
                                 </Box>
@@ -76,7 +71,15 @@ const MyCVsTable = ({ loading, data, handleDeleteClick }) => {
                     ) : data.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={4} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="200px"
+                                >
+                                    <EmptyBox />
+                                </Box>
                             </TableCell>
                         </TableRow>
                     ) : (
@@ -92,20 +95,20 @@ const MyCVsTable = ({ loading, data, handleDeleteClick }) => {
                                     },
                                 }}
                             >
-                                <TableCell align="center">{index + 1}</TableCell>
-                                <TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
+                                <TableCell sx={{ textAlign: "left" }}>
                                     <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                         {cv.title}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{formatDate(cv.createdDate)}</TableCell>
+                                <TableCell sx={{ textAlign: "left" }}>{formatDateTime(cv.createdDate)}</TableCell>
                                 <TableCell>
-                                    <Stack direction="row" spacing={1} justifyContent="center">
+                                    <Stack direction="row" justifyContent="end">
                                         <Tooltip title="Xem CV" arrow>
                                             <IconButton
                                                 color="primary"
-                                                onClick={() => handleViewCv(cv?.file, cv?.title)}
-                                                disabled={!cv?.file}
+                                                onClick={() => handleViewCv(cv?.filePath, cv?.title)}
+                                                disabled={!cv?.filePath}
                                             >
                                                 <ContactPageOutlinedIcon className="text-green-600" />
                                             </IconButton>
