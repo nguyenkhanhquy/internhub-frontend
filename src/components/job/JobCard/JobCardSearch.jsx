@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import useAuth from "@hooks/useAuth";
@@ -30,12 +31,19 @@ const JobCardSearch = ({
     expiryDate,
     saved,
 }) => {
+    const navigate = useNavigate();
+
     const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
 
+    // Hàm xử lý sự kiện click để điều hướng đến /search/:id
     const handleCardClick = () => {
-        window.open(`/search/${id}`, "_blank");
+        navigate(`/search/${id}`);
     };
+
+    // const handleCardClick = () => {
+    //     window.open(`/search/${id}`, "_blank");
+    // };
 
     const handleSaveJob = async () => {
         try {

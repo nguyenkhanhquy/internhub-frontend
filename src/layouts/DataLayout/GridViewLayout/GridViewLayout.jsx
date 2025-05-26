@@ -34,7 +34,7 @@ const GridViewLayout = ({
             <Box
                 sx={{
                     flexGrow: 1,
-                    minHeight: 330, // Đặt chiều cao tối thiểu để giữ bố cục
+                    minHeight: 340, // Đặt chiều cao tối thiểu để giữ bố cục
                 }}
             >
                 {children}

@@ -1,10 +1,18 @@
 import { Box, Avatar, Typography, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const CompanyCard = ({ company }) => {
+    const navigate = useNavigate();
+
+    // Hàm xử lý sự kiện click để điều hướng đến /companies/:id
     const handleCardClick = () => {
-        window.open(`/companies/${company.id}`, "_blank");
+        navigate(`/companies/${company.id}`);
     };
+
+    // const handleCardClick = () => {
+    //     window.open(`/companies/${company.id}`, "_blank");
+    // };
 
     return (
         <Box
