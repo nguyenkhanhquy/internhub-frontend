@@ -192,10 +192,7 @@ const CoursesTable = ({ loading, courses, handleViewDetailsClick }) => {
                                     <TableCell>{renderStatusChip(item.enrollmentStatus)}</TableCell>
                                     <TableCell>
                                         <Tooltip title="Xem chi tiết" arrow>
-                                            <IconButton
-                                                color="primary"
-                                                onClick={() => handleViewDetailsClick(item.courseId)}
-                                            >
+                                            <IconButton color="primary" onClick={() => handleViewDetailsClick(item)}>
                                                 <InfoOutlinedIcon className="text-blue-800 hover:text-blue-900" />
                                             </IconButton>
                                         </Tooltip>
@@ -215,7 +212,6 @@ CoursesTable.propTypes = {
     loading: PropTypes.bool.isRequired,
     courses: PropTypes.array.isRequired,
     handleViewDetailsClick: PropTypes.func.isRequired,
-    setFlag: PropTypes.func.isRequired,
 };
 
 export default CoursesTable;

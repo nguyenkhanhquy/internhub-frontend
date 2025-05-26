@@ -6,6 +6,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "@components/data/DataSearchBar";
 import CoursesTable from "@components/data/StudentDataGridView/StudentDataTable/CoursesTable";
+import CourseDetailsModal from "@components/modals/CourseDetailsModal/CourseDetailsModal";
 
 import { getAllEnrollmentsByStudent } from "@services/enrollmentService";
 
@@ -20,6 +21,10 @@ const CoursesGridView = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
 
+    // State cho dialog chi tiết
+    const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -29,8 +34,14 @@ const CoursesGridView = () => {
         setRecordsPerPage(value);
     };
 
-    const handleViewDetailsClick = (id) => {
-        window.open(`/search/${id}`, "_blank");
+    const handleViewDetailsClick = (course) => {
+        setSelectedCourse(course);
+        setOpenDetailsDialog(true);
+    };
+
+    const handleCloseDetailsDialog = () => {
+        setOpenDetailsDialog(false);
+        setSelectedCourse(null);
     };
 
     useEffect(() => {
@@ -113,6 +124,12 @@ const CoursesGridView = () => {
                     setFlag={setFlag}
                 />
             </Box>
+
+            <CourseDetailsModal
+                open={openDetailsDialog}
+                onClose={handleCloseDetailsDialog}
+                selectedCourse={selectedCourse}
+            />
         </GridViewLayout>
     );
 };
