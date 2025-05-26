@@ -1,5 +1,6 @@
 import { Box, Typography, Divider, Paper, Link } from "@mui/material";
-import logoImage from "/images/fit_logo.png";
+
+import logoImage from "@assets/images/fit_logo.png";
 
 const Footer = () => {
     return (

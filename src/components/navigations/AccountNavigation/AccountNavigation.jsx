@@ -7,7 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-import logo from "/images/ute_logo_c.png";
+import logo from "@assets/images/ute_logo_c.png";
 
 const AccountNavigation = () => {
     const navigate = useNavigate();

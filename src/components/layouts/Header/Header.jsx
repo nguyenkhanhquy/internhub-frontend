@@ -28,7 +28,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 
-import logoImage from "/images/hcmute_fit_logo.png";
+import logoImage from "@assets/images/hcmute_fit_logo.png";
 import NotificationModal from "@components/modals/NotificationModal/NotfificationModal";
 import EmptyBox from "@components/box/EmptyBox";
 

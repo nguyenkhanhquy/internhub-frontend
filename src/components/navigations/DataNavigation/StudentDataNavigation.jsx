@@ -19,7 +19,7 @@ import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
 import Class from "@mui/icons-material/Class";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-import logo from "/images/ute_logo_c.png";
+import logo from "@assets/images/ute_logo_c.png";
 
 const StudentDataNavigation = ({ studentName }) => {
     const navigate = useNavigate();
