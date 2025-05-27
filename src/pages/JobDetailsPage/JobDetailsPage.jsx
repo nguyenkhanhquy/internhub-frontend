@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
-import JobDetailHeader from "../../components/job/JobDetail/JobDetailHeader";
-import JobDetailBody from "../../components/job/JobDetail/JobDetailBody";
-import JobDetailSummary from "../../components/job/JobDetail/JobDetailSummary";
-import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
-import JobApplicationModal from "../../components/modals/JobApplicationModal/JobApplicationModal";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import JobDetailHeader from "@components/job/JobDetail/JobDetailHeader";
+import JobDetailBody from "@components/job/JobDetail/JobDetailBody";
+import JobDetailSummary from "@components/job/JobDetail/JobDetailSummary";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import JobApplicationModal from "@components/modals/JobApplicationModal/JobApplicationModal";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useMediaQuery } from "@mui/material";
 
-import useAuth from "../../hooks/useAuth";
-import { getJobPostById, getJobPostsByCompanyId, getAllJobPosts } from "../../services/jobPostService";
+import useAuth from "@hooks/useAuth";
+import { getJobPostById, getJobPostsByCompanyId, getAllJobPosts } from "@services/jobPostService";
 
 const JobDetailsPage = () => {
     const { isAuthenticated } = useAuth();
@@ -31,30 +30,45 @@ const JobDetailsPage = () => {
         const fetchJobPostsDetails = async () => {
             setLoading(true);
             try {
-                const data = await getJobPostById(id);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setJobData(data.result);
-
-                const dataJobPosts = await getJobPostsByCompanyId(data.result.company.id);
-                if (!dataJobPosts.success) {
-                    throw new Error(dataJobPosts.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                // Bước 1: Lấy thông tin job trước
+                const jobDetailData = await getJobPostById(id);
+                if (!jobDetailData.success) {
+                    throw new Error(jobDetailData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
 
-                const relatedJobs = await getAllJobPosts(1, 10, data.result.jobPosition, "default");
-                if (!relatedJobs.success) {
-                    throw new Error(relatedJobs.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                const jobDetail = jobDetailData.result;
+                setJobData(jobDetail);
+
+                // Bước 2: Chạy đồng thời 2 API còn lại
+                const [companyJobsResult, relatedJobsResult] = await Promise.allSettled([
+                    getJobPostsByCompanyId(jobDetail.company.id),
+                    getAllJobPosts(1, 10, jobDetail.jobPosition, "default"),
+                ]);
+
+                // Xử lý kết quả company jobs
+                let companyJobs = [];
+                if (companyJobsResult.status === "fulfilled" && companyJobsResult.value.success) {
+                    companyJobs = companyJobsResult.value.result.filter((job) => job.id !== id);
                 }
 
+                // Xử lý kết quả related jobs
+                let relatedJobs = [];
+                if (relatedJobsResult.status === "fulfilled" && relatedJobsResult.value.success) {
+                    relatedJobs = relatedJobsResult.value.result.filter((job) => job.id !== id);
+                }
+
+                // Cập nhật state một lần cuối
                 setJobData((prevData) => ({
                     ...prevData,
-                    jobs: dataJobPosts.result.filter((job) => job.id !== id),
-                    relatedJobs: relatedJobs.result.filter((job) => job.id !== id),
+                    jobs: companyJobs,
+                    relatedJobs: relatedJobs,
                 }));
             } catch (error) {
-                if (error?.statusCode === 404) navigate("/404");
-                else toast.error(error.message);
+                if (error?.statusCode === 404) {
+                    navigate("/404");
+                } else {
+                    toast.error(error.message);
+                }
             } finally {
                 setLoading(false);
                 window.scrollTo({

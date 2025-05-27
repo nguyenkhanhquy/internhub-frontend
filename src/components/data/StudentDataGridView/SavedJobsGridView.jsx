@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Box, Button, Tooltip } from "@mui/material";
@@ -12,6 +13,8 @@ import { saveJobPost } from "@services/jobPostService";
 import { getAllJobSaved, deleteAllJobSaved } from "@services/jobSavedService";
 
 const SavedJobsGridView = () => {
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(false);
     const [flag, setFlag] = useState(false);
     const [savedJobPosts, setSavedJobPosts] = useState([]);
@@ -32,8 +35,12 @@ const SavedJobsGridView = () => {
     };
 
     const handleViewDetailsClick = (id) => {
-        window.open(`/search/${id}`, "_blank");
+        navigate(`/search/${id}`);
     };
+
+    // const handleViewDetailsClick = (id) => {
+    //     window.open(`/search/${id}`, "_blank");
+    // };
 
     const handleDeleteClick = async (id) => {
         try {
