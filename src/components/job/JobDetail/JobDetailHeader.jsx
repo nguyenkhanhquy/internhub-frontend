@@ -31,11 +31,12 @@ const JobDetailHeader = ({
     // Kiểm tra kích thước màn hình
     const isSmallScreen = useMediaQuery("(max-width: 600px)");
     const isMediumScreen = useMediaQuery("(max-width: 960px)");
+    const isTabletScreen = useMediaQuery("(max-width: 900px)");
 
     // Xác định kích thước của các button và avatar
-    const buttonFontSize = isSmallScreen ? "0.8rem" : isMediumScreen ? "0.9rem" : "1rem";
-    const buttonPaddingY = isSmallScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
-    const avatarSize = isSmallScreen ? 80 : isMediumScreen ? 120 : 140;
+    const buttonFontSize = isSmallScreen ? "0.75rem" : isTabletScreen ? "0.85rem" : isMediumScreen ? "0.9rem" : "1rem";
+    const buttonPaddingY = isSmallScreen ? 0.25 : isTabletScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
+    const avatarSize = isSmallScreen ? 40 : isTabletScreen ? 56 : isMediumScreen ? 100 : 140;
 
     const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
@@ -61,17 +62,28 @@ const JobDetailHeader = ({
         <Box
             sx={{
                 backgroundColor: "white",
-                p: 2,
+                p: isSmallScreen ? 0.75 : isTabletScreen ? 1.2 : 2,
                 boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
                 mb: 3,
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: 2,
+                gap: isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2,
             }}
         >
-            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between" flexWrap="wrap">
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ flex: 1, flexWrap: "wrap" }}>
+            <Stack
+                direction={isSmallScreen ? "column" : isTabletScreen ? "column" : "row"}
+                spacing={isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2}
+                alignItems={isSmallScreen ? "flex-start" : isTabletScreen ? "flex-start" : "center"}
+                justifyContent="space-between"
+                flexWrap="wrap"
+            >
+                <Stack
+                    direction="row"
+                    spacing={isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2}
+                    alignItems={isSmallScreen ? "flex-start" : isTabletScreen ? "flex-start" : "center"}
+                    sx={{ flex: 1, flexWrap: "wrap", width: "100%" }}
+                >
                     <Avatar
                         src={logo}
                         alt={`${companyName} logo`}
@@ -80,44 +92,69 @@ const JobDetailHeader = ({
                             width: avatarSize,
                             height: avatarSize,
                             borderRadius: 2,
+                            mr: isSmallScreen ? 1.5 : isTabletScreen ? 1.2 : 2,
+                            mb: isSmallScreen ? 1 : isTabletScreen ? 0.5 : 0,
                         }}
                     />
 
-                    <Box>
-                        <Typography variant={isSmallScreen ? "h6" : "h5"} fontWeight="bold" sx={{ mb: 0.5 }}>
+                    <Box sx={{ minWidth: 0 }}>
+                        <Typography
+                            variant={isSmallScreen ? "subtitle1" : isTabletScreen ? "h6" : "h5"}
+                            fontWeight="bold"
+                            sx={{
+                                mb: isSmallScreen ? 0.25 : isTabletScreen ? 0.3 : 0.5,
+                                wordBreak: "break-word",
+                                fontSize: isSmallScreen ? "1.05rem" : isTabletScreen ? "1.15rem" : undefined,
+                            }}
+                        >
                             {title}
                         </Typography>
 
-                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                        >
                             <Business fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="body1">
+                            <Typography variant="body1" sx={{ fontSize: isSmallScreen ? "0.85rem" : undefined }}>
                                 <strong>Công ty: </strong>
                                 <a
                                     href={website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    style={{ color: "#1976d2", fontWeight: 600 }}
+                                    style={{ color: "#1976d2", fontWeight: 600, wordBreak: "break-all" }}
                                 >
                                     {companyName}
                                 </a>
                             </Typography>
                         </Stack>
 
-                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                        >
                             <LocationOn fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="subtitle2">
+                            <Typography variant="subtitle2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
                                 <strong>Địa chỉ làm việc:</strong> {address}
                             </Typography>
                         </Stack>
 
-                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                        >
                             <Work fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="body2">
+                            <Typography variant="body2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
                                 <strong>Vị trí:</strong> {jobPosition} - <strong>Hình thức:</strong> {type}
                             </Typography>
                         </Stack>
 
-                        <Typography variant="body2">
+                        <Typography variant="body2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
                             <CalendarToday fontSize="small" sx={{ mr: 0.5, verticalAlign: "middle" }} />
                             <strong>Cập nhật:</strong> {formatDate(updateDate)} - <strong>Hạn nộp:</strong>{" "}
                             {formatDate(expiryDate)}
@@ -126,21 +163,31 @@ const JobDetailHeader = ({
                 </Stack>
 
                 <Stack
-                    direction={isSmallScreen ? "row" : "column"}
-                    spacing={2}
-                    sx={{ minWidth: isSmallScreen ? "80%" : 180, mt: isSmallScreen ? 2 : 0 }}
+                    direction={isSmallScreen || isTabletScreen ? "row" : "column"}
+                    spacing={isSmallScreen ? 0.5 : isTabletScreen ? 0.6 : 2}
+                    sx={{
+                        minWidth: isSmallScreen ? "100%" : isTabletScreen ? 0 : 180,
+                        mt: isSmallScreen ? 1 : isTabletScreen ? 0.5 : 0,
+                        width: isSmallScreen ? "100%" : isTabletScreen ? "100%" : undefined,
+                        alignItems: isSmallScreen || isTabletScreen ? "flex-end" : "center",
+                        justifyContent: isSmallScreen || isTabletScreen ? "flex-end" : undefined,
+                        flex: isTabletScreen ? 1 : undefined,
+                        gap: undefined,
+                    }}
                 >
                     {expiryDate >= new Date().toISOString() ? (
                         <Button
                             variant="contained"
                             color="error"
                             onClick={onApplyJob}
-                            fullWidth={isSmallScreen}
+                            fullWidth
                             sx={{
                                 textTransform: "none",
                                 fontSize: buttonFontSize,
                                 fontWeight: "bold",
                                 py: buttonPaddingY,
+                                borderRadius: 1,
+                                minWidth: isSmallScreen ? 0 : 140,
                             }}
                         >
                             Ứng tuyển ngay
@@ -149,12 +196,14 @@ const JobDetailHeader = ({
                         <Button
                             variant="contained"
                             disabled
-                            fullWidth={isSmallScreen}
+                            fullWidth
                             sx={{
                                 textTransform: "none",
                                 fontSize: buttonFontSize,
                                 fontWeight: "bold",
                                 py: buttonPaddingY,
+                                borderRadius: 1,
+                                minWidth: isSmallScreen ? 0 : 140,
                             }}
                         >
                             Hết hạn ứng tuyển
@@ -164,12 +213,14 @@ const JobDetailHeader = ({
                         variant="outlined"
                         color="error"
                         onClick={handleSaveJob}
-                        fullWidth={isSmallScreen}
+                        fullWidth
                         sx={{
                             textTransform: "none",
                             fontSize: buttonFontSize,
                             fontWeight: "bold",
                             py: buttonPaddingY,
+                            borderRadius: 1,
+                            minWidth: isSmallScreen ? 0 : 140,
                         }}
                     >
                         {isSaved ? "Bỏ lưu công việc" : "Lưu công việc"}

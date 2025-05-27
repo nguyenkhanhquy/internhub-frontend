@@ -15,7 +15,7 @@ const UpdateJobPostModal = ({ jobPostData, onClose, setFlag }) => {
     }, []);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
             <div className="w-full max-w-4xl rounded-lg bg-white p-6 shadow-lg">
                 {/* Modal Header */}
                 <div className="mb-3 flex justify-between">
