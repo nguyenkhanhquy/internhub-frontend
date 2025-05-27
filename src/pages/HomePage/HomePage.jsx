@@ -22,7 +22,7 @@ const HomePage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [suitableJobList, setSuitableJobList] = useState([]);
-    const [jobList, setJobList] = useState([]);
+    const [latestJobList, setLatestJobList] = useState([]);
     const [featuredCompanies, setFeaturedCompanies] = useState([]);
 
     useEffect(() => {
@@ -30,24 +30,34 @@ const HomePage = () => {
             setLoading(true);
             try {
                 if (isAuthenticated) {
-                    const suitableJobData = await getJobPostsSuitableForStudent(0, 6);
-                    if (!suitableJobData.success) {
-                        throw new Error(suitableJobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    const [suitableJobData, latestJobData, featuredCompaniesData] = await Promise.allSettled([
+                        getJobPostsSuitableForStudent(0, 6),
+                        getAllJobPosts(1, 12),
+                        getAllApprovedCompanies(1, 5),
+                    ]);
+
+                    if (suitableJobData.status === "fulfilled" && suitableJobData.value.success) {
+                        setSuitableJobList(suitableJobData.value.result);
                     }
-                    setSuitableJobList(suitableJobData.result);
-                }
+                    if (latestJobData.status === "fulfilled" && latestJobData.value.success) {
+                        setLatestJobList(latestJobData.value.result);
+                    }
+                    if (featuredCompaniesData.status === "fulfilled" && featuredCompaniesData.value.success) {
+                        setFeaturedCompanies(featuredCompaniesData.value.result);
+                    }
+                } else {
+                    const [latestJobData, featuredCompaniesData] = await Promise.allSettled([
+                        getAllJobPosts(1, 12),
+                        getAllApprovedCompanies(1, 5),
+                    ]);
 
-                const jobData = await getAllJobPosts(1, 12);
-                if (!jobData.success) {
-                    throw new Error(jobData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    if (latestJobData.status === "fulfilled" && latestJobData.value.success) {
+                        setLatestJobList(latestJobData.value.result);
+                    }
+                    if (featuredCompaniesData.status === "fulfilled" && featuredCompaniesData.value.success) {
+                        setFeaturedCompanies(featuredCompaniesData.value.result);
+                    }
                 }
-                setJobList(jobData.result);
-
-                const data = await getAllApprovedCompanies(1, 5);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setFeaturedCompanies(data.result);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -90,7 +100,7 @@ const HomePage = () => {
                 {isAuthenticated && <SuitableJobsSection loading={loading} jobList={suitableJobList} />}
 
                 {/* VIỆC LÀM MỚI NHẤT */}
-                <LatestJobsSection loading={loading} jobList={jobList} />
+                <LatestJobsSection loading={loading} jobList={latestJobList} />
 
                 {/* DOANH NGHIỆP NỔI BẬT */}
                 <FeaturedCompaniesSection loading={loading} companies={featuredCompanies} />
