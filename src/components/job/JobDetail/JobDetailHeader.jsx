@@ -10,6 +10,8 @@ import Business from "@mui/icons-material/Business";
 import LocationOn from "@mui/icons-material/LocationOn";
 import Work from "@mui/icons-material/Work";
 import CalendarToday from "@mui/icons-material/CalendarToday";
+import Bookmark from "@mui/icons-material/Bookmark";
+import BookmarkBorder from "@mui/icons-material/BookmarkBorder";
 
 import { formatDate } from "@utils/dateUtil";
 import { saveJobPost } from "@services/jobPostService";
@@ -88,6 +90,8 @@ const JobDetailHeader = ({
                         src={logo}
                         alt={`${companyName} logo`}
                         variant="square"
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
                         sx={{
                             width: avatarSize,
                             height: avatarSize,
@@ -166,7 +170,7 @@ const JobDetailHeader = ({
                     direction={isSmallScreen || isTabletScreen ? "row" : "column"}
                     spacing={isSmallScreen ? 0.5 : isTabletScreen ? 0.6 : 2}
                     sx={{
-                        minWidth: isSmallScreen ? "100%" : isTabletScreen ? 0 : 180,
+                        minWidth: isSmallScreen ? "100%" : isTabletScreen ? 0 : 200,
                         mt: isSmallScreen ? 1 : isTabletScreen ? 0.5 : 0,
                         width: isSmallScreen ? "100%" : isTabletScreen ? "100%" : undefined,
                         alignItems: isSmallScreen || isTabletScreen ? "flex-end" : "center",
@@ -214,6 +218,7 @@ const JobDetailHeader = ({
                         color="error"
                         onClick={handleSaveJob}
                         fullWidth
+                        startIcon={isSaved ? <Bookmark /> : <BookmarkBorder />}
                         sx={{
                             textTransform: "none",
                             fontSize: buttonFontSize,

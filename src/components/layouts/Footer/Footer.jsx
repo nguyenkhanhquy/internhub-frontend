@@ -46,6 +46,8 @@ const Footer = () => {
                         component="img"
                         src={logoImage}
                         alt="Logo"
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
                         sx={{ width: { xs: 60, sm: 92 }, marginRight: 2 }}
                     />
                     <Box>

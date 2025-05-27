@@ -1,41 +1,24 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { uploadCV } from "../../../services/uploadService";
-import { applyJob } from "../../../services/jobApplyService";
+import { uploadCV } from "@services/uploadService";
+import { applyJob } from "@services/jobApplyService";
+import { getAllCVsByStudent } from "@services/cvService";
 
-const mockCVs = [
-    {
-        id: 1,
-        title: "CV Frontend Developer",
-        createdDate: "2024-05-01T10:00:00Z",
-        file: "https://example.com/cv-frontend.pdf",
-    },
-    {
-        id: 2,
-        title: "CV Backend Developer",
-        createdDate: "2024-04-15T14:30:00Z",
-        file: "https://example.com/cv-backend.pdf",
-    },
-    {
-        id: 3,
-        title: "CV Data Analyst",
-        createdDate: "2024-03-20T09:15:00Z",
-        file: "https://example.com/cv-backend.pdf",
-    },
-];
+import { formatDateTime } from "@utils/dateUtil";
 
 const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     const [loading, setLoading] = useState(false);
     const [coverLetter, setCoverLetter] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
-    const [selectedCvId, setSelectedCvId] = useState(mockCVs.length > 0 ? mockCVs[0].id : null);
+    const [selectedCvId, setSelectedCvId] = useState(null);
     const [cvSource, setCvSource] = useState("saved"); // 'saved' hoặc 'upload'
+    const [listCVs, setListCVs] = useState([]);
 
     useEffect(() => {
         // Khóa cuộn trang khi mở modal
@@ -55,24 +38,47 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     const handleApply = async () => {
         setLoading(true);
         try {
-            if (selectedFile && coverLetter !== "") {
+            if (coverLetter === "") {
+                toast.info("Vui lòng cung cấp thư giới thiệu");
+                return;
+            }
+
+            let cvUrl = null;
+
+            if (cvSource === "saved") {
+                // Sử dụng CV có sẵn từ list
+                if (!selectedCvId) {
+                    toast.info("Vui lòng chọn CV từ danh sách");
+                    return;
+                }
+                const selectedCv = listCVs.find((cv) => cv.id === selectedCvId);
+                if (!selectedCv) {
+                    throw new Error("Không tìm thấy CV đã chọn");
+                }
+                cvUrl = selectedCv.filePath;
+            } else if (cvSource === "upload") {
+                // Upload CV mới
+                if (!selectedFile) {
+                    toast.info("Vui lòng chọn file CV để upload");
+                    return;
+                }
                 // Tạo đường dẫn tệp với timestamp
                 const timestamp = Date.now();
                 const filePath = `cv/${jobPostId}/${timestamp}`;
                 const dataUpload = await uploadCV(selectedFile, filePath);
                 if (!dataUpload.success) {
                     throw new Error(dataUpload.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                } else {
-                    const data = await applyJob(jobPostId, coverLetter, dataUpload.result.secure_url);
-                    if (!data.success) {
-                        throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                    }
-                    toast.success(data.message);
-                    onClose();
                 }
-            } else {
-                toast.info("Vui lòng cung cấp đầy đủ thông tin ứng tuyển");
+                cvUrl = dataUpload.result.secure_url;
             }
+
+            // Gọi API apply job
+            const data = await applyJob(jobPostId, coverLetter, cvUrl);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            toast.success(data.message);
+            onClose();
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -83,6 +89,13 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Kiểm tra dung lượng file (5MB = 5 * 1024 * 1024 bytes)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                toast.warn("File quá lớn! Vui lòng chọn file có dung lượng dưới 5MB.");
+                e.target.value = "";
+                return;
+            }
             setSelectedFile(file);
         }
     };
@@ -102,6 +115,24 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
         setSelectedCvId(null);
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAllCVsByStudent(0, 10);
+                if (!data.success) {
+                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+
+                setListCVs(data.result);
+                setSelectedCvId(data.result[0].id);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
             <div className="flex max-h-[90vh] w-full max-w-3xl flex-col rounded-lg bg-white p-0 shadow-xl">
@@ -120,7 +151,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                             Chọn CV để ứng tuyển:
                         </label>
                         <div className="flex flex-col gap-2">
-                            {mockCVs.map((cv) => (
+                            {listCVs.map((cv) => (
                                 <label
                                     key={cv.id}
                                     className={
@@ -140,22 +171,20 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                                         />
                                         <DescriptionIcon className="text-blue-800" />
                                         <div className="flex min-w-0 flex-col">
-                                            <span className="max-w-[180px] truncate font-medium text-gray-800">
-                                                {cv.title}
-                                            </span>
+                                            <span className="truncate font-medium text-gray-800">{cv.title}</span>
                                             <span className="mt-0.5 text-xs text-gray-500">
-                                                Ngày tạo: {new Date(cv.createdDate).toLocaleDateString("vi-VN")}
+                                                Ngày tạo: {formatDateTime(cv.createdDate)}
                                             </span>
                                         </div>
                                     </div>
                                     <a
-                                        href={cv.file}
+                                        href={cv.filePath}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="ml-2 text-blue-700 hover:text-blue-900"
                                         title="Xem file CV"
                                     >
-                                        <FontAwesomeIcon icon={faEye} className="h-5 w-5" />
+                                        <VisibilityIcon />
                                     </a>
                                 </label>
                             ))}
@@ -167,7 +196,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                                     onChange={handleSelectUpload}
                                 />
                                 <DescriptionIcon className="text-green-700" />
-                                <span className="font-medium text-gray-700">Tải CV từ máy tính</span>
+                                <span className="font-medium text-gray-700">Tải lên CV mới</span>
                             </label>
                         </div>
                     </div>
@@ -191,9 +220,10 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                                             d="M3 16.5V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v10.5m-6 3H9m3-3v3"
                                         />
                                     </svg>
-                                    <p className="text-base font-medium text-gray-700">Tải lên CV từ máy tính</p>
+                                    <p className="text-base font-medium text-gray-700">Tải lên CV mới từ máy tính</p>
                                     <p className="mt-1 text-sm text-gray-500">
-                                        Hỗ trợ định dạng <span className="font-semibold">.doc, .docx, .pdf</span>
+                                        Hỗ trợ định dạng <span className="font-semibold">.doc, .docx, .pdf</span> và
+                                        dung lượng dưới <span className="font-semibold">5MB</span>
                                     </p>
                                     <label className="mt-3 inline-block cursor-pointer rounded-lg bg-blue-800 px-4 py-2 text-base font-semibold text-white hover:bg-blue-900">
                                         <input
@@ -244,14 +274,18 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                     <button
                         onClick={onClose}
                         disabled={loading}
-                        className="w-1/5 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-100"
+                        className={`w-1/5 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 ${
+                            !loading ? "hover:bg-gray-100" : ""
+                        }`}
                     >
                         Hủy
                     </button>
                     <button
                         onClick={handleApply}
                         disabled={loading}
-                        className="w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-900"
+                        className={`w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white ${
+                            !loading ? "hover:bg-blue-900" : ""
+                        }`}
                     >
                         {loading ? "Đang nộp hồ sơ ứng tuyển..." : "Nộp hồ sơ ứng tuyển"}
                     </button>

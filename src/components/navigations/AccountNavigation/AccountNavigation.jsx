@@ -37,7 +37,9 @@ const AccountNavigation = () => {
             >
                 <Avatar
                     src={logo}
-                    alt={""}
+                    alt={"Logo"}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     sx={{
                         width: "50%",
                         height: "50%",

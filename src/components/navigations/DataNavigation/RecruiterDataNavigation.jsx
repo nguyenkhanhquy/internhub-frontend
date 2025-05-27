@@ -1,3 +1,6 @@
+import { useNavigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import {
     Box,
     Typography,
@@ -11,8 +14,6 @@ import {
 } from "@mui/material";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import { useNavigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
 const RecruiterDataNavigation = ({ logo }) => {
     const navigate = useNavigate();
@@ -45,7 +46,9 @@ const RecruiterDataNavigation = ({ logo }) => {
                 {/* Logo công ty */}
                 <Avatar
                     src={logo}
-                    alt={""}
+                    alt={"logo"}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     sx={{
                         width: "50%",
                         height: "50%",

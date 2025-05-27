@@ -53,6 +53,8 @@ const StudentDataNavigation = ({ studentName }) => {
                 <Avatar
                     src={logo}
                     alt={studentName}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     sx={{
                         width: "50%",
                         height: "50%",
