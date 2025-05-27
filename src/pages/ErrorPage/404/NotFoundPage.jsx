@@ -20,7 +20,7 @@ function NotFoundPage() {
                     color="blue-gray"
                     className="mt-10 !text-3xl !leading-snug md:!text-4xl"
                 >
-                    Ooops...Error 404 <br /> Trang không tồn tại
+                    Ooops...Lỗi 404 <br /> Trang không tồn tại
                 </Typography>
                 <Typography style={{ marginBottom: 20 }} className="text-[20px] font-normal text-gray-500">
                     Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
