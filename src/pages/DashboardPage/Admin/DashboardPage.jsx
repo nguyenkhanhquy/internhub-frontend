@@ -189,7 +189,7 @@ function DashboardPage(props) {
                     },
                 }}
             >
-                <PageContent pathname={router.pathname} />
+                <PageContent pathname={router.pathname} router={router} />
             </DashboardLayout>
         </AppProvider>
     );

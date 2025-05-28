@@ -2,25 +2,25 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import NotificationPage from "../NotificationPage/NotificationPage";
-import OverviewPage from "../OverviewPage/OverviewPage";
-import CoursePage from "../CoursePage/CoursePage";
-import TeacherCoursePage from "../CoursePage/Teacher/CoursePage";
-import InternshipReportPage from "../InternshipReportPage/InternshipReportPage";
-import StudentPage from "../StudentPage/StudentPage";
-import TeacherPage from "../TeacherPage/TeacherPage";
-import RecruiterPage from "../RecruiterPage/RecruiterPage";
-import JobPostPage from "../JobPostPage/JobPostPage";
-import SettingsPage from "../SettingsPage/SettingsPage";
+import NotificationPage from "@components/dashboard/NotificationPage/NotificationPage";
+import OverviewPage from "@components/dashboard/OverviewPage/OverviewPage";
+import CoursePage from "@components/dashboard/CoursePage/CoursePage";
+import TeacherCoursePage from "@components/dashboard/CoursePage/Teacher/CoursePage";
+import InternshipReportPage from "@components/dashboard/InternshipReportPage/InternshipReportPage";
+import StudentPage from "@components/dashboard/StudentPage/StudentPage";
+import TeacherPage from "@components/dashboard/TeacherPage/TeacherPage";
+import RecruiterPage from "@components/dashboard/RecruiterPage/RecruiterPage";
+import JobPostPage from "@components/dashboard/JobPostPage/JobPostPage";
+import SettingsPage from "@components/dashboard/SettingsPage/SettingsPage";
 
-function PageContent({ pathname }) {
+function PageContent({ pathname, router }) {
     switch (pathname) {
         case "/notification":
             return <NotificationPage />;
         case "/":
-            return <OverviewPage />;
+            return <OverviewPage router={router} />;
         case "/overview":
-            return <OverviewPage />;
+            return <OverviewPage router={router} />;
         case "/course":
             return <CoursePage />;
         case "/course/teacher":
@@ -66,6 +66,7 @@ function PageContent({ pathname }) {
 
 PageContent.propTypes = {
     pathname: PropTypes.string.isRequired,
+    router: PropTypes.object,
 };
 
 export default PageContent;

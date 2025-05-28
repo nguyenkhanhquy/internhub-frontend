@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 import { Box, Grid, Stack } from "@mui/material";
 import SummarySection from "@components/section/OverviewPage/SummarySection";
@@ -7,7 +8,7 @@ import ChartStudentByInternStatus from "./ChartStudentByInternStatus";
 
 import { getOverview } from "@services/adminService";
 
-const OverviewPage = () => {
+const OverviewPage = ({ router }) => {
     const [overview, setOverview] = useState({});
 
     useEffect(() => {
@@ -36,7 +37,7 @@ const OverviewPage = () => {
             }}
         >
             {/* Section: Summary Cards */}
-            <SummarySection overview={overview} />
+            <SummarySection overview={overview} router={router} />
 
             {/* Section: Pie Chart */}
             <Grid container spacing={2} columns={12}>
@@ -48,6 +49,10 @@ const OverviewPage = () => {
             </Grid>
         </Box>
     );
+};
+
+OverviewPage.propTypes = {
+    router: PropTypes.object,
 };
 
 export default OverviewPage;
