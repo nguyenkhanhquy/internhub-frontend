@@ -61,9 +61,9 @@ export const TEACHERS_API = {
     GET_ALL: "/teachers",
     UPDATE: "/teachers/",
     DELETE: "/teachers/",
-    IMPORT: "/users/import/teachers",
 
     GET_ALL_COURSES: "/teachers/courses",
+    IMPORT: "/teachers/import",
 };
 
 export const JOBS_API = {

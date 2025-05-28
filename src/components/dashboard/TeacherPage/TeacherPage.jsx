@@ -15,14 +15,15 @@ import {
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 
-import EmptyBox from "../../../components/box/EmptyBox";
-import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
-import UpdateTeacherModal from "../../modals/UpdateTeacherModal/UpdateTeacherModal";
-import DashboardSearchBar from "../../search/DashboardSearchBar";
-import CustomPagination from "../../pagination/Pagination";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import UpdateTeacherModal from "@components/modals/UpdateTeacherModal/UpdateTeacherModal";
+import DashboardSearchBar from "@components/search/DashboardSearchBar";
+import CustomPagination from "@components/pagination/Pagination";
+import ConfirmDialog from "@components/common/ConfirmDialog/ConfirmDialog";
 
-import { importTeachers, deleteTeacher } from "../../../services/teacherService";
-import { getAllTeachers } from "../../../services/adminService";
+import { importTeachers, deleteTeacher } from "@services/teacherService";
+import { getAllTeachers } from "@services/adminService";
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
@@ -31,6 +32,11 @@ const TeacherPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [selectedTeacher, setSelectedTeacher] = useState(null);
+
+    // Dialog states
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [teacherToDelete, setTeacherToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -69,13 +75,15 @@ const TeacherPage = () => {
         setIsUpdateModalOpen(true);
     };
 
-    const handleDeleteTeacher = async (teacherId) => {
+    const handleDeleteTeacher = (teacherId) => {
+        setTeacherToDelete(teacherId);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        setIsDeleting(true);
         try {
-            const isConfirm = confirm("Bạn có chắc chắn muốn xóa giảng viên này?");
-            if (!isConfirm) {
-                return;
-            }
-            const data = await deleteTeacher(teacherId);
+            const data = await deleteTeacher(teacherToDelete);
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -84,7 +92,16 @@ const TeacherPage = () => {
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setIsDeleting(false);
+            setIsDeleteDialogOpen(false);
+            setTeacherToDelete(null);
         }
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteDialogOpen(false);
+        setTeacherToDelete(null);
     };
 
     useEffect(() => {
@@ -150,8 +167,9 @@ const TeacherPage = () => {
                         }}
                         variant="contained"
                         color="primary"
+                        startIcon={<CachedIcon />}
                     >
-                        Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                        Làm mới
                     </Button>
                 </Box>
             </div>
@@ -235,6 +253,20 @@ const TeacherPage = () => {
                     setFlag={setFlag}
                 />
             )}
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                open={isDeleteDialogOpen}
+                onClose={handleCancelDelete}
+                onConfirm={handleConfirmDelete}
+                title="Xác nhận xóa giảng viên"
+                message="Bạn có chắc chắn muốn xóa giảng viên này không? Hành động này không thể hoàn tác."
+                confirmText="Xóa"
+                cancelText="Hủy"
+                confirmColor="error"
+                severity="error"
+                loading={isDeleting}
+            />
         </div>
     );
 };
