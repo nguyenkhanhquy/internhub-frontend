@@ -15,10 +15,10 @@ import {
     DialogActions,
     Button,
     TextField,
-    MenuItem,
     Typography,
     Box,
     Grid,
+    Autocomplete,
 } from "@mui/material";
 
 const schema = yup.object().shape({
@@ -116,23 +116,24 @@ const CreateCourseModal = ({ isOpen, onClose, academicYear, semester, setFlag })
                         name="teacherId"
                         control={control}
                         render={({ field: { onChange, value } }) => (
-                            <TextField
+                            <Autocomplete
                                 sx={{ mb: 2 }}
-                                select
-                                label="Giảng viên"
-                                fullWidth
-                                variant="outlined"
-                                value={value}
-                                onChange={(e) => onChange(e.target.value)}
-                                error={!!errors.teacherId}
-                                helperText={errors.teacherId?.message}
-                            >
-                                {teachers.map((teacher) => (
-                                    <MenuItem key={teacher.userId} value={teacher.teacherId}>
-                                        {teacher.teacherId} - {teacher.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                                options={teachers}
+                                noOptionsText="Không tìm thấy giảng viên"
+                                getOptionLabel={(option) => `${option.teacherId} - ${option.name}`}
+                                value={teachers.find((teacher) => teacher.teacherId === value) || null}
+                                onChange={(_, newValue) => onChange(newValue?.teacherId || "")}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Giảng viên"
+                                        variant="outlined"
+                                        error={!!errors.teacherId}
+                                        helperText={errors.teacherId?.message}
+                                    />
+                                )}
+                                isOptionEqualToValue={(option, value) => option.teacherId === value?.teacherId}
+                            />
                         )}
                     />
                     <Grid container spacing={2}>
