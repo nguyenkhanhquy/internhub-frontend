@@ -38,3 +38,7 @@ export const assignStudentsToCourse = async (courseId, studentIds) => {
 export const getAllEnrollmentsByCourseId = async (courseId) => {
     return axiosClient.get(COURSES_API.GET_ENROLLMENTS(courseId));
 };
+
+export const updateCourseStatus = async (courseId, status) => {
+    return axiosClient.patch(COURSES_API.UPDATE_STATUS(courseId), { status: status });
+};

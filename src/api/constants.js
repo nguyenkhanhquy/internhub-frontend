@@ -120,6 +120,7 @@ export const COURSES_API = {
     GET_STUDENTS: (id) => `/courses/${id}/students`,
     ASSIGN_STUDENTS: (id) => `/courses/${id}/students/assign`,
     GET_ENROLLMENTS: (id) => `/courses/${id}/enrollments`,
+    UPDATE_STATUS: (id) => `/courses/${id}/status`,
 };
 
 export const ENROLLMENT_API = {

@@ -38,6 +38,7 @@ import ConfirmDialog from "@components/common/ConfirmDialog/ConfirmDialog";
 
 import { getAllYearAndSemester } from "@services/academicService";
 import { getAllCourses, deleteCourse } from "@services/courseService";
+import { updateCourseStatus } from "@services/courseService";
 
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
@@ -128,18 +129,20 @@ const CoursePage = () => {
             confirmColor: "success",
             severity: "info",
             loading: false,
-            onConfirm: () => confirmChangeStatus(),
+            onConfirm: () => confirmChangeStatus(course.id),
         });
     };
 
-    const confirmChangeStatus = async () => {
+    const confirmChangeStatus = async (courseId) => {
         setConfirmDialog((prev) => ({ ...prev, loading: true }));
         try {
-            // TODO: Thêm API call để chuyển trạng thái
-            // await updateCourseStatus(course.id, "GRADING");
+            const data = await updateCourseStatus(courseId, "GRADING");
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
 
             setFlag((prev) => !prev);
-            toast.success("Chuyển trạng thái lớp học thành công!");
+            toast.success(data.message);
             setConfirmDialog((prev) => ({ ...prev, open: false, loading: false }));
         } catch (error) {
             toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
