@@ -22,16 +22,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddIcon from "@mui/icons-material/Add";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PeopleIcon from "@mui/icons-material/People";
 import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
-import ImportFromExcelModal from "@/components/modals/ImportFromExcelModal/ImportFromExcelModal";
-import CreateCourseModal from "@/components/modals/CreateCourseModal/CreateCourseModal";
-import UpdateCourseModal from "@/components/modals/UpdateCourseModal/UpdateCourseModal";
-import AssignStudentsToCourse from "@/components/modals/AssignStudentsToCourseModal/AssignStudentsToCourseModal";
+import ImportFromExcelModal from "@components/modals/ImportFromExcelModal/ImportFromExcelModal";
+import CreateCourseModal from "@components/modals/CreateCourseModal/CreateCourseModal";
+import UpdateCourseModal from "@components/modals/UpdateCourseModal/UpdateCourseModal";
+import AssignStudentsToCourse from "@components/modals/AssignStudentsToCourseModal/AssignStudentsToCourseModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
+import ConfirmDialog from "@components/common/ConfirmDialog/ConfirmDialog";
 
 import { getAllYearAndSemester } from "@services/academicService";
 import { getAllCourses, deleteCourse } from "@services/courseService";
@@ -60,6 +63,18 @@ const CoursePage = () => {
 
     const [currentAcademicYear, setCurrentAcademicYear] = useState(null);
     const [currentSemester, setCurrentSemester] = useState(null);
+
+    // Confirm Dialog states
+    const [confirmDialog, setConfirmDialog] = useState({
+        open: false,
+        title: "",
+        message: "",
+        onConfirm: null,
+        confirmText: "Xác nhận",
+        confirmColor: "primary",
+        severity: "warning",
+        loading: false,
+    });
 
     const handleUpdateCourse = async (course) => {
         setSelectedCourse(course);
@@ -104,24 +119,63 @@ const CoursePage = () => {
         }
     }, [currentPage, recordsPerPage, search, selectedYear, selectedSemester]);
 
-    const handleDeleteCourse = async (courseId) => {
-        try {
-            const isConfirm = confirm("Bạn có chắc chắn muốn xóa lớp học này?");
-            if (!isConfirm) {
-                return;
-            }
+    const handleChangeStatusToGrading = async (course) => {
+        setConfirmDialog({
+            open: true,
+            title: "Xác nhận chuyển trạng thái",
+            message: `Bạn có chắc chắn muốn chuyển trạng thái lớp ${course.courseCode} từ "Đang điều chỉnh" sang "Đang nhập điểm"?`,
+            confirmText: "Chuyển trạng thái",
+            confirmColor: "success",
+            severity: "info",
+            loading: false,
+            onConfirm: () => confirmChangeStatus(),
+        });
+    };
 
-            try {
-                await deleteCourse(courseId);
-            } catch (error) {
-                toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                return;
-            }
+    const confirmChangeStatus = async () => {
+        setConfirmDialog((prev) => ({ ...prev, loading: true }));
+        try {
+            // TODO: Thêm API call để chuyển trạng thái
+            // await updateCourseStatus(course.id, "GRADING");
 
             setFlag((prev) => !prev);
-            toast.success("Xóa lớp học thành công!");
+            toast.success("Chuyển trạng thái lớp học thành công!");
+            setConfirmDialog((prev) => ({ ...prev, open: false, loading: false }));
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            setConfirmDialog((prev) => ({ ...prev, loading: false }));
+        }
+    };
+
+    const handleViewStudentList = (course) => {
+        // TODO: Implement navigation to student list page or open modal
+        console.log("Xem danh sách sinh viên của lớp:", course.courseCode);
+        toast.info(`Xem danh sách sinh viên lớp ${course.courseCode}`);
+    };
+
+    const handleDeleteCourse = async (courseId, courseCode) => {
+        setConfirmDialog({
+            open: true,
+            title: "Xác nhận xóa lớp học",
+            message: `Bạn có chắc chắn muốn xóa lớp học ${courseCode}? Hành động này không thể hoàn tác.`,
+            confirmText: "Xóa",
+            confirmColor: "error",
+            severity: "error",
+            loading: false,
+            onConfirm: () => confirmDeleteCourse(courseId),
+        });
+    };
+
+    const confirmDeleteCourse = async (courseId) => {
+        setConfirmDialog((prev) => ({ ...prev, loading: true }));
+        try {
+            await deleteCourse(courseId);
+            setFlag((prev) => !prev);
+            toast.success("Xóa lớp học thành công!");
+            setConfirmDialog((prev) => ({ ...prev, open: false, loading: false }));
+        } catch (error) {
+            toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            setConfirmDialog((prev) => ({ ...prev, loading: false }));
         }
     };
 
@@ -303,21 +357,48 @@ const CoursePage = () => {
                                     <TableCell style={{ textAlign: "center" }}>{course.totalStudents}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{course.courseStatus}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>
-                                        <Tooltip title="Chỉnh sửa">
-                                            <IconButton color="primary" onClick={() => handleUpdateCourse(course)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Gán sinh viên">
-                                            <IconButton color="primary" onClick={() => handleAssignStudents(course)}>
-                                                <PersonAddIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Xóa">
-                                            <IconButton color="error" onClick={() => handleDeleteCourse(course.id)}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
+                                        {course.courseStatus === "Đang điều chỉnh" ? (
+                                            <>
+                                                <Tooltip title="Xác nhận">
+                                                    <IconButton
+                                                        color="success"
+                                                        onClick={() => handleChangeStatusToGrading(course)}
+                                                    >
+                                                        <PlayArrowIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Chỉnh sửa">
+                                                    <IconButton
+                                                        color="primary"
+                                                        onClick={() => handleUpdateCourse(course)}
+                                                    >
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Gán sinh viên">
+                                                    <IconButton
+                                                        color="primary"
+                                                        onClick={() => handleAssignStudents(course)}
+                                                    >
+                                                        <PersonAddIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Xóa">
+                                                    <IconButton
+                                                        color="error"
+                                                        onClick={() => handleDeleteCourse(course.id, course.courseCode)}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </>
+                                        ) : (
+                                            <Tooltip title="Xem danh sách sinh viên">
+                                                <IconButton color="info" onClick={() => handleViewStudentList(course)}>
+                                                    <PeopleIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -377,6 +458,18 @@ const CoursePage = () => {
                     setFlag={setFlag}
                 />
             )}
+
+            <ConfirmDialog
+                open={confirmDialog.open}
+                onClose={() => setConfirmDialog((prev) => ({ ...prev, open: false }))}
+                onConfirm={confirmDialog.onConfirm}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                confirmText={confirmDialog.confirmText}
+                confirmColor={confirmDialog.confirmColor}
+                severity={confirmDialog.severity}
+                loading={confirmDialog.loading}
+            />
         </div>
     );
 };
