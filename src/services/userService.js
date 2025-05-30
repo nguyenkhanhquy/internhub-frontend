@@ -63,3 +63,7 @@ export const updatePassword = async (oldPassword, newPassword) => {
         newPassword: newPassword,
     });
 };
+
+export const lockUser = async (id) => {
+    return axiosClient.patch(USERS_API.LOCK_USER(id));
+};

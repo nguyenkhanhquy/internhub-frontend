@@ -11,23 +11,23 @@ import {
     TableRow,
     Typography,
     Button,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
+import InfoIcon from "@mui/icons-material/Info";
+import LockOutlineIcon from "@mui/icons-material/LockOutline";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 
-import EmptyBox from "../../../components/box/EmptyBox";
-import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
-import StudentDetailsModal from "../../modals/StudentDetailsModal/StudentDetailsModal";
-import DashboardSearchBar from "../../search/DashboardSearchBar";
-import CustomPagination from "../../pagination/Pagination";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import StudentDetailsModal from "@components/modals/StudentDetailsModal/StudentDetailsModal";
+import DashboardSearchBar from "@components/search/DashboardSearchBar";
+import CustomPagination from "@components/pagination/Pagination";
 
 // import { getAllStudents } from "../../../services/studentService";
-import { getAllStudents } from "../../../services/adminService";
-
-// const majorLabels = {
-//     IT: "Công nghệ thông tin",
-//     DS: "Kỹ thuật dữ liệu",
-//     IS: "An toàn thông tin",
-// };
+import { getAllStudents } from "@services/adminService";
+import { lockUser } from "@services/userService";
 
 const internLabels = {
     SEARCHING: "Đang tìm nơi thực tập",
@@ -39,6 +39,12 @@ const getStatusStyle = (status) => {
     return status === true
         ? "bg-green-100 text-green-700 px-2 py-1 rounded"
         : "bg-red-100 text-red-700 px-2 py-1 rounded";
+};
+
+const getStatusStyleLocked = (status) => {
+    return status === true
+        ? "bg-red-100 text-red-700 px-2 py-1 rounded"
+        : "bg-green-100 text-green-700 px-2 py-1 rounded";
 };
 
 const StudentPage = () => {
@@ -82,6 +88,38 @@ const StudentPage = () => {
     const handleViewDetails = (student) => {
         setSelectedStudent(student);
         setIsDetailsModalOpen(true);
+    };
+
+    const handleLockAccount = async (student) => {
+        try {
+            const data = await lockUser(student.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setStudents(
+                students.map((s) => (s.user.id === student.user.id ? { ...s, user: { ...s.user, locked: true } } : s)),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleUnlockAccount = async (student) => {
+        try {
+            const data = await lockUser(student.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setStudents(
+                students.map((s) => (s.user.id === student.user.id ? { ...s, user: { ...s.user, locked: false } } : s)),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     useEffect(() => {
@@ -142,12 +180,12 @@ const StudentPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>STT</TableCell>
-                            <TableCell>HỌ VÀ TÊN</TableCell>
-                            <TableCell>MSSV</TableCell>
-                            <TableCell>TRẠNG THÁI THỰC TẬP</TableCell>
-                            <TableCell>TRẠNG THÁI TÀI KHOẢN</TableCell>
-                            <TableCell>HÀNH ĐỘNG</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>HỌ VÀ TÊN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>MSSV</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI THỰC TẬP</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
+                            <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -166,19 +204,45 @@ const StudentPage = () => {
                         ) : (
                             students.map((student, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>
+                                        {index + 1 + (currentPage - 1) * recordsPerPage}
+                                    </TableCell>
                                     <TableCell>{student.name}</TableCell>
                                     <TableCell>{student.studentId}</TableCell>
                                     <TableCell>{internLabels[student.internStatus] || student.internStatus}</TableCell>
                                     <TableCell>
-                                        <span className={getStatusStyle(student.user.active)}>
+                                        <span
+                                            className={getStatusStyle(student.user.active)}
+                                            style={{ marginRight: "5px" }}
+                                        >
                                             {student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
                                         </span>
+                                        <span className={getStatusStyleLocked(student.user.locked)}>
+                                            {student.user.locked ? "Đã khóa" : "Không bị khóa"}
+                                        </span>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button onClick={() => handleViewDetails(student)} color="primary">
-                                            Chi tiết
-                                        </Button>
+                                    <TableCell sx={{ textAlign: "right" }}>
+                                        {student.user.locked ? (
+                                            <Tooltip title="Mở khóa tài khoản" arrow>
+                                                <IconButton
+                                                    color="success"
+                                                    onClick={() => handleUnlockAccount(student)}
+                                                >
+                                                    <LockOpenIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        ) : (
+                                            <Tooltip title="Khoá tài khoản" arrow>
+                                                <IconButton color="error" onClick={() => handleLockAccount(student)}>
+                                                    <LockOutlineIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                        <Tooltip title="Xem chi tiết" arrow>
+                                            <IconButton color="primary" onClick={() => handleViewDetails(student)}>
+                                                <InfoIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))

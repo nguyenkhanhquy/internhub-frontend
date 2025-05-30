@@ -34,6 +34,7 @@ export const USERS_API = {
     REGISTER_RECRUITER: "/users/register/recruiter",
     REGISTER_STUDENT: "/users/register/student",
     UPDATE_PASSWORD: "/users/update-password",
+    LOCK_USER: (id) => `/users/${id}/lock`,
 };
 
 export const NOTIFICATIONS_API = {

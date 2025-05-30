@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Grid } from "@mui/material";
-import { formatDate } from "../../../utils/dateUtil";
+import { formatDate } from "@utils/dateUtil";
 
 const internLabels = {
     SEARCHING: "Đang tìm nơi thực tập",
@@ -99,8 +99,14 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
                                 Trạng thái tài khoản
                             </Typography>
                             <Box display="flex" mb={1}>
-                                <Typography sx={{ width: "170px", fontWeight: "bold" }}>Trạng thái:</Typography>
+                                <Typography sx={{ width: "170px", fontWeight: "bold" }}>
+                                    Trạng thái kích hoạt:
+                                </Typography>
                                 <Typography>{student.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}</Typography>
+                            </Box>
+                            <Box display="flex" mb={1}>
+                                <Typography sx={{ width: "170px", fontWeight: "bold" }}>Trạng thái khoá:</Typography>
+                                <Typography>{student.user.locked ? "Đã khóa" : "Không khóa"}</Typography>
                             </Box>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Ngày tạo:</Typography>
