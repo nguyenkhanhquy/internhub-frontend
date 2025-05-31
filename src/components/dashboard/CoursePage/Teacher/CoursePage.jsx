@@ -22,7 +22,7 @@ import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
-import CourseStudentsModal from "@/components/modals/CourseStudentsModal/CourseStudentsModal";
+import CourseStudentsModal from "@components/modals/CourseStudentsModal/CourseStudentsModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 

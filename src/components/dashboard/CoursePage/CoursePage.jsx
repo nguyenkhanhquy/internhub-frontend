@@ -28,6 +28,7 @@ import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import CourseStudentsModal from "@components/modals/CourseStudentsModal/CourseStudentsModal";
 import ImportFromExcelModal from "@components/modals/ImportFromExcelModal/ImportFromExcelModal";
 import CreateCourseModal from "@components/modals/CreateCourseModal/CreateCourseModal";
 import UpdateCourseModal from "@components/modals/UpdateCourseModal/UpdateCourseModal";
@@ -49,6 +50,7 @@ const CoursePage = () => {
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openAssignModal, setOpenAssignModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [openStudentsModal, setOpenStudentsModal] = useState(false);
 
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -101,6 +103,16 @@ const CoursePage = () => {
         setRecordsPerPage(value);
     };
 
+    const handleOpenStudentsModal = (course) => {
+        setSelectedCourse(course);
+        setOpenStudentsModal(true);
+    };
+
+    const handleCloseStudentsModal = () => {
+        setOpenStudentsModal(false);
+        setSelectedCourse(null);
+    };
+
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
@@ -148,12 +160,6 @@ const CoursePage = () => {
             toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             setConfirmDialog((prev) => ({ ...prev, loading: false }));
         }
-    };
-
-    const handleViewStudentList = (course) => {
-        // TODO: Implement navigation to student list page or open modal
-        console.log("Xem danh sách sinh viên của lớp:", course.courseCode);
-        toast.info(`Xem danh sách sinh viên lớp ${course.courseCode}`);
     };
 
     const handleDeleteCourse = async (courseId, courseCode) => {
@@ -397,7 +403,10 @@ const CoursePage = () => {
                                             </>
                                         ) : (
                                             <Tooltip title="Xem danh sách sinh viên">
-                                                <IconButton color="info" onClick={() => handleViewStudentList(course)}>
+                                                <IconButton
+                                                    color="info"
+                                                    onClick={() => handleOpenStudentsModal(course)}
+                                                >
                                                     <PeopleIcon />
                                                 </IconButton>
                                             </Tooltip>
@@ -459,6 +468,14 @@ const CoursePage = () => {
                     onClose={() => setOpenAssignModal(false)}
                     course={selectedCourse}
                     setFlag={setFlag}
+                />
+            )}
+
+            {openStudentsModal && (
+                <CourseStudentsModal
+                    isOpen={openStudentsModal}
+                    onClose={handleCloseStudentsModal}
+                    course={selectedCourse}
                 />
             )}
 

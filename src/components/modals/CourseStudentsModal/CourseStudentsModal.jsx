@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
+
+import useAuth from "@/hooks/useAuth";
+
 import {
     Dialog,
     DialogTitle,
@@ -16,6 +19,7 @@ import {
     TableContainer,
     Button,
     Alert,
+    LinearProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
@@ -26,6 +30,9 @@ import { getAllEnrollmentsByCourseId } from "@services/courseService";
 import { updateFinalScore } from "@services/enrollmentService";
 
 const CourseStudentsModal = ({ isOpen, onClose, course }) => {
+    const { user } = useAuth();
+
+    const [loading, setLoading] = useState(false);
     const [enrollments, setEnrollments] = useState([]);
     const [filteredEnrollments, setFilteredEnrollments] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +46,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     useEffect(() => {
         if (isOpen && course) {
             const fetchData = async () => {
-                // setLoading(true);
+                setLoading(true);
                 try {
                     const data = await getAllEnrollmentsByCourseId(course.id);
                     if (!data.success) {
@@ -51,7 +58,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                 } catch (error) {
                     toast.error(error.message);
                 } finally {
-                    // setLoading(false);
+                    setLoading(false);
                     setSearchQuery("");
                     setSelectedEnrollment(null);
                     setSelectedReport(null);
@@ -119,6 +126,15 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const handleFeedbackChange = (newFeedback) => {
         setFeedback(newFeedback);
         setError("");
+    };
+
+    const handleViewFeedback = (enrollment) => {
+        if (enrollment.finalScore) {
+            // Có thể mở modal hiển thị nhận xét hoặc chuyển đến một view khác
+            console.log(`Viewing feedback for enrollment: ${enrollment.id}`);
+            // TODO: Implement feedback viewing logic
+            toast.info(`Xem nhận xét cho sinh viên: ${enrollment.student.name}`);
+        }
     };
 
     const handleSaveScore = async () => {
@@ -196,7 +212,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                         ? `Nhập điểm (${selectedEnrollment.student.name} - ${selectedEnrollment.student.studentId})`
                         : selectedReport
                           ? `Chi tiết báo cáo thực tập - ${selectedReport.student.name}`
-                          : `Danh sách sinh viên - ${course?.courseName}`}
+                          : `Danh sách sinh viên - ${course?.courseCode}`}
                 </Typography>
                 <IconButton edge="end" color="inherit" onClick={onClose} aria-label="close">
                     <CloseIcon />
@@ -216,18 +232,31 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                             <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ textAlign: "center", width: "5%" }}>STT</TableCell>
-                                        <TableCell style={{ textAlign: "left", width: "25%" }}>HỌ VÀ TÊN</TableCell>
-                                        <TableCell style={{ textAlign: "center", width: "15%" }}>MSSV</TableCell>
-                                        <TableCell style={{ textAlign: "center", width: "25%" }}>
+                                        <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                                        <TableCell sx={{ textAlign: "left", width: "25%" }}>HỌ VÀ TÊN</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "15%" }}>MSSV</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "25%" }}>
                                             BÁO CÁO THỰC TẬP
                                         </TableCell>
-                                        <TableCell style={{ textAlign: "center", width: "15%" }}>ĐIỂM HỆ 10</TableCell>
-                                        <TableCell style={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "15%" }}>ĐIỂM HỆ 10</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {filteredEnrollments.length === 0 ? (
+                                    {loading ? (
+                                        <TableRow>
+                                            <TableCell
+                                                colSpan={6}
+                                                align="center"
+                                                sx={{
+                                                    padding: 0,
+                                                    height: "4px",
+                                                }}
+                                            >
+                                                <LinearProgress />
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : filteredEnrollments.length === 0 ? (
                                         <TableRow sx={{ height: "auto" }}>
                                             <TableCell
                                                 colSpan={6}
@@ -244,14 +273,14 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                     ) : (
                                         filteredEnrollments.map((enrollment, index) => (
                                             <TableRow key={enrollment.id} sx={{ height: "48px" }}>
-                                                <TableCell style={{ textAlign: "center" }}>{index + 1}</TableCell>
-                                                <TableCell style={{ textAlign: "left" }}>
+                                                <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
+                                                <TableCell sx={{ textAlign: "left" }}>
                                                     {enrollment.student.name}
                                                 </TableCell>
-                                                <TableCell style={{ textAlign: "center" }}>
+                                                <TableCell sx={{ textAlign: "center" }}>
                                                     {enrollment.student.studentId}
                                                 </TableCell>
-                                                <TableCell style={{ textAlign: "center" }}>
+                                                <TableCell sx={{ textAlign: "center" }}>
                                                     <Button
                                                         variant="outlined"
                                                         color="primary"
@@ -262,19 +291,31 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                         Chi tiết
                                                     </Button>
                                                 </TableCell>
-                                                <TableCell style={{ textAlign: "center" }}>
+                                                <TableCell sx={{ textAlign: "center" }}>
                                                     {enrollment.finalScore ? enrollment.finalScore : "-"}
                                                 </TableCell>
-                                                <TableCell style={{ textAlign: "center" }}>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        size="small"
-                                                        onClick={() => handleOpenScoreForm(enrollment)}
-                                                        disabled={enrollment.finalScore}
-                                                    >
-                                                        Nhập điểm
-                                                    </Button>
+                                                <TableCell sx={{ textAlign: "center" }}>
+                                                    {user?.role === "TEACHER" ? (
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            size="small"
+                                                            onClick={() => handleOpenScoreForm(enrollment)}
+                                                            disabled={enrollment.finalScore}
+                                                        >
+                                                            Nhập điểm
+                                                        </Button>
+                                                    ) : user?.role === "FIT" ? (
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            size="small"
+                                                            onClick={() => handleViewFeedback(enrollment)}
+                                                            disabled={!enrollment.finalScore}
+                                                        >
+                                                            Xem nhận xét
+                                                        </Button>
+                                                    ) : null}
                                                 </TableCell>
                                             </TableRow>
                                         ))

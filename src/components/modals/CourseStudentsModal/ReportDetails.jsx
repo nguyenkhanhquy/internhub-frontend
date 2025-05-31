@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+
+import useAuth from "@/hooks/useAuth";
+
 import { Box, Paper, Typography, Divider, Button } from "@mui/material";
+
 import DescriptionIcon from "@mui/icons-material/Description";
-import { formatDate } from "../../../utils/dateUtil";
+
+import { formatDate } from "@utils/dateUtil";
 
 const majorLabels = {
     IT: "Công nghệ thông tin",
@@ -10,6 +15,8 @@ const majorLabels = {
 };
 
 const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, onBackToList }) => {
+    const { user } = useAuth();
+
     return (
         <Box sx={{ padding: 2 }}>
             <Paper sx={{ padding: 3, borderRadius: 2, boxShadow: 2 }}>
@@ -151,16 +158,18 @@ const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, on
                     flexDirection: { xs: "column", sm: "row" }, // Nút theo chiều dọc trên màn hình rất nhỏ
                 }}
             >
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => onOpenScoreForm(enrollment)}
-                    disabled={enrollment.finalScore}
-                    sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
-                >
-                    Nhập điểm
-                </Button>
+                {user?.role === "TEACHER" && (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={() => onOpenScoreForm(enrollment)}
+                        disabled={enrollment.finalScore}
+                        sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
+                    >
+                        Nhập điểm
+                    </Button>
+                )}
                 <Button
                     variant="outlined"
                     color="primary"
