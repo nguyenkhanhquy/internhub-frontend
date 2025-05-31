@@ -15,9 +15,10 @@ import {
     DialogActions,
     Button,
     TextField,
-    MenuItem,
     Typography,
     Box,
+    Grid,
+    Autocomplete,
 } from "@mui/material";
 
 const schema = yup.object().shape({
@@ -35,7 +36,7 @@ const UpdateCourseModal = ({ isOpen, onClose, academicYear, semester, course, se
         reset,
     } = useForm({
         defaultValues: {
-            courseCode: "",
+            courseCode: course.courseCode || "",
             courseName: "Thực tập tốt nghiệp",
             teacherId: "",
         },
@@ -102,7 +103,7 @@ const UpdateCourseModal = ({ isOpen, onClose, academicYear, semester, course, se
             </DialogTitle>
 
             <DialogContent dividers>
-                <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
+                <Box component="form" noValidate>
                     <Box mb={2}>
                         <Controller
                             name="courseCode"
@@ -122,44 +123,53 @@ const UpdateCourseModal = ({ isOpen, onClose, academicYear, semester, course, se
                     <Box mb={2}>
                         <TextField label="Tên học phần" value="Thực tập tốt nghiệp" fullWidth disabled />
                     </Box>
-                    <Box mb={2}>
-                        <TextField label="Năm học" value={course?.academicYear} fullWidth disabled />
-                    </Box>
-                    <Box mb={2}>
-                        <TextField label="Học kỳ" value={course?.semester} fullWidth disabled />
-                    </Box>
                     <Controller
                         name="teacherId"
                         control={control}
                         render={({ field: { onChange, value } }) => (
-                            <TextField
-                                select
-                                label="Giảng viên"
-                                fullWidth
-                                variant="outlined"
-                                value={value}
-                                onChange={(e) => onChange(e.target.value)}
-                                error={!!errors.teacherId}
-                                helperText={errors.teacherId?.message}
-                            >
-                                {teachers.map((teacher) => (
-                                    <MenuItem key={teacher.userId} value={teacher.teacherId}>
-                                        {teacher.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            <Autocomplete
+                                sx={{ mb: 2 }}
+                                options={teachers}
+                                noOptionsText="Không tìm thấy giảng viên"
+                                getOptionLabel={(option) => `${option.teacherId} - ${option.name}`}
+                                value={teachers.find((teacher) => teacher.teacherId === value) || null}
+                                onChange={(_, newValue) => onChange(newValue?.teacherId || "")}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Giảng viên"
+                                        variant="outlined"
+                                        error={!!errors.teacherId}
+                                        helperText={errors.teacherId?.message}
+                                    />
+                                )}
+                                isOptionEqualToValue={(option, value) => option.teacherId === value?.teacherId}
+                            />
                         )}
                     />
-                    <DialogActions>
-                        <Button onClick={handleClose} variant="outlined">
-                            Hủy
-                        </Button>
-                        <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
-                            Lưu
-                        </Button>
-                    </DialogActions>
+                    <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Box mb={2}>
+                                <TextField label="Năm học" value={course?.academicYear} fullWidth disabled />
+                            </Box>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <Box mb={2}>
+                                <TextField label="Học kỳ" value={course?.semester} fullWidth disabled />
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </Box>
             </DialogContent>
+
+            <DialogActions>
+                <Button onClick={handleClose} variant="outlined">
+                    Hủy
+                </Button>
+                <Button disabled={isSubmitting} onClick={handleSubmit(onSubmit)} variant="contained">
+                    {isSubmitting ? "Đang lưu..." : "Lưu"}
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };
