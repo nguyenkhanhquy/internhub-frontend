@@ -15,6 +15,10 @@ import {
     MenuItem,
     FormControl,
     Select,
+    IconButton,
+    Tooltip,
+    LinearProgress,
+    Skeleton,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,10 +28,8 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PeopleIcon from "@mui/icons-material/People";
-import { IconButton, Tooltip } from "@mui/material";
 
 import EmptyBox from "@components/box/EmptyBox";
-import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import CourseStudentsModal from "@components/modals/CourseStudentsModal/CourseStudentsModal";
 import ImportFromExcelModal from "@components/modals/ImportFromExcelModal/ImportFromExcelModal";
 import CreateCourseModal from "@components/modals/CreateCourseModal/CreateCourseModal";
@@ -265,7 +267,8 @@ const CoursePage = () => {
                         }}
                         variant="contained"
                         color="primary"
-                        startIcon={<CachedIcon />}
+                        disabled={loading}
+                        startIcon={<CachedIcon className={`${loading ? "animate-spin" : ""}`} />}
                     >
                         Làm mới
                     </Button>
@@ -324,9 +327,15 @@ const CoursePage = () => {
                 </FormControl>
             </Box>
 
-            <TableContainer className="rounded bg-white shadow-md">
-                <Table>
-                    <TableHead>
+            <TableContainer
+                className="rounded bg-white shadow-md"
+                sx={{
+                    overflowX: "auto",
+                    width: "100%",
+                }}
+            >
+                <Table sx={{ minWidth: 1350 }}>
+                    <TableHead sx={{ position: "relative" }}>
                         <TableRow>
                             <TableCell style={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell style={{ textAlign: "center", width: "20%" }}>MÃ LỚP HỌC PHẦN</TableCell>
@@ -338,23 +347,71 @@ const CoursePage = () => {
                             <TableCell style={{ textAlign: "center", width: "15%" }}>TRẠNG THÁI</TableCell>
                             <TableCell style={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
+                        {loading && (
+                            <LinearProgress
+                                sx={{
+                                    position: "absolute",
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    zIndex: 1,
+                                    height: "4px",
+                                }}
+                            />
+                        )}
                     </TableHead>
                     <TableBody>
-                        {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
-                                    <SuspenseLoader />
-                                </TableCell>
-                            </TableRow>
-                        ) : courses.length === 0 ? (
+                        {loading && courses.length === 0 ? (
+                            // Hiển thị skeleton khi loading và không có dữ liệu cũ
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <TableRow key={`skeleton-${index}`}>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <Box sx={{ display: "flex", justifyContent: "center", gap: 1 }}>
+                                            <Skeleton variant="rounded" width={40} height={40} />
+                                            <Skeleton variant="rounded" width={40} height={40} />
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : courses.length === 0 && !loading ? (
+                            // Hiển thị EmptyBox khi không có dữ liệu và không loading
                             <TableRow>
                                 <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
+                            // Hiển thị dữ liệu - làm mờ nếu đang loading
                             courses.map((course, index) => (
-                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                <TableRow
+                                    key={index + 1 + (currentPage - 1) * recordsPerPage}
+                                    sx={{
+                                        opacity: loading ? 0.5 : 1,
+                                        pointerEvents: loading ? "none" : "auto",
+                                        transition: "opacity 0.3s ease",
+                                    }}
+                                >
                                     <TableCell style={{ textAlign: "center" }}>
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
@@ -368,7 +425,7 @@ const CoursePage = () => {
                                     <TableCell style={{ textAlign: "center" }}>
                                         {course.courseStatus === "Đang điều chỉnh" ? (
                                             <>
-                                                <Tooltip title="Xác nhận">
+                                                <Tooltip title="Xác nhận" arrow>
                                                     <IconButton
                                                         color="success"
                                                         onClick={() => handleChangeStatusToGrading(course)}
@@ -376,7 +433,7 @@ const CoursePage = () => {
                                                         <PlayArrowIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Chỉnh sửa">
+                                                <Tooltip title="Chỉnh sửa" arrow>
                                                     <IconButton
                                                         color="warning"
                                                         onClick={() => handleUpdateCourse(course)}
@@ -384,7 +441,7 @@ const CoursePage = () => {
                                                         <EditIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Gán sinh viên">
+                                                <Tooltip title="Gán sinh viên" arrow>
                                                     <IconButton
                                                         color="primary"
                                                         onClick={() => handleAssignStudents(course)}
@@ -392,7 +449,7 @@ const CoursePage = () => {
                                                         <PersonAddIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                                <Tooltip title="Xóa">
+                                                <Tooltip title="Xóa" arrow>
                                                     <IconButton
                                                         color="error"
                                                         onClick={() => handleDeleteCourse(course.id, course.courseCode)}
@@ -402,7 +459,7 @@ const CoursePage = () => {
                                                 </Tooltip>
                                             </>
                                         ) : (
-                                            <Tooltip title="Xem danh sách sinh viên">
+                                            <Tooltip title="Xem danh sách sinh viên" arrow>
                                                 <IconButton
                                                     color="info"
                                                     onClick={() => handleOpenStudentsModal(course)}
