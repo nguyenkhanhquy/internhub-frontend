@@ -196,7 +196,7 @@ const MyCVsGridView = () => {
                                     boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
                                 },
                             }}
-                            onClick={() => navigate("/cv-builder")}
+                            onClick={() => navigate("/student/cv-builder")}
                         >
                             <AddIcon />
                         </Button>

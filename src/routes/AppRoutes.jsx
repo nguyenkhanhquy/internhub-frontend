@@ -63,8 +63,6 @@ const AppRoutes = () => {
             ) : (
                 <Routes>
                     <Route path="/" element={<AppWrapper />}>
-                        {/* CV Builder Page */}
-                        <Route path="/cv-builder" element={<CVBuilderPage />} />
                         {/* Redux Toolkit Page */}
                         <Route path="/redux-toolkit" element={<ReduxToolkitPage />} />
 
@@ -148,6 +146,7 @@ const AppRoutes = () => {
                                                 />
                                                 <Route path="courses" element={<CoursesPage />} />
                                                 <Route path="my-cv" element={<MyCVsPage />} />
+                                                <Route path="cv-builder" element={<CVBuilderPage />} />
                                             </Route>
                                         )}
 
