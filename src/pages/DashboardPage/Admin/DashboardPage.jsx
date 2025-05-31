@@ -56,14 +56,14 @@ const NAVIGATION = [
         title: "Quản lý chung",
     },
     {
-        segment: "course",
-        title: "Lớp thực tập",
-        icon: <ClassIcon />,
-    },
-    {
         segment: "internship-report",
         title: "Báo cáo thực tập",
         icon: <WorkspacesIcon />,
+    },
+    {
+        segment: "course",
+        title: "Lớp thực tập",
+        icon: <ClassIcon />,
     },
     {
         segment: "student",
