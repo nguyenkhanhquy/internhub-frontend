@@ -13,6 +13,8 @@ import {
     Button,
     Tooltip,
     IconButton,
+    LinearProgress,
+    Skeleton,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import InfoIcon from "@mui/icons-material/Info";
@@ -20,7 +22,6 @@ import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 
 import EmptyBox from "@components/box/EmptyBox";
-import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import StudentDetailsModal from "@components/modals/StudentDetailsModal/StudentDetailsModal";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
@@ -159,7 +160,8 @@ const StudentPage = () => {
                         }}
                         variant="contained"
                         color="primary"
-                        startIcon={<CachedIcon />}
+                        disabled={loading}
+                        startIcon={<CachedIcon className={`${loading ? "animate-spin" : ""}`} />}
                     >
                         Làm mới
                     </Button>
@@ -177,9 +179,15 @@ const StudentPage = () => {
                 />
             </div>
 
-            <TableContainer className="rounded bg-white shadow-md">
-                <Table>
-                    <TableHead>
+            <TableContainer
+                className="rounded bg-white shadow-md"
+                sx={{
+                    overflowX: "auto",
+                    width: "100%",
+                }}
+            >
+                <Table sx={{ minWidth: 1350 }}>
+                    <TableHead sx={{ position: "relative" }}>
                         <TableRow>
                             <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell sx={{ textAlign: "left", width: "20%" }}>HỌ VÀ TÊN</TableCell>
@@ -188,23 +196,68 @@ const StudentPage = () => {
                             <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
                             <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
+                        {loading && (
+                            <LinearProgress
+                                sx={{
+                                    position: "absolute",
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    zIndex: 1,
+                                    height: "4px",
+                                }}
+                            />
+                        )}
                     </TableHead>
                     <TableBody>
-                        {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
-                                    <SuspenseLoader />
-                                </TableCell>
-                            </TableRow>
-                        ) : students.length === 0 ? (
+                        {loading && students.length === 0 ? (
+                            // Hiển thị skeleton khi loading và không có dữ liệu cũ
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <TableRow key={`skeleton-${index}`}>
+                                    <TableCell sx={{ textAlign: "center" }}>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Skeleton variant="text" width="100%" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Box sx={{ display: "flex", gap: 1 }}>
+                                            <Skeleton variant="rounded" width={100} height={40} />
+                                            <Skeleton variant="rounded" width={100} height={40} />
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell sx={{ textAlign: "right" }}>
+                                        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+                                            <Skeleton variant="rounded" width={40} height={40} />
+                                            <Skeleton variant="rounded" width={40} height={40} />
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : students.length === 0 && !loading ? (
+                            // Hiển thị EmptyBox khi không có dữ liệu và không loading
                             <TableRow>
                                 <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
+                            // Hiển thị dữ liệu - làm mờ nếu đang loading
                             students.map((student, index) => (
-                                <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
+                                <TableRow
+                                    key={index + 1 + (currentPage - 1) * recordsPerPage}
+                                    sx={{
+                                        opacity: loading ? 0.5 : 1,
+                                        pointerEvents: loading ? "none" : "auto",
+                                        transition: "opacity 0.3s ease",
+                                    }}
+                                >
                                     <TableCell sx={{ textAlign: "center" }}>
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
