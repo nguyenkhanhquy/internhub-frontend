@@ -1,18 +1,21 @@
 import { toast } from "react-toastify";
-import { Box, Button, Grid, TextField, Typography, Paper } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography, Paper, IconButton, Card, CardMedia } from "@mui/material";
+
 import SaveIcon from "@mui/icons-material/Save";
-import CKEditor5 from "../../../components/editors/CKEditor5/CKEditor5";
-import Loading from "../../loaders/Loading/Loading";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CKEditor5 from "@components/editors/CKEditor5/CKEditor5";
+import Loading from "@components/loaders/Loading/Loading";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "@hooks/useAuth";
 import { useEffect, useState, useRef } from "react";
-import { getAuthProfile } from "../../../services/authService";
-import { updateProfile } from "../../../services/recruiterService";
-import { uploadImage } from "../../../services/uploadService";
+import { getAuthProfile } from "@services/authService";
+import { updateProfile } from "@services/recruiterService";
+import { uploadImage } from "@services/uploadService";
 
 const defaultValues = {
     name: "",
@@ -337,53 +340,100 @@ const RecruiterProfileForm = () => {
                     </Grid>
 
                     {/* Chọn logo công ty */}
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        {/* <Typography variant="body1">
-                            Logo công ty <span style={{ color: "red" }}>*</span>
-                        </Typography> */}
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            style={{ display: "block", cursor: "pointer" }}
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    setValue("companyLogo", "Khóa do đang chọn file...");
-                                    if (file.size > 5000000) {
-                                        toast.info("File quá lớn. Hãy chọn file nhỏ hơn 5MB.");
-                                    } else {
-                                        const fileURL = URL.createObjectURL(file);
-                                        setPreviewURL(fileURL);
-                                        setSelectedFile(file);
-                                    }
-                                }
-                            }}
-                        />
-                        {previewURL && (
-                            <div className="mt-2">
-                                <img
-                                    src={previewURL}
-                                    alt="Logo preview"
-                                    className="h-auto max-w-[200px] rounded-lg border-2 border-black"
-                                />
-                            </div>
-                        )}
-                        {selectedFile && (
-                            <button
-                                onClick={() => {
-                                    setValue("companyLogo", profile.company.logo);
-                                    setPreviewURL(null);
-                                    setSelectedFile(null);
-                                    if (fileInputRef.current) {
-                                        fileInputRef.current.value = "";
-                                    }
-                                }}
-                                style={{ marginTop: "10px", cursor: "pointer" }}
-                            >
-                                Xóa file đã chọn
-                            </button>
-                        )}
+                    <Grid size={12}>
+                        <Typography variant="body1" sx={{ mb: 2, fontWeight: 500 }}>
+                            Chọn logo công ty <span style={{ color: "red" }}>*</span>
+                        </Typography>
+
+                        <Box sx={{ display: "flex", alignItems: "flex-start", gap: 3 }}>
+                            {/* File Upload Section */}
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                                {/* File Upload Button */}
+                                <Button
+                                    variant="outlined"
+                                    component="label"
+                                    startIcon={<CloudUploadIcon />}
+                                    sx={{
+                                        padding: "12px 24px",
+                                        borderStyle: "dashed",
+                                        borderWidth: 2,
+                                        "&:hover": {
+                                            backgroundColor: "rgba(46, 48, 144, 0.04)",
+                                            borderColor: "#2e3090",
+                                        },
+                                    }}
+                                >
+                                    Chọn file ảnh
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        hidden
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                setValue("companyLogo", "Khóa do đang chọn file...");
+                                                // Kiểm tra dung lượng file (5MB = 5 * 1024 * 1024 bytes)
+                                                const maxSize = 5 * 1024 * 1024;
+                                                if (file.size > maxSize) {
+                                                    toast.warn(
+                                                        "File quá lớn! Vui lòng chọn file có dung lượng dưới 5MB.",
+                                                    );
+                                                } else {
+                                                    const fileURL = URL.createObjectURL(file);
+                                                    setPreviewURL(fileURL);
+                                                    setSelectedFile(file);
+                                                }
+                                            }
+                                        }}
+                                    />
+                                </Button>
+
+                                {/* File Info */}
+                                {selectedFile && (
+                                    <Typography variant="caption" color="text.secondary" sx={{ maxWidth: 200 }}>
+                                        File đã chọn: {selectedFile.name}
+                                    </Typography>
+                                )}
+                            </Box>
+
+                            {/* Preview Image */}
+                            {previewURL && (
+                                <Card sx={{ width: 200, position: "relative" }}>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={previewURL}
+                                        alt="Logo preview"
+                                        sx={{ objectFit: "contain" }}
+                                    />
+                                    {selectedFile && (
+                                        <IconButton
+                                            onClick={() => {
+                                                setValue("companyLogo", profile.company.logo);
+                                                setPreviewURL(null);
+                                                setSelectedFile(null);
+                                                if (fileInputRef.current) {
+                                                    fileInputRef.current.value = "";
+                                                }
+                                            }}
+                                            sx={{
+                                                position: "absolute",
+                                                top: 8,
+                                                right: 8,
+                                                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                                                "&:hover": {
+                                                    backgroundColor: "rgba(255, 255, 255, 1)",
+                                                },
+                                            }}
+                                            size="small"
+                                        >
+                                            <DeleteIcon fontSize="small" color="error" />
+                                        </IconButton>
+                                    )}
+                                </Card>
+                            )}
+                        </Box>
                     </Grid>
 
                     {/* Button Lưu */}
