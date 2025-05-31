@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import { Box, Grid, Typography } from "@mui/material";
-import DashboardUpdatePasswordForm from "../../forms/DashboardUpdatePasswordForm/DashboardUpdatePasswordForm";
-import AccountDetailsCard from "../../card/AccountDetailsCard/AccountDetailsCard";
+
+import DashboardUpdatePasswordForm from "@components/forms/DashboardUpdatePasswordForm/DashboardUpdatePasswordForm";
+import AccountDetailsCard from "@components/card/AccountDetailsCard/AccountDetailsCard";
 
 const SettingsPage = () => {
     const [flag, setFlag] = useState(false);
