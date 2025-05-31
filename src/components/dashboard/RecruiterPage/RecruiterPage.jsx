@@ -1,23 +1,44 @@
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Button,
+    Tooltip,
+    IconButton,
+} from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockOutlineIcon from "@mui/icons-material/LockOutline";
+import InfoIcon from "@mui/icons-material/Info";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import EmptyBox from "../../../components/box/EmptyBox";
-import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
-import RecruiterDetailsModal from "../../modals/RecruiterDetailsModal/RecruiterDetailsModal";
-import DashboardSearchBar from "../../search/DashboardSearchBar";
-import CustomPagination from "../../pagination/Pagination";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import RecruiterDetailsModal from "@components/modals/RecruiterDetailsModal/RecruiterDetailsModal";
+import DashboardSearchBar from "@components/search/DashboardSearchBar";
+import CustomPagination from "@components/pagination/Pagination";
 
 // import { getAllRecruiters } from "../../../services/recruiterService";
-import { getAllRecruiters, approveRecruiter } from "../../../services/adminService";
+import { getAllRecruiters, approveRecruiter } from "@services/adminService";
+import { lockUser } from "@services/userService";
 
 const getStatusStyle = (status) => {
     return status === true
         ? "bg-green-100 text-green-700 px-2 py-1 rounded"
         : "bg-yellow-100 text-yellow-700 px-2 py-1 rounded";
+};
+
+const getStatusStyleLocked = (status) => {
+    return status === true
+        ? "bg-red-100 text-red-700 px-2 py-1 rounded"
+        : "bg-green-100 text-green-700 px-2 py-1 rounded";
 };
 
 const RecruiterPage = () => {
@@ -61,6 +82,42 @@ const RecruiterPage = () => {
     const handleViewDetails = (recruiter) => {
         setSelectedRecruiter(recruiter);
         setIsDetailsModalOpen(true);
+    };
+
+    const handleLockAccount = async (recruiter) => {
+        try {
+            const data = await lockUser(recruiter.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setRecruiters(
+                recruiters.map((r) =>
+                    r.user.id === recruiter.user.id ? { ...r, user: { ...r.user, locked: true } } : r,
+                ),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleUnlockAccount = async (recruiter) => {
+        try {
+            const data = await lockUser(recruiter.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setRecruiters(
+                recruiters.map((r) =>
+                    r.user.id === recruiter.user.id ? { ...r, user: { ...r.user, locked: false } } : r,
+                ),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     const handleApprove = async (userId) => {
@@ -127,11 +184,12 @@ const RecruiterPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>STT</TableCell>
-                            <TableCell>TÊN CÔNG TY</TableCell>
-                            <TableCell>NGƯỜI ĐẠI DIỆN</TableCell>
-                            <TableCell>TRẠNG THÁI</TableCell>
-                            <TableCell>HÀNH ĐỘNG</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TÊN CÔNG TY</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>NGƯỜI ĐẠI DIỆN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>EMAIL NGƯỜI ĐẠI DIỆN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
+                            <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -150,24 +208,55 @@ const RecruiterPage = () => {
                         ) : (
                             recruiters.map((recruiter, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>
+                                        {index + 1 + (currentPage - 1) * recordsPerPage}
+                                    </TableCell>
                                     <TableCell>{recruiter.company.name}</TableCell>
                                     <TableCell>{recruiter.name}</TableCell>
+                                    <TableCell>{recruiter.recruiterEmail}</TableCell>
                                     <TableCell>
-                                        <span className={getStatusStyle(recruiter.approved)}>
+                                        <span
+                                            className={getStatusStyle(recruiter.approved)}
+                                            style={{ marginRight: "5px" }}
+                                        >
                                             {recruiter.approved ? "Đã duyệt" : "Chưa duyệt"}
                                         </span>
+                                        <span className={getStatusStyleLocked(recruiter.user.locked)}>
+                                            {recruiter.user.locked ? "Đã khóa" : "Không bị khóa"}
+                                        </span>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button onClick={() => handleViewDetails(recruiter)} color="primary">
-                                            Chi tiết
-                                        </Button>
-
+                                    <TableCell sx={{ textAlign: "right" }}>
                                         {!recruiter.approved ? (
-                                            <Button onClick={() => handleApprove(recruiter.userId)} color="success">
-                                                Duyệt
-                                            </Button>
+                                            <Tooltip title="Duyệt" arrow>
+                                                <IconButton
+                                                    color="success"
+                                                    onClick={() => handleApprove(recruiter.userId)}
+                                                >
+                                                    <CheckCircleIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         ) : null}
+                                        {recruiter.user.locked ? (
+                                            <Tooltip title="Mở khóa tài khoản" arrow>
+                                                <IconButton
+                                                    color="success"
+                                                    onClick={() => handleUnlockAccount(recruiter)}
+                                                >
+                                                    <LockOpenIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        ) : (
+                                            <Tooltip title="Khoá tài khoản" arrow>
+                                                <IconButton color="error" onClick={() => handleLockAccount(recruiter)}>
+                                                    <LockOutlineIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                        <Tooltip title="Xem chi tiết" arrow>
+                                            <IconButton color="primary" onClick={() => handleViewDetails(recruiter)}>
+                                                <InfoIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))
