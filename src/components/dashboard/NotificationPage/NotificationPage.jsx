@@ -1,13 +1,51 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { Box, Typography, Button, Card, Paper } from "@mui/material";
+import { Box, Typography, Button, Card, Paper, Skeleton, Fade, Grow, CircularProgress } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import EmptyBox from "@components/box/EmptyBox";
-import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllNotificationsByUser, markNotificationAsRead } from "@services/notificationService";
+
+// Component Skeleton cho notification item
+const NotificationSkeleton = () => (
+    <Card
+        sx={{
+            mb: 1,
+            borderRadius: 2,
+            backgroundColor: "#f8f9fa",
+        }}
+        elevation={1}
+    >
+        <Box sx={{ p: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box sx={{ flex: 1 }}>
+                <Skeleton
+                    variant="text"
+                    width="80%"
+                    height={24}
+                    sx={{
+                        backgroundColor: "#e0e0e0",
+                        "&::after": {
+                            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)",
+                        },
+                    }}
+                />
+                <Skeleton
+                    variant="text"
+                    width="60%"
+                    height={16}
+                    sx={{
+                        mt: 1,
+                        backgroundColor: "#f0f0f0",
+                    }}
+                />
+            </Box>
+            <Skeleton variant="text" width={100} height={16} sx={{ ml: 2 }} />
+        </Box>
+    </Card>
+);
 
 // Hàm định dạng thời gian tương đối
 const formatRelativeTime = (createdDate) => {
@@ -30,10 +68,13 @@ const NotificationPage = () => {
     const [notifications, setNotifications] = useState([]);
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [initialLoading, setInitialLoading] = useState(true);
 
-    const fetchNotifications = async () => {
+    const fetchNotifications = async (isInitial = false) => {
         setLoading(true);
-        setSelectedNotification(null);
+        if (!isInitial) {
+            setSelectedNotification(null);
+        }
         try {
             const data = await getAllNotificationsByUser();
             if (!data.success) {
@@ -52,11 +93,14 @@ const NotificationPage = () => {
             toast.error(error.message);
         } finally {
             setLoading(false);
+            if (isInitial) {
+                setInitialLoading(false);
+            }
         }
     };
 
     useEffect(() => {
-        fetchNotifications();
+        fetchNotifications(true);
     }, []);
 
     // Xử lý khi chọn thông báo
@@ -103,131 +147,161 @@ const NotificationPage = () => {
                 >
                     Thông báo
                 </Typography>
-                <Button onClick={fetchNotifications} variant="contained" color="primary" disabled={loading}>
-                    <CachedIcon className="mr-2" fontSize="small" /> Làm mới
+                <Button
+                    onClick={() => fetchNotifications(false)}
+                    variant="contained"
+                    color="primary"
+                    disabled={loading}
+                    startIcon={<CachedIcon className={`${loading ? "animate-spin" : ""}`} />}
+                >
+                    Làm mới
                 </Button>
             </div>
 
             {/* Danh sách thông báo */}
             {selectedNotification === null ? (
                 <Paper sx={{ p: 2, borderRadius: 2 }} elevation={3}>
-                    {loading ? (
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <SuspenseLoader />
+                    {initialLoading ? (
+                        // Skeleton loading cho lần đầu load
+                        <Box>
+                            {[...Array(5)].map((_, index) => (
+                                <NotificationSkeleton key={index} />
+                            ))}
+                        </Box>
+                    ) : loading ? (
+                        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+                            <CircularProgress />
                         </Box>
                     ) : notifications.length === 0 ? (
-                        <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <EmptyBox />
-                        </Box>
-                    ) : (
-                        notifications.map((notification) => (
-                            <Box key={notification.id}>
-                                <Card
-                                    onClick={() => handleNotificationClick(notification)}
-                                    sx={{
-                                        mb: 1,
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                        backgroundColor: notification.read ? "white" : "#e3f2fd",
-                                        "&:hover": {
-                                            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                                            backgroundColor: notification.read ? "#f5f5f5" : "#bbdefb",
-                                        },
-                                        borderRadius: 2,
-                                    }}
-                                    elevation={2}
-                                >
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body1"
-                                            sx={{
-                                                fontWeight: notification.read ? "normal" : "bold",
-                                            }}
-                                        >
-                                            {notification.title}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
-                                        >
-                                            {formatRelativeTime(notification.createdDate)}
-                                        </Typography>
-                                    </Box>
-                                </Card>
+                        <Fade in={true}>
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <EmptyBox />
                             </Box>
-                        ))
+                        </Fade>
+                    ) : (
+                        <Box>
+                            {notifications.map((notification, index) => (
+                                <Grow key={notification.id} in={true} timeout={300 + index * 100}>
+                                    <Box>
+                                        <Card
+                                            onClick={() => handleNotificationClick(notification)}
+                                            sx={{
+                                                mb: 1,
+                                                cursor: "pointer",
+                                                transition: "all 0.3s ease",
+                                                backgroundColor: notification.read ? "white" : "#e3f2fd",
+                                                "&:hover": {
+                                                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)",
+                                                    backgroundColor: notification.read ? "#f5f5f5" : "#bbdefb",
+                                                    transform: "translateY(-2px)",
+                                                },
+                                                borderRadius: 2,
+                                                borderLeft: notification.read
+                                                    ? "4px solid transparent"
+                                                    : "4px solid #1976d2",
+                                            }}
+                                            elevation={2}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    p: 2,
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    alignItems: "center",
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="body1"
+                                                    sx={{
+                                                        fontWeight: notification.read ? "normal" : "bold",
+                                                        color: notification.read ? "text.primary" : "#1976d2",
+                                                    }}
+                                                >
+                                                    {notification.title}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
+                                                >
+                                                    {formatRelativeTime(notification.createdDate)}
+                                                </Typography>
+                                            </Box>
+                                        </Card>
+                                    </Box>
+                                </Grow>
+                            ))}
+                        </Box>
                     )}
                 </Paper>
             ) : (
                 // Chi tiết thông báo
-                <Paper
-                    sx={{
-                        p: 4,
-                        mb: 4,
-                        borderRadius: 2,
-                        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                    }}
-                    elevation={3}
-                >
-                    <Box>
-                        {/* Tiêu đề thông báo */}
-                        <Typography
-                            variant="h5"
-                            gutterBottom
-                            sx={{
-                                fontWeight: "bold",
-                                color: "#1565c0",
-                            }}
-                        >
-                            {selectedNotification.title}
-                        </Typography>
+                <Fade in={true} timeout={500}>
+                    <Paper
+                        sx={{
+                            p: 4,
+                            mb: 4,
+                            borderRadius: 2,
+                            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                        }}
+                        elevation={3}
+                    >
+                        <Box>
+                            {/* Tiêu đề thông báo */}
+                            <Typography
+                                variant="h5"
+                                gutterBottom
+                                sx={{
+                                    fontWeight: "bold",
+                                    color: "#1565c0",
+                                }}
+                            >
+                                {selectedNotification.title}
+                            </Typography>
 
-                        {/* Thời gian tạo thông báo */}
-                        <Typography
-                            sx={{
-                                fontStyle: "italic",
-                                color: "text.secondary",
-                                mb: 2,
-                            }}
-                        >
-                            {formatRelativeTime(selectedNotification.createdDate)}
-                        </Typography>
+                            {/* Thời gian tạo thông báo */}
+                            <Typography
+                                sx={{
+                                    fontStyle: "italic",
+                                    color: "text.secondary",
+                                    mb: 2,
+                                }}
+                            >
+                                {formatRelativeTime(selectedNotification.createdDate)}
+                            </Typography>
 
-                        {/* Nội dung thông báo */}
-                        <Typography
-                            sx={{
-                                lineHeight: 1.7,
-                                fontSize: "1rem",
-                                color: "text.primary",
-                            }}
-                        >
-                            {selectedNotification.content}
-                        </Typography>
+                            {/* Nội dung thông báo */}
+                            <Typography
+                                sx={{
+                                    lineHeight: 1.7,
+                                    fontSize: "1rem",
+                                    color: "text.primary",
+                                }}
+                            >
+                                {selectedNotification.content}
+                            </Typography>
 
-                        {/* Nút quay lại */}
-                        <Button
-                            variant="contained"
-                            sx={{
-                                mt: 2,
-                                backgroundColor: "#1976d2",
-                                color: "white",
-                                "&:hover": {
-                                    backgroundColor: "#1565c0",
-                                },
-                            }}
-                            onClick={handleBackToList}
-                        >
-                            Quay lại
-                        </Button>
-                    </Box>
-                </Paper>
+                            {/* Nút quay lại */}
+                            <Button
+                                variant="contained"
+                                startIcon={<ArrowBackIcon />}
+                                sx={{
+                                    mt: 2,
+                                    backgroundColor: "#1976d2",
+                                    color: "white",
+                                    "&:hover": {
+                                        backgroundColor: "#1565c0",
+                                        transform: "translateY(-1px)",
+                                        boxShadow: "0 4px 12px rgba(25, 118, 210, 0.4)",
+                                    },
+                                    transition: "all 0.3s ease",
+                                }}
+                                onClick={handleBackToList}
+                            >
+                                Quay lại
+                            </Button>
+                        </Box>
+                    </Paper>
+                </Fade>
             )}
         </Box>
     );
