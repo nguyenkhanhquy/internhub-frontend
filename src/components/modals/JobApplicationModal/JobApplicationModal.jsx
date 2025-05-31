@@ -124,7 +124,6 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                 }
 
                 setListCVs(data.result);
-                setSelectedCvId(data.result[0].id);
             } catch (error) {
                 toast.error(error.message);
             }
