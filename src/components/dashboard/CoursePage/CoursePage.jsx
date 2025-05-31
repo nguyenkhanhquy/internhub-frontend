@@ -372,7 +372,7 @@ const CoursePage = () => {
                                                 </Tooltip>
                                                 <Tooltip title="Chỉnh sửa">
                                                     <IconButton
-                                                        color="primary"
+                                                        color="warning"
                                                         onClick={() => handleUpdateCourse(course)}
                                                     >
                                                         <EditIcon />

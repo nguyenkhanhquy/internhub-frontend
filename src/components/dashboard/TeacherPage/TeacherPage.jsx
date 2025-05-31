@@ -12,8 +12,14 @@ import {
     TableRow,
     Typography,
     Button,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
+import EditIcon from "@mui/icons-material/Edit";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockOutlineIcon from "@mui/icons-material/LockOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
@@ -24,6 +30,19 @@ import ConfirmDialog from "@components/common/ConfirmDialog/ConfirmDialog";
 
 import { importTeachers, deleteTeacher } from "@services/teacherService";
 import { getAllTeachers } from "@services/adminService";
+import { lockUser } from "@services/userService";
+
+const getStatusStyle = (status) => {
+    return status === true
+        ? "bg-green-100 text-green-700 px-2 py-1 rounded"
+        : "bg-red-100 text-red-700 px-2 py-1 rounded";
+};
+
+const getStatusStyleLocked = (status) => {
+    return status === true
+        ? "bg-red-100 text-red-700 px-2 py-1 rounded"
+        : "bg-green-100 text-green-700 px-2 py-1 rounded";
+};
 
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
@@ -73,6 +92,38 @@ const TeacherPage = () => {
     const handleOpenModal = (teacher) => {
         setSelectedTeacher(teacher);
         setIsUpdateModalOpen(true);
+    };
+
+    const handleLockAccount = async (teacher) => {
+        try {
+            const data = await lockUser(teacher.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setTeachers(
+                teachers.map((t) => (t.user.id === teacher.user.id ? { ...t, user: { ...t.user, locked: true } } : t)),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleUnlockAccount = async (teacher) => {
+        try {
+            const data = await lockUser(teacher.user.id);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            setTeachers(
+                teachers.map((t) => (t.user.id === teacher.user.id ? { ...t, user: { ...t.user, locked: false } } : t)),
+            );
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     const handleDeleteTeacher = (teacherId) => {
@@ -189,42 +240,77 @@ const TeacherPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ width: "10%" }}>STT</TableCell>
-                            <TableCell style={{ width: "15%" }}>MÃ GV</TableCell>
-                            <TableCell style={{ width: "20%" }}>HỌ VÀ TÊN</TableCell>
-                            <TableCell style={{ width: "30%" }}>EMAIL</TableCell>
-                            <TableCell style={{ width: "25%", textAlign: "right" }}>HÀNH ĐỘNG</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "10%" }}>MÃ GV</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "25%" }}>HỌ VÀ TÊN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "25%" }}>EMAIL</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
+                            <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <SuspenseLoader />
                                 </TableCell>
                             </TableRow>
                         ) : teachers.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
                         ) : (
                             teachers.map((teacher, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell style={{ width: "10%" }}>
+                                    <TableCell sx={{ textAlign: "center" }}>
                                         {index + 1 + (currentPage - 1) * recordsPerPage}
                                     </TableCell>
-                                    <TableCell style={{ width: "15%" }}>{teacher.teacherId}</TableCell>
-                                    <TableCell style={{ width: "20%" }}>{teacher.name}</TableCell>
-                                    <TableCell style={{ width: "30%" }}>{teacher.user.email}</TableCell>
-                                    <TableCell style={{ width: "25%", textAlign: "right" }}>
-                                        <Button onClick={() => handleOpenModal(teacher)} color="warning">
-                                            Chỉnh sửa
-                                        </Button>
-                                        <Button onClick={() => handleDeleteTeacher(teacher.userId)} color="error">
-                                            Xóa
-                                        </Button>
+                                    <TableCell>{teacher.teacherId}</TableCell>
+                                    <TableCell>{teacher.name}</TableCell>
+                                    <TableCell>{teacher.user.email}</TableCell>
+                                    <TableCell>
+                                        <span
+                                            className={getStatusStyle(teacher.user.active)}
+                                            style={{ marginRight: "5px" }}
+                                        >
+                                            {teacher.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                                        </span>
+                                        <span className={getStatusStyleLocked(teacher.user.locked)}>
+                                            {teacher.user.locked ? "Đã khóa" : "Không bị khóa"}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell sx={{ textAlign: "right" }}>
+                                        <Tooltip title="Chỉnh sửa" arrow>
+                                            <IconButton color="warning" onClick={() => handleOpenModal(teacher)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        {teacher.user.locked ? (
+                                            <Tooltip title="Mở khóa tài khoản" arrow>
+                                                <IconButton
+                                                    color="success"
+                                                    onClick={() => handleUnlockAccount(teacher)}
+                                                >
+                                                    <LockOpenIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        ) : (
+                                            <Tooltip title="Khoá tài khoản" arrow>
+                                                <IconButton color="error" onClick={() => handleLockAccount(teacher)}>
+                                                    <LockOutlineIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        )}
+                                        <Tooltip title="Xóa" arrow>
+                                            <IconButton
+                                                color="error"
+                                                onClick={() => handleDeleteTeacher(teacher.userId)}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -260,7 +346,7 @@ const TeacherPage = () => {
                 onClose={handleCancelDelete}
                 onConfirm={handleConfirmDelete}
                 title="Xác nhận xóa giảng viên"
-                message="Bạn có chắc chắn muốn xóa giảng viên này không? Hành động này không thể hoàn tác."
+                message="Bạn có chắc chắn muốn xóa giảng viên này không?"
                 confirmText="Xóa"
                 cancelText="Hủy"
                 confirmColor="error"
