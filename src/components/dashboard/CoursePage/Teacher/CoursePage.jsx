@@ -27,11 +27,10 @@ import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
 import { getAllYearAndSemester } from "@services/academicService";
-import { getAllCourses } from "@services/teacherService";
+import { getAllCoursesByTeacher } from "@services/teacherService";
 
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
-    const [flag, setFlag] = useState(false);
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [openStudentsModal, setOpenStudentsModal] = useState(false);
@@ -72,7 +71,13 @@ const CoursePage = () => {
         try {
             const yearParam = selectedYear === "Tất cả năm học" ? null : selectedYear;
             const semesterParam = selectedSemester === "ALL" ? null : selectedSemester;
-            const data = await getAllCourses(currentPage - 1, recordsPerPage, search, yearParam, semesterParam);
+            const data = await getAllCoursesByTeacher(
+                currentPage - 1,
+                recordsPerPage,
+                search,
+                yearParam,
+                semesterParam,
+            );
             if (!data.success) {
                 throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
@@ -112,7 +117,7 @@ const CoursePage = () => {
         if (filtersLoaded) {
             fetchData();
         }
-    }, [fetchData, flag, filtersLoaded]);
+    }, [fetchData, filtersLoaded]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">

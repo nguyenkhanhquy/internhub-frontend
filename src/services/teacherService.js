@@ -27,7 +27,7 @@ export const importTeachers = async (file) => {
     });
 };
 
-export const getAllCourses = async (page, size, search, year, semester) => {
+export const getAllCoursesByTeacher = async (page, size, search, year, semester) => {
     const params = {
         page,
         size,
