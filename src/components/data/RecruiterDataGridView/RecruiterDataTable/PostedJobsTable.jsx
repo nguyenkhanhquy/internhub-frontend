@@ -14,16 +14,17 @@ import {
     Button,
     Tooltip,
 } from "@mui/material";
+
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
-import EmptyBox from "../../../box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import EmptyBox from "@components/box/EmptyBox";
 
-import { formatDate } from "../../../../utils/dateUtil";
+import { formatDate } from "@utils/dateUtil";
 
 const PostedJobsTable = ({
     value,
@@ -141,7 +142,7 @@ const PostedJobsTable = ({
                                     <Stack direction="row" spacing={1}>
                                         {value === 2 ? (
                                             <>
-                                                <Tooltip title="Chi tiết bài đăng">
+                                                <Tooltip title="Chi tiết bài đăng" arrow>
                                                     <IconButton onClick={() => handleViewDetails(job)}>
                                                         <InfoIcon className="text-blue-800" />
                                                     </IconButton>
@@ -149,37 +150,36 @@ const PostedJobsTable = ({
                                             </>
                                         ) : value === 3 ? (
                                             <>
-                                                <Tooltip title="Chi tiết bài đăng">
-                                                    <IconButton onClick={() => handleViewDetails(job)}>
-                                                        <InfoIcon className="text-blue-800" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Chỉnh sửa bài đăng">
+                                                <Tooltip title="Chỉnh sửa bài đăng" arrow>
                                                     <IconButton onClick={() => handleEditPostClick(job.id)}>
                                                         <EditIcon className="text-yellow-500" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Chi tiết bài đăng" arrow>
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </>
                                         ) : (
                                             <>
-                                                <Tooltip title="Chi tiết bài đăng">
-                                                    <IconButton onClick={() => handleViewDetails(job)}>
-                                                        <InfoIcon className="text-blue-800" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Chỉnh sửa bài đăng">
+                                                <Tooltip title="Chỉnh sửa bài đăng" arrow>
                                                     <IconButton onClick={() => handleEditPostClick(job.id)}>
                                                         <EditIcon className="text-yellow-500" />
                                                     </IconButton>
                                                 </Tooltip>
-
-                                                <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"}>
+                                                <Tooltip title={job.hidden ? "Hiện bài đăng" : "Ẩn bài đăng"} arrow>
                                                     <IconButton onClick={() => handleToggleVisibility(job.id)}>
                                                         {job.hidden ? (
                                                             <VisibilityIcon className="text-cyan-950" />
                                                         ) : (
                                                             <VisibilityOffIcon className="text-cyan-950" />
                                                         )}
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Chi tiết bài đăng" arrow>
+                                                    <IconButton onClick={() => handleViewDetails(job)}>
+                                                        <InfoIcon className="text-blue-800" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </>

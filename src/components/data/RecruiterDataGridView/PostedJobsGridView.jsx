@@ -1,21 +1,23 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
+import { toast } from "react-toastify";
+
+import { Box, Button, FormControl, InputLabel, Select, MenuItem, Divider, Tooltip } from "@mui/material";
+
 import CachedIcon from "@mui/icons-material/Cached";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { toast } from "react-toastify";
 
-import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
-import DataSearchBar from "../DataSearchBar";
+import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
+import DataSearchBar from "@components/data/DataSearchBar";
 import PostedJobsTable from "./RecruiterDataTable/PostedJobsTable";
-import SortBar from "../../../components/sort/SortBar";
-import CustomTabPanel from "../../../components/tabs/CustomTabPanel/CustomTabPanel";
-import UpdateJobPostModal from "../../modals/UpdateJobPostModal/UpdateJobPostModal";
-import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
+import SortBar from "@components/sort/SortBar";
+import CustomTabPanel from "@components/tabs/CustomTabPanel/CustomTabPanel";
+import UpdateJobPostModal from "@components/modals/UpdateJobPostModal/UpdateJobPostModal";
+import JobPostDetailsModal from "@components/modals/JobPostDetailsModal/JobPostDetailsModal";
 
-import { getJobPostsByRecruiter } from "../../../services/jobPostService";
-import { hiddenJobPost } from "../../../services/jobPostService";
+import { getJobPostsByRecruiter, getExpiredJobPostsByRecruiter } from "@services/jobPostService";
+import { hiddenJobPost } from "@services/jobPostService";
 
 const PostedJobsGridView = ({ onViewApplications }) => {
     const [loading, setLoading] = useState(false);
@@ -75,9 +77,30 @@ const PostedJobsGridView = ({ onViewApplications }) => {
         }
     };
 
+    const fetchExpiredJobPosts = async (currentPage, recordsPerPage, search, sort, selectedType) => {
+        setLoading(true);
+        try {
+            const data = await getExpiredJobPostsByRecruiter(currentPage, recordsPerPage, search, sort, selectedType);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
+            setJobPosts(data.result);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType);
-    }, [flag, currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType]);
+        if (value === 4) {
+            fetchExpiredJobPosts(currentPage, recordsPerPage, search, sort, selectedType);
+        } else {
+            fetchData(currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType);
+        }
+    }, [flag, currentPage, recordsPerPage, search, sort, isApproved, isHidden, isDeleted, selectedType, value]);
 
     const handleChangeTab = async (event, newValue) => {
         setSearch("");
@@ -185,28 +208,36 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                         query={search}
                     />
 
-                    <Button
-                        variant="contained"
-                        endIcon={<CachedIcon />}
-                        onClick={() => setFlag((prev) => !prev)}
-                        sx={{
-                            padding: "5px 10px",
-                            width: "50%",
-                            minWidth: 130,
-                            borderRadius: 2,
-                            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
-                            bgcolor: "#2e3090",
-                            color: "white",
-                            "&:hover": {
-                                bgcolor: "#1f2061",
-                            },
-                            "&:active": {
-                                boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
-                            },
-                        }}
-                    >
-                        Làm mới
-                    </Button>
+                    {/* Nút Làm mới */}
+                    <Tooltip title="Làm mới" arrow>
+                        <Button
+                            variant="outlined"
+                            onClick={() => setFlag((prev) => !prev)}
+                            sx={{
+                                minWidth: 44,
+                                width: 44,
+                                height: 44,
+                                borderRadius: 2,
+                                boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+                                color: "#2e3090",
+                                borderColor: "#2e3090",
+                                p: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                "&:hover": {
+                                    bgcolor: "#1f2061",
+                                    color: "white",
+                                    borderColor: "#1f2061",
+                                },
+                                "&:active": {
+                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.2)",
+                                },
+                            }}
+                        >
+                            <CachedIcon />
+                        </Button>
+                    </Tooltip>
                 </Box>
             </Box>
 
@@ -300,7 +331,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
                     <PostedJobsTable
                         value={value}
                         loading={loading}
-                        postedJobPosts={[]}
+                        postedJobPosts={jobPosts}
                         currentPage={currentPage}
                         recordsPerPage={recordsPerPage}
                         handleViewApplicationsClick={(post) => onViewApplications(post)}

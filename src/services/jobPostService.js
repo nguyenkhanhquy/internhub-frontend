@@ -57,6 +57,18 @@ export const getJobPostsByRecruiter = async (page, size, search, order, isApprov
     });
 };
 
+export const getExpiredJobPostsByRecruiter = async (page, size, search, order, type) => {
+    return axiosClient.get(JOBS_API.GET_ALL_BY_EXPIRED_RECRUITER, {
+        params: {
+            page: page,
+            size: size,
+            search: search,
+            order: order,
+            type: type,
+        },
+    });
+};
+
 export const getJobPostsByCompanyId = async (companyId, page, size, search, order) => {
     return axiosClient.get(JOBS_API.GET_ALL_BY_COMPANY_ID + companyId, {
         params: {
