@@ -1,18 +1,35 @@
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button } from "@mui/material";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Button,
+    Tooltip,
+    IconButton,
+} from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
-import JobPostDetailsModal from "../../modals/JobPostDetailsModal/JobPostDetailsModal";
-import RejectJobPostModal from "../../modals/RejectJobPostModal/RejectJobPostModal";
+import InfoIcon from "@mui/icons-material/Info";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import UnpublishedIcon from "@mui/icons-material/Unpublished";
 
-import EmptyBox from "../../../components/box/EmptyBox";
-import SuspenseLoader from "../../../components/loaders/SuspenseLoader/SuspenseLoader";
-import DashboardSearchBar from "../../search/DashboardSearchBar";
-import CustomPagination from "../../pagination/Pagination";
+import JobPostDetailsModal from "@components/modals/JobPostDetailsModal/JobPostDetailsModal";
+import RejectJobPostModal from "@components/modals/RejectJobPostModal/RejectJobPostModal";
+import ConfirmDialog from "@components/common/ConfirmDialog/ConfirmDialog";
 
-import { getAllJobPosts, approveJobPost, deleteJobPost } from "../../../services/adminService";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import DashboardSearchBar from "@components/search/DashboardSearchBar";
+import CustomPagination from "@components/pagination/Pagination";
+
+import { formatDate } from "@/utils/dateUtil";
+
+import { getAllJobPosts, approveJobPost, deleteJobPost } from "@services/adminService";
 
 const getStatusStyle = (approved, deleted) => {
     return approved === true
@@ -34,6 +51,18 @@ const JobPostPage = () => {
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
+
+    // Confirm Dialog states
+    const [confirmDialog, setConfirmDialog] = useState({
+        open: false,
+        title: "",
+        message: "",
+        onConfirm: null,
+        confirmText: "Xác nhận",
+        confirmColor: "primary",
+        severity: "warning",
+        loading: false,
+    });
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -66,7 +95,21 @@ const JobPostPage = () => {
         setIsDetailsModalOpen(true);
     };
 
-    const handleApprove = async (id) => {
+    const handleApprove = (post) => {
+        setConfirmDialog({
+            open: true,
+            title: "Xác nhận duyệt bài đăng",
+            message: `Bạn có chắc chắn muốn duyệt bài đăng "${post.title}" của công ty "${post.company.name}"?`,
+            confirmText: "Xác nhận",
+            confirmColor: "success",
+            severity: "info",
+            loading: false,
+            onConfirm: () => confirmApprove(post.id),
+        });
+    };
+
+    const confirmApprove = async (id) => {
+        setConfirmDialog((prev) => ({ ...prev, loading: true }));
         try {
             const data = await approveJobPost(id);
             if (!data.success) {
@@ -74,8 +117,10 @@ const JobPostPage = () => {
             }
             fetchData();
             toast.success(data.message);
+            setConfirmDialog((prev) => ({ ...prev, open: false, loading: false }));
         } catch (error) {
             toast.error(error.message);
+            setConfirmDialog((prev) => ({ ...prev, loading: false }));
         }
     };
 
@@ -139,8 +184,9 @@ const JobPostPage = () => {
                     }}
                     variant="contained"
                     color="primary"
+                    startIcon={<CachedIcon />}
                 >
-                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                    Làm mới
                 </Button>
             </div>
             <div className="sticky top-2 z-10 mb-4">
@@ -157,12 +203,12 @@ const JobPostPage = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>STT</TableCell>
-                            <TableCell>TÊN VIỆC LÀM</TableCell>
-                            <TableCell>TÊN CÔNG TY</TableCell>
-                            <TableCell>NGÀY CẬP NHẬT</TableCell>
-                            <TableCell>TRẠNG THÁI</TableCell>
-                            <TableCell>HÀNH ĐỘNG</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "25%" }}>TÊN VIỆC LÀM</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "25%" }}>TÊN CÔNG TY</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "20%" }}>NGÀY CẬP NHẬT</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "10%" }}>TRẠNG THÁI</TableCell>
+                            <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -181,10 +227,12 @@ const JobPostPage = () => {
                         ) : (
                             jobPosts.map((jobPost, index) => (
                                 <TableRow key={index + 1 + (currentPage - 1) * recordsPerPage}>
-                                    <TableCell>{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>
+                                        {index + 1 + (currentPage - 1) * recordsPerPage}
+                                    </TableCell>
                                     <TableCell>{jobPost.title}</TableCell>
                                     <TableCell>{jobPost.company.name}</TableCell>
-                                    <TableCell>{jobPost.updatedDate}</TableCell>
+                                    <TableCell>{formatDate(jobPost.updatedDate)}</TableCell>
                                     <TableCell>
                                         <span className={getStatusStyle(jobPost.approved, jobPost.deleted)}>
                                             {jobPost.approved
@@ -194,20 +242,29 @@ const JobPostPage = () => {
                                                   : "Chưa duyệt"}
                                         </span>
                                     </TableCell>
-                                    <TableCell>
-                                        <Button onClick={() => handleViewDetails(jobPost)} color="primary">
-                                            Chi tiết
-                                        </Button>
+                                    <TableCell sx={{ textAlign: "right" }}>
                                         {!jobPost.approved && !jobPost.deleted ? (
                                             <>
-                                                <Button onClick={() => handleApprove(jobPost.id)} color="success">
-                                                    Duyệt
-                                                </Button>
-                                                <Button onClick={() => handleOpenRejectModal(jobPost)} color="error">
-                                                    Từ chối
-                                                </Button>
+                                                <Tooltip title="Duyệt" arrow>
+                                                    <IconButton color="success" onClick={() => handleApprove(jobPost)}>
+                                                        <CheckCircleIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Từ chối" arrow>
+                                                    <IconButton
+                                                        color="error"
+                                                        onClick={() => handleOpenRejectModal(jobPost)}
+                                                    >
+                                                        <UnpublishedIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </>
                                         ) : null}
+                                        <Tooltip title="Xem chi tiết" arrow>
+                                            <IconButton color="primary" onClick={() => handleViewDetails(jobPost)}>
+                                                <InfoIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -249,6 +306,19 @@ const JobPostPage = () => {
                     onConfirm={handleRejectPost}
                 />
             )}
+
+            {/* Confirm Dialog */}
+            <ConfirmDialog
+                open={confirmDialog.open}
+                onClose={() => setConfirmDialog((prev) => ({ ...prev, open: false }))}
+                onConfirm={confirmDialog.onConfirm}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                confirmText={confirmDialog.confirmText}
+                confirmColor={confirmDialog.confirmColor}
+                severity={confirmDialog.severity}
+                loading={confirmDialog.loading}
+            />
         </div>
     );
 };

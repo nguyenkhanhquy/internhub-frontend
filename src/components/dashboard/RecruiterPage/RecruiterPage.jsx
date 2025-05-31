@@ -166,8 +166,9 @@ const RecruiterPage = () => {
                     }}
                     variant="contained"
                     color="primary"
+                    startIcon={<CachedIcon />}
                 >
-                    Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                    Làm mới
                 </Button>
             </div>
             <div className="sticky top-2 z-10 mb-4">
@@ -187,8 +188,8 @@ const RecruiterPage = () => {
                             <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell sx={{ textAlign: "left", width: "20%" }}>TÊN CÔNG TY</TableCell>
                             <TableCell sx={{ textAlign: "left", width: "20%" }}>NGƯỜI ĐẠI DIỆN</TableCell>
-                            <TableCell sx={{ textAlign: "left", width: "20%" }}>EMAIL NGƯỜI ĐẠI DIỆN</TableCell>
-                            <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "15%" }}>EMAIL NGƯỜI ĐẠI DIỆN</TableCell>
+                            <TableCell sx={{ textAlign: "left", width: "25%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
                             <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
                     </TableHead>
@@ -215,6 +216,12 @@ const RecruiterPage = () => {
                                     <TableCell>{recruiter.name}</TableCell>
                                     <TableCell>{recruiter.recruiterEmail}</TableCell>
                                     <TableCell>
+                                        <span
+                                            className={getStatusStyle(recruiter.user.active)}
+                                            style={{ marginRight: "5px" }}
+                                        >
+                                            {recruiter.user.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                                        </span>
                                         <span
                                             className={getStatusStyle(recruiter.approved)}
                                             style={{ marginRight: "5px" }}

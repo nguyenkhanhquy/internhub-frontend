@@ -159,8 +159,9 @@ const StudentPage = () => {
                         }}
                         variant="contained"
                         color="primary"
+                        startIcon={<CachedIcon />}
                     >
-                        Làm mới <CachedIcon className="ml-2" fontSize="small" />
+                        Làm mới
                     </Button>
                 </Box>
             </div>

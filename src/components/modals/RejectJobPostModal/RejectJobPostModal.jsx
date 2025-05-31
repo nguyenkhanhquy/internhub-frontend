@@ -54,9 +54,12 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
                     fontSize: "1.25rem", // Điều chỉnh kích thước chữ
                 }}
             >
-                Xác nhận từ chối bài đăng: <span style={{ fontWeight: "normal" }}> {jobPost?.title}</span>
+                Xác nhận từ chối bài đăng
             </DialogTitle>
             <DialogContent dividers>
+                <Typography variant="subtitle1" sx={{ mb: 2 }}>
+                    Bài đăng &quot;{jobPost?.title}&quot; của công ty &quot;{jobPost?.company?.name}&quot;
+                </Typography>
                 <Typography variant="subtitle1" sx={{ mb: 2 }}>
                     Vui lòng chọn hoặc nhập lý do từ chối bài đăng tuyển dụng:
                 </Typography>
@@ -77,8 +80,8 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
                     </Box>
                 )}
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} variant="outlined">
+            <DialogActions sx={{ padding: "16px 24px", gap: 1 }}>
+                <Button onClick={onClose} variant="outlined" color="inherit">
                     Hủy
                 </Button>
                 <Button onClick={handleConfirm} variant="contained" color="error">
