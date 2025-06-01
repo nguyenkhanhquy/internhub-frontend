@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { Box, Typography, Button, Card, Paper, Skeleton, Fade, Grow, CircularProgress } from "@mui/material";
+import { Box, Typography, Button, Card, Paper, Skeleton, Fade, Grow } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import EmptyBox from "@components/box/EmptyBox";
+import DashboardSearchBar from "@components/search/DashboardSearchBar";
 
 import { getAllNotificationsByUser, markNotificationAsRead } from "@services/notificationService";
 
@@ -19,14 +20,15 @@ const NotificationSkeleton = () => (
         }}
         elevation={1}
     >
-        <Box sx={{ p: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Box sx={{ flex: 1 }}>
+        <Box sx={{ p: 2, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <Box sx={{ flex: 1, mr: 2 }}>
                 <Skeleton
                     variant="text"
                     width="80%"
                     height={24}
                     sx={{
                         backgroundColor: "#e0e0e0",
+                        mb: 0.5,
                         "&::after": {
                             background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)",
                         },
@@ -34,15 +36,22 @@ const NotificationSkeleton = () => (
                 />
                 <Skeleton
                     variant="text"
-                    width="60%"
+                    width="95%"
                     height={16}
                     sx={{
-                        mt: 1,
                         backgroundColor: "#f0f0f0",
                     }}
                 />
             </Box>
-            <Skeleton variant="text" width={100} height={16} sx={{ ml: 2 }} />
+            <Skeleton
+                variant="text"
+                width={80}
+                height={14}
+                sx={{
+                    ml: 2,
+                    mt: 0.5,
+                }}
+            />
         </Box>
     </Card>
 );
@@ -69,11 +78,14 @@ const NotificationPage = () => {
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    const [animationKey, setAnimationKey] = useState(0);
 
     const fetchNotifications = async (isInitial = false) => {
         setLoading(true);
         if (!isInitial) {
             setSelectedNotification(null);
+            setSearch("");
         }
         try {
             const data = await getAllNotificationsByUser();
@@ -89,6 +101,8 @@ const NotificationPage = () => {
             });
 
             setNotifications(sortedNotifications);
+            // Trigger animation lại sau khi fetch xong
+            setAnimationKey((prev) => prev + 1);
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -129,9 +143,20 @@ const NotificationPage = () => {
         setSelectedNotification(null);
     };
 
+    // Lọc thông báo dựa trên search query
+    const filteredNotifications = notifications.filter((notification) => {
+        if (!search.trim()) return true;
+
+        const searchLower = search.toLowerCase().trim();
+        const titleMatch = notification.title.toLowerCase().includes(searchLower);
+        const contentMatch = notification.content.toLowerCase().includes(searchLower);
+
+        return titleMatch || contentMatch;
+    });
+
     return (
         <Box sx={{ p: 4 }}>
-            <div className="flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-between">
                 {/* Tiêu đề */}
                 <Typography
                     variant="h5"
@@ -146,6 +171,19 @@ const NotificationPage = () => {
                     }}
                 >
                     Thông báo
+                    {search.trim() && (
+                        <Typography
+                            component="span"
+                            sx={{
+                                ml: 2,
+                                fontSize: "1rem",
+                                color: "text.secondary",
+                                fontWeight: "normal",
+                            }}
+                        >
+                            ({filteredNotifications.length} kết quả)
+                        </Typography>
+                    )}
                 </Typography>
                 <Button
                     onClick={() => fetchNotifications(false)}
@@ -158,6 +196,14 @@ const NotificationPage = () => {
                 </Button>
             </div>
 
+            <div className="sticky top-2 z-10 mb-4">
+                <DashboardSearchBar
+                    onSearch={(searchText) => setSearch(searchText)}
+                    query={search}
+                    placeholder="Tìm kiếm thông báo theo tiêu đề hoặc nội dung..."
+                />
+            </div>
+
             {/* Danh sách thông báo */}
             {selectedNotification === null ? (
                 <Paper sx={{ p: 2, borderRadius: 2 }} elevation={3}>
@@ -168,19 +214,33 @@ const NotificationPage = () => {
                                 <NotificationSkeleton key={index} />
                             ))}
                         </Box>
-                    ) : loading ? (
-                        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-                            <CircularProgress />
-                        </Box>
-                    ) : notifications.length === 0 ? (
+                    ) : filteredNotifications.length === 0 ? (
                         <Fade in={true}>
-                            <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                <EmptyBox />
+                            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+                                {search.trim() ? (
+                                    <Box sx={{ textAlign: "center" }}>
+                                        <Typography variant="h6" color="text.secondary" gutterBottom>
+                                            Không tìm thấy kết quả
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Không có thông báo nào phù hợp với từ khóa &ldquo;{search}&rdquo;
+                                        </Typography>
+                                    </Box>
+                                ) : (
+                                    <EmptyBox />
+                                )}
                             </Box>
                         </Fade>
                     ) : (
-                        <Box>
-                            {notifications.map((notification, index) => (
+                        <Box
+                            key={animationKey}
+                            sx={{
+                                opacity: loading ? 0.5 : 1,
+                                pointerEvents: loading ? "none" : "auto",
+                                transition: "opacity 0.3s ease",
+                            }}
+                        >
+                            {filteredNotifications.map((notification, index) => (
                                 <Grow key={notification.id} in={true} timeout={300 + index * 100}>
                                     <Box>
                                         <Card
@@ -207,21 +267,44 @@ const NotificationPage = () => {
                                                     p: 2,
                                                     display: "flex",
                                                     justifyContent: "space-between",
-                                                    alignItems: "center",
+                                                    alignItems: "flex-start",
                                                 }}
                                             >
-                                                <Typography
-                                                    variant="body1"
-                                                    sx={{
-                                                        fontWeight: notification.read ? "normal" : "bold",
-                                                        color: notification.read ? "text.primary" : "#1976d2",
-                                                    }}
-                                                >
-                                                    {notification.title}
-                                                </Typography>
+                                                <Box sx={{ flex: 1, mr: 2 }}>
+                                                    <Typography
+                                                        variant="body1"
+                                                        sx={{
+                                                            fontWeight: notification.read ? "normal" : "bold",
+                                                            color: notification.read ? "text.primary" : "#1976d2",
+                                                            mb: 0.5,
+                                                        }}
+                                                    >
+                                                        {notification.title}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            color: "text.secondary",
+                                                            display: "-webkit-box",
+                                                            WebkitLineClamp: 1,
+                                                            WebkitBoxOrient: "vertical",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            lineHeight: 1.4,
+                                                            fontSize: "0.875rem",
+                                                        }}
+                                                    >
+                                                        {notification.content}
+                                                    </Typography>
+                                                </Box>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
+                                                    sx={{
+                                                        color: "text.secondary",
+                                                        whiteSpace: "nowrap",
+                                                        fontSize: "0.825rem",
+                                                        mt: 0.5,
+                                                    }}
                                                 >
                                                     {formatRelativeTime(notification.createdDate)}
                                                 </Typography>
