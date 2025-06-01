@@ -22,3 +22,14 @@ export const updateProfile = async (profile) => {
 export const getCurrentEnrollment = async () => {
     return axiosClient.get(STUDENTS_API.GET_CURRENT_ENROLLMENT);
 };
+
+export const importStudents = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return axiosClient.post(STUDENTS_API.IMPORT, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+};

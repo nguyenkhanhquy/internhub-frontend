@@ -56,6 +56,7 @@ export const STUDENTS_API = {
     GET_ALL: "/students",
     UPDATE_PROFILE: "/students/update-profile",
     GET_CURRENT_ENROLLMENT: "/students/current-enrollment",
+    IMPORT: "/students/import",
 };
 
 export const TEACHERS_API = {

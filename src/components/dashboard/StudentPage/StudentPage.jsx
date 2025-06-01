@@ -15,6 +15,7 @@ import {
     IconButton,
     LinearProgress,
     Skeleton,
+    TextField,
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import InfoIcon from "@mui/icons-material/Info";
@@ -27,6 +28,7 @@ import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import CustomPagination from "@components/pagination/Pagination";
 
 // import { getAllStudents } from "../../../services/studentService";
+import { importStudents } from "@services/studentService";
 import { getAllStudents } from "@services/adminService";
 import { lockUser } from "@services/userService";
 
@@ -50,6 +52,7 @@ const getStatusStyleLocked = (status) => {
 
 const StudentPage = () => {
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
     const [students, setStudents] = useState([]);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState(null);
@@ -127,6 +130,31 @@ const StudentPage = () => {
         fetchData();
     }, [fetchData]);
 
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+        if (!file) {
+            toast.error("Vui lòng chọn file để upload.");
+            return;
+        }
+
+        try {
+            const data = await importStudents(file);
+
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFile(null);
+            document.querySelector('input[type="file"]').value = "";
+            fetchData();
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="mb-4 flex items-center justify-between">
@@ -145,9 +173,10 @@ const StudentPage = () => {
                     Sinh viên
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    {/* <Button variant="contained" color="primary">
+                    <TextField type="file" onChange={handleFileChange} />
+                    <Button disabled={!file} variant="contained" onClick={handleUpload}>
                         + Import danh sách sinh viên
-                    </Button> */}
+                    </Button>
                     <Button
                         onClick={() => {
                             if (search === "" && currentPage === 1 && recordsPerPage === 10) {
