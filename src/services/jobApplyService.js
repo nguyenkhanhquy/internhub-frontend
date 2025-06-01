@@ -50,3 +50,9 @@ export const acceptOfferJobApply = async (jobApplyId) => {
 export const refuseOfferJobApply = async (jobApplyId) => {
     return axiosClient.put(JOB_APPLY_API.REFUSE_OFFER + jobApplyId);
 };
+
+export const reportQuitJobApply = async (jobApplyId, reason) => {
+    return axiosClient.post(JOB_APPLY_API.REPORT_QUIT(jobApplyId), {
+        reason: reason,
+    });
+};

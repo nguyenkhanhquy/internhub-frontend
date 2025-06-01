@@ -17,13 +17,13 @@ import {
 } from "@mui/material";
 
 const defaultReasons = [
-    "Nội dung bài đăng không phù hợp",
-    "Thông tin bài tuyển dụng không rõ ràng",
-    "Vị trí tuyển dụng không phù hợp với lĩnh vực CNTT",
+    "Tự ý nghỉ không thông báo",
+    "Không còn liên lạc được với sinh viên",
+    "Từ chối tiếp tục thực tập",
     "Khác",
 ];
 
-const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
+const ReportQuitJobApplyModal = ({ open, onClose, onConfirm }) => {
     const [selectedReason, setSelectedReason] = useState("");
     const [customReason, setCustomReason] = useState("");
 
@@ -41,7 +41,7 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
     const handleConfirm = () => {
         const reasonToSubmit = selectedReason === "Khác" ? customReason : selectedReason;
         if (!reasonToSubmit) {
-            toast.warning("Vui lòng chọn hoặc nhập lý do từ chối!");
+            toast.warning("Vui lòng chọn hoặc nhập lý do báo cáo!");
             return;
         }
         onConfirm(reasonToSubmit);
@@ -56,14 +56,11 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
                     fontSize: "1.25rem", // Điều chỉnh kích thước chữ
                 }}
             >
-                Xác nhận từ chối bài đăng
+                Xác nhận báo cáo bỏ việc
             </DialogTitle>
             <DialogContent dividers>
-                <Typography variant="subtitle1" sx={{ mb: 2 }}>
-                    Bài đăng &quot;{jobPost?.title}&quot; của công ty &quot;{jobPost?.company?.name}&quot;
-                </Typography>
-                <Typography variant="subtitle1" sx={{ mb: 2 }}>
-                    Vui lòng chọn hoặc nhập lý do từ chối bài đăng tuyển dụng:
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                    Vui lòng chọn hoặc nhập lý do báo cáo:
                 </Typography>
                 <RadioGroup value={selectedReason} onChange={handleReasonChange}>
                     {defaultReasons.map((reason, index) => (
@@ -75,7 +72,7 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
                         <TextField
                             fullWidth
                             variant="outlined"
-                            label="Nhập lý do từ chối"
+                            label="Nhập lý do báo cáo"
                             value={customReason}
                             onChange={handleCustomReasonChange}
                         />
@@ -86,7 +83,7 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
                 <Button onClick={onClose} variant="outlined" color="inherit">
                     Hủy
                 </Button>
-                <Button onClick={handleConfirm} variant="contained" color="error">
+                <Button onClick={handleConfirm} variant="contained" color="primary">
                     Xác nhận
                 </Button>
             </DialogActions>
@@ -94,11 +91,10 @@ const RejectJobPostModal = ({ open, onClose, onConfirm, jobPost }) => {
     );
 };
 
-RejectJobPostModal.propTypes = {
+ReportQuitJobApplyModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
-    jobPost: PropTypes.object,
 };
 
-export default RejectJobPostModal;
+export default ReportQuitJobApplyModal;

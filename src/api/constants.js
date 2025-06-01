@@ -97,6 +97,7 @@ export const JOB_APPLY_API = {
     OFFER: "/jobs/apply/offer/",
     ACCEPT_OFFER: "/jobs/apply/offer/accept/",
     REFUSE_OFFER: "/jobs/apply/offer/refuse/",
+    REPORT_QUIT: (id) => `/jobs/apply/report-quit/${id}`,
 };
 
 export const INTERNSHIP_REPORTS_API = {

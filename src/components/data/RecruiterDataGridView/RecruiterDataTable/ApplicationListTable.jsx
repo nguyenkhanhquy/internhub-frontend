@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -22,6 +22,9 @@ import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EmptyBox from "@components/box/EmptyBox";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import ViewCvModal from "@components/modals/ViewCVModal/ViewCVModal";
+import ReportQuitJobApplyModal from "@components/modals/ReportQuitJobApplyModal/ReportQuitJobApplyModal";
+
+import { reportQuitJobApply } from "@services/jobApplyService";
 
 import { formatDate } from "@utils/dateUtil";
 
@@ -40,6 +43,11 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
     const [openCvModal, setOpenCvModal] = useState(false);
     const [cvUrl, setCvUrl] = useState(null);
     const [stt, setStt] = useState(null);
+    const [applicationsData, setApplicationsData] = useState([]);
+
+    useEffect(() => {
+        setApplicationsData(applications);
+    }, [applications]);
 
     const renderActions = (status, id) => {
         switch (status) {
@@ -92,7 +100,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                             variant="contained"
                             color="warning"
                             size="small"
-                            onClick={() => toast.info("Chức năng đang được phát triển")}
+                            onClick={() => handleOpenReportQuitJobApplyModal(id)}
                         >
                             Báo cáo bỏ việc
                         </Button>
@@ -132,6 +140,41 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
         setCvUrl(url);
         setStt(stt);
         setOpenCvModal(true);
+    };
+
+    const [isReportQuitJobApplyModalOpen, setIsReportQuitJobApplyModalOpen] = useState(false);
+    const [currentApplicationId, setCurrentApplicationId] = useState(null);
+
+    const handleOpenReportQuitJobApplyModal = (id) => {
+        setCurrentApplicationId(id);
+        setIsReportQuitJobApplyModalOpen(true);
+    };
+
+    const handleCloseReportQuitJobApplyModal = () => {
+        setIsReportQuitJobApplyModalOpen(false);
+        setCurrentApplicationId(null);
+    };
+
+    const handleConfirmReportQuitJobApply = async (reason) => {
+        try {
+            const data = await reportQuitJobApply(currentApplicationId, reason);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+
+            toast.success(data.message);
+
+            // Đặt lại application.applyStatus thành "REJECTED"
+            const updatedApplications = applications.map((application) =>
+                application.id === currentApplicationId ? { ...application, applyStatus: "REJECTED" } : application,
+            );
+            setApplicationsData(updatedApplications);
+
+            setIsReportQuitJobApplyModalOpen(false);
+            setCurrentApplicationId(null);
+        } catch (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -174,14 +217,14 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                 </Box>
                             </TableCell>
                         </TableRow>
-                    ) : applications.length === 0 ? (
+                    ) : applicationsData.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
                     ) : (
-                        applications.map((application, index) => (
+                        applicationsData.map((application, index) => (
                             <TableRow
                                 key={index}
                                 sx={{
@@ -279,6 +322,14 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                     onClose={() => setOpenCvModal(false)}
                     cvUrl={cvUrl}
                     title={"Hồ sơ ứng viên số " + stt}
+                />
+            )}
+
+            {isReportQuitJobApplyModalOpen && (
+                <ReportQuitJobApplyModal
+                    open={isReportQuitJobApplyModalOpen}
+                    onClose={handleCloseReportQuitJobApplyModal}
+                    onConfirm={handleConfirmReportQuitJobApply}
                 />
             )}
         </TableContainer>
