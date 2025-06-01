@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
-import { Button } from "@mui/material";
-import ApplicationListTable from "./RecruiterDataTable/ApplicationListTable";
-import GridViewLayout from "../../../layouts/DataLayout/GridViewLayout/GridViewLayout";
-import InterviewInvitationModal from "../../modals/InterviewInvitationModal/InterviewInvitationModal";
 
-import { getAllJobApplyByJobPostId, rejectJobApply, offerJobApply } from "../../../services/jobApplyService";
+import { Button } from "@mui/material";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+import ApplicationListTable from "@components/data/RecruiterDataGridView/RecruiterDataTable/ApplicationListTable";
+import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
+import InterviewInvitationModal from "@components/modals/InterviewInvitationModal/InterviewInvitationModal";
+
+import { getAllJobApplyByJobPostId, rejectJobApply, offerJobApply } from "@services/jobApplyService";
 
 const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
     const [loading, setLoading] = useState(false);
@@ -100,11 +103,9 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
                 onPageChange={handlePageChange}
                 onRecordsPerPageChange={handleRecordsPerPageChange}
                 actions={
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                        <Button variant="outlined" onClick={onBack} style={{ marginRight: "10px" }}>
-                            Quay lại
-                        </Button>
-                    </div>
+                    <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={onBack}>
+                        Quay lại
+                    </Button>
                 }
             >
                 <ApplicationListTable
