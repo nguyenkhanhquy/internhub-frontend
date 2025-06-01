@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import {
     Box,
@@ -21,13 +20,14 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
-import EmptyBox from "../../../box/EmptyBox";
-import { formatDate } from "../../../../utils/dateUtil";
-import OfferConfirmModal from "../../../modals/OfferConfirmModal/OfferConfirmModal";
-import InterviewLetterModal from "../../../modals/InterviewLetterModal/InterviewLetterModal";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import EmptyBox from "@components/box/EmptyBox";
+import OfferConfirmModal from "@components/modals/OfferConfirmModal/OfferConfirmModal";
+import InterviewLetterModal from "@components/modals/InterviewLetterModal/InterviewLetterModal";
 
-import { acceptOfferJobApply, refuseOfferJobApply } from "../../../../services/jobApplyService";
+import { formatDate } from "@utils/dateUtil";
+
+import { acceptOfferJobApply, refuseOfferJobApply } from "@services/jobApplyService";
 
 // Hàm chuyển đổi status sang tiếng Việt và trả về Chip tương ứng
 const renderStatusChip = (status) => {
@@ -88,7 +88,7 @@ const renderStatusChip = (status) => {
     );
 };
 
-const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag }) => {
+const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag, currentPage, recordsPerPage }) => {
     const [offerModalOpen, setOfferModalOpen] = useState(false);
     const [selectedJobApply, setSelectedJobApply] = useState(null);
     const [interviewModalOpen, setInterviewModalOpen] = useState(false);
@@ -159,15 +159,13 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                 },
                             }}
                         >
-                            <TableCell align="center" sx={{ width: "5%" }}>
-                                STT
-                            </TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell sx={{ width: "25%" }}>Tên công việc</TableCell>
                             <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
                             <TableCell sx={{ width: "20%" }}>Tên công ty</TableCell>
                             <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
-                            <TableCell sx={{ width: "14%" }}>Trạng thái</TableCell>
-                            <TableCell sx={{ width: "1%" }} align="center">
+                            <TableCell sx={{ textAlign: "center", width: "14%" }}>Trạng thái</TableCell>
+                            <TableCell sx={{ textAlign: "center", width: "1%" }}>
                                 <SettingsIcon />
                             </TableCell>
                         </TableRow>
@@ -177,7 +175,7 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                     <Box
                                         display="flex"
                                         flexDirection="column"
@@ -191,7 +189,7 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                             </TableRow>
                         ) : applyJobs.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
+                                <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                     <Box
                                         display="flex"
                                         flexDirection="column"
@@ -218,7 +216,9 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                         },
                                     }}
                                 >
-                                    <TableCell align="center">{index + 1}</TableCell>
+                                    <TableCell align="center">
+                                        {index + 1 + (currentPage - 1) * recordsPerPage}
+                                    </TableCell>
                                     <TableCell sx={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                                         <Tooltip title={item.title} arrow>
                                             <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -277,7 +277,7 @@ const AppliedJobsTable = ({ loading, applyJobs, handleViewDetailsClick, setFlag 
                                             renderStatusChip(item.applyStatus)
                                         )}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell sx={{ textAlign: "center" }}>
                                         <Tooltip title="Xem chi tiết" arrow>
                                             <IconButton
                                                 color="primary"
@@ -320,6 +320,8 @@ AppliedJobsTable.propTypes = {
     applyJobs: PropTypes.array.isRequired,
     handleViewDetailsClick: PropTypes.func.isRequired,
     setFlag: PropTypes.func.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    recordsPerPage: PropTypes.number.isRequired,
 };
 
 export default AppliedJobsTable;

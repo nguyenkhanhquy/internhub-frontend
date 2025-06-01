@@ -111,6 +111,8 @@ const AppliedJobsGridView = () => {
                     applyJobs={applyJobs}
                     handleViewDetailsClick={handleViewDetailsClick}
                     setFlag={setFlag}
+                    currentPage={currentPage}
+                    recordsPerPage={recordsPerPage}
                 />
             </Box>
         </GridViewLayout>
