@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { toast } from "react-toastify";
+
 import {
     Box,
     Table,
@@ -15,12 +17,24 @@ import {
     Tooltip,
     Paper,
 } from "@mui/material";
-import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
-import EmptyBox from "../../../box/EmptyBox";
-import SuspenseLoader from "../../../loaders/SuspenseLoader/SuspenseLoader";
-import ViewCvModal from "@/components/modals/ViewCVModal/ViewCVModal";
 
-import { formatDate } from "../../../../utils/dateUtil";
+import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
+import EmptyBox from "@components/box/EmptyBox";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import ViewCvModal from "@components/modals/ViewCVModal/ViewCVModal";
+
+import { formatDate } from "@utils/dateUtil";
+
+const statusStyles = {
+    PROCESSING: "bg-orange-100 text-orange-700",
+    INTERVIEW: "bg-blue-100 text-blue-700",
+    OFFER: "bg-purple-100 text-purple-700",
+    REJECTED: "bg-red-100 text-red-700",
+    ACCEPTED: "bg-green-100 text-green-700",
+    REFUSED: "bg-red-100 text-red-700",
+};
+
+const getStatusStyle = (status) => `${statusStyles[status] || "bg-gray-100 text-gray-700"} px-2 py-1 rounded`;
 
 const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPage, handleAction }) => {
     const [openCvModal, setOpenCvModal] = useState(false);
@@ -68,6 +82,19 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                             onClick={() => handleAction(id, "REJECTED")}
                         >
                             Từ chối
+                        </Button>
+                    </Stack>
+                );
+            case "ACCEPTED":
+                return (
+                    <Stack spacing={1}>
+                        <Button
+                            variant="contained"
+                            color="warning"
+                            size="small"
+                            onClick={() => toast.info("Chức năng đang được phát triển")}
+                        >
+                            Báo cáo bỏ việc
                         </Button>
                     </Stack>
                 );
@@ -122,25 +149,19 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                             },
                         }}
                     >
-                        <TableCell align="center" sx={{ width: "5%" }}>
-                            STT
-                        </TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                         <TableCell sx={{ width: "20%" }}>Ứng viên</TableCell>
-                        <TableCell sx={{ width: "18%" }}>Ngày ứng tuyển</TableCell>
+                        <TableCell sx={{ width: "15%" }}>Ngày ứng tuyển</TableCell>
                         <TableCell sx={{ width: "15%" }}>Thư giới thiệu</TableCell>
-                        <TableCell align="center" sx={{ width: "5%" }}>
-                            CV
-                        </TableCell>
-                        <TableCell sx={{ width: "17%" }}>Trạng thái</TableCell>
-                        <TableCell align="center" sx={{ width: "20%" }}>
-                            Xử lý hồ sơ
-                        </TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "5%" }}>CV</TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "20%" }}>Trạng thái</TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "20%" }}>Hành động</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {loading ? (
                         <TableRow>
-                            <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                 <Box
                                     display="flex"
                                     flexDirection="column"
@@ -155,7 +176,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                         </TableRow>
                     ) : applications.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={8} align="center" sx={{ padding: "40px 0" }}>
+                            <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
                                 <EmptyBox />
                             </TableCell>
                         </TableRow>
@@ -241,24 +262,10 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            color:
-                                                application.applyStatus === "PROCESSING"
-                                                    ? "orange"
-                                                    : application.applyStatus === "INTERVIEW"
-                                                      ? "blue"
-                                                      : application.applyStatus === "OFFER"
-                                                        ? "green"
-                                                        : application.applyStatus === "REJECTED"
-                                                          ? "red"
-                                                          : "gray",
-                                        }}
-                                    >
+                                <TableCell sx={{ textAlign: "center" }}>
+                                    <span className={getStatusStyle(application.applyStatus)}>
                                         {getStatusLabel(application.applyStatus)}
-                                    </Typography>
+                                    </span>
                                 </TableCell>
                                 <TableCell>{renderActions(application.applyStatus, application.id)}</TableCell>
                             </TableRow>
@@ -271,7 +278,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                     isOpen={openCvModal}
                     onClose={() => setOpenCvModal(false)}
                     cvUrl={cvUrl}
-                    title={"Hồ sơ ứng viên: " + stt}
+                    title={"Hồ sơ ứng viên số " + stt}
                 />
             )}
         </TableContainer>

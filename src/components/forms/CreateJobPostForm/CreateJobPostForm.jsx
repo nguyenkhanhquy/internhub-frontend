@@ -10,7 +10,7 @@ import { convertDate } from "../../../utils/dateUtil";
 const schema = yup.object().shape({
     title: yup.string().required("Vui lòng nhập tiêu đề").max(150, "Tiêu đề không được vượt quá 150 ký tự"),
     jobPosition: yup.string().required("Vui lòng nhập vị trí tuyển dụng").max(100, "Không được vượt quá 100 ký tự"),
-    salary: yup.string().required("Vui lòng nhập mức lương").max(100, "Không được vượt quá 100 ký tự"),
+    salary: yup.string().required("Vui lòng nhập mức trợ cấp").max(100, "Không được vượt quá 100 ký tự"),
     quantity: yup
         .number()
         .typeError("Số lượng phải là một số")
@@ -67,7 +67,7 @@ const CreateJobPostForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-4xl p-6">
-            <h2 className="mb-6 text-2xl font-bold text-gray-800">ĐĂNG TIN TUYỂN DỤNG</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-800">ĐĂNG TIN TUYỂN DỤNG</h2>
 
             {/* Tiêu đề */}
             <div className="mb-4">
@@ -91,10 +91,10 @@ const CreateJobPostForm = () => {
                 <p className="mt-1 text-xs text-red-600">{errors.jobPosition?.message}</p>
             </div>
 
-            {/* Mức lương và Số lượng tuyển dụng cùng một hàng */}
+            {/* Mức trợ cấp và Số lượng tuyển dụng cùng một hàng */}
             <div className="mb-4 flex space-x-4">
                 <div className="w-1/2">
-                    <label className="block text-sm font-semibold text-gray-700">Mức lương</label>
+                    <label className="block text-sm font-semibold text-gray-700">Mức trợ cấp</label>
                     <input
                         type="text"
                         {...register("salary")}
