@@ -53,14 +53,12 @@ const PostedJobsTable = ({
                             },
                         }}
                     >
-                        <TableCell align="center" sx={{ width: "5%" }}>
-                            STT
-                        </TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                         <TableCell sx={{ width: "30%" }}>Tiêu đề</TableCell>
                         <TableCell sx={{ width: "20%" }}>Vị trí công việc</TableCell>
                         <TableCell sx={{ width: "15%" }}>Ngày hết hạn</TableCell>
-                        <TableCell sx={{ width: "20%" }}>Hồ sơ ứng tuyển</TableCell>
-                        <TableCell sx={{ width: "10%" }} align="center">
+                        <TableCell sx={{ textAlign: "center", width: "15%" }}>Hồ sơ ứng tuyển</TableCell>
+                        <TableCell sx={{ textAlign: "center", width: "15%" }}>
                             <SettingsIcon />
                         </TableCell>
                     </TableRow>
@@ -104,7 +102,9 @@ const PostedJobsTable = ({
                                     },
                                 }}
                             >
-                                <TableCell align="center">{index + 1 + (currentPage - 1) * recordsPerPage}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>
+                                    {index + 1 + (currentPage - 1) * recordsPerPage}
+                                </TableCell>
                                 <TableCell
                                     sx={{
                                         whiteSpace: "normal",
@@ -124,7 +124,7 @@ const PostedJobsTable = ({
                                     {job.jobPosition}
                                 </TableCell>
                                 <TableCell>{formatDate(job.expiryDate)}</TableCell>
-                                <TableCell align="center">
+                                <TableCell sx={{ textAlign: "center" }}>
                                     <Stack direction="column" spacing={1}>
                                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                             {job.jobApplyCount} hồ sơ
@@ -138,7 +138,7 @@ const PostedJobsTable = ({
                                         </Button>
                                     </Stack>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell sx={{ textAlign: "center" }}>
                                     <Stack direction="row" spacing={1}>
                                         {value === 2 ? (
                                             <>

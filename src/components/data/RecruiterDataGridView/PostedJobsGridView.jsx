@@ -10,7 +10,7 @@ import Tab from "@mui/material/Tab";
 
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "@components/data/DataSearchBar";
-import PostedJobsTable from "./RecruiterDataTable/PostedJobsTable";
+import PostedJobsTable from "@components/data/RecruiterDataGridView/RecruiterDataTable/PostedJobsTable";
 import SortBar from "@components/sort/SortBar";
 import CustomTabPanel from "@components/tabs/CustomTabPanel/CustomTabPanel";
 import UpdateJobPostModal from "@components/modals/UpdateJobPostModal/UpdateJobPostModal";
