@@ -85,7 +85,7 @@ const SearchPage = () => {
                 }}
             >
                 {/* Thanh tìm kiếm */}
-                <Box sx={{ position: "sticky", top: 4, zIndex: 1, mb: 2 }}>
+                <Box sx={{ position: "sticky", top: 16, zIndex: 1, mb: 2 }}>
                     <SearchBar
                         onSearch={(searchText) => {
                             setCurrentPage(1);

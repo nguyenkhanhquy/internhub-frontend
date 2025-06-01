@@ -113,6 +113,7 @@ export const FILES_API = {
 
 export const ACADEMIC_API = {
     GET_ALL_YEAR_AND_SEMESTER: "/academic/year-and-semester",
+    GET_OVERVIEW: "/academic/overview",
 };
 
 export const COURSES_API = {
