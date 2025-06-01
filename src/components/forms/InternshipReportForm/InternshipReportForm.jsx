@@ -9,7 +9,7 @@ import { Checkbox, FormControlLabel, Box, Button, TextField, Typography, Grid, I
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import { getCurrentCourse } from "@/services/studentService";
+import { getCurrentEnrollment } from "@/services/studentService";
 import { submitInternshipReport } from "@services/internshipReport";
 import { uploadFile } from "@services/uploadService";
 
@@ -42,7 +42,7 @@ const schema = yup.object().shape({
 const InternshipReportForm = ({ setFlag }) => {
     const { user } = useAuth();
     const [showForm, setShowForm] = useState(false);
-    const [currentCourse, setCurrentCourse] = useState(null);
+    const [currentEnrollment, setCurrentEnrollment] = useState(null);
 
     const {
         control,
@@ -74,11 +74,11 @@ const InternshipReportForm = ({ setFlag }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getCurrentCourse();
+                const data = await getCurrentEnrollment();
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
-                setCurrentCourse(data.result);
+                setCurrentEnrollment(data.result);
                 reset((prev) => ({
                     ...prev,
                     courseCode: data?.result?.courseCode || "",
@@ -93,11 +93,23 @@ const InternshipReportForm = ({ setFlag }) => {
     }, [reset]);
 
     const handleToggleForm = () => {
+        // Kiểm tra nếu chưa có enrollment
+        if (!showForm && !currentEnrollment) {
+            toast.warning("Bạn chưa được thêm vào lớp thực tập nào trong kỳ này");
+            return;
+        }
+
+        // Kiểm tra trạng thái enrollment trước khi mở form
+        if (!showForm && currentEnrollment?.enrollmentStatus !== "NOT_SUBMITTED") {
+            toast.info("Bạn đã nộp báo cáo kỳ này rồi");
+            return;
+        }
+
         if (showForm) {
             clearErrors();
             reset({
-                courseCode: currentCourse?.courseCode || "",
-                teacherName: currentCourse?.teacherName || "",
+                courseCode: currentEnrollment?.courseCode || "",
+                teacherName: currentEnrollment?.teacherName || "",
                 companyName: "",
                 instructorName: "",
                 instructorEmail: "",
@@ -144,6 +156,7 @@ const InternshipReportForm = ({ setFlag }) => {
             reset();
             handleToggleForm();
             setFlag((prev) => !prev);
+            setCurrentEnrollment((prev) => ({ ...prev, enrollmentStatus: "SUBMITTED" }));
             toast.success("Nộp báo cáo thành công");
         } catch (error) {
             toast.error(error.message);
@@ -176,6 +189,8 @@ const InternshipReportForm = ({ setFlag }) => {
                     onClick={handleToggleForm}
                     sx={{
                         color: showForm ? "gray" : "#1e40af",
+                        opacity:
+                            !currentEnrollment || currentEnrollment?.enrollmentStatus !== "NOT_SUBMITTED" ? 0.5 : 1,
                     }}
                 >
                     {showForm ? <ExpandLess /> : <ExpandMore />}
@@ -221,30 +236,6 @@ const InternshipReportForm = ({ setFlag }) => {
                                 )}
                             />
                         </Grid>
-
-                        {/* <Grid size={12}>
-                            <Controller
-                                name="teacherName"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        select
-                                        label="Giảng viên hướng dẫn"
-                                        fullWidth
-                                        size="small"
-                                        error={!!errors.teacherName}
-                                        helperText={errors.teacherName?.message}
-                                    >
-                                        {teachers.map((teacher) => (
-                                            <MenuItem key={teacher.id} value={teacher.name}>
-                                                {teacher.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                )}
-                            />
-                        </Grid> */}
 
                         <Grid size={12}>
                             <Controller

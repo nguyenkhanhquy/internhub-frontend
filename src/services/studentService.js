@@ -19,6 +19,6 @@ export const updateProfile = async (profile) => {
     });
 };
 
-export const getCurrentCourse = async () => {
-    return axiosClient.get(STUDENTS_API.GET_CURRENT_COURSE);
+export const getCurrentEnrollment = async () => {
+    return axiosClient.get(STUDENTS_API.GET_CURRENT_ENROLLMENT);
 };

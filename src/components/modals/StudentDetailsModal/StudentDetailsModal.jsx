@@ -106,7 +106,7 @@ const StudentDetailsModal = ({ isOpen, onClose, student }) => {
                             </Box>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Trạng thái khoá:</Typography>
-                                <Typography>{student.user.locked ? "Đã khóa" : "Không khóa"}</Typography>
+                                <Typography>{student.user.locked ? "Đã khóa" : "Không bị khóa"}</Typography>
                             </Box>
                             <Box display="flex" mb={1}>
                                 <Typography sx={{ width: "170px", fontWeight: "bold" }}>Ngày tạo:</Typography>
