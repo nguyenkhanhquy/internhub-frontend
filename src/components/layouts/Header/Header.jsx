@@ -17,6 +17,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import logoImage from "@assets/images/hcmute_fit_logo.png";
 import Notification from "@components/layouts/Header/Notification";
 
+const HDSD_ThucTapSinh =
+    "https://docs.google.com/document/d/1Op5scqQRMR0nTkCO0OPEjRTsuGdmxApUMXdKUdUgYKM/edit?usp=sharing";
+const HDSD_NhaTuyenDung =
+    "https://docs.google.com/document/d/15A7WHF5nBrRVJ6OShW2jKReSx5zgTrvuEdemCMshnEo/edit?usp=sharing";
+
 const Header = () => {
     const { user, isAuthenticated } = useAuth();
 
@@ -95,6 +100,7 @@ const Header = () => {
                     <Menu className="mt-1" anchorEl={infoAnchorEl} open={Boolean(infoAnchorEl)} onClose={handleClose}>
                         <MenuItem
                             onClick={() => {
+                                window.open(HDSD_ThucTapSinh, "_blank");
                                 handleClose();
                             }}
                         >
@@ -103,6 +109,7 @@ const Header = () => {
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
+                                window.open(HDSD_NhaTuyenDung, "_blank");
                                 handleClose();
                             }}
                         >
