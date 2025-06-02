@@ -1,21 +1,25 @@
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { Box, Button, Grid, TextField, Typography, Paper, IconButton, Card, CardMedia } from "@mui/material";
-
 import SaveIcon from "@mui/icons-material/Save";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CKEditor5 from "@components/editors/CKEditor5/CKEditor5";
-import Loading from "@components/loaders/Loading/Loading";
+
+import useAuth from "@hooks/useAuth";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import useAuth from "@hooks/useAuth";
-import { useEffect, useState, useRef } from "react";
 import { getAuthProfile } from "@services/authService";
 import { updateProfile } from "@services/recruiterService";
 import { uploadImage } from "@services/uploadService";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfile, setProfile as setProfileRedux } from "@store/slices/profileSlice";
+
+import CKEditor5 from "@components/editors/CKEditor5/CKEditor5";
+import Loading from "@components/loaders/Loading/Loading";
 
 const defaultValues = {
     name: "",
@@ -50,9 +54,14 @@ const schema = yup
     .required();
 
 const RecruiterProfileForm = () => {
+    const dispatch = useDispatch();
+    const recruiterProfile = useSelector(selectProfile);
+
     const { setUser } = useAuth();
-    const [loading, setLoading] = useState(true);
-    const [profile, setProfile] = useState(null);
+
+    const [profile, setProfile] = useState(recruiterProfile);
+    const [loading, setLoading] = useState(!recruiterProfile);
+
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewURL, setPreviewURL] = useState(null);
     const fileInputRef = useRef(null);
@@ -69,7 +78,7 @@ const RecruiterProfileForm = () => {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchProfile = async () => {
             setLoading(true);
             try {
                 const data = await getAuthProfile();
@@ -77,6 +86,7 @@ const RecruiterProfileForm = () => {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
                 setProfile(data?.result);
+                dispatch(setProfileRedux(data?.result));
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -84,8 +94,10 @@ const RecruiterProfileForm = () => {
             }
         };
 
-        fetchData();
-    }, []);
+        if (!recruiterProfile) {
+            fetchProfile();
+        }
+    }, [recruiterProfile, dispatch]);
 
     useEffect(() => {
         if (profile) {
@@ -127,6 +139,24 @@ const RecruiterProfileForm = () => {
                 ...prevUser,
                 logo: formData.companyLogo,
             }));
+
+            dispatch(
+                setProfileRedux({
+                    ...profile,
+                    name: formData.name,
+                    phone: formData.phone,
+                    position: formData.position,
+                    recruiterEmail: formData.recruiterEmail,
+                    company: {
+                        ...profile.company,
+                        address: formData.companyAddress,
+                        logo: formData.companyLogo,
+                        name: formData.companyName,
+                        description: formData.description,
+                        website: formData.website,
+                    },
+                }),
+            );
 
             toast.success(data.message);
         } catch (error) {
