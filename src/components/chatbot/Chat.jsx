@@ -38,7 +38,17 @@ const Chat = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages, isOpen]);
+    }, [messages]);
+
+    // Cuộn xuống khi chat được mở lại và có tin nhắn
+    useEffect(() => {
+        if (isOpen && messages.length > 0) {
+            // Delay để đảm bảo animation hoàn thành trước khi cuộn
+            setTimeout(() => {
+                scrollToBottom();
+            }, 300);
+        }
+    }, [isOpen, messages.length]);
 
     const getCurrentTime = () => {
         const now = new Date();
