@@ -67,6 +67,10 @@ export const getAllStudents = async (page, size, search) => {
     });
 };
 
+export const getAllStudentsNotEnrolledInSemester = async () => {
+    return axiosClient.get(ADMIN_API.GET_ALL_STUDENTS_NOT_ENROLLED_IN_SEMESTER);
+};
+
 export const getAllTeachers = async (page, size, search) => {
     return axiosClient.get(ADMIN_API.GET_ALL_TEACHERS, {
         params: {

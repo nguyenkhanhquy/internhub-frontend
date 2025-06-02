@@ -23,7 +23,7 @@ import {
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
 import { getAllStudentsByCourseId, assignStudentsToCourse } from "@services/courseService";
-import { getAllStudents } from "@/services/studentService";
+import { getAllStudentsNotEnrolledInSemester } from "@services/adminService";
 
 const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
     const [allStudents, setAllStudents] = useState([]);
@@ -37,7 +37,7 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
             setLoading(true);
             try {
                 const [studentsRes, assignedRes] = await Promise.all([
-                    getAllStudents(),
+                    getAllStudentsNotEnrolledInSemester(),
                     getAllStudentsByCourseId(course.id),
                 ]);
 
@@ -75,11 +75,69 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
         if (assignedStudents.some((s) => s.userId === student.userId)) {
             // Bỏ chọn: xóa khỏi danh sách đã gán
             setAssignedStudents(assignedStudents.filter((s) => s.userId !== student.userId));
+
+            // Nếu sinh viên không có trong allStudents, thêm vào
+            if (!allStudents.some((s) => s.userId === student.userId)) {
+                setAllStudents([...allStudents, student]);
+            }
         } else {
             // Chọn: thêm vào danh sách đã gán
             setAssignedStudents([...assignedStudents, student]);
         }
     };
+
+    // Xử lý chọn tất cả sinh viên từ danh sách allStudents
+    const handleSelectAllStudents = () => {
+        const allStudentsSelected = filteredAllStudents.every((student) =>
+            assignedStudents.some((s) => s.userId === student.userId),
+        );
+
+        if (allStudentsSelected) {
+            // Bỏ chọn tất cả: xóa tất cả sinh viên trong filteredAllStudents khỏi assignedStudents
+            const studentsToRemove = filteredAllStudents.map((s) => s.userId);
+            setAssignedStudents(assignedStudents.filter((s) => !studentsToRemove.includes(s.userId)));
+        } else {
+            // Chọn tất cả: thêm tất cả sinh viên chưa được chọn vào assignedStudents
+            const studentsToAdd = filteredAllStudents.filter(
+                (student) => !assignedStudents.some((s) => s.userId === student.userId),
+            );
+            setAssignedStudents([...assignedStudents, ...studentsToAdd]);
+        }
+    };
+
+    // Xử lý bỏ chọn tất cả sinh viên từ danh sách assignedStudents
+    const handleDeselectAllAssigned = () => {
+        const assignedStudentsInFilter = filteredAssignedStudents.filter((s) =>
+            assignedStudents.some((assigned) => assigned.userId === s.userId),
+        );
+
+        if (assignedStudentsInFilter.length > 0) {
+            // Bỏ chọn tất cả sinh viên trong filteredAssignedStudents
+            const studentsToRemove = assignedStudentsInFilter.map((s) => s.userId);
+            const remainingAssigned = assignedStudents.filter((s) => !studentsToRemove.includes(s.userId));
+            setAssignedStudents(remainingAssigned);
+
+            // Thêm các sinh viên bị bỏ chọn vào allStudents nếu chưa có
+            const studentsToAddBack = assignedStudentsInFilter.filter(
+                (student) => !allStudents.some((s) => s.userId === student.userId),
+            );
+            if (studentsToAddBack.length > 0) {
+                setAllStudents([...allStudents, ...studentsToAddBack]);
+            }
+        }
+    };
+
+    // Kiểm tra trạng thái checkbox "chọn tất cả" cho allStudents
+    const isAllStudentsSelected =
+        filteredAllStudents.length > 0 &&
+        filteredAllStudents.every((student) => assignedStudents.some((s) => s.userId === student.userId));
+
+    const isSomeStudentsSelected = filteredAllStudents.some((student) =>
+        assignedStudents.some((s) => s.userId === student.userId),
+    );
+
+    // Kiểm tra trạng thái checkbox "bỏ chọn tất cả" cho assignedStudents
+    const hasAssignedStudentsInFilter = filteredAssignedStudents.length > 0;
 
     // Xử lý lưu
     const handleSave = async () => {
@@ -149,7 +207,9 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
                     >
                         {/* Danh sách sinh viên trong hệ thống */}
                         <Box flex={1}>
-                            <Typography mb={1}>Sinh viên trong hệ thống ({allStudents.length} sinh viên)</Typography>
+                            <Typography mb={1}>
+                                Sinh viên chưa được gán lớp trong kỳ này ({allStudents.length} sinh viên)
+                            </Typography>
                             <TextField
                                 label="Tìm kiếm theo mssv hoặc tên"
                                 variant="outlined"
@@ -162,7 +222,14 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
                                 <Table stickyHeader>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
+                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}>
+                                                <Checkbox
+                                                    checked={isAllStudentsSelected}
+                                                    indeterminate={!isAllStudentsSelected && isSomeStudentsSelected}
+                                                    onChange={handleSelectAllStudents}
+                                                    disabled={filteredAllStudents.length === 0}
+                                                />
+                                            </TableCell>
                                             <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
                                             <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
                                         </TableRow>
@@ -208,7 +275,13 @@ const AssignStudentsToCourse = ({ isOpen, onClose, course, setFlag }) => {
                                 <Table stickyHeader>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}></TableCell>
+                                            <TableCell sx={{ width: { xs: "15%", md: "10%" } }}>
+                                                <Checkbox
+                                                    checked={hasAssignedStudentsInFilter}
+                                                    onChange={handleDeselectAllAssigned}
+                                                    disabled={filteredAssignedStudents.length === 0}
+                                                />
+                                            </TableCell>
                                             <TableCell sx={{ width: { xs: "35%", md: "30%" } }}>MSSV</TableCell>
                                             <TableCell sx={{ width: { xs: "50%", md: "60%" } }}>Họ và tên</TableCell>
                                         </TableRow>
