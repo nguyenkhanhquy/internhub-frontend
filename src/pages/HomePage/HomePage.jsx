@@ -100,7 +100,7 @@ const HomePage = () => {
                         mt: 2,
                         mb: 1,
                         position: "sticky",
-                        top: 16,
+                        top: 4,
                         zIndex: 1,
                     }}
                 >
