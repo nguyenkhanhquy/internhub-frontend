@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { Box, Stack } from "@mui/material";
-import JobCardSearch from "../../../job/JobCard/JobCardSearch";
-import EmptyBox from "../../../box/EmptyBox";
+
+import JobCardSearch from "@components/job/JobCard/JobCardSearch";
+import EmptyBox from "@components/box/EmptyBox";
 
 const JobListingTab = ({ jobs }) => {
     return (

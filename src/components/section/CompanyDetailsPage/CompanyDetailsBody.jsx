@@ -5,9 +5,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
-import CustomTabPanel from "../../tabs/CustomTabPanel/CustomTabPanel";
-import CompanyInfoTab from "../../job/JobDetail/Tabs/CompanyInfoTab";
-import JobListingTab from "../../section/CompanyDetailsPage/Tabs/JobListingTab";
+import CustomTabPanel from "@components/tabs/CustomTabPanel/CustomTabPanel";
+import CompanyInfoTab from "@components/job/JobDetail/Tabs/CompanyInfoTab";
+import JobListingTab from "@components/section/CompanyDetailsPage/Tabs/JobListingTab";
 
 const CompanyDetailsBody = ({ description, address, jobs }) => {
     const [value, setValue] = useState(0);

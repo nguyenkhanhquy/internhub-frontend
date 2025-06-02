@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
-import CompanyDetailsHeader from "../../components/section/CompanyDetailsPage/CompanyDetailsHeader";
-import CompanyDetailsBody from "../../components/section/CompanyDetailsPage/CompanyDetailsBody";
-import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import CompanyDetailsHeader from "@components/section/CompanyDetailsPage/CompanyDetailsHeader";
+import CompanyDetailsBody from "@components/section/CompanyDetailsPage/CompanyDetailsBody";
+import CompanyDetailsContact from "@components/section/CompanyDetailsPage/CompanyDetailsContact";
+import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
 import Box from "@mui/material/Box";
-import { useMediaQuery } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 
-import { getCompanyById } from "../../services/companyService";
-import { getJobPostsByCompanyId } from "../../services/jobPostService";
+import { getCompanyById } from "@services/companyService";
+import { getJobPostsByCompanyId } from "@services/jobPostService";
 
 const CompanyDetailsPage = () => {
     const navigate = useNavigate();
@@ -80,13 +80,18 @@ const CompanyDetailsPage = () => {
                             address={companyData.address}
                         />
                     </Box>
-                    <Box>
-                        <CompanyDetailsBody
-                            description={companyData.description}
-                            address={companyData.address}
-                            jobs={companyData.jobs}
-                        />
-                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, lg: 8 }}>
+                            <CompanyDetailsBody
+                                description={companyData.description}
+                                address={companyData.address}
+                                jobs={companyData.jobs}
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12, lg: 4 }}>
+                            <CompanyDetailsContact companyName={companyData.name} address={companyData.address} />
+                        </Grid>
+                    </Grid>
                 </div>
             )}
         </MainLayout>
