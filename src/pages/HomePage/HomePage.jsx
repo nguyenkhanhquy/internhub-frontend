@@ -11,6 +11,7 @@ import SearchBar from "@components/search/SearchBar";
 import FeaturedCompaniesSection from "@components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
 import LatestJobsSection from "@components/section/HomePage/LatestJobsSection/LatestJobsSection";
 import SuitableJobsSection from "@components/section/HomePage/SuitableJobsSection/SuitableJobsSection";
+import AnimatedCounter from "@components/common/AnimatedCounter/AnimatedCounter";
 
 import { getJobPostsSuitableForStudent } from "@services/jobPostService";
 import { getAllJobPosts } from "@services/jobPostService";
@@ -124,9 +125,11 @@ const HomePage = () => {
                                     justifyContent: "center",
                                 }}
                             >
-                                <Typography variant="h4" color="warning" fontWeight="bold">
-                                    {overview.totalInternStudents || 0}
-                                </Typography>
+                                <AnimatedCounter
+                                    value={overview.totalInternStudents || 0}
+                                    color="warning"
+                                    duration={2000}
+                                />
                                 <Typography variant="body1" color="text.secondary">
                                     Sinh viên thực tập
                                 </Typography>
@@ -146,9 +149,11 @@ const HomePage = () => {
                                     justifyContent: "center",
                                 }}
                             >
-                                <Typography variant="h4" color="primary" fontWeight="bold">
-                                    {overview.maxExpectedAcceptances || 0}
-                                </Typography>
+                                <AnimatedCounter
+                                    value={overview.maxExpectedAcceptances || 0}
+                                    color="primary"
+                                    duration={1800}
+                                />
                                 <Typography variant="body1" color="text.secondary">
                                     Vị trí thực tập dự kiến
                                 </Typography>
@@ -168,9 +173,11 @@ const HomePage = () => {
                                     justifyContent: "center",
                                 }}
                             >
-                                <Typography variant="h4" color="success" fontWeight="bold">
-                                    {overview.acceptedStudents || 0}
-                                </Typography>
+                                <AnimatedCounter
+                                    value={overview.acceptedStudents || 0}
+                                    color="success"
+                                    duration={1600}
+                                />
                                 <Typography variant="body1" color="text.secondary">
                                     Sinh viên đã được nhận
                                 </Typography>
