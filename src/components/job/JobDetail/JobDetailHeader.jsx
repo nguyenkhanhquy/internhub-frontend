@@ -162,6 +162,15 @@ const JobDetailHeader = ({
                             <CalendarToday fontSize="small" sx={{ mr: 0.5, verticalAlign: "middle" }} />
                             <strong>Cập nhật:</strong> {formatDate(updateDate)} - <strong>Hạn nộp:</strong>{" "}
                             {formatDate(expiryDate)}
+                            {expiryDate >= new Date().toISOString() && (
+                                <>
+                                    {" ( Còn lại "}
+                                    <strong>
+                                        {Math.ceil((new Date(expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} ngày
+                                    </strong>
+                                    {" )"}
+                                </>
+                            )}
                         </Typography>
                     </Box>
                 </Stack>

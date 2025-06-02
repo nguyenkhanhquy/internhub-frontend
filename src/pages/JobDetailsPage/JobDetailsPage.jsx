@@ -7,6 +7,7 @@ import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
 import JobDetailHeader from "@components/job/JobDetail/JobDetailHeader";
 import JobDetailBody from "@components/job/JobDetail/JobDetailBody";
 import JobDetailSummary from "@components/job/JobDetail/JobDetailSummary";
+import JobDetailContact from "@components/job/JobDetail/JobDetailContact";
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 import JobApplicationModal from "@components/modals/JobApplicationModal/JobApplicationModal";
 
@@ -126,12 +127,12 @@ const JobDetailsPage = () => {
                     {/* Chia layout thành 2 phần: Body và Summary */}
                     <Grid container spacing={4}>
                         {/* Phần Body nằm bên trái, chiếm 2/3 */}
-                        <Grid size={{ xs: 12, md: 8 }}>
+                        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
                             <JobDetailBody jobData={jobData} />
                         </Grid>
 
                         {/* Phần Summary nằm bên phải, chiếm 1/3 */}
-                        <Grid size={{ xs: 12, md: 4 }}>
+                        <Grid size={{ xs: 12, md: 6, lg: 4 }} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                             <JobDetailSummary
                                 salary={jobData.salary}
                                 quantity={jobData.quantity}
@@ -142,6 +143,7 @@ const JobDetailsPage = () => {
                                 jobPosition={jobData.jobPosition}
                                 majors={jobData.majors}
                             />
+                            <JobDetailContact companyName={jobData.company.name} address={jobData.company.address} />
                         </Grid>
                     </Grid>
                     {/* Modal ứng tuyển */}
