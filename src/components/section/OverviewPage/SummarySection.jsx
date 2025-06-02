@@ -27,8 +27,9 @@ import WorkIcon from "@mui/icons-material/Work";
 import BusinessIcon from "@mui/icons-material/Business";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ClassIcon from "@mui/icons-material/Class";
+import AnimatedCounter from "@components/common/AnimatedCounter/AnimatedCounter";
 
-const SummaryCard = ({ color, title, count, subInfo, Icon, onClick }) => (
+const SummaryCard = ({ color, title, count, subInfo, Icon, onClick, animationDelay = 0 }) => (
     <Paper
         sx={{
             p: 3,
@@ -64,9 +65,13 @@ const SummaryCard = ({ color, title, count, subInfo, Icon, onClick }) => (
             <Typography variant="subtitle1" color="textSecondary">
                 {title}
             </Typography>
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-                {count}
-            </Typography>
+            <AnimatedCounter
+                value={count || 0}
+                variant="h5"
+                color="inherit"
+                fontWeight="bold"
+                duration={500 + animationDelay * 200}
+            />
             {subInfo && (
                 <Typography variant="subtitle2" color="textSecondary">
                     {subInfo}
@@ -93,6 +98,7 @@ const SummarySection = ({ overview, router }) => {
                     subInfo={"Chưa đọc: " + (overview.totalNotificationsNotRead ?? "...")}
                     Icon={NotificationsIcon}
                     onClick={() => handleNavigate("/notification")}
+                    animationDelay={0}
                 />
             </Grid>
 
@@ -104,6 +110,7 @@ const SummarySection = ({ overview, router }) => {
                     subInfo={"..."}
                     Icon={ClassIcon}
                     onClick={() => handleNavigate("/course")}
+                    animationDelay={1}
                 />
             </Grid>
 
@@ -112,9 +119,10 @@ const SummarySection = ({ overview, router }) => {
                     color={green}
                     title="Sinh viên"
                     count={overview.totalStudents}
-                    subInfo={"Chưa báo cáo: " + (overview.totalStudentsNotReported ?? "...")}
+                    subInfo={"Chưa hoàn thành môn: " + (overview.totalStudentsNotReported ?? "...")}
                     Icon={SchoolIcon}
                     onClick={() => handleNavigate("/student")}
+                    animationDelay={2}
                 />
             </Grid>
 
@@ -126,6 +134,7 @@ const SummarySection = ({ overview, router }) => {
                     subInfo={"..."}
                     Icon={PersonIcon}
                     onClick={() => handleNavigate("/teacher")}
+                    animationDelay={3}
                 />
             </Grid>
 
@@ -137,6 +146,7 @@ const SummarySection = ({ overview, router }) => {
                     subInfo={"Chưa duyệt: " + (overview.totalRecruitersNotApproved ?? "...")}
                     Icon={BusinessIcon}
                     onClick={() => handleNavigate("/business")}
+                    animationDelay={4}
                 />
             </Grid>
 
@@ -148,6 +158,7 @@ const SummarySection = ({ overview, router }) => {
                     subInfo={"Chưa duyệt: " + (overview.totalJobPostsNotApproved ?? "...")}
                     Icon={WorkIcon}
                     onClick={() => handleNavigate("/job-post")}
+                    animationDelay={5}
                 />
             </Grid>
         </Grid>
@@ -161,6 +172,7 @@ SummaryCard.propTypes = {
     subInfo: PropTypes.string,
     Icon: PropTypes.elementType,
     onClick: PropTypes.func,
+    animationDelay: PropTypes.number,
 };
 
 SummarySection.propTypes = {
