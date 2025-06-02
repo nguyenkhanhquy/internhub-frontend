@@ -330,12 +330,25 @@ const CoursePage = () => {
             <TableContainer
                 className="rounded bg-white shadow-md"
                 sx={{
+                    position: "relative",
                     overflowX: "auto",
                     width: "100%",
                 }}
             >
+                {loading && (
+                    <LinearProgress
+                        sx={{
+                            position: "absolute",
+                            left: 0,
+                            top: 54,
+                            right: 0,
+                            zIndex: 1,
+                            height: "4px",
+                        }}
+                    />
+                )}
                 <Table sx={{ minWidth: 1350 }}>
-                    <TableHead sx={{ position: "relative" }}>
+                    <TableHead>
                         <TableRow>
                             <TableCell style={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell style={{ textAlign: "center", width: "20%" }}>MÃ LỚP HỌC PHẦN</TableCell>
@@ -347,18 +360,6 @@ const CoursePage = () => {
                             <TableCell style={{ textAlign: "center", width: "15%" }}>TRẠNG THÁI</TableCell>
                             <TableCell style={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
-                        {loading && (
-                            <LinearProgress
-                                sx={{
-                                    position: "absolute",
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    zIndex: 1,
-                                    height: "4px",
-                                }}
-                            />
-                        )}
                     </TableHead>
                     <TableBody>
                         {loading && courses.length === 0 ? (
@@ -397,7 +398,7 @@ const CoursePage = () => {
                         ) : courses.length === 0 && !loading ? (
                             // Hiển thị EmptyBox khi không có dữ liệu và không loading
                             <TableRow>
-                                <TableCell colSpan={8} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={8} style={{ textAlign: "center", height: "364px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>

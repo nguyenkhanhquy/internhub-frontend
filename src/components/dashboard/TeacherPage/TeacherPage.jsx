@@ -241,12 +241,25 @@ const TeacherPage = () => {
             <TableContainer
                 className="rounded bg-white shadow-md"
                 sx={{
+                    position: "relative",
                     overflowX: "auto",
                     width: "100%",
                 }}
             >
+                {loading && (
+                    <LinearProgress
+                        sx={{
+                            position: "absolute",
+                            left: 0,
+                            top: 54,
+                            right: 0,
+                            zIndex: 1,
+                            height: "4px",
+                        }}
+                    />
+                )}
                 <Table sx={{ minWidth: 1350 }}>
-                    <TableHead sx={{ position: "relative" }}>
+                    <TableHead>
                         <TableRow>
                             <TableCell sx={{ textAlign: "center", width: "5%" }}>STT</TableCell>
                             <TableCell sx={{ textAlign: "left", width: "10%" }}>MÃ GV</TableCell>
@@ -255,18 +268,6 @@ const TeacherPage = () => {
                             <TableCell sx={{ textAlign: "left", width: "20%" }}>TRẠNG THÁI TÀI KHOẢN</TableCell>
                             <TableCell sx={{ textAlign: "right", width: "15%" }}>HÀNH ĐỘNG</TableCell>
                         </TableRow>
-                        {loading && (
-                            <LinearProgress
-                                sx={{
-                                    position: "absolute",
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    zIndex: 1,
-                                    height: "4px",
-                                }}
-                            />
-                        )}
                     </TableHead>
                     <TableBody>
                         {loading && teachers.length === 0 ? (
@@ -302,7 +303,7 @@ const TeacherPage = () => {
                         ) : teachers.length === 0 && !loading ? (
                             // Hiển thị EmptyBox khi không có dữ liệu và không loading
                             <TableRow>
-                                <TableCell colSpan={6} style={{ textAlign: "center", padding: "20px" }}>
+                                <TableCell colSpan={6} style={{ textAlign: "center", height: "364px" }}>
                                     <EmptyBox />
                                 </TableCell>
                             </TableRow>
