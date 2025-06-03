@@ -139,7 +139,7 @@ const PostedJobsTable = ({
                                     </Stack>
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
-                                    <Stack direction="row" spacing={1}>
+                                    <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
                                         {value === 2 ? (
                                             <>
                                                 <Tooltip title="Chi tiết bài đăng" arrow>
