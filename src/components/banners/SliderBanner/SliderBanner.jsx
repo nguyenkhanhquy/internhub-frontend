@@ -108,7 +108,6 @@ const SliderBanner = () => {
                             component="img"
                             src={item.url}
                             alt={item.title}
-                            loading="lazy"
                             draggable={false}
                             onDragStart={(e) => e.preventDefault()}
                             sx={{
