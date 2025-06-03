@@ -95,7 +95,17 @@ export default function ChartStudentByInternStatus({ overview }) {
     ];
 
     return (
-        <Card variant="outlined" sx={{ display: "flex", flexDirection: "column", gap: "8px", flexGrow: 1 }}>
+        <Card
+            variant="outlined"
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+                flexGrow: 1,
+                borderRadius: 3,
+                boxShadow: 2,
+            }}
+        >
             <CardContent>
                 <Typography component="h2" variant="subtitle2">
                     Thống kê sinh viên thực tập

@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-import { Box, Grid, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+
 import SummarySection from "@components/section/OverviewPage/SummarySection";
 import ChartStudentByInternStatus from "./ChartStudentByInternStatus";
 
@@ -30,19 +33,22 @@ const OverviewPage = ({ router }) => {
     return (
         <Box
             sx={{
+                py: 4,
                 px: 2,
+                mx: "auto",
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
             }}
         >
-            {/* Section: Summary Cards */}
-            <SummarySection overview={overview} router={router} />
-
-            {/* Section: Pie Chart */}
             <Grid container spacing={2} columns={12}>
-                <Grid size={{ xs: 12, lg: 6 }}>
-                    <Stack gap={2} direction={{ xs: "column", sm: "row" }}>
+                <Grid size={{ xs: 12, lg: 9 }}>
+                    {/* Section: Summary Cards */}
+                    <SummarySection overview={overview} router={router} />
+                </Grid>
+                <Grid size={{ xs: 12, lg: 3 }}>
+                    {/* Section: Pie Chart */}
+                    <Stack sx={{ height: "100%" }} gap={2} direction={{ xs: "column", sm: "row" }}>
                         <ChartStudentByInternStatus overview={overview} />
                     </Stack>
                 </Grid>

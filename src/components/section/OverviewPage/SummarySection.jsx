@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
-import { Grid, Paper, Box, Typography } from "@mui/material";
+
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import {
     red,
     pink,
@@ -89,7 +94,7 @@ const SummarySection = ({ overview, router }) => {
     };
 
     return (
-        <Grid container sx={{ py: 2 }} spacing={2} columns={12}>
+        <Grid container spacing={2} columns={12}>
             <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                 <SummaryCard
                     color={red}
@@ -114,7 +119,7 @@ const SummarySection = ({ overview, router }) => {
                 />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                 <SummaryCard
                     color={green}
                     title="Sinh viên"
@@ -126,7 +131,7 @@ const SummarySection = ({ overview, router }) => {
                 />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                 <SummaryCard
                     color={blue}
                     title="Giảng viên"
@@ -138,7 +143,7 @@ const SummarySection = ({ overview, router }) => {
                 />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                 <SummaryCard
                     color={orange}
                     title="Doanh nghiệp"
@@ -150,7 +155,7 @@ const SummarySection = ({ overview, router }) => {
                 />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                 <SummaryCard
                     color={purple}
                     title="Bài đăng"
