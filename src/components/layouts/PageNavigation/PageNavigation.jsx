@@ -1,13 +1,18 @@
-import { Box, Typography, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const PageNavigation = ({ pageName }) => {
     const navigate = useNavigate();
 
-    const handleHomeClick = (e) => {
-        e.preventDefault();
-        navigate("/"); // Điều hướng tới trang chủ
+    // Xử lý quay lại trang trước
+    const handleBackClick = () => {
+        navigate(-1);
     };
 
     return (
@@ -24,7 +29,7 @@ const PageNavigation = ({ pageName }) => {
                     md: 8, // Đối với màn hình trung bình
                     lg: 12, // Đối với màn hình lớn
                 },
-                py: 1.5,
+                py: 1.2,
             }}
         >
             {/* Tên của trang web */}
@@ -33,7 +38,7 @@ const PageNavigation = ({ pageName }) => {
                 sx={{
                     fontWeight: "bold",
                     fontSize: {
-                        xs: "14px", // Font nhỏ hơn trên màn hình nhỏ
+                        xs: "14px",
                         sm: "16px",
                         md: "18px",
                     },
@@ -42,26 +47,38 @@ const PageNavigation = ({ pageName }) => {
                 {pageName}
             </Typography>
 
-            {/* Link "Trang chủ" */}
-            <Link
-                href="/"
-                onClick={handleHomeClick}
+            <IconButton
+                onClick={handleBackClick}
                 sx={{
                     color: "white",
-                    textDecoration: "none",
                     fontWeight: "bold",
                     fontSize: {
                         xs: "14px",
                         sm: "16px",
                         md: "18px",
                     },
+                    padding: "2px 4px",
+                    borderRadius: "4px",
                     "&:hover": {
                         textDecoration: "underline",
+                        "& .MuiSvgIcon-root": {
+                            transform: "translateX(-4px)",
+                        },
+                    },
+                    "& .MuiSvgIcon-root": {
+                        marginRight: "4px",
+                        fontSize: {
+                            xs: "16px",
+                            sm: "18px",
+                            md: "20px",
+                        },
+                        transition: "transform 0.3s ease",
                     },
                 }}
             >
-                Trang chủ
-            </Link>
+                <ArrowBackIcon />
+                Trang trước
+            </IconButton>
         </Box>
     );
 };
