@@ -10,7 +10,8 @@ import CompanyDetailsContact from "@components/section/CompanyDetailsPage/Compan
 import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
 
 import Box from "@mui/material/Box";
-import { Grid, useMediaQuery } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getCompanyById } from "@services/companyService";
 import { getJobPostsByCompanyId } from "@services/jobPostService";
@@ -82,11 +83,7 @@ const CompanyDetailsPage = () => {
                     </Box>
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, lg: 8 }}>
-                            <CompanyDetailsBody
-                                description={companyData.description}
-                                address={companyData.address}
-                                jobs={companyData.jobs}
-                            />
+                            <CompanyDetailsBody description={companyData.description} jobs={companyData.jobs} />
                         </Grid>
                         <Grid size={{ xs: 12, lg: 4 }}>
                             <CompanyDetailsContact companyName={companyData.name} address={companyData.address} />

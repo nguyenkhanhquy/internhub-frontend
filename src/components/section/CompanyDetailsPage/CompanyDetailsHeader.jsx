@@ -1,6 +1,10 @@
 import PropTypes from "prop-types";
 
-import { Box, Typography, Avatar, Stack, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Language from "@mui/icons-material/Language";
 import LocationOn from "@mui/icons-material/LocationOn";

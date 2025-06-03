@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import CustomTabPanel from "../../tabs/CustomTabPanel/CustomTabPanel";
 import Box from "@mui/material/Box";
+
+import CustomTabPanel from "@components/tabs/CustomTabPanel/CustomTabPanel";
 
 import JobInfoTab from "./Tabs/JobInfoTab";
 import CompanyInfoTab from "./Tabs/CompanyInfoTab";
-import JobListingTab from "../../../components/section/CompanyDetailsPage/Tabs/JobListingTab";
+import JobListingTab from "@components/section/CompanyDetailsPage/Tabs/JobListingTab";
 
 const JobDetailBody = ({ jobData }) => {
     const [value, setValue] = useState(0);
@@ -58,7 +59,7 @@ const JobDetailBody = ({ jobData }) => {
                 </CustomTabPanel>
 
                 <CustomTabPanel value={value} index={1}>
-                    <CompanyInfoTab description={jobData.company.description} address={jobData.company.address} />
+                    <CompanyInfoTab description={jobData.company.description} />
                 </CustomTabPanel>
 
                 <CustomTabPanel value={value} index={2}>
