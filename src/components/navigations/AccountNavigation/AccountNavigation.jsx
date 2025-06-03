@@ -7,8 +7,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-import logo from "@assets/images/ute_logo_c.png";
-
 const AccountNavigation = () => {
     const navigate = useNavigate();
     const location = useLocation(); // Lấy đường dẫn hiện tại
@@ -36,7 +34,7 @@ const AccountNavigation = () => {
                 }}
             >
                 <Avatar
-                    src={logo}
+                    src={"/images/ute_logo_c.png"}
                     alt={"Logo"}
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}

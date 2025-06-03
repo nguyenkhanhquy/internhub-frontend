@@ -14,7 +14,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DataUsageIcon from "@mui/icons-material/DataUsage";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import logoImage from "@assets/images/hcmute_fit_logo.png";
 import Notification from "@components/layouts/Header/Notification";
 
 const HDSD_ThucTapSinh =
@@ -74,8 +73,8 @@ const Header = () => {
                 <Link to="/">
                     <Box
                         component="img"
-                        src={logoImage}
-                        alt="Logo"
+                        src="/images/hcmute_fit_logo.png"
+                        alt="hcmute_fit_logo"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
                         sx={{ width: { xs: "280px", md: "380px" } }}

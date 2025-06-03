@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Link } from "@mui/material";
 
-import noImageAvailable from "@assets/images/no_image_available.jpg";
-
 const RecruiterDetailsModal = ({ isOpen, onClose, recruiter }) => {
     return (
         <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="md">
@@ -24,7 +22,7 @@ const RecruiterDetailsModal = ({ isOpen, onClose, recruiter }) => {
                         {/* Logo */}
                         <Box>
                             <img
-                                src={recruiter.company.logo || noImageAvailable}
+                                src={recruiter.company.logo || "/images/no_image_available.jpg"}
                                 alt="Company Logo"
                                 style={{
                                     width: "96px",

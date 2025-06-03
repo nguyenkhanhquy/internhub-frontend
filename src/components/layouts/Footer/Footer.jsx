@@ -1,7 +1,5 @@
 import { Box, Typography, Divider, Paper, Link } from "@mui/material";
 
-import logoImage from "@assets/images/fit_logo.png";
-
 const Footer = () => {
     return (
         <Paper
@@ -44,8 +42,8 @@ const Footer = () => {
                 >
                     <Box
                         component="img"
-                        src={logoImage}
-                        alt="Logo"
+                        src="/images/fit_logo.png"
+                        alt="fit_logo"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
                         sx={{ width: { xs: 60, sm: 92 }, marginRight: 2 }}

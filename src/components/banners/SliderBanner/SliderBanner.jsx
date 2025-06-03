@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-import { Box, Typography, Button } from "@mui/material";
-
-import bannerImage from "@assets/images/banner.png";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 
 const images = [
-    { url: bannerImage, title: "Banner 1" },
-    { url: bannerImage, title: "Banner 2" },
-    { url: bannerImage, title: "Banner 3" },
-    { url: bannerImage, title: "Banner 4" },
-    { url: bannerImage, title: "Banner 5" },
+    { url: "/images/banner.png", title: "Banner 1" },
+    { url: "/images/banner.png", title: "Banner 2" },
+    { url: "/images/banner.png", title: "Banner 3" },
+    { url: "/images/banner.png", title: "Banner 4" },
+    { url: "/images/banner.png", title: "Banner 5" },
 ];
 
 const SliderBanner = () => {
@@ -108,6 +108,7 @@ const SliderBanner = () => {
                             component="img"
                             src={item.url}
                             alt={item.title}
+                            loading="lazy"
                             draggable={false}
                             onDragStart={(e) => e.preventDefault()}
                             sx={{

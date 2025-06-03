@@ -19,8 +19,6 @@ import AssignmentTurnedIn from "@mui/icons-material/AssignmentTurnedIn";
 import Class from "@mui/icons-material/Class";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-import logo from "@assets/images/ute_logo_c.png";
-
 const StudentDataNavigation = ({ studentName }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -51,7 +49,7 @@ const StudentDataNavigation = ({ studentName }) => {
             >
                 {/* Avatar sinh viên */}
                 <Avatar
-                    src={logo}
+                    src={"/images/ute_logo_c.png"}
                     alt={studentName}
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}

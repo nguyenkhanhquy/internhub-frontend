@@ -15,8 +15,6 @@ import { useDemoRouter } from "@toolpad/core/internal";
 
 import PageContent from "@components/dashboard/PageContent/PageContent";
 
-import logo from "@assets/images/ute_logo_c.png";
-
 const NAVIGATION = [
     {
         kind: "header",
@@ -79,7 +77,7 @@ function DashboardPage(props) {
         user: {
             name: user?.name,
             email: user?.email,
-            image: logo,
+            image: "/images/ute_logo_c.png",
         },
     });
 
@@ -90,7 +88,7 @@ function DashboardPage(props) {
                     user: {
                         name: user?.name,
                         email: user?.email,
-                        image: logo,
+                        image: "/images/ute_logo_c.png",
                     },
                 });
             },

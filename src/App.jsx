@@ -1,7 +1,7 @@
 import { useState } from "react";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import AppRoutes from "@routes/AppRoutes";
-import CssBaseline from "@mui/material/CssBaseline";
 
 import ChatButton from "@components/chatbot/ChatButton";
 import Chat from "@components/chatbot/Chat";
@@ -16,9 +16,9 @@ function App() {
     return (
         <>
             <CssBaseline />
+
             <AppRoutes />
 
-            {/* Chatbot components */}
             <ChatButton onClick={toggleChat} />
             <Chat isOpen={isChatOpen} onClose={toggleChat} />
         </>
