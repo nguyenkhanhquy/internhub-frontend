@@ -43,6 +43,7 @@ export default defineConfig({
                     fontawesome: ["@fortawesome/react-fontawesome", "@fortawesome/free-solid-svg-icons"],
                     markdown: ["react-markdown", "remark-gfm"],
                     websocket: ["@stomp/stompjs", "sockjs-client"],
+                    html2pdf: ["html2pdf.js"],
                 },
             },
         },
