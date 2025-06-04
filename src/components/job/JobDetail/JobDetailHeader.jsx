@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 
 import useAuth from "@hooks/useAuth";
 
-import { Box, Typography, Avatar, Button, Stack, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Business from "@mui/icons-material/Business";
 import LocationOn from "@mui/icons-material/LocationOn";

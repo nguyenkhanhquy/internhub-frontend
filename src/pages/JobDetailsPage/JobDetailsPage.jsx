@@ -7,13 +7,17 @@ import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
 import JobDetailHeader from "@components/job/JobDetail/JobDetailHeader";
 import JobDetailBody from "@components/job/JobDetail/JobDetailBody";
 import JobDetailSummary from "@components/job/JobDetail/JobDetailSummary";
-import JobDetailContact from "@components/job/JobDetail/JobDetailContact";
-import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import CompanyDetailsContact from "@components/section/CompanyDetailsPage/CompanyDetailsContact";
 import JobApplicationModal from "@components/modals/JobApplicationModal/JobApplicationModal";
+
+import JobDetailHeaderSkeleton from "@components/skeletons/JobDetailHeaderSkeleton";
+import JobDetailBodySkeleton from "@components/skeletons/JobDetailBodySkeleton";
+import JobDetailSummarySkeleton from "@components/skeletons/JobDetailSummarySkeleton";
+import CompanyDetailsContactSkeleton from "@components/skeletons/CompanyDetailsContactSkeleton";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { useMediaQuery } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import useAuth from "@hooks/useAuth";
 import { getJobPostById, getJobPostsByCompanyId, getAllJobPosts } from "@services/jobPostService";
@@ -29,8 +33,13 @@ const JobDetailsPage = () => {
 
     useEffect(() => {
         const fetchJobPostsDetails = async () => {
-            setLoading(true);
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
             try {
+                setLoading(true);
+
                 // Bước 1: Lấy thông tin job trước
                 const jobDetailData = await getJobPostById(id);
                 if (!jobDetailData.success) {
@@ -72,10 +81,6 @@ const JobDetailsPage = () => {
                 }
             } finally {
                 setLoading(false);
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         };
 
@@ -102,7 +107,26 @@ const JobDetailsPage = () => {
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết công việc" />
             {loading ? (
-                <SuspenseLoader />
+                <div style={{ margin: marginValue }}>
+                    {/* Header skeleton */}
+                    <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
+                        <JobDetailHeaderSkeleton />
+                    </Box>
+
+                    {/* Chia layout thành 2 phần: Body và Summary skeleton */}
+                    <Grid container spacing={4}>
+                        {/* Phần Body skeleton nằm bên trái, chiếm 2/3 */}
+                        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
+                            <JobDetailBodySkeleton />
+                        </Grid>
+
+                        {/* Phần Summary skeleton nằm bên phải, chiếm 1/3 */}
+                        <Grid size={{ xs: 12, md: 6, lg: 4 }} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                            <JobDetailSummarySkeleton />
+                            <CompanyDetailsContactSkeleton />
+                        </Grid>
+                    </Grid>
+                </div>
             ) : (
                 <div style={{ margin: marginValue }}>
                     {/* Header tóm tắt thông tin */}
@@ -143,7 +167,10 @@ const JobDetailsPage = () => {
                                 jobPosition={jobData.jobPosition}
                                 majors={jobData.majors}
                             />
-                            <JobDetailContact companyName={jobData.company.name} address={jobData.company.address} />
+                            <CompanyDetailsContact
+                                companyName={jobData.company.name}
+                                address={jobData.company.address}
+                            />
                         </Grid>
                     </Grid>
                     {/* Modal ứng tuyển */}

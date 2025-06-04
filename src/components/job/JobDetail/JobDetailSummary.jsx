@@ -1,6 +1,11 @@
 import PropTypes from "prop-types";
 
-import { Box, Typography, Stack, Divider, Chip, useTheme, useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import MonetizationOn from "@mui/icons-material/MonetizationOn";
 import Group from "@mui/icons-material/Group";
@@ -19,9 +24,7 @@ const majorLabels = {
 };
 
 const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, majors }) => {
-    // Lấy theme và kiểm tra xem màn hình có nhỏ hay không
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
     return (
         <Box
