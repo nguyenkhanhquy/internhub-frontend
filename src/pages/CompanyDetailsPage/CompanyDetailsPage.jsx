@@ -7,7 +7,9 @@ import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
 import CompanyDetailsHeader from "@components/section/CompanyDetailsPage/CompanyDetailsHeader";
 import CompanyDetailsBody from "@components/section/CompanyDetailsPage/CompanyDetailsBody";
 import CompanyDetailsContact from "@components/section/CompanyDetailsPage/CompanyDetailsContact";
-import SuspenseLoader from "@components/loaders/SuspenseLoader/SuspenseLoader";
+import CompanyDetailsHeaderSkeleton from "@components/skeletons/CompanyDetailsHeaderSkeleton";
+import CompanyDetailsBodySkeleton from "@components/skeletons/CompanyDetailsBodySkeleton";
+import CompanyDetailsContactSkeleton from "@components/skeletons/CompanyDetailsContactSkeleton";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -23,9 +25,13 @@ const CompanyDetailsPage = () => {
     const [companyData, setCompanyData] = useState({});
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+        const fetchCompanyData = async () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
             try {
+                setLoading(true);
                 const data = await getCompanyById(id);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -47,14 +53,10 @@ const CompanyDetailsPage = () => {
                 else toast.error(error.message);
             } finally {
                 setLoading(false);
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         };
 
-        fetchData();
+        fetchCompanyData();
     }, [id, navigate]);
 
     // Kiểm tra kích thước màn hình
@@ -68,29 +70,39 @@ const CompanyDetailsPage = () => {
         <MainLayout title="Chi tiết doanh nghiệp">
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết doanh nghiệp" />
-            {loading ? (
-                <SuspenseLoader />
-            ) : (
-                <div style={{ margin: marginValue }}>
-                    {/* Header tóm tắt thông tin */}
-                    <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
+
+            <div style={{ margin: marginValue }}>
+                {/* Header tóm tắt thông tin */}
+                <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
+                    {loading ? (
+                        <CompanyDetailsHeaderSkeleton />
+                    ) : (
                         <CompanyDetailsHeader
                             logo={companyData.logo}
                             name={companyData.name}
                             website={companyData.website}
                             address={companyData.address}
                         />
-                    </Box>
-                    <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, lg: 8 }}>
+                    )}
+                </Box>
+
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, lg: 8 }}>
+                        {loading ? (
+                            <CompanyDetailsBodySkeleton />
+                        ) : (
                             <CompanyDetailsBody description={companyData.description} jobs={companyData.jobs} />
-                        </Grid>
-                        <Grid size={{ xs: 12, lg: 4 }}>
-                            <CompanyDetailsContact companyName={companyData.name} address={companyData.address} />
-                        </Grid>
+                        )}
                     </Grid>
-                </div>
-            )}
+                    <Grid size={{ xs: 12, lg: 4 }}>
+                        {loading ? (
+                            <CompanyDetailsContactSkeleton />
+                        ) : (
+                            <CompanyDetailsContact companyName={companyData.name} address={companyData.address} />
+                        )}
+                    </Grid>
+                </Grid>
+            </div>
         </MainLayout>
     );
 };

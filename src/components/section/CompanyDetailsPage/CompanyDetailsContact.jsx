@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 
-import { Box, Typography, Stack, Divider } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 
 import LocationOn from "@mui/icons-material/LocationOn";
 import MapIcon from "@mui/icons-material/Map";
