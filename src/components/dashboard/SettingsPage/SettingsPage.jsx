@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-import { Box, Grid, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 import DashboardUpdatePasswordForm from "@components/forms/DashboardUpdatePasswordForm/DashboardUpdatePasswordForm";
 import AccountDetailsCard from "@components/card/AccountDetailsCard/AccountDetailsCard";

@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import { Box, Typography, Button, Card, Paper, Skeleton, Fade, Grow } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
+import Fade from "@mui/material/Fade";
+import Grow from "@mui/material/Grow";
+
 import CachedIcon from "@mui/icons-material/Cached";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 

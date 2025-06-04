@@ -1,27 +1,31 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 
-import {
-    TextField,
-    Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    Button,
-    Tooltip,
-    IconButton,
-    LinearProgress,
-    Skeleton,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
+import Skeleton from "@mui/material/Skeleton";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import CachedIcon from "@mui/icons-material/Cached";
 import EditIcon from "@mui/icons-material/Edit";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import EmptyBox from "@components/box/EmptyBox";
 import UpdateTeacherModal from "@components/modals/UpdateTeacherModal/UpdateTeacherModal";
@@ -48,6 +52,7 @@ const getStatusStyleLocked = (status) => {
 const TeacherPage = () => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const [flag, setFlag] = useState(false);
     const [teachers, setTeachers] = useState([]);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -170,6 +175,7 @@ const TeacherPage = () => {
             return;
         }
 
+        setUploading(true);
         try {
             const data = await importTeachers(file);
 
@@ -182,6 +188,8 @@ const TeacherPage = () => {
             toast.success(data.message);
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -203,10 +211,79 @@ const TeacherPage = () => {
                     Giảng viên
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    <TextField type="file" onChange={handleFileChange} />
-                    <Button disabled={!file} variant="contained" onClick={handleUpload}>
-                        + Import danh sách giảng viên
-                    </Button>
+                    <Paper
+                        elevation={2}
+                        sx={{
+                            p: 2,
+                            borderRadius: 2,
+                            border: "2px dashed #e0e0e0",
+                            backgroundColor: "#fafafa",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                                borderColor: "#1976d2",
+                                backgroundColor: "#f5f5f5",
+                            },
+                        }}
+                    >
+                        <Box display="flex" alignItems="center" gap={1.5}>
+                            <input
+                                type="file"
+                                accept=".xlsx,.xls"
+                                onChange={handleFileChange}
+                                style={{ display: "none" }}
+                                id="file-upload-input"
+                            />
+                            <label htmlFor="file-upload-input">
+                                <Button
+                                    variant="outlined"
+                                    component="span"
+                                    startIcon={<AttachFileIcon />}
+                                    sx={{
+                                        borderColor: "#1976d2",
+                                        color: "#1976d2",
+                                        "&:hover": {
+                                            borderColor: "#1565c0",
+                                            backgroundColor: "#e3f2fd",
+                                        },
+                                    }}
+                                >
+                                    Chọn file
+                                </Button>
+                            </label>
+
+                            {file && (
+                                <Chip
+                                    icon={<UploadFileIcon />}
+                                    label={file.name}
+                                    color="primary"
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ maxWidth: "200px" }}
+                                />
+                            )}
+
+                            <Button
+                                disabled={!file || uploading}
+                                variant="contained"
+                                onClick={handleUpload}
+                                startIcon={
+                                    uploading ? <CircularProgress size={16} color="inherit" /> : <CloudUploadIcon />
+                                }
+                                sx={{
+                                    backgroundColor: "#1976d2",
+                                    "&:hover": {
+                                        backgroundColor: "#1565c0",
+                                    },
+                                    "&:disabled": {
+                                        backgroundColor: "#e0e0e0",
+                                    },
+                                }}
+                            >
+                                {uploading ? "Đang import..." : "Import danh sách"}
+                            </Button>
+                        </Box>
+                    </Paper>
+
                     <Button
                         onClick={() => {
                             if (search === "" && currentPage === 1 && recordsPerPage === 10) {
