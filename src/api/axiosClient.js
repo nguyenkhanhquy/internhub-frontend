@@ -1,6 +1,8 @@
 import axios from "axios";
 import { getToken, removeToken } from "@services/localStorageService";
 
+const isDevelopment = import.meta.env.MODE === "development";
+
 const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}`,
     headers: {
@@ -9,7 +11,11 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(
-    (config) => {
+    async (config) => {
+        if (isDevelopment) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+
         const accessToken = getToken();
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
