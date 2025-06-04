@@ -1,20 +1,38 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import Box from "@mui/material/Box";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import PageNavigation from "../../components/layouts/PageNavigation/PageNavigation";
-import CompanyCard from "../../components/card/CompanyCard/CompanyCard";
-import CompanyListingPagination from "../../components/pagination/CompanyListingPagination/CompanyListingPagination";
-import SuspenseLoader from "../../components/loaders/SuspenseLoader/SuspenseLoader";
-import EmptyBox from "../../components/box/EmptyBox";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 
-import { getAllApprovedCompanies } from "../../services/companyService";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import CompanyCard from "@components/card/CompanyCard/CompanyCard";
+import CompanyListingPagination from "@components/pagination/CompanyListingPagination/CompanyListingPagination";
+import EmptyBox from "@components/box/EmptyBox";
+
+import { getAllApprovedCompanies } from "@services/companyService";
+
+const CompanyCardSkeleton = () => (
+    <Box
+        sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: 2,
+            border: "1px solid #ddd",
+            borderRadius: 1,
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+        }}
+    >
+        <Skeleton variant="rectangular" width="100%" height={160} sx={{ marginBottom: 2 }} />
+        <Skeleton variant="text" width="80%" height={32} sx={{ fontSize: "1.25rem" }} />
+    </Box>
+);
 
 const CompanyListingPage = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [companies, setCompanies] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +45,10 @@ const CompanyListingPage = () => {
 
     useEffect(() => {
         const fetchCompanies = async () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
             try {
                 setLoading(true);
                 const data = await getAllApprovedCompanies(currentPage, 6);
@@ -40,10 +62,6 @@ const CompanyListingPage = () => {
                 toast.error(error.message);
             } finally {
                 setLoading(false);
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         };
 
@@ -67,16 +85,12 @@ const CompanyListingPage = () => {
                 {/* Hiển thị danh sách các công ty */}
                 <Grid container spacing={4} sx={{ justifyContent: "center", mb: 4 }}>
                     {loading ? (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                minHeight: 350,
-                            }}
-                        >
-                            <SuspenseLoader />
-                        </div>
+                        // Hiển thị 6 skeleton cards trong khi loading
+                        Array.from({ length: 6 }).map((_, index) => (
+                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`skeleton-${index}`}>
+                                <CompanyCardSkeleton />
+                            </Grid>
+                        ))
                     ) : companies.length > 0 ? (
                         companies.map((company, index) => (
                             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
@@ -90,6 +104,7 @@ const CompanyListingPage = () => {
                     )}
                 </Grid>
                 {/* Phân trang */}
+
                 <CompanyListingPagination
                     currentPage={currentPage}
                     totalPages={totalPages}

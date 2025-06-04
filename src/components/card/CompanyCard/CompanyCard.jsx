@@ -1,6 +1,10 @@
-import { Box, Avatar, Typography, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 const CompanyCard = ({ company }) => {
     const navigate = useNavigate();

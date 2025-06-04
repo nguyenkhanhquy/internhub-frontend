@@ -1,5 +1,8 @@
-import { Box, Pagination, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
 
 const CompanyListingPagination = ({ currentPage, totalPages, totalRecords, onPageChange }) => {
     const handlePageChange = (event, value) => {
