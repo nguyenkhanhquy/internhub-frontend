@@ -2,7 +2,13 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
 
-import { Box, Typography, Avatar, Button, IconButton, Skeleton } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Skeleton from "@mui/material/Skeleton";
+
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 
@@ -164,29 +170,33 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                           ))}
                 </Box>
 
-                {/* Nút điều hướng */}
-                <IconButton
-                    onClick={goToPrev}
-                    sx={{ position: "absolute", top: "50%", left: 8, transform: "translateY(-50%)" }}
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                >
-                    <ChevronLeft />
-                </IconButton>
+                {!loading && (
+                    <>
+                        {/* Nút điều hướng */}
+                        <IconButton
+                            onClick={goToPrev}
+                            sx={{ position: "absolute", top: "50%", left: 8, transform: "translateY(-50%)" }}
+                            onMouseEnter={() => setIsPaused(true)}
+                            onMouseLeave={() => setIsPaused(false)}
+                        >
+                            <ChevronLeft />
+                        </IconButton>
 
-                <IconButton
-                    onClick={goToNext}
-                    sx={{
-                        position: "absolute",
-                        top: "50%",
-                        right: 8,
-                        transform: "translateY(-50%)",
-                    }}
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                >
-                    <ChevronRight />
-                </IconButton>
+                        <IconButton
+                            onClick={goToNext}
+                            sx={{
+                                position: "absolute",
+                                top: "50%",
+                                right: 8,
+                                transform: "translateY(-50%)",
+                            }}
+                            onMouseEnter={() => setIsPaused(true)}
+                            onMouseLeave={() => setIsPaused(false)}
+                        >
+                            <ChevronRight />
+                        </IconButton>
+                    </>
+                )}
             </Box>
 
             <Button
