@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 import JobCardBasic from "@components/job/JobCard/JobCardBasic";
-import JobCardBasicSkeleton from "@components/job/JobCard/JobCardBasicSkeleton";
+import JobCardBasicSkeleton from "@components/skeletons/JobCardBasicSkeleton";
 
 const SuitableJobsSection = ({ loading, jobList }) => {
     return (

@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
-import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+
 import JobCardBasic from "@components/job/JobCard/JobCardBasic";
-import JobCardBasicSkeleton from "@components/job/JobCard/JobCardBasicSkeleton";
+import JobCardBasicSkeleton from "@components/skeletons/JobCardBasicSkeleton";
 
 const LatestJobsSection = ({ loading, jobList }) => {
     const navigate = useNavigate();

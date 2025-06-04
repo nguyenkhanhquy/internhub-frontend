@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 
 import useAuth from "@hooks/useAuth";
 
-import { Box, Container, Grid, Typography, Paper } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import SliderBanner from "@components/banners/SliderBanner/SliderBanner";
 import SearchBar from "@components/search/SearchBar";
