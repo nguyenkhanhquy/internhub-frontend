@@ -1,5 +1,9 @@
 import PropTypes from "prop-types";
-import { Box, Typography, Select, MenuItem } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const SortBar = ({ totalRecords, sortOption, onSortChange }) => {
     return (
