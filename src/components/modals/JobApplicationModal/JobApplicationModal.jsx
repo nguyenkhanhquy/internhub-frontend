@@ -48,7 +48,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
             if (cvSource === "saved") {
                 // Sử dụng CV có sẵn từ list
                 if (!selectedCvId) {
-                    toast.info("Vui lòng chọn CV từ danh sách");
+                    toast.info("Vui cung cấp file CV");
                     return;
                 }
                 const selectedCv = listCVs.find((cv) => cv.id === selectedCvId);
@@ -59,7 +59,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
             } else if (cvSource === "upload") {
                 // Upload CV mới
                 if (!selectedFile) {
-                    toast.info("Vui lòng chọn file CV để upload");
+                    toast.info("Vui cung cấp file CV");
                     return;
                 }
                 // Tạo đường dẫn tệp với timestamp
