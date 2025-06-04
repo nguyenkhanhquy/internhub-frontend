@@ -1,25 +1,23 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    IconButton,
-    Typography,
-    Box,
-    CircularProgress,
-    Alert,
-    useTheme,
-    useMediaQuery,
-} from "@mui/material";
+
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 const ViewCvModal = ({ isOpen, onClose, cvUrl, title }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const isMobile = useMediaQuery("(max-width: 900px)");
 
     const handleIframeLoad = () => {
         setLoading(false);
