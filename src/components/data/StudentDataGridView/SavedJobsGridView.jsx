@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { Box, Button, Tooltip } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+
 import Delete from "@mui/icons-material/Delete";
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import DataSearchBar from "@components/data/DataSearchBar";

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import { Box, TextField, Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
 import Search from "@mui/icons-material/Search";
 
 const DataSearchBar = ({ placeholder, onSearch, query }) => {
@@ -13,6 +16,12 @@ const DataSearchBar = ({ placeholder, onSearch, query }) => {
 
     const handleSearch = () => {
         onSearch(searchText);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
     };
 
     return (
@@ -46,6 +55,7 @@ const DataSearchBar = ({ placeholder, onSearch, query }) => {
                 <TextField
                     value={searchText}
                     onChange={handleSearchChange}
+                    onKeyDown={handleKeyDown}
                     placeholder={placeholder || "Tìm kiếm..."}
                     size="small"
                     fullWidth
