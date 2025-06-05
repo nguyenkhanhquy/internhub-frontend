@@ -72,13 +72,14 @@ const Chat = ({ isOpen, onClose }) => {
         }
     };
 
+    // Thêm icon trước mỗi câu hỏi cho phù hợp
     const popularQuestions = [
-        "📋 Làm thế nào để đăng ký thực tập?",
-        "🏢 Có những công ty nào đang tuyển thực tập sinh?",
-        "📝 Cách viết CV hiệu quả cho thực tập sinh?",
-        "💰 Mức lương thực tập trung bình là bao nhiêu?",
-        "⏰ Thời gian thực tập thường kéo dài bao lâu?",
-        "🎓 Yêu cầu kỹ năng cho thực tập sinh IT?",
+        "💡 Giới thiệu về InternHub?",
+        "💡 Cách tạo CV trên InternHub?",
+        "💡 Các chức năng dành cho sinh viên?",
+        "💡 Cách nộp báo cáo thực tập?",
+        "💡 Cách đăng ký tài khoản nhà tuyển dụng?",
+        "💡 Cách đăng ký tài khoản thực tập sinh?",
     ];
 
     const handleSuggestionClick = async (question) => {
