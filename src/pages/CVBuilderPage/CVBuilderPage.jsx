@@ -22,15 +22,15 @@ import { createCV } from "@services/cvService";
 
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import SaveIcon from "@mui/icons-material/Save";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const CVBuilderPage = () => {
     const { user } = useAuth();
+
     const [cvData, setCvData] = useState({
         personalInfo: {
-            fullName: "",
+            fullName: user?.name || "",
             position: "",
-            email: "",
+            email: user?.email || "",
             phone: "",
             location: "",
             summary: "",
@@ -366,13 +366,6 @@ const CVBuilderPage = () => {
                                 >
                                     <SaveIcon fontSize="small" />
                                     Lưu CV
-                                </button>
-                                <button
-                                    onClick={() => window.history.back()}
-                                    className="flex items-center gap-2 rounded border border-blue-800 bg-gray-100 px-4 py-2 font-semibold text-blue-900 hover:bg-blue-50 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                                >
-                                    <ArrowBackIcon fontSize="small" />
-                                    Quay lại
                                 </button>
                             </div>
                             <div ref={cvRef}>{renderSelectedTemplate()}</div>
