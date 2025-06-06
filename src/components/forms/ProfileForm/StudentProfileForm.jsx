@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Box, Button, Grid, MenuItem, TextField, Typography, Paper } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+
 import SaveIcon from "@mui/icons-material/Save";
 
 import { useForm, Controller } from "react-hook-form";
@@ -144,7 +152,7 @@ const StudentProfileForm = () => {
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
-                style={{ minHeight: 560, maxWidth: 800, margin: "auto", padding: 16 }}
+                style={{ minHeight: 580, maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" marginBottom={3}>
                     Chi tiết hồ sơ sinh viên

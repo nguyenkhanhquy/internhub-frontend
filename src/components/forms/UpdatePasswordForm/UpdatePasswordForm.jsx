@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Box, Button, TextField, Typography, Paper, Grid } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+
 import SaveIcon from "@mui/icons-material/Save";
 import Loading from "@components/loaders/Loading/Loading";
 
@@ -64,7 +71,7 @@ const UpdatePasswordForm = () => {
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
-                sx={{ height: 420, maxWidth: 800, margin: "auto", p: 4 }}
+                sx={{ minHeight: 400, maxWidth: 800, margin: "auto", padding: 4 }}
             >
                 <Typography variant="h5" fontWeight="bold" mb={1}>
                     Đổi mật khẩu
