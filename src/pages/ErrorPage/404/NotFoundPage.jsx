@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
 import FlagIcon from "@mui/icons-material/Flag";
 import HomeIcon from "@mui/icons-material/Home";
 

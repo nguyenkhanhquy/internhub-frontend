@@ -58,14 +58,14 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                         {/* Bản đồ nhỏ luôn hiển thị */}
                         <Box sx={{ mt: 2, borderRadius: 1, overflow: "hidden" }}>
                             <iframe
+                                title={`Bản đồ ${companyName}`}
                                 src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
                                 width="100%"
                                 height="200"
                                 style={{ border: 0 }}
-                                allowFullScreen=""
+                                allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title={`Bản đồ ${companyName}`}
                             />
                         </Box>
                     </Box>

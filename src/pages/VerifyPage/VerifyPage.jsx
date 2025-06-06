@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import VerifyForm from "../../components/forms/VerifyForm/VerifyForm";
+
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import VerifyForm from "@components/forms/VerifyForm/VerifyForm";
 
 const VerifyPage = () => {
     const location = useLocation();

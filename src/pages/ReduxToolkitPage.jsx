@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, decrement, reset, selectCounter } from "@store/slices/counterSlice";
 

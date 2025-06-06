@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { Box, TextField, InputAdornment, Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import Button from "@mui/material/Button";
 
 import SearchIcon from "@mui/icons-material/Search";
 

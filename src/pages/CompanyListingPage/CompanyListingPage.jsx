@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 
@@ -11,25 +10,9 @@ import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
 import CompanyCard from "@components/card/CompanyCard/CompanyCard";
 import CompanyListingPagination from "@components/pagination/CompanyListingPagination/CompanyListingPagination";
 import EmptyBox from "@components/box/EmptyBox";
+import CompanyCardSkeleton from "@components/skeletons/CompanyCardSkeleton";
 
 import { getAllApprovedCompanies } from "@services/companyService";
-
-const CompanyCardSkeleton = () => (
-    <Box
-        sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: 2,
-            border: "1px solid #ddd",
-            borderRadius: 1,
-            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-        }}
-    >
-        <Skeleton variant="rectangular" width="100%" height={160} sx={{ marginBottom: 2 }} />
-        <Skeleton variant="text" width="80%" height={32} sx={{ fontSize: "1.25rem" }} />
-    </Box>
-);
 
 const CompanyListingPage = () => {
     const [loading, setLoading] = useState(true);

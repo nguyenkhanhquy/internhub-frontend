@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import ResetPasswordForm from "../../components/forms/ResetPasswordForm/ResetPasswordForm";
+
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import ResetPasswordForm from "@components/forms/ResetPasswordForm/ResetPasswordForm";
 
 const ResetPasswordPage = () => {
     const location = useLocation();
