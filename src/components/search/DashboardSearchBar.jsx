@@ -23,11 +23,18 @@ const DashboardSearchBar = ({ onSearch, query, placeholder }) => {
         onSearch(searchText);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
+
     return (
         <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
             <TextField
                 value={searchText}
                 onChange={handleSearchChange}
+                onKeyDown={handleKeyDown}
                 placeholder={placeholder || "Tìm kiếm..."}
                 variant="outlined"
                 fullWidth
