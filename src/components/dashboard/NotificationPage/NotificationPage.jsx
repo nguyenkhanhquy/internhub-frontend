@@ -93,7 +93,6 @@ const NotificationPage = () => {
         setLoading(true);
         if (!isInitial) {
             setSelectedNotification(null);
-            setSearch("");
         }
         try {
             const data = await getAllNotificationsByUser();
@@ -118,6 +117,7 @@ const NotificationPage = () => {
             if (isInitial) {
                 setInitialLoading(false);
             }
+            setSearch("");
         }
     };
 

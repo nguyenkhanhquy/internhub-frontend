@@ -5,7 +5,14 @@ import { toast } from "react-toastify";
 
 import useAuth from "@hooks/useAuth";
 
-import { Card, CardContent, Typography, Box, IconButton, Avatar, Divider, Stack } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
 
 import BookmarkBorder from "@mui/icons-material/BookmarkBorder";
 import Bookmark from "@mui/icons-material/Bookmark";

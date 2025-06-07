@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { Paper, Typography, Grid, Divider, Box } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+
 import Loading from "@components/loaders/Loading/Loading";
 
 import { getAuthUser } from "@services/authService";

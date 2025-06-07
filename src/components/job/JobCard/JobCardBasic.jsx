@@ -1,6 +1,11 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { Card, Typography, Avatar, Box, Stack } from "@mui/material";
+
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
     const navigate = useNavigate();

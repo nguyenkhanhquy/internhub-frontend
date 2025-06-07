@@ -11,8 +11,6 @@ const images = [
     { url: "/images/banner.png", title: "Banner 1" },
     { url: "/images/banner.png", title: "Banner 2" },
     { url: "/images/banner.png", title: "Banner 3" },
-    { url: "/images/banner.png", title: "Banner 4" },
-    { url: "/images/banner.png", title: "Banner 5" },
 ];
 
 const SliderBanner = () => {
