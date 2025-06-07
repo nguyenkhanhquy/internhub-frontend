@@ -21,7 +21,7 @@ import useAuth from "@hooks/useAuth";
 import { OAuthConfig } from "@config/config";
 
 // Assets
-import logoGoogle from "/google.svg";
+import logoGoogle from "@assets/google.svg";
 
 // Components
 import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";

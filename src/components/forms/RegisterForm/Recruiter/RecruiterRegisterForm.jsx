@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Loading from "../../../loaders/Loading/Loading";
+
+import Loading from "@components/loaders/Loading/Loading";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,9 +20,11 @@ import {
     faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { registerRecruiter } from "@services/userService";
+
 import styles from "./RecruiterRegisterForm.module.css";
+
 import UserTerms from "./UserTerms";
-import { registerRecruiter } from "../../../../services/userService";
 
 const regexEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

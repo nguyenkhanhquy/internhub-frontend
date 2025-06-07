@@ -1,6 +1,7 @@
-import { Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import useCountUp from "@hooks/useCountUp";
+
+import Typography from "@mui/material/Typography";
 
 const AnimatedCounter = ({
     value,
