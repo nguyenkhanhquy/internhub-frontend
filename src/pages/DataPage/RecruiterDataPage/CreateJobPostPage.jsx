@@ -1,7 +1,7 @@
-import MainLayout from "../../../layouts/MainLayout/MainLayout";
-import RecruiterDataLayout from "../../../layouts/DataLayout/RecruiterDataLayout";
-import PageNavigation from "../../../components/layouts/PageNavigation/PageNavigation";
-import CreateJobPostForm from "../../../components/forms/CreateJobPostForm/CreateJobPostForm";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import RecruiterDataLayout from "@layouts/DataLayout/RecruiterDataLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import CreateJobPostForm from "@components/forms/CreateJobPostForm/CreateJobPostForm";
 
 const CreateJobPostPage = () => {
     return (

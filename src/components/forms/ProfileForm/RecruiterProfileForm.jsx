@@ -1,6 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
-import { Box, Button, Grid, TextField, Typography, Paper, IconButton, Card, CardMedia } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+
 import SaveIcon from "@mui/icons-material/Save";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -176,7 +186,7 @@ const RecruiterProfileForm = () => {
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
-                style={{ minHeight: 560, maxWidth: 800, margin: "auto", padding: 16 }}
+                style={{ minHeight: 580, maxWidth: 800, margin: "auto", padding: 16 }}
             >
                 <Typography variant="h5" fontWeight="bold" marginBottom={3}>
                     Thông tin người đại diện

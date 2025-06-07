@@ -1,9 +1,10 @@
 import { useState } from "react";
-import MainLayout from "../../../layouts/MainLayout/MainLayout";
-import RecruiterDataLayout from "../../../layouts/DataLayout/RecruiterDataLayout";
-import PageNavigation from "../../../components/layouts/PageNavigation/PageNavigation";
-import PostedJobsGridView from "../../../components/data/RecruiterDataGridView/PostedJobsGridView";
-import ApplicationListGridView from "../../../components/data/RecruiterDataGridView/ApplicationListGridView";
+
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import RecruiterDataLayout from "@layouts/DataLayout/RecruiterDataLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import PostedJobsGridView from "@components/data/RecruiterDataGridView/PostedJobsGridView";
+import ApplicationListGridView from "@components/data/RecruiterDataGridView/ApplicationListGridView";
 
 const PostedJobsPage = () => {
     const [currentView, setCurrentView] = useState("PostedJobs"); // Quản lý trạng thái giữa 2 component
