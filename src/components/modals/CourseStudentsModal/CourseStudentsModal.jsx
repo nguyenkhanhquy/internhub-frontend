@@ -4,27 +4,26 @@ import PropTypes from "prop-types";
 
 import useAuth from "@/hooks/useAuth";
 
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Typography,
-    Box,
-    TableContainer,
-    Button,
-    Alert,
-    LinearProgress,
-} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import TableContainer from "@mui/material/TableContainer";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
+
 import CloseIcon from "@mui/icons-material/Close";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
-import ReportDetails from "./ReportDetails";
-import ScoreEntry from "./ScoreEntry";
+import ReportDetails from "@components/modals/CourseStudentsModal/ReportDetails";
+import ScoreEntry from "@components/modals/CourseStudentsModal/ScoreEntry";
 
 import { getAllEnrollmentsByCourseId } from "@services/courseService";
 import { updateFinalScore } from "@services/enrollmentService";
@@ -184,7 +183,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     };
 
     const handleDownloadFile = (file) => {
-        console.log(`Downloading file: ${file}`);
+        window.open(file, "_blank");
     };
 
     return (

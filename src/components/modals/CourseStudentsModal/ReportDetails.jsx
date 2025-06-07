@@ -2,9 +2,14 @@ import PropTypes from "prop-types";
 
 import useAuth from "@/hooks/useAuth";
 
-import { Box, Paper, Typography, Divider, Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
 
 import DescriptionIcon from "@mui/icons-material/Description";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { formatDate } from "@utils/dateUtil";
 
@@ -175,6 +180,7 @@ const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, on
                     color="primary"
                     onClick={onBackToList}
                     sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
+                    startIcon={<ArrowBackIcon />}
                 >
                     Quay lại
                 </Button>
