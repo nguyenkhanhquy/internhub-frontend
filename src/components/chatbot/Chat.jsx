@@ -75,11 +75,11 @@ const Chat = ({ isOpen, onClose }) => {
     // Thêm icon trước mỗi câu hỏi cho phù hợp
     const popularQuestions = [
         "💡 Giới thiệu về InternHub?",
-        "💡 Cách tạo CV trên InternHub?",
-        "💡 Các chức năng dành cho sinh viên?",
-        "💡 Cách nộp báo cáo thực tập?",
-        "💡 Cách đăng ký tài khoản nhà tuyển dụng?",
         "💡 Cách đăng ký tài khoản thực tập sinh?",
+        "💡 Cách đăng ký tài khoản nhà tuyển dụng?",
+        "💡 Cách ứng tuyển?",
+        "💡 Cách nộp báo cáo thực tập?",
+        "💡 Cách xem điểm thực tập?",
     ];
 
     const handleSuggestionClick = async (question) => {
@@ -269,7 +269,7 @@ const Chat = ({ isOpen, onClose }) => {
                                     : "border border-gray-200 bg-white text-gray-800"
                             }`}
                         >
-                            <div className={`prose prose-sm ${message.isUser ? "prose-invert" : ""} text-left`}>
+                            <div className={`text-left`}>
                                 <ReactMarkdown
                                     remarkPlugins={[remarkGfm]}
                                     components={{
@@ -282,6 +282,17 @@ const Chat = ({ isOpen, onClose }) => {
                                             >
                                                 {children}
                                             </a>
+                                        ),
+                                        // Danh sách không thứ tự
+                                        ul: ({ children }) => <ul className="mb-2 list-disc pl-5">{children}</ul>,
+                                        // Danh sách có thứ tự
+                                        ol: ({ children }) => <ol className="mb-2 list-decimal pl-5">{children}</ol>,
+                                        // Mỗi item trong danh sách
+                                        li: ({ children }) => <li className="mb-1">{children}</li>,
+                                        code: ({ children }) => (
+                                            <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-red-600">
+                                                {children}
+                                            </code>
                                         ),
                                     }}
                                 >
