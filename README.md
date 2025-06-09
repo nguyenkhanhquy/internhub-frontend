@@ -4,7 +4,7 @@
 [![Vite](https://img.shields.io/badge/Vite-Latest-purple.svg)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC)](https://tailwindcss.com/)
 [![Material UI](https://img.shields.io/badge/Material-UI-0081CB)](https://mui.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](/LICENSE)
 
 ## 📋 Overview
 
@@ -21,7 +21,7 @@ Internhub is a platform connecting students with businesses for internship posit
 
 ## 🔧 System Requirements
 
-- [Node.js](https://nodejs.org/en/download) v22.14.0 (LTS) or higher
+- [Node.js](https://nodejs.org/en/download) v22.16.0 (LTS) or higher
 - NPM v10.x or higher (included with Node.js)
 - Modern web browsers (Chrome, Firefox, Edge, Safari)
 
@@ -135,11 +135,11 @@ src/
 
 ## 👨‍💻 Development Team
 
-| Full Name | Student ID | GitHub |
-|-----------|------------|--------|
-| Nguyen Khanh Quy | 21110282 | [@nguyenkhanhquy](https://github.com/nguyenkhanhquy) |
-| Dinh Trung Nguyen | 21110259 | [@NguyenDink](https://github.com/NguyenDink) |
+| Full Name         | Student ID | GitHub                                               |
+|-------------------|------------|------------------------------------------------------|
+| Nguyen Khanh Quy  | 21110282   | [@nguyenkhanhquy](https://github.com/nguyenkhanhquy) |
+| Dinh Trung Nguyen | 21110259   | [@NguyenDink](https://github.com/NguyenDink)         |
 
 ## 📄 License
 
-This project is licensed under the [MIT License](./LICENSE).
+This project is licensed under the [MIT License](/LICENSE)
