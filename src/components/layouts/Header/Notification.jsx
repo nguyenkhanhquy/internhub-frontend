@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import {
-    Button,
-    Menu,
-    List,
-    ListItemText,
-    ListItem,
-    Divider,
-    CircularProgress,
-    TextField,
-    InputAdornment,
-    Typography,
-    Box,
-    Badge,
-} from "@mui/material";
+
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import List from "@mui/material/List";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import CircularProgress from "@mui/material/CircularProgress";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Badge from "@mui/material/Badge";
+
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -120,7 +120,7 @@ const Notification = () => {
             setVisibleNotifications(newVisibleNotifications);
             setPage(nextPage);
             setLoading(false);
-        }, 1000);
+        }, 300);
     };
 
     const markAsRead = async (id) => {
@@ -225,7 +225,7 @@ const Notification = () => {
                 >
                     <Typography
                         variant="h6"
-                        fontSize="1.1rem"
+                        fontSize="1.4rem"
                         color="#2e3090"
                         fontWeight="bold"
                         tabIndex={-1}
@@ -251,7 +251,7 @@ const Notification = () => {
                         }}
                         slotProps={{
                             htmlInput: {
-                                maxLength: 50,
+                                maxLength: 30,
                             },
                             input: {
                                 startAdornment: (
@@ -346,7 +346,8 @@ const Notification = () => {
                                 onClick={handleLoadMore}
                                 sx={{
                                     display: "block",
-                                    margin: "8px auto",
+                                    mt: 1,
+                                    mx: "auto",
                                     color: "#2e3090",
                                     fontWeight: "bold",
                                     "&:hover": { backgroundColor: "#eaf4fe" },

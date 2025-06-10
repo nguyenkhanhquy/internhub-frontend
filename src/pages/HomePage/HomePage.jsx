@@ -102,8 +102,7 @@ const HomePage = () => {
                     sx={{
                         display: "flex",
                         justifyContent: "center",
-                        mt: 2,
-                        mb: 1,
+                        my: 2,
                         position: "sticky",
                         top: 4,
                         zIndex: 1,

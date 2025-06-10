@@ -24,7 +24,7 @@ const NAVIGATION = [
         segment: "notification",
         title: "Thông báo",
         icon: <NotificationsIcon />,
-        action: <Chip label={7} color="error" size="small" />,
+        // action: <Chip label={7} color="error" size="small" />,
     },
     {
         kind: "divider",
