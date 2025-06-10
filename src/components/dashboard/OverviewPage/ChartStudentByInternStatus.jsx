@@ -73,7 +73,7 @@ export default function ChartStudentByInternStatus({ overview }) {
     const data = [
         { label: "Đang tìm nơi thực tập", value: totalStudentsSearching },
         { label: "Đang thực tập", value: totalStudentsWorking },
-        { label: "Đã thực tập", value: totalStudentsCompleted },
+        { label: "Đã hoàn thành thực tập", value: totalStudentsCompleted },
     ];
 
     const students = [
@@ -88,7 +88,7 @@ export default function ChartStudentByInternStatus({ overview }) {
             color: colors[1],
         },
         {
-            name: "Đã thực tập",
+            name: "Đã hoàn thành thực tập",
             value: totalStudents ? Math.round((totalStudentsCompleted / totalStudents) * 100) : 0,
             color: colors[2],
         },
