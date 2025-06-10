@@ -434,14 +434,14 @@ const TeacherPage = () => {
                                                 </IconButton>
                                             </Tooltip>
                                         )}
-                                        <Tooltip title="Xóa" arrow>
+                                        {/* <Tooltip title="Xóa" arrow>
                                             <IconButton
                                                 color="error"
                                                 onClick={() => handleDeleteTeacher(teacher.userId)}
                                             >
                                                 <DeleteIcon />
                                             </IconButton>
-                                        </Tooltip>
+                                        </Tooltip> */}
                                     </TableCell>
                                 </TableRow>
                             ))
