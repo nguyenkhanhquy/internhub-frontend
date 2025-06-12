@@ -14,11 +14,13 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { getCurrentEnrollment } from "@/services/studentService";
+import { getAllApprovedCompanies } from "@services/companyService";
 import { submitInternshipReport } from "@services/internshipReport";
 import { uploadFile } from "@services/uploadService";
 
@@ -31,6 +33,7 @@ const schema = yup.object().shape({
     courseCode: yup.string().required("Không tìm thấy mã lớp học phần."),
     teacherName: yup.string().required("Không tìm thấy giảng viên hướng dẫn."),
     companyName: yup.string().required("Vui lòng nhập tên công ty thực tập."),
+    isSystemCompany: yup.boolean(),
     instructorName: yup.string().required("Vui lòng nhập tên người hướng dẫn."),
     instructorEmail: yup
         .string()
@@ -52,6 +55,7 @@ const InternshipReportForm = ({ setFlag }) => {
     const { user } = useAuth();
     const [showForm, setShowForm] = useState(false);
     const [currentEnrollment, setCurrentEnrollment] = useState(null);
+    const [companies, setCompanies] = useState([]);
 
     const {
         control,
@@ -68,6 +72,7 @@ const InternshipReportForm = ({ setFlag }) => {
             courseCode: "",
             teacherName: "",
             companyName: "",
+            isSystemCompany: true,
             instructorName: "",
             instructorEmail: "",
             startDate: "",
@@ -79,6 +84,7 @@ const InternshipReportForm = ({ setFlag }) => {
 
     const watchReportFile = watch("reportFile");
     const watchEvaluationFile = watch("evaluationFile");
+    const watchIsSystemCompany = watch("isSystemCompany");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -93,11 +99,18 @@ const InternshipReportForm = ({ setFlag }) => {
                     courseCode: data?.result?.courseCode || "",
                     teacherName: data?.result?.teacherName || "",
                 }));
+
+                if (data?.result?.courseCode) {
+                    const data = await getAllApprovedCompanies(1, 100);
+                    if (!data.success) {
+                        throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                    }
+                    setCompanies(data.result);
+                }
             } catch (error) {
                 toast.error(error.message);
             }
         };
-
         fetchData();
     }, [reset]);
 
@@ -120,6 +133,7 @@ const InternshipReportForm = ({ setFlag }) => {
                 courseCode: currentEnrollment?.courseCode || "",
                 teacherName: currentEnrollment?.teacherName || "",
                 companyName: "",
+                isSystemCompany: true,
                 instructorName: "",
                 instructorEmail: "",
                 startDate: "",
@@ -248,14 +262,46 @@ const InternshipReportForm = ({ setFlag }) => {
                             <Controller
                                 name="companyName"
                                 control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        label="Công ty thực tập"
-                                        fullWidth
-                                        size="small"
-                                        error={!!errors.companyName}
-                                        helperText={errors.companyName?.message}
+                                render={({ field: { onChange, value } }) => (
+                                    <Autocomplete
+                                        freeSolo={!watchIsSystemCompany}
+                                        options={watchIsSystemCompany ? companies : []}
+                                        getOptionLabel={(option) =>
+                                            typeof option === "string" ? option : option.name || ""
+                                        }
+                                        value={
+                                            watchIsSystemCompany
+                                                ? companies.find((company) => company.name === value) || null
+                                                : value || ""
+                                        }
+                                        onChange={(_, newValue) => {
+                                            if (watchIsSystemCompany) {
+                                                onChange(
+                                                    typeof newValue === "string" ? newValue : newValue?.name || "",
+                                                );
+                                            } else {
+                                                onChange(typeof newValue === "string" ? newValue : "");
+                                            }
+                                        }}
+                                        onInputChange={(_, newInputValue) => {
+                                            if (!watchIsSystemCompany) {
+                                                onChange(newInputValue);
+                                            }
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Công ty thực tập"
+                                                fullWidth
+                                                size="small"
+                                                error={!!errors.companyName}
+                                                helperText={errors.companyName?.message}
+                                            />
+                                        )}
+                                        noOptionsText="Không tìm thấy công ty"
+                                        isOptionEqualToValue={(option, value) =>
+                                            option.name === (typeof value === "string" ? value : value?.name)
+                                        }
                                     />
                                 )}
                             />
@@ -265,14 +311,16 @@ const InternshipReportForm = ({ setFlag }) => {
                             <Controller
                                 name="isSystemCompany"
                                 control={control}
-                                defaultValue={true}
                                 render={({ field }) => (
                                     <FormControlLabel
                                         control={
                                             <Checkbox
                                                 {...field}
                                                 checked={field.value}
-                                                onChange={(e) => field.onChange(e.target.checked)}
+                                                onChange={(e) => {
+                                                    field.onChange(e.target.checked);
+                                                    setValue("companyName", "");
+                                                }}
                                                 color="primary"
                                             />
                                         }

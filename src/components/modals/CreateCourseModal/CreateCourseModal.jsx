@@ -8,18 +8,16 @@ import { useForm, Controller } from "react-hook-form";
 import { createCourse } from "@services/courseService";
 import { getAllTeachers } from "@services/teacherService";
 
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    TextField,
-    Typography,
-    Box,
-    Grid,
-    Autocomplete,
-} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const schema = yup.object().shape({
     courseCode: yup.string().required("Không được để trống"),
