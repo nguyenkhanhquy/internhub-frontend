@@ -75,7 +75,8 @@ const SliderBanner = () => {
                 width: "100%",
                 maxWidth: 1400,
                 overflow: "hidden",
-                boxShadow: 3,
+                boxShadow: 4,
+                borderRadius: 2,
                 margin: "auto",
             }}
             onMouseEnter={() => setIsPaused(true)}
@@ -99,7 +100,7 @@ const SliderBanner = () => {
                             flexShrink: 0,
                             width: "100%",
                             position: "relative",
-                            height: { xs: 200, sm: 300, md: 400 },
+                            height: { xs: 200, sm: 250, md: 300, lg: 350 },
                         }}
                     >
                         <Box
@@ -122,10 +123,10 @@ const SliderBanner = () => {
                                 bgcolor: "rgba(0, 0, 0, 0.5)",
                                 px: 2,
                                 py: 1,
-                                borderRadius: 1,
+                                borderRadius: 2,
                             }}
                         >
-                            <Typography variant="h6" color="white">
+                            <Typography variant="body1" color="white">
                                 {item.title}
                             </Typography>
                         </Box>
@@ -148,6 +149,7 @@ const SliderBanner = () => {
                     "&:hover": {
                         bgcolor: "rgba(0,0,0,0.7)",
                     },
+                    borderRadius: 2,
                 }}
             >
                 <ChevronLeft />
@@ -167,6 +169,7 @@ const SliderBanner = () => {
                     "&:hover": {
                         bgcolor: "rgba(0,0,0,0.7)",
                     },
+                    borderRadius: 2,
                 }}
             >
                 <ChevronRight />

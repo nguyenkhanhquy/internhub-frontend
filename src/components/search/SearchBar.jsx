@@ -31,7 +31,7 @@ const SearchBar = ({ onSearch, query }) => {
     };
 
     return (
-        <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
             <TextField
                 value={searchText}
                 onChange={handleSearchChange}
