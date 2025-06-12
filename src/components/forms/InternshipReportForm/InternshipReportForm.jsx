@@ -45,7 +45,7 @@ const schema = yup.object().shape({
         .required("Vui lòng chọn ngày kết thúc.")
         .test("is-after-start", "Ngày kết thúc phải sau ngày bắt đầu.", function (value) {
             const { startDate } = this.parent;
-            return !startDate || new Date(value) >= new Date(startDate);
+            return !startDate || new Date(value) > new Date(startDate);
         }),
     reportFile: yup.mixed().required("Vui lòng tải lên báo cáo."),
     evaluationFile: yup.mixed().required("Vui lòng tải lên phiếu đánh giá."),
@@ -85,6 +85,7 @@ const InternshipReportForm = ({ setFlag }) => {
     const watchReportFile = watch("reportFile");
     const watchEvaluationFile = watch("evaluationFile");
     const watchIsSystemCompany = watch("isSystemCompany");
+    const watchStartDate = watch("startDate");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -378,6 +379,14 @@ const InternshipReportForm = ({ setFlag }) => {
                                         size="small"
                                         error={!!errors.startDate}
                                         helperText={errors.startDate?.message}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            if (e.target.value) {
+                                                setValue("endDate", e.target.value);
+                                            } else {
+                                                setValue("endDate", "");
+                                            }
+                                        }}
                                     />
                                 )}
                             />
@@ -395,6 +404,10 @@ const InternshipReportForm = ({ setFlag }) => {
                                         InputLabelProps={{ shrink: true }}
                                         fullWidth
                                         size="small"
+                                        disabled={!watchStartDate}
+                                        inputProps={{
+                                            min: watchStartDate || "",
+                                        }}
                                         error={!!errors.endDate}
                                         helperText={errors.endDate?.message}
                                     />
