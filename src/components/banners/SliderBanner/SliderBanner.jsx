@@ -139,12 +139,12 @@ const SliderBanner = () => {
                 sx={{
                     position: "absolute",
                     top: "50%",
-                    left: 16,
+                    left: { xs: 4, sm: 16 },
                     transform: "translateY(-50%)",
                     bgcolor: "rgba(0,0,0,0.3)",
                     color: "white",
-                    minWidth: 40,
-                    height: 60,
+                    minWidth: { xs: 32, sm: 40 },
+                    height: { xs: 40, sm: 60 },
                     "&:hover": {
                         bgcolor: "rgba(0,0,0,0.7)",
                     },
@@ -158,12 +158,12 @@ const SliderBanner = () => {
                 sx={{
                     position: "absolute",
                     top: "50%",
-                    right: 16,
+                    right: { xs: 4, sm: 16 },
                     transform: "translateY(-50%)",
                     bgcolor: "rgba(0,0,0,0.3)",
                     color: "white",
-                    minWidth: 40,
-                    height: 60,
+                    minWidth: { xs: 32, sm: 40 },
+                    height: { xs: 40, sm: 60 },
                     "&:hover": {
                         bgcolor: "rgba(0,0,0,0.7)",
                     },
@@ -176,11 +176,11 @@ const SliderBanner = () => {
             <Box
                 sx={{
                     position: "absolute",
-                    bottom: 12,
+                    bottom: { xs: 8, sm: 12 },
                     left: "50%",
                     transform: "translateX(-50%)",
                     display: "flex",
-                    gap: 1,
+                    gap: { xs: 0.5, sm: 1 },
                 }}
             >
                 {images.map((_, i) => (
@@ -188,8 +188,8 @@ const SliderBanner = () => {
                         key={i}
                         onClick={() => setIndex(i + 1)}
                         sx={{
-                            width: 12,
-                            height: 12,
+                            width: { xs: 8, sm: 12 },
+                            height: { xs: 8, sm: 12 },
                             minWidth: 0,
                             p: 0,
                             borderRadius: "50%",
