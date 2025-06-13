@@ -82,7 +82,6 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                 justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
-                position: "relative",
             }}
         >
             <Typography
@@ -189,7 +188,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                         {/* Nút điều hướng */}
                         <IconButton
                             onClick={goToPrev}
-                            sx={{ position: "absolute", top: "50%", left: 8, transform: "translateY(-50%)" }}
+                            sx={{ position: "absolute", top: "50%", left: 0, transform: "translateY(-50%)" }}
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
                         >
@@ -201,7 +200,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                             sx={{
                                 position: "absolute",
                                 top: "50%",
-                                right: 8,
+                                right: 0,
                                 transform: "translateY(-50%)",
                             }}
                             onMouseEnter={() => setIsPaused(true)}

@@ -82,7 +82,9 @@ const Header = () => {
                         alt="hcmute_fit_logo"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
-                        width={380}
+                        sx={{
+                            width: { xs: "100%", sm: 380 },
+                        }}
                     />
                 </Link>
 

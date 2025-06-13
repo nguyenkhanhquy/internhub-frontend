@@ -91,7 +91,7 @@ const Footer = () => {
 
             {/* Thanh ngang và dòng cuối */}
             <Divider sx={{ my: { xs: 1, sm: 2 } }} />
-            <Typography variant="body2" color="text.secondary" sx={{ px: 4, fontSize: { xs: "12px", sm: "14px" } }}>
+            <Typography variant="body2" color="text.secondary" sx={{ px: 4 }}>
                 © {new Date().getFullYear()} FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
                 <Link href="https://github.com/nguyenkhanhquy" target="_blank" rel="noopener">
                     Nguyễn Khánh Quy

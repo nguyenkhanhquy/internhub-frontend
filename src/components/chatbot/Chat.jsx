@@ -74,12 +74,12 @@ const Chat = ({ isOpen, onClose }) => {
 
     // Thêm icon trước mỗi câu hỏi cho phù hợp
     const popularQuestions = [
-        "💡 Giới thiệu về InternHub?",
-        "💡 Cách đăng ký tài khoản thực tập sinh?",
-        "💡 Cách đăng ký tài khoản nhà tuyển dụng?",
-        "💡 Cách ứng tuyển?",
-        "💡 Cách nộp báo cáo thực tập?",
-        "💡 Cách xem điểm thực tập?",
+        "❓ Giới thiệu về InternHub?",
+        "🧑‍🎓 Cách đăng ký tài khoản thực tập sinh?",
+        "🏢 Cách đăng ký tài khoản nhà tuyển dụng?",
+        "📄 Cách ứng tuyển?",
+        "📝 Cách nộp báo cáo thực tập?",
+        "📊 Cách xem điểm thực tập?",
     ];
 
     const handleSuggestionClick = async (question) => {
@@ -226,14 +226,12 @@ const Chat = ({ isOpen, onClose }) => {
 
     return (
         <div
-            className={`fixed right-4 bottom-24 z-40 flex h-[500px] w-[500px] transform flex-col rounded-xl border border-gray-200 bg-white shadow-2xl transition-all duration-300 ease-in-out sm:h-[600px] sm:w-[600px] ${
-                isVisible ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"
-            }`}
+            className={`fixed right-2 bottom-24 z-40 flex h-[85vh] max-h-[600px] w-[95vw] max-w-[400px] transform flex-col rounded-xl border border-gray-200 bg-white shadow-2xl transition-all duration-300 ease-in-out sm:right-4 sm:bottom-24 sm:h-[550px] sm:w-[500px] sm:max-w-[500px] lg:h-[600px] lg:w-[600px] lg:max-w-[600px] ${isVisible ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"}`}
         >
-            <div className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-blue-500 p-3 text-white">
+            <div className="flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-gradient-to-r from-indigo-600 to-blue-500 p-2 text-white sm:p-3">
                 <div className="flex items-center">
                     <div className="mr-2 flex h-2 w-2 animate-pulse rounded-full bg-green-400"></div>
-                    <h1 className="text-lg font-semibold">Trợ lý AI</h1>
+                    <h1 className="text-base font-semibold sm:text-lg">Trợ lý AI</h1>
                 </div>
                 <button
                     onClick={onClose}
@@ -241,7 +239,7 @@ const Chat = ({ isOpen, onClose }) => {
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
+                        className="h-5 w-5 sm:h-6 sm:w-6"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -251,25 +249,28 @@ const Chat = ({ isOpen, onClose }) => {
                 </button>
             </div>
 
-            <div className="scrollbar-thumb-gray-300 scrollbar-track-gray-50 flex-1 overflow-y-auto bg-gray-50 p-4">
+            <div className="scrollbar-thumb-gray-300 scrollbar-track-gray-50 flex-1 overflow-y-auto bg-gray-50 p-2 sm:p-4">
                 {messages.length === 0 && (
-                    <div className="mt-4 text-center text-gray-500">
-                        <p className="text-2xl font-bold text-blue-500">{getGreetingMessage()}</p>
-                        <p className="text-sx mt-2">
+                    <div className="mt-2 text-center text-gray-500 sm:mt-4">
+                        <p className="text-xl font-bold text-blue-500 sm:text-2xl">{getGreetingMessage()}</p>
+                        <p className="mt-1 text-xs font-semibold sm:mt-2 sm:text-sm">
                             Tôi là trợ lý AI của website InternHub. Tôi có thể giúp gì cho bạn?
                         </p>
                     </div>
                 )}
                 {messages.map((message, index) => (
-                    <div key={index} className={`flex ${message.isUser ? "justify-end" : "justify-start"} mb-3`}>
+                    <div
+                        key={index}
+                        className={`flex ${message.isUser ? "justify-end" : "justify-start"} mb-2 sm:mb-3`}
+                    >
                         <div
-                            className={`max-w-[85%] rounded-2xl p-3 shadow-sm ${
+                            className={`max-w-[90%] rounded-2xl p-2 shadow-sm sm:max-w-[85%] sm:p-3 ${
                                 message.isUser
                                     ? "border border-gray-200 bg-gray-200 text-gray-800"
                                     : "border border-gray-200 bg-white text-gray-800"
                             }`}
                         >
-                            <div className={`text-left`}>
+                            <div className={`text-left text-sm sm:text-base`}>
                                 <ReactMarkdown
                                     remarkPlugins={[remarkGfm]}
                                     components={{
@@ -284,13 +285,17 @@ const Chat = ({ isOpen, onClose }) => {
                                             </a>
                                         ),
                                         // Danh sách không thứ tự
-                                        ul: ({ children }) => <ul className="mb-2 list-disc pl-5">{children}</ul>,
+                                        ul: ({ children }) => (
+                                            <ul className="mb-2 list-disc pl-4 sm:pl-5">{children}</ul>
+                                        ),
                                         // Danh sách có thứ tự
-                                        ol: ({ children }) => <ol className="mb-2 list-decimal pl-5">{children}</ol>,
+                                        ol: ({ children }) => (
+                                            <ol className="mb-2 list-decimal pl-4 sm:pl-5">{children}</ol>
+                                        ),
                                         // Mỗi item trong danh sách
                                         li: ({ children }) => <li className="mb-1">{children}</li>,
                                         code: ({ children }) => (
-                                            <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-red-600">
+                                            <code className="rounded bg-gray-100 px-1 py-0.5 font-mono text-xs text-red-600 sm:text-sm">
                                                 {children}
                                             </code>
                                         ),
@@ -313,18 +318,18 @@ const Chat = ({ isOpen, onClose }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="rounded-b-xl border-t border-gray-200 bg-white p-3">
+            <form onSubmit={handleSubmit} className="rounded-b-xl border-t border-gray-200 bg-white p-2 sm:p-3">
                 {/* Câu hỏi phổ biến */}
                 {messages.length === 0 && (
-                    <div className="mb-4 border-b border-gray-100 pb-3">
-                        <p className="mb-2 text-sm font-medium text-gray-600">✨ Các câu hỏi phổ biến</p>
-                        <div className="grid grid-cols-1 gap-2">
+                    <div className="mb-3 border-b border-gray-100 pb-2 sm:mb-4 sm:pb-3">
+                        <p className="mb-2 text-xs font-semibold text-gray-600 sm:text-sm">✨ Các câu hỏi phổ biến</p>
+                        <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
                             {popularQuestions.map((question, index) => (
                                 <button
                                     key={index}
                                     type="button"
                                     onClick={() => handleSuggestionClick(question)}
-                                    className="bg-gray-40 cursor-pointer rounded-lg border border-gray-200 px-3 py-2 text-left text-sm text-gray-700 transition-all duration-200 hover:scale-[1.02] hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
+                                    className="bg-gray-40 cursor-pointer rounded-lg border border-gray-200 px-2 py-1.5 text-left text-xs text-gray-700 transition-all duration-200 hover:scale-[1.02] hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 sm:px-3 sm:py-2 sm:text-sm"
                                 >
                                     {question}
                                 </button>
@@ -333,17 +338,17 @@ const Chat = ({ isOpen, onClose }) => {
                     </div>
                 )}
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                     <button
                         type="button"
                         onClick={handleReset}
                         disabled={isResetting || isLoading}
-                        className="cursor-pointer rounded-full bg-gradient-to-r from-purple-600 to-pink-500 p-2 text-white transition-all duration-200 hover:scale-110 hover:from-purple-700 hover:to-pink-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70"
+                        className="cursor-pointer rounded-full bg-gradient-to-r from-purple-600 to-pink-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-purple-700 hover:to-pink-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
                         title="Làm mới cuộc trò chuyện"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className={`h-5 w-5 transition-transform duration-500 ${isResetting ? "animate-spin" : ""}`}
+                            className={`h-4 w-4 transition-transform duration-500 sm:h-5 sm:w-5 ${isResetting ? "animate-spin" : ""}`}
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
@@ -359,17 +364,17 @@ const Chat = ({ isOpen, onClose }) => {
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Hỏi bất kỳ điều gì"
                         disabled={isLoading}
-                        className="flex-1 rounded-full border border-gray-300 bg-gray-50 px-4 py-2 text-sm transition-all duration-200 focus:scale-[1.005] focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                        className="flex-1 rounded-full border border-gray-300 bg-gray-50 px-3 py-1.5 text-xs transition-all duration-200 focus:scale-[1.005] focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 sm:px-4 sm:py-2 sm:text-sm"
                     />
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="cursor-pointer rounded-full bg-gradient-to-r from-indigo-600 to-blue-500 p-2 text-white transition-all duration-200 hover:scale-110 hover:from-indigo-700 hover:to-blue-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70"
+                        className="cursor-pointer rounded-full bg-gradient-to-r from-indigo-600 to-blue-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-indigo-700 hover:to-blue-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
                         title="Gửi tin nhắn"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
+                            className="h-4 w-4 sm:h-5 sm:w-5"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >

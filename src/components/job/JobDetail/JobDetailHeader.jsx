@@ -43,7 +43,7 @@ const JobDetailHeader = ({
     // Xác định kích thước của các button và avatar
     const buttonFontSize = isSmallScreen ? "0.75rem" : isTabletScreen ? "0.85rem" : isMediumScreen ? "0.9rem" : "1rem";
     const buttonPaddingY = isSmallScreen ? 0.25 : isTabletScreen ? 0.4 : isMediumScreen ? 0.6 : 1;
-    const avatarSize = isSmallScreen ? 40 : isTabletScreen ? 56 : isMediumScreen ? 100 : 140;
+    const avatarSize = isSmallScreen ? 80 : isTabletScreen ? 90 : isMediumScreen ? 100 : 140;
 
     const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
