@@ -1,7 +1,14 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { List, ListItemButton, ListItemText, ListItemIcon, Typography } from "@mui/material";
-import { Paper, Box, Divider, Avatar } from "@mui/material";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
@@ -29,8 +36,8 @@ const AccountNavigation = () => {
                 flexDirection="column"
                 alignItems="center"
                 sx={{
-                    paddingY: 5,
-                    paddingX: 5,
+                    paddingY: { xs: 2, sm: 5 },
+                    paddingX: { xs: 2, sm: 5 },
                 }}
             >
                 <Avatar
@@ -39,8 +46,8 @@ const AccountNavigation = () => {
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                     sx={{
-                        width: "50%",
-                        height: "50%",
+                        width: { xs: "25%", sm: "50%" },
+                        height: { xs: "25%", sm: "50%" },
                         marginBottom: 2,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", // Đổ bóng cho avatar
                     }}

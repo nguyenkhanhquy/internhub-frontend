@@ -1,17 +1,15 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import {
-    Avatar,
-    Box,
-    Typography,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Divider,
-    Paper,
-} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
 
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import Bookmark from "@mui/icons-material/Bookmark";
@@ -43,8 +41,8 @@ const StudentDataNavigation = ({ studentName }) => {
                 flexDirection="column"
                 alignItems="center"
                 sx={{
-                    paddingY: 5,
-                    paddingX: 5,
+                    paddingY: { xs: 2, sm: 5 },
+                    paddingX: { xs: 2, sm: 5 },
                 }}
             >
                 {/* Avatar sinh viên */}
@@ -54,8 +52,8 @@ const StudentDataNavigation = ({ studentName }) => {
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                     sx={{
-                        width: "50%",
-                        height: "50%",
+                        width: { xs: "25%", sm: "50%" },
+                        height: { xs: "25%", sm: "50%" },
                         marginBottom: 2,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", // Đổ bóng cho avatar
                     }}
