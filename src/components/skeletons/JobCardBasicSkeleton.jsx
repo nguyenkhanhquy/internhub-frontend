@@ -16,7 +16,13 @@ const JobCardBasicSkeleton = () => {
                 padding: 2,
             }}
         >
-            <Box sx={{ display: "flex", alignItems: "center", minWidth: 400 }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    minWidth: 400,
+                }}
+            >
                 <Skeleton
                     animation="wave"
                     variant="rectangular"
@@ -28,8 +34,8 @@ const JobCardBasicSkeleton = () => {
                     <Skeleton animation="wave" variant="text" width="80%" height={40} sx={{ mb: 1 }} />
                     <Skeleton animation="wave" variant="text" width="50%" height={24} sx={{ mb: 2 }} />
                     <Stack direction="row" spacing={1}>
-                        <Skeleton animation="wave" variant="rounded" width={70} height={24} />
-                        <Skeleton animation="wave" variant="rounded" width={120} height={24} />
+                        <Skeleton animation="wave" variant="rounded" width={"30%"} height={24} />
+                        <Skeleton animation="wave" variant="rounded" width={"40%"} height={24} />
                     </Stack>
                 </Box>
             </Box>

@@ -34,7 +34,13 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
                 },
             }}
         >
-            <Box sx={{ display: "flex", alignItems: "center", minWidth: 400 }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    minWidth: { xs: "100%", sm: 400 },
+                }}
+            >
                 <Avatar
                     src={logo}
                     alt={`${companyName} logo`}
@@ -42,8 +48,8 @@ const JobCardBasic = ({ id, logo, title, companyName, remote, type }) => {
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                     sx={{
-                        height: 100,
-                        width: 100,
+                        height: { xs: 80, sm: 100 },
+                        width: { xs: 80, sm: 100 },
                         objectFit: "cover",
                         borderRadius: 2,
                         border: "1px solid #f0f0f0",

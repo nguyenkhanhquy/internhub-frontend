@@ -90,7 +90,7 @@ const HomePage = () => {
             <Container
                 maxWidth="xl"
                 sx={{
-                    width: "90%",
+                    width: { xs: "100%", sm: "95%", md: "90%" },
                     margin: "0 auto",
                 }}
             >
@@ -108,13 +108,13 @@ const HomePage = () => {
                         zIndex: 1,
                     }}
                 >
-                    <Box sx={{ width: "80%" }}>
+                    <Box sx={{ width: { xs: "100%", sm: "80%" } }}>
                         <SearchBar onSearch={(searchText) => navigate("/search", { state: { query: searchText } })} />
                     </Box>
                 </Box>
 
                 {/* Overview Statistics */}
-                <Box sx={{ width: "80%", margin: "0 auto" }}>
+                <Box sx={{ width: { xs: "100%", sm: "80%" }, margin: "0 auto" }}>
                     <Grid container spacing={2} justifyContent="center" alignItems="stretch">
                         <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
                             <Paper

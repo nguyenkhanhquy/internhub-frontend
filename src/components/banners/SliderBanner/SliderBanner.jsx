@@ -100,7 +100,7 @@ const SliderBanner = () => {
                             flexShrink: 0,
                             width: "100%",
                             position: "relative",
-                            height: { xs: 200, sm: 250, md: 300, lg: 350 },
+                            height: { xs: 150, sm: 200, md: 250, lg: 350 },
                         }}
                     >
                         <Box

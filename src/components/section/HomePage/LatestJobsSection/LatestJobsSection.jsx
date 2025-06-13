@@ -21,7 +21,17 @@ const LatestJobsSection = ({ loading, jobList }) => {
                 alignItems: "center",
             }}
         >
-            <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 3 }}>
+            <Typography
+                sx={{
+                    mb: 2,
+                    color: "#333",
+                    fontSize: {
+                        xs: "1.5rem",
+                        sm: "2.125rem",
+                    },
+                    fontWeight: 600,
+                }}
+            >
                 VIỆC LÀM MỚI NHẤT
             </Typography>
 

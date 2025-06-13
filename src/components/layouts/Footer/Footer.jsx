@@ -1,4 +1,8 @@
-import { Box, Typography, Divider, Paper, Link } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import Link from "@mui/material/Link";
 
 const Footer = () => {
     return (
@@ -25,7 +29,7 @@ const Footer = () => {
                     textAlign: "left",
                     maxWidth: "1200px",
                     margin: "0 auto",
-                    paddingX: { xs: 1, sm: 3 },
+                    paddingX: { xs: 4, sm: 4 },
                     paddingY: { xs: 1, sm: 0 },
                 }}
             >
@@ -87,7 +91,7 @@ const Footer = () => {
 
             {/* Thanh ngang và dòng cuối */}
             <Divider sx={{ my: { xs: 1, sm: 2 } }} />
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
+            <Typography variant="body2" color="text.secondary" sx={{ px: 4, fontSize: { xs: "12px", sm: "14px" } }}>
                 © {new Date().getFullYear()} FIT - HCMUTE. Thiết kế & Phát triển bởi{" "}
                 <Link href="https://github.com/nguyenkhanhquy" target="_blank" rel="noopener">
                     Nguyễn Khánh Quy

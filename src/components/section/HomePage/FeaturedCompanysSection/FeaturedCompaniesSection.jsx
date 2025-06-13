@@ -85,9 +85,20 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                 position: "relative",
             }}
         >
-            <Typography variant="h4" sx={{ fontWeight: 600, color: "#333", mb: 3 }}>
+            <Typography
+                sx={{
+                    mb: 2,
+                    color: "#333",
+                    fontSize: {
+                        xs: "1.5rem",
+                        sm: "2.125rem",
+                    },
+                    fontWeight: 600,
+                }}
+            >
                 DOANH NGHIỆP NỔI BẬT
             </Typography>
+
             <Box
                 sx={{
                     position: "relative",
@@ -101,10 +112,13 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                     onTransitionEnd={handleTransitionEnd}
                     sx={{
                         display: "flex",
-                        transform: `translateX(-${index * (200 + 32)}px)`,
+                        transform: {
+                            xs: `translateX(-${index * (100 + 32)}px)`,
+                            sm: `translateX(-${index * (200 + 32)}px)`,
+                        },
                         transition: isAnimating ? "transform 0.5s ease-in-out" : "none",
-                        gap: 4,
-                        px: 2,
+                        gap: { xs: 2, sm: 4 },
+                        px: { xs: 1, sm: 2 },
                     }}
                 >
                     {loading
@@ -152,7 +166,7 @@ const FeaturedCompaniesSection = ({ loading, companies }) => {
                                       draggable={false}
                                       onDragStart={(e) => e.preventDefault()}
                                       sx={{
-                                          width: 200,
+                                          width: { xs: 100, sm: 200 },
                                           height: "90%",
                                           objectFit: "contain",
                                           boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",

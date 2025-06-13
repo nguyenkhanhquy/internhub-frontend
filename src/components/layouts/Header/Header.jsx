@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 
 import useAuth from "@hooks/useAuth";
 
-import { Box, Button, Menu, MenuItem, Paper } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+
 import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
@@ -77,7 +82,7 @@ const Header = () => {
                         alt="hcmute_fit_logo"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
-                        sx={{ width: { xs: "280px", md: "380px" } }}
+                        width={380}
                     />
                 </Link>
 
