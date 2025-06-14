@@ -12,6 +12,8 @@ const SortBar = ({ totalRecords, sortOption, onSortChange }) => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: 1,
             }}
         >
             <Typography variant="body1">

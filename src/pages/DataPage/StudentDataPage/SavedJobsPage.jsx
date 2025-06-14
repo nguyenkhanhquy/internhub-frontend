@@ -1,7 +1,7 @@
-import MainLayout from "../../../layouts/MainLayout/MainLayout";
-import StudentDataLayout from "../../../layouts/DataLayout/StudentDataLayout";
-import PageNavigation from "../../../components/layouts/PageNavigation/PageNavigation";
-import SavedeJobsGridView from "../../../components/data/StudentDataGridView/SavedJobsGridView";
+import MainLayout from "@layouts/MainLayout/MainLayout";
+import StudentDataLayout from "@layouts/DataLayout/StudentDataLayout";
+import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
+import SavedeJobsGridView from "@components/data/StudentDataGridView/SavedJobsGridView";
 
 const SavedJobsPage = () => {
     return (

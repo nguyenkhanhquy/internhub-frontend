@@ -52,8 +52,8 @@ const StudentDataNavigation = ({ studentName }) => {
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                     sx={{
-                        width: { xs: "25%", sm: "50%" },
-                        height: { xs: "25%", sm: "50%" },
+                        width: { xs: "25%", sm: "30%", md: "50%" },
+                        height: { xs: "25%", sm: "30%", md: "50%" },
                         marginBottom: 2,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", // Đổ bóng cho avatar
                     }}

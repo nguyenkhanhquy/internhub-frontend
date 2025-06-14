@@ -1,5 +1,7 @@
-import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const GridViewHeaderLayout = ({ title, children }) => {
     return (
@@ -11,6 +13,8 @@ const GridViewHeaderLayout = ({ title, children }) => {
                 py: 1,
                 borderBottom: "1px solid #ddd",
                 bgcolor: "background.paper",
+                flexWrap: "wrap",
+                gap: 1,
             }}
         >
             {/* Tiêu đề của Grid View */}

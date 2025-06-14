@@ -25,7 +25,7 @@ const Footer = () => {
                     justifyContent: "space-between",
                     alignItems: { xs: "center", sm: "center" },
                     flexWrap: "wrap",
-                    gap: { xs: 2, sm: 4 },
+                    gap: { xs: 0, sm: 4 },
                     textAlign: "left",
                     maxWidth: "1200px",
                     margin: "0 auto",

@@ -1,7 +1,10 @@
-import { Box, Divider } from "@mui/material";
 import PropTypes from "prop-types";
+
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+
 import GridViewHeaderLayout from "./GridViewHeaderLayout/GridViewHeaderLayout";
-import CustomPagination from "../../../components/pagination/Pagination";
+import CustomPagination from "@components/pagination/Pagination";
 
 const GridViewLayout = ({
     title,
