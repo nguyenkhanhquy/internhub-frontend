@@ -130,9 +130,9 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const handleViewFeedback = (enrollment) => {
         if (enrollment.finalScore) {
             // Có thể mở modal hiển thị nhận xét hoặc chuyển đến một view khác
-            console.log(`Viewing feedback for enrollment: ${enrollment.id}`);
+            // console.log(`Viewing feedback for enrollment: ${enrollment.id}`);
             // TODO: Implement feedback viewing logic
-            toast.info(`Xem nhận xét cho sinh viên: ${enrollment.student.name}`);
+            toast.info(`Nhận xét cho sinh viên [${enrollment.student.name}]: ${enrollment.feedback}`);
         }
     };
 
