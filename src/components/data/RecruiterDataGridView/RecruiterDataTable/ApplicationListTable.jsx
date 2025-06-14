@@ -2,21 +2,19 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import {
-    Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Typography,
-    Stack,
-    IconButton,
-    Tooltip,
-    Paper,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Paper from "@mui/material/Paper";
 
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EmptyBox from "@components/box/EmptyBox";
@@ -179,7 +177,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
 
     return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table sx={{ minWidth: 800 }}>
                 <TableHead>
                     <TableRow
                         sx={{

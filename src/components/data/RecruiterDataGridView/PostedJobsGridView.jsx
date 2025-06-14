@@ -192,7 +192,7 @@ const PostedJobsGridView = ({ onViewApplications }) => {
             onPageChange={handlePageChange}
             onRecordsPerPageChange={handleRecordsPerPageChange}
         >
-            <Box className="mb-4 flex justify-between space-x-4">
+            <Box className="mb-4 flex justify-between space-x-4" sx={{ flexWrap: "wrap", gap: 1 }}>
                 <FormControl size="small" sx={{ minWidth: 200, width: "30%" }}>
                     <InputLabel id="type-filter-label">Loại hợp đồng</InputLabel>
                     <Select

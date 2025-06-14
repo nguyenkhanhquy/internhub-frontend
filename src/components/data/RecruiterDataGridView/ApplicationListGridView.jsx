@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 

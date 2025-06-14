@@ -1,5 +1,12 @@
-import { Box, Pagination, Typography, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
+
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 
 const CustomPagination = ({
     currentPage,
@@ -22,8 +29,9 @@ const CustomPagination = ({
             sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
-                gap: 2,
+                justifyContent: { xs: "center", sm: "space-between" },
+                flexDirection: { xs: "column", sm: "row" },
+                gap: { xs: 1, sm: 2 },
                 // p: 1,
                 // bgcolor: "white",
                 // boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",

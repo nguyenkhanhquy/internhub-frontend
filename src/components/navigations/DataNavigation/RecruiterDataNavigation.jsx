@@ -1,17 +1,16 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import {
-    Box,
-    Typography,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Divider,
-    Paper,
-    Avatar,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
@@ -50,8 +49,8 @@ const RecruiterDataNavigation = ({ logo }) => {
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                     sx={{
-                        width: "50%",
-                        height: "50%",
+                        width: { xs: "25%", sm: "30%", md: "50%" },
+                        height: { xs: "25%", sm: "30%", md: "50%" },
                         marginBottom: 2,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", // Đổ bóng cho avatar
                     }}
