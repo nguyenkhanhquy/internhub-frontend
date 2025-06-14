@@ -222,7 +222,7 @@ const CoursePage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <Typography
                     variant="h5"
                     gutterBottom
@@ -286,7 +286,7 @@ const CoursePage = () => {
             </div>
 
             <Box className="mb-4" sx={{ display: "flex", gap: 2 }}>
-                <FormControl sx={{ minWidth: 200 }} disabled={!filtersLoaded}>
+                <FormControl sx={{ minWidth: { xs: 160, sm: 200 } }} disabled={!filtersLoaded}>
                     <InputLabel id="academic-year-select-label">Năm học</InputLabel>
                     <Select
                         labelId="academic-year-select-label"
@@ -305,7 +305,7 @@ const CoursePage = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 200 }} disabled={!filtersLoaded}>
+                <FormControl sx={{ minWidth: { xs: 160, sm: 200 } }} disabled={!filtersLoaded}>
                     <InputLabel id="semester-select-label">Học kỳ</InputLabel>
                     <Select
                         labelId="semester-select-label"

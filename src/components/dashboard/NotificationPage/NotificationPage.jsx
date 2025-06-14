@@ -208,7 +208,7 @@ const NotificationPage = () => {
                 <DashboardSearchBar
                     onSearch={(searchText) => setSearch(searchText)}
                     query={search}
-                    placeholder="Tìm kiếm thông báo theo tiêu đề hoặc nội dung..."
+                    placeholder="Tìm kiếm thông báo..."
                 />
             </div>
 

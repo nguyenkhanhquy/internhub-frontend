@@ -139,7 +139,7 @@ const RecruiterPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <Typography
                     variant="h5"
                     gutterBottom

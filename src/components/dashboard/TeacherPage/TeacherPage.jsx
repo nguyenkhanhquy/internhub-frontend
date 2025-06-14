@@ -195,7 +195,7 @@ const TeacherPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                 <Typography
                     variant="h5"
                     gutterBottom
@@ -210,7 +210,7 @@ const TeacherPage = () => {
                 >
                     Giảng viên
                 </Typography>
-                <Box display="flex" alignItems="center" gap={2}>
+                <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
                     <Paper
                         elevation={2}
                         sx={{
