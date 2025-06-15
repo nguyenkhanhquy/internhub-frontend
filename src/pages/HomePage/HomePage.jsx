@@ -63,7 +63,7 @@ const HomePage = () => {
             <Container
                 maxWidth="xl"
                 sx={{
-                    width: { xs: "100%", sm: "95%", md: "90%" },
+                    width: { xs: "100%", sm: "92%", md: "88%" },
                     margin: "0 auto",
                 }}
             >

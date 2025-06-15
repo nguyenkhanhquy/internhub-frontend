@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 
 const images = [
-    { url: "/images/banner.png", title: "Banner 1" },
-    { url: "/images/banner.png", title: "Banner 2" },
-    { url: "/images/banner.png", title: "Banner 3" },
+    { url: "/images/banner_fit_ute.png" },
+    { url: "/images/banner_hcmute.jpg" },
+    { url: "/images/banner.png" },
+    { url: "/images/banner_career_fair_1.png" },
+    { url: "/images/banner_career_fair_2.png" },
 ];
 
 const SliderBanner = () => {
@@ -99,14 +100,12 @@ const SliderBanner = () => {
                         sx={{
                             flexShrink: 0,
                             width: "100%",
-                            position: "relative",
-                            height: { xs: 150, sm: 200, md: 250, lg: 350 },
+                            height: { xs: 160, sm: 200, md: 240, lg: 420 },
                         }}
                     >
                         <Box
                             component="img"
                             src={item.url}
-                            alt={item.title}
                             draggable={false}
                             onDragStart={(e) => e.preventDefault()}
                             sx={{
@@ -115,21 +114,6 @@ const SliderBanner = () => {
                                 objectFit: "cover",
                             }}
                         />
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                bottom: 16,
-                                left: 16,
-                                bgcolor: "rgba(0, 0, 0, 0.5)",
-                                px: 2,
-                                py: 1,
-                                borderRadius: 2,
-                            }}
-                        >
-                            <Typography variant="body1" color="white">
-                                {item.title}
-                            </Typography>
-                        </Box>
                     </Box>
                 ))}
             </Box>
@@ -191,11 +175,11 @@ const SliderBanner = () => {
                         key={i}
                         onClick={() => setIndex(i + 1)}
                         sx={{
-                            width: { xs: 8, sm: 12 },
-                            height: { xs: 8, sm: 12 },
+                            width: { xs: 16, sm: 24 },
+                            height: { xs: 4, sm: 6 },
                             minWidth: 0,
                             p: 0,
-                            borderRadius: "50%",
+                            borderRadius: 1,
                             bgcolor: index === i + 1 ? "white" : "rgba(255,255,255,0.5)",
                             "&:hover": {
                                 bgcolor: "white",
