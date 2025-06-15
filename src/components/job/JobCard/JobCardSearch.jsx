@@ -94,10 +94,12 @@ const JobCardSearch = ({
             onClick={handleCardClick}
         >
             {/* Logo công ty */}
-            <Box sx={{ width: { xs: 80, sm: 200 }, mr: 2 }}>
+            <Box sx={{ width: { xs: 80, sm: 140, md: 160, lg: 180 }, mr: 2 }}>
                 <Avatar
                     src={logo}
                     alt={`${companyName} logo`}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     variant="square"
                     sx={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 2 }}
                 />

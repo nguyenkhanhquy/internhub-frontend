@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
@@ -23,32 +24,26 @@ import { getJobPostById, getJobPostsByCompanyId, getAllJobPosts } from "@service
 
 const JobDetailsPage = () => {
     const { isAuthenticated } = useAuth();
-
-    const navigate = useNavigate();
     const { id } = useParams();
-    const [loading, setLoading] = useState(true);
-    const [jobData, setJobData] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const fetchJobPostsDetails = async () => {
+    const jobDataQuery = useQuery({
+        queryKey: ["job-data", id],
+        queryFn: async () => {
             window.scrollTo({
                 top: 0,
                 behavior: "smooth",
             });
             try {
-                setLoading(true);
-
                 // Bước 1: Lấy thông tin job trước
-                const jobDetailData = await getJobPostById(id);
-                if (!jobDetailData.success) {
-                    throw new Error(jobDetailData.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                const jobDetailRes = await getJobPostById(id);
+                if (!jobDetailRes.success) {
+                    throw new Error(jobDetailRes);
                 }
 
-                const jobDetail = jobDetailData.result;
-                setJobData(jobDetail);
+                const jobDetail = jobDetailRes.result;
 
-                // Bước 2: Chạy đồng thời 2 API còn lại
+                // Bước 2: Gọi đồng thời 2 API còn lại để tối ưu performance
                 const [companyJobsResult, relatedJobsResult] = await Promise.allSettled([
                     getJobPostsByCompanyId(jobDetail.company.id),
                     getAllJobPosts(1, 10, jobDetail.jobPosition, "default"),
@@ -66,25 +61,29 @@ const JobDetailsPage = () => {
                     relatedJobs = relatedJobsResult.value.result.filter((job) => job.id !== id);
                 }
 
-                // Cập nhật state một lần cuối
-                setJobData((prevData) => ({
-                    ...prevData,
-                    jobs: companyJobs,
-                    relatedJobs: relatedJobs,
-                }));
+                return {
+                    jobDetail,
+                    companyJobs,
+                    relatedJobs,
+                };
             } catch (error) {
-                if (error?.statusCode === 404) {
-                    navigate("/404");
-                } else {
-                    toast.error(error.message);
-                }
-            } finally {
-                setLoading(false);
+                toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                throw error;
             }
-        };
+        },
+        retry: false,
+    });
 
-        fetchJobPostsDetails();
-    }, [id, navigate]);
+    // Lấy dữ liệu đã được tối ưu
+    const jobDetail = jobDataQuery.data?.jobDetail ?? {};
+    const companyJobs = jobDataQuery.data?.companyJobs ?? [];
+    const relatedJobs = jobDataQuery.data?.relatedJobs ?? [];
+
+    if (jobDataQuery.isError) {
+        if (jobDataQuery.error.statusCode === 404) {
+            return <Navigate to="/404" replace />;
+        }
+    }
 
     const handleApplyJob = () => {
         if (isAuthenticated) {
@@ -98,7 +97,7 @@ const JobDetailsPage = () => {
         <MainLayout title="Chi tiết công việc">
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết công việc" />
-            {loading ? (
+            {jobDataQuery.isLoading ? (
                 <Box sx={{ m: { xs: "0px", sm: "20px 40px", md: "20px 80px" } }}>
                     {/* Header skeleton */}
                     <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
@@ -124,18 +123,18 @@ const JobDetailsPage = () => {
                     {/* Header tóm tắt thông tin */}
                     <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
                         <JobDetailHeader
-                            id={jobData.id}
-                            logo={jobData.company.logo}
-                            title={jobData.title}
-                            companyName={jobData.company.name}
-                            website={jobData.company.website}
-                            address={jobData.address}
-                            jobPosition={jobData.jobPosition}
-                            type={jobData.type}
-                            salary={jobData.salary}
-                            updateDate={jobData.updatedDate}
-                            expiryDate={jobData.expiryDate}
-                            saved={jobData.saved}
+                            id={jobDetail.id}
+                            logo={jobDetail.company.logo}
+                            title={jobDetail.title}
+                            companyName={jobDetail.company.name}
+                            website={jobDetail.company.website}
+                            address={jobDetail.address}
+                            jobPosition={jobDetail.jobPosition}
+                            type={jobDetail.type}
+                            salary={jobDetail.salary}
+                            updateDate={jobDetail.updatedDate}
+                            expiryDate={jobDetail.expiryDate}
+                            saved={jobDetail.saved}
                             onApplyJob={handleApplyJob}
                         />
                     </Box>
@@ -143,36 +142,36 @@ const JobDetailsPage = () => {
                     {/* Chia layout thành 2 phần: Body và Summary */}
                     <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
                         {/* Phần Body nằm bên trái, chiếm 2/3 */}
-                        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-                            <JobDetailBody jobData={jobData} />
+                        <Grid size={{ xs: 12, md: 8 }}>
+                            <JobDetailBody jobDetail={jobDetail} companyJobs={companyJobs} relatedJobs={relatedJobs} />
                         </Grid>
 
                         {/* Phần Summary nằm bên phải, chiếm 1/3 */}
                         <Grid
-                            size={{ xs: 12, md: 6, lg: 4 }}
+                            size={{ xs: 12, md: 4 }}
                             sx={{ display: "flex", flexDirection: "column", gap: { xs: 1, sm: 1.5, md: 2 } }}
                         >
                             <JobDetailSummary
-                                salary={jobData.salary}
-                                quantity={jobData.quantity}
-                                remote={jobData.remote}
-                                type={jobData.type}
-                                createdDate={jobData.createdDate}
-                                expiryDate={jobData.expiryDate}
-                                jobPosition={jobData.jobPosition}
-                                majors={jobData.majors}
+                                salary={jobDetail.salary}
+                                quantity={jobDetail.quantity}
+                                remote={jobDetail.remote}
+                                type={jobDetail.type}
+                                createdDate={jobDetail.createdDate}
+                                expiryDate={jobDetail.expiryDate}
+                                jobPosition={jobDetail.jobPosition}
+                                majors={jobDetail.majors}
                             />
                             <CompanyDetailsContact
-                                companyName={jobData.company.name}
-                                address={jobData.company.address}
+                                companyName={jobDetail.company.name}
+                                address={jobDetail.company.address}
                             />
                         </Grid>
                     </Grid>
                     {/* Modal ứng tuyển */}
                     {isModalOpen && (
                         <JobApplicationModal
-                            jobPostId={jobData.id}
-                            jobTitle={jobData.title}
+                            jobPostId={jobDetail.id}
+                            jobTitle={jobDetail.title}
                             onClose={() => setIsModalOpen(false)}
                         />
                     )}

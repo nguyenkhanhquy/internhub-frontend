@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
-import { Box, Stack } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 import JobCardSearch from "@components/job/JobCard/JobCardSearch";
 import EmptyBox from "@components/box/EmptyBox";
@@ -9,7 +11,7 @@ const JobListingTab = ({ jobs }) => {
         <Box
             sx={{
                 width: "100%",
-                mt: 2,
+                pt: 1,
             }}
         >
             {jobs.length > 0 ? (

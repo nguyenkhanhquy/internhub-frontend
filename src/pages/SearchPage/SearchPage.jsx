@@ -109,10 +109,9 @@ const SearchPage = () => {
                 <Box
                     display="flex"
                     flexDirection="column"
-                    gap={2}
+                    gap={1}
                     sx={{
-                        mt: 2,
-                        mb: 3,
+                        my: 2,
                     }}
                 >
                     {jobPosts.length > 0 ? (
