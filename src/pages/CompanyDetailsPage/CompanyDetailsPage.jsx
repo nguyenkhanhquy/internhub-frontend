@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -20,13 +21,16 @@ import { getJobPostsByCompanyId } from "@services/jobPostService";
 const CompanyDetailsPage = () => {
     const { id } = useParams();
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [id]);
+
     const companyQuery = useQuery({
         queryKey: ["company-data", id],
         queryFn: async () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
             try {
                 const companyData = await getCompanyById(id);
                 if (!companyData.success) {

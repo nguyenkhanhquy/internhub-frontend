@@ -1,7 +1,11 @@
-import { Modal, Box, Typography, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
 import PropTypes from "prop-types";
+
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+
+import CloseIcon from "@mui/icons-material/Close";
 
 const NotificationModal = ({ open, onClose, notification }) => {
     if (!notification) return null;
@@ -10,7 +14,7 @@ const NotificationModal = ({ open, onClose, notification }) => {
         <Modal open={open} onClose={onClose}>
             <Box
                 sx={{
-                    width: "70%",
+                    width: { xs: "90%", sm: "70%" },
                     maxWidth: 800,
                     minHeight: 200,
                     margin: "auto",

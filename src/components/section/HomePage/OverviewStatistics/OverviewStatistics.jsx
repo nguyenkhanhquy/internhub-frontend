@@ -11,7 +11,7 @@ const OverviewStatistics = ({ overview }) => {
     return (
         <Box sx={{ width: { xs: "100%", sm: "80%" }, margin: "0 auto" }}>
             <Grid container spacing={2} justifyContent="center" alignItems="stretch">
-                <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
                     <Paper
                         sx={{
                             p: 2,
@@ -38,7 +38,7 @@ const OverviewStatistics = ({ overview }) => {
                     </Paper>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
                     <Paper
                         sx={{
                             p: 2,
@@ -65,7 +65,7 @@ const OverviewStatistics = ({ overview }) => {
                     </Paper>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 4 }}>
                     <Paper
                         sx={{
                             p: 2,

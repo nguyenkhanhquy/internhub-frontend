@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -27,13 +27,16 @@ const JobDetailsPage = () => {
     const { id } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [id]);
+
     const jobDataQuery = useQuery({
         queryKey: ["job-data", id],
         queryFn: async () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
             try {
                 // Bước 1: Lấy thông tin job trước
                 const jobDetailRes = await getJobPostById(id);
