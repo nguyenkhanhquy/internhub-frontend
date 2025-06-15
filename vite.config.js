@@ -44,6 +44,7 @@ export default defineConfig({
                     markdown: ["react-markdown", "remark-gfm"],
                     websocket: ["@stomp/stompjs", "sockjs-client"],
                     html2pdf: ["html2pdf.js"],
+                    query: ["@tanstack/react-query", "@tanstack/react-query-devtools"],
                 },
             },
         },
