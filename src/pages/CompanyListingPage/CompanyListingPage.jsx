@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -15,9 +16,7 @@ import CompanyCardSkeleton from "@components/skeletons/CompanyCardSkeleton";
 import { getAllApprovedCompanies } from "@services/companyService";
 
 const CompanyListingPage = () => {
-    const [loading, setLoading] = useState(true);
     const [companies, setCompanies] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -26,30 +25,31 @@ const CompanyListingPage = () => {
         setCurrentPage(page);
     };
 
-    useEffect(() => {
-        const fetchCompanies = async () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
-            try {
-                setLoading(true);
-                const data = await getAllApprovedCompanies(currentPage, 6);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setTotalPages(data.pageInfo.totalPages);
-                setTotalRecords(data.pageInfo.totalElements);
-                setCompanies(data.result);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["companies", currentPage],
+        queryFn: () => getAllApprovedCompanies(currentPage, 6),
+        placeholderData: keepPreviousData,
+    });
 
-        fetchCompanies();
-    }, [currentPage]);
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+        if (data?.success) {
+            setTotalPages(data.pageInfo.totalPages);
+            setTotalRecords(data.pageInfo.totalElements);
+            setCompanies(data.result);
+        } else if (data) {
+            toast.error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+        }
+    }, [data]);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error("Lỗi máy chủ, vui lòng thử lại sau!");
+        }
+    }, [isError]);
 
     return (
         <MainLayout title="Danh sách doanh nghiệp">
@@ -67,7 +67,7 @@ const CompanyListingPage = () => {
             >
                 {/* Hiển thị danh sách các công ty */}
                 <Grid container spacing={4} sx={{ justifyContent: "center", mb: 4 }}>
-                    {loading ? (
+                    {isLoading ? (
                         // Hiển thị 6 skeleton cards trong khi loading
                         Array.from({ length: 6 }).map((_, index) => (
                             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`skeleton-${index}`}>
