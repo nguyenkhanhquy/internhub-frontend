@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Business from "@mui/icons-material/Business";
 import LocationOn from "@mui/icons-material/LocationOn";
@@ -35,16 +34,6 @@ const JobDetailHeader = ({
     saved,
     onApplyJob,
 }) => {
-    // Kiểm tra kích thước màn hình
-    const isSmallScreen = useMediaQuery("(max-width: 600px)");
-    const isMediumScreen = useMediaQuery("(max-width: 960px)");
-    const isTabletScreen = useMediaQuery("(max-width: 900px)");
-
-    // Xác định kích thước của các button và avatar
-    const buttonFontSize = isSmallScreen ? "0.75rem" : isTabletScreen ? "0.85rem" : isMediumScreen ? "0.9rem" : "1rem";
-    const buttonPaddingY = isSmallScreen ? 0.8 : isTabletScreen ? 0.85 : isMediumScreen ? 0.9 : 1;
-    const avatarSize = isSmallScreen ? 80 : isTabletScreen ? 90 : isMediumScreen ? 100 : 140;
-
     const { isAuthenticated } = useAuth();
     const [isSaved, setIsSaved] = useState(saved);
 
@@ -69,26 +58,26 @@ const JobDetailHeader = ({
         <Box
             sx={{
                 backgroundColor: "white",
-                p: isSmallScreen ? 0.75 : isTabletScreen ? 1.2 : 2,
+                p: { xs: 0.75, sm: 1.2, md: 2 },
                 boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
-                mb: 3,
+                mb: { xs: 2, sm: 2.5, md: 3 },
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2,
+                gap: { xs: 1, sm: 1.2, md: 2 },
             }}
         >
             <Stack
-                direction={isSmallScreen ? "column" : isTabletScreen ? "column" : "row"}
-                spacing={isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2}
-                alignItems={isSmallScreen ? "flex-start" : isTabletScreen ? "flex-start" : "center"}
+                direction={{ xs: "column", md: "row" }}
+                spacing={{ xs: 1, sm: 1.2, md: 2 }}
+                alignItems={{ xs: "flex-start", md: "center" }}
                 justifyContent="space-between"
                 flexWrap="wrap"
             >
                 <Stack
                     direction="row"
-                    spacing={isSmallScreen ? 1 : isTabletScreen ? 1.2 : 2}
-                    alignItems={isSmallScreen ? "flex-start" : isTabletScreen ? "flex-start" : "center"}
+                    spacing={{ xs: 1, sm: 1.2, md: 2 }}
+                    alignItems={{ xs: "flex-start", md: "center" }}
                     sx={{ flex: 1, flexWrap: "wrap", width: "100%" }}
                 >
                     <Avatar
@@ -98,22 +87,25 @@ const JobDetailHeader = ({
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
                         sx={{
-                            width: avatarSize,
-                            height: avatarSize,
+                            width: { xs: 80, sm: 100, md: 120 },
+                            height: { xs: 80, sm: 100, md: 120 },
                             borderRadius: 2,
-                            mr: isSmallScreen ? 1.5 : isTabletScreen ? 1.2 : 2,
-                            mb: isSmallScreen ? 1 : isTabletScreen ? 0.5 : 0,
+                            mr: { xs: 1.5, sm: 1.2, md: 2 },
+                            mb: { xs: 1, sm: 0.5, md: 0 },
                         }}
                     />
 
                     <Box sx={{ minWidth: 0 }}>
                         <Typography
-                            variant={isSmallScreen ? "subtitle1" : isTabletScreen ? "h6" : "h5"}
                             fontWeight="bold"
                             sx={{
-                                mb: isSmallScreen ? 0.25 : isTabletScreen ? 0.3 : 0.5,
+                                mb: { xs: 0.25, sm: 0.3, md: 0.5 },
                                 wordBreak: "break-word",
-                                fontSize: isSmallScreen ? "1.05rem" : isTabletScreen ? "1.15rem" : undefined,
+                                fontSize: {
+                                    xs: "1.05rem",
+                                    sm: "1.15rem",
+                                    md: "1.25rem",
+                                },
                             }}
                         >
                             {title}
@@ -123,16 +115,30 @@ const JobDetailHeader = ({
                             direction="row"
                             alignItems="center"
                             spacing={1}
-                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                            sx={{ mb: { xs: 0.25, sm: 0.5 }, flexWrap: "wrap" }}
                         >
                             <Business fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="body1" sx={{ fontSize: isSmallScreen ? "0.85rem" : undefined }}>
-                                <strong>Công ty: </strong>
+
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    fontSize: { xs: "0.85rem", sm: "1rem" },
+                                    display: "flex",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                }}
+                            >
+                                <Box
+                                    component="span"
+                                    sx={{ display: { xs: "none", md: "inline" }, fontWeight: 600, mr: 0.5 }}
+                                >
+                                    Công ty:
+                                </Box>
                                 <a
                                     href={website}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    style={{ color: "#1976d2", fontWeight: 600, wordBreak: "break-all" }}
+                                    style={{ color: "#1976d2", fontWeight: 600, wordBreak: "break-word" }}
                                 >
                                     {companyName}
                                 </a>
@@ -143,11 +149,17 @@ const JobDetailHeader = ({
                             direction="row"
                             alignItems="center"
                             spacing={1}
-                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                            sx={{ mb: { xs: 0.25, sm: 0.5 }, flexWrap: "wrap" }}
                         >
                             <LocationOn fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="subtitle2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
-                                <strong>Địa chỉ làm việc:</strong> {address}
+                            <Typography variant="subtitle2" sx={{ fontSize: { xs: "0.8rem", sm: "1rem" } }}>
+                                <Box
+                                    component="span"
+                                    sx={{ display: { xs: "none", md: "inline" }, fontWeight: 600, mr: 0.5 }}
+                                >
+                                    Địa chỉ làm việc:
+                                </Box>
+                                {address}
                             </Typography>
                         </Stack>
 
@@ -155,41 +167,74 @@ const JobDetailHeader = ({
                             direction="row"
                             alignItems="center"
                             spacing={1}
-                            sx={{ mb: isSmallScreen ? 0.25 : 0.5, flexWrap: "wrap" }}
+                            sx={{ mb: { xs: 0.25, sm: 0.5 }, flexWrap: "wrap" }}
                         >
                             <Work fontSize="small" sx={{ color: "#555" }} />
-                            <Typography variant="body2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
-                                <strong>Vị trí:</strong> {jobPosition} - <strong>Hình thức:</strong> {type}
+                            <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "1rem" } }}>
+                                <Box
+                                    component="span"
+                                    sx={{ display: { xs: "none", md: "inline" }, fontWeight: 600, mr: 0.5 }}
+                                >
+                                    Vị trí:
+                                </Box>
+                                {jobPosition} -{" "}
+                                <Box
+                                    component="span"
+                                    sx={{ display: { xs: "none", md: "inline" }, fontWeight: 600, mr: 0.5 }}
+                                >
+                                    Hình thức:
+                                </Box>
+                                {type}
                             </Typography>
                         </Stack>
 
-                        <Typography variant="body2" sx={{ fontSize: isSmallScreen ? "0.8rem" : undefined }}>
-                            <CalendarToday fontSize="small" sx={{ mr: 0.5, verticalAlign: "middle" }} />
-                            <strong>Cập nhật:</strong> {formatDate(updateDate)} - <strong>Hạn nộp:</strong>{" "}
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontSize: { xs: "0.8rem", sm: "1rem" },
+                                display: "flex",
+                                alignItems: "center",
+                                flexWrap: "wrap",
+                            }}
+                        >
+                            <CalendarToday fontSize="small" sx={{ mr: 0.5, color: "#555" }} />
+
+                            <Box component="span" sx={{ display: { xs: "none", md: "inline" } }}>
+                                <Box component="span" sx={{ fontWeight: 600, mr: 0.5 }}>
+                                    Cập nhật:
+                                </Box>
+                                {formatDate(updateDate)}
+                                {" - "}
+
+                                <Box component="span" sx={{ fontWeight: 600, mr: 0.5 }}>
+                                    Hạn nộp:
+                                </Box>
+                            </Box>
                             {formatDate(expiryDate)}
+
                             {expiryDate >= new Date().toISOString() && (
-                                <>
-                                    {" ( Còn lại "}
-                                    <strong>
+                                <Box component="span" sx={{ ml: 0.5 }}>
+                                    {"("}Còn lại{" "}
+                                    <Box component="span" sx={{ fontWeight: 600 }}>
                                         {Math.ceil((new Date(expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} ngày
-                                    </strong>
-                                    {" )"}
-                                </>
+                                    </Box>
+                                    {")"}
+                                </Box>
                             )}
                         </Typography>
                     </Box>
                 </Stack>
 
                 <Stack
-                    direction={isSmallScreen || isTabletScreen ? "row" : "column"}
-                    spacing={isSmallScreen ? 0.5 : isTabletScreen ? 0.6 : 2}
+                    direction={{ xs: "row", md: "column" }}
+                    spacing={{ xs: 0.5, md: 2 }}
                     sx={{
-                        minWidth: isSmallScreen ? "100%" : isTabletScreen ? 0 : 200,
-                        mt: isSmallScreen ? 1 : isTabletScreen ? 0.5 : 0,
-                        width: isSmallScreen ? "100%" : isTabletScreen ? "100%" : undefined,
-                        alignItems: isSmallScreen || isTabletScreen ? "flex-end" : "center",
-                        justifyContent: isSmallScreen || isTabletScreen ? "flex-end" : undefined,
-                        flex: isTabletScreen ? 1 : undefined,
+                        minWidth: { xs: "100%", sm: 200 },
+                        mt: { sx: 1, sm: 0.5, md: 0 },
+                        width: { sm: "100%", md: 200 },
+                        alignItems: { xs: "flex-end", md: "center" },
+                        justifyContent: { xs: "flex-end", md: "center" },
+                        flex: { sm: 1, md: 0 },
                         gap: undefined,
                     }}
                 >
@@ -201,11 +246,11 @@ const JobDetailHeader = ({
                             fullWidth
                             sx={{
                                 textTransform: "none",
-                                fontSize: buttonFontSize,
+                                fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                                 fontWeight: "bold",
-                                py: buttonPaddingY,
+                                py: { xs: 0.8, sm: 0.9, md: 1 },
                                 borderRadius: 1,
-                                minWidth: isSmallScreen ? 0 : 140,
+                                minWidth: { xs: 0, sm: 140 },
                             }}
                         >
                             Ứng tuyển ngay
@@ -217,11 +262,11 @@ const JobDetailHeader = ({
                             fullWidth
                             sx={{
                                 textTransform: "none",
-                                fontSize: buttonFontSize,
+                                fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                                 fontWeight: "bold",
-                                py: buttonPaddingY,
+                                py: { xs: 0.8, sm: 0.9, md: 1 },
                                 borderRadius: 1,
-                                minWidth: isSmallScreen ? 0 : 140,
+                                minWidth: { xs: 0, sm: 140 },
                             }}
                         >
                             Hết hạn ứng tuyển
@@ -235,11 +280,11 @@ const JobDetailHeader = ({
                         startIcon={isSaved ? <Bookmark /> : <BookmarkBorder />}
                         sx={{
                             textTransform: "none",
-                            fontSize: buttonFontSize,
+                            fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
                             fontWeight: "bold",
-                            py: buttonPaddingY,
+                            py: { xs: 0.8, sm: 0.9, md: 1 },
                             borderRadius: 1,
-                            minWidth: isSmallScreen ? 0 : 140,
+                            minWidth: { xs: 0, sm: 140 },
                         }}
                     >
                         {isSaved ? "Bỏ lưu công việc" : "Lưu công việc"}

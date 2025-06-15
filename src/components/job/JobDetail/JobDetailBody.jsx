@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import Tabs from "@mui/material/Tabs";
+import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
@@ -21,15 +21,14 @@ const JobDetailBody = ({ jobData }) => {
     return (
         <Box
             sx={{
+                p: 3,
+                pt: 0,
                 backgroundColor: "white",
-                p: 4,
                 borderRadius: 2,
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                mb: 4,
                 lineHeight: 1.6,
                 width: "100%",
                 margin: "0 auto",
-                paddingTop: "0",
             }}
         >
             {/* Tabs */}
@@ -39,14 +38,19 @@ const JobDetailBody = ({ jobData }) => {
                         value={value}
                         onChange={handleChangeTab}
                         variant="scrollable"
-                        scrollButtons={false}
+                        scrollButtons="auto"
+                        allowScrollButtonsMobile
                         selectionFollowsFocus
+                        sx={{
+                            [`& .${tabsClasses.scrollButtons}`]: {
+                                "&.Mui-disabled": { opacity: 0.3 },
+                            },
+                        }}
                     >
                         <Tab label="Thông tin việc làm" />
                         <Tab label="Thông tin công ty" />
                         <Tab label="Việc làm khác từ công ty" />
                         <Tab label="Việc làm liên quan" />
-                        {/* <Tab label="Việc làm liên quan" disabled /> */}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

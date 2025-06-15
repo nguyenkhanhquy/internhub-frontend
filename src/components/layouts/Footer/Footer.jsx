@@ -50,7 +50,7 @@ const Footer = () => {
                         alt="fit_logo"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
-                        sx={{ width: { xs: 60, sm: 92 }, marginRight: 2 }}
+                        sx={{ width: 80, marginRight: 2 }}
                     />
                     <Box>
                         <Typography variant="body1" fontWeight="600">
@@ -67,6 +67,7 @@ const Footer = () => {
 
                 {/* Phần bên phải */}
                 <Box sx={{ flex: 1, textAlign: "left" }}>
+                    <Divider sx={{ my: 1, display: { xs: "block", sm: "none" } }} />
                     <Typography variant="body1" fontWeight="600">
                         Liên hệ với chúng tôi
                     </Typography>

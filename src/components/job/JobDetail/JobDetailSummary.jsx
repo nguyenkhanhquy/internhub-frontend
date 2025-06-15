@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import MonetizationOn from "@mui/icons-material/MonetizationOn";
 import Group from "@mui/icons-material/Group";
@@ -24,8 +23,6 @@ const majorLabels = {
 };
 
 const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryDate, jobPosition, majors }) => {
-    const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
     return (
         <Box
             sx={{
@@ -47,7 +44,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Trợ cấp */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <MonetizationOn sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Trợ cấp:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -58,7 +55,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Số lượng tuyển dụng */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <Group sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Số lượng tuyển:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -69,7 +66,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Hình thức làm việc */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <WorkOutline sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Hình thức:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -80,7 +77,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Thời gian làm việc */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <Schedule sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Loại hợp đồng:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -91,7 +88,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Ngày đăng */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Ngày đăng:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -102,7 +99,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Ngày hết hạn */}
                 <Box display="flex" alignItems="center" flexWrap="wrap">
                     <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Ngày hết hạn:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -113,7 +110,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Vị trí công việc */}
                 <Box display="flex" flexWrap="wrap">
                     <Work sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Vị trí:
                     </Typography>
                     <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
@@ -124,7 +121,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 {/* Ngành đào tạo */}
                 <Box display="flex" flexWrap="wrap">
                     <School sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: isSmallScreen ? "100%" : "130px" }}>
+                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                         Ngành đào tạo:
                     </Typography>
                     <Stack direction="column" spacing={1} flexWrap="wrap">

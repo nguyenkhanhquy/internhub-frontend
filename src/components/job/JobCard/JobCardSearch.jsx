@@ -125,7 +125,7 @@ const JobCardSearch = ({
                     {/* Thông tin công ty và địa chỉ */}
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <Business fontSize="small" color="action" sx={{ color: "black" }} />
-                        <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
+                        <Typography variant="subtitle2" color="textPrimary">
                             Công ty: {companyName}
                         </Typography>
                     </Stack>

@@ -17,7 +17,6 @@ import CompanyDetailsContactSkeleton from "@components/skeletons/CompanyDetailsC
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import useAuth from "@hooks/useAuth";
 import { getJobPostById, getJobPostsByCompanyId, getAllJobPosts } from "@services/jobPostService";
@@ -87,13 +86,6 @@ const JobDetailsPage = () => {
         fetchJobPostsDetails();
     }, [id, navigate]);
 
-    // Kiểm tra kích thước màn hình
-    const isSmallScreen = useMediaQuery("(max-width: 600px)");
-    const isMediumScreen = useMediaQuery("(max-width: 960px)");
-
-    // Xác định giá trị margin dựa trên kích thước màn hình
-    const marginValue = isSmallScreen ? "0px" : isMediumScreen ? "20px 40px" : "20px 80px";
-
     const handleApplyJob = () => {
         if (isAuthenticated) {
             setIsModalOpen(true);
@@ -107,7 +99,7 @@ const JobDetailsPage = () => {
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết công việc" />
             {loading ? (
-                <div style={{ margin: marginValue }}>
+                <Box sx={{ m: { xs: "0px", sm: "20px 40px", md: "20px 80px" } }}>
                     {/* Header skeleton */}
                     <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
                         <JobDetailHeaderSkeleton />
@@ -126,9 +118,9 @@ const JobDetailsPage = () => {
                             <CompanyDetailsContactSkeleton />
                         </Grid>
                     </Grid>
-                </div>
+                </Box>
             ) : (
-                <div style={{ margin: marginValue }}>
+                <Box sx={{ m: { xs: "0px", sm: "20px 40px", md: "20px 80px" } }}>
                     {/* Header tóm tắt thông tin */}
                     <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
                         <JobDetailHeader
@@ -149,14 +141,17 @@ const JobDetailsPage = () => {
                     </Box>
 
                     {/* Chia layout thành 2 phần: Body và Summary */}
-                    <Grid container spacing={4}>
+                    <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
                         {/* Phần Body nằm bên trái, chiếm 2/3 */}
                         <Grid size={{ xs: 12, md: 6, lg: 8 }}>
                             <JobDetailBody jobData={jobData} />
                         </Grid>
 
                         {/* Phần Summary nằm bên phải, chiếm 1/3 */}
-                        <Grid size={{ xs: 12, md: 6, lg: 4 }} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                        <Grid
+                            size={{ xs: 12, md: 6, lg: 4 }}
+                            sx={{ display: "flex", flexDirection: "column", gap: { xs: 1, sm: 1.5, md: 2 } }}
+                        >
                             <JobDetailSummary
                                 salary={jobData.salary}
                                 quantity={jobData.quantity}
@@ -176,12 +171,12 @@ const JobDetailsPage = () => {
                     {/* Modal ứng tuyển */}
                     {isModalOpen && (
                         <JobApplicationModal
-                            jobPostId={jobData.id} // Truyền id công việc vào modal
-                            jobTitle={jobData.title} // Truyền tiêu đề công việc vào modal
-                            onClose={() => setIsModalOpen(false)} // Đóng modal
+                            jobPostId={jobData.id}
+                            jobTitle={jobData.title}
+                            onClose={() => setIsModalOpen(false)}
                         />
                     )}
-                </div>
+                </Box>
             )}
         </MainLayout>
     );
