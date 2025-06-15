@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 import useAuth from "@hooks/useAuth";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import SliderBanner from "@components/banners/SliderBanner/SliderBanner";
@@ -16,7 +12,7 @@ import SearchBar from "@components/search/SearchBar";
 import FeaturedCompaniesSection from "@components/section/HomePage/FeaturedCompanysSection/FeaturedCompaniesSection";
 import LatestJobsSection from "@components/section/HomePage/LatestJobsSection/LatestJobsSection";
 import SuitableJobsSection from "@components/section/HomePage/SuitableJobsSection/SuitableJobsSection";
-import AnimatedCounter from "@components/common/AnimatedCounter/AnimatedCounter";
+import OverviewStatistics from "@components/section/HomePage/OverviewStatistics/OverviewStatistics";
 
 import { getJobPostsSuitableForStudent } from "@services/jobPostService";
 import { getAllJobPosts } from "@services/jobPostService";
@@ -25,65 +21,42 @@ import { getOverview } from "@services/academicService";
 
 const HomePage = () => {
     const { isAuthenticated } = useAuth();
-
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [suitableJobList, setSuitableJobList] = useState([]);
-    const [latestJobList, setLatestJobList] = useState([]);
-    const [featuredCompanies, setFeaturedCompanies] = useState([]);
-    const [overview, setOverview] = useState({});
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                if (isAuthenticated) {
-                    const [suitableJobData, latestJobData, featuredCompaniesData, overviewData] =
-                        await Promise.allSettled([
-                            getJobPostsSuitableForStudent(0, 6),
-                            getAllJobPosts(1, 12),
-                            getAllApprovedCompanies(1, 5),
-                            getOverview(),
-                        ]);
+    // Suitable jobs - chỉ gọi khi đã đăng nhập
+    const suitableJobsQuery = useQuery({
+        queryKey: ["suitable-jobs"],
+        queryFn: () => getJobPostsSuitableForStudent(0, 6),
+        enabled: isAuthenticated,
+        select: (data) => (data.success ? data.result : []),
+    });
 
-                    if (suitableJobData.status === "fulfilled" && suitableJobData.value.success) {
-                        setSuitableJobList(suitableJobData.value.result);
-                    }
-                    if (latestJobData.status === "fulfilled" && latestJobData.value.success) {
-                        setLatestJobList(latestJobData.value.result);
-                    }
-                    if (featuredCompaniesData.status === "fulfilled" && featuredCompaniesData.value.success) {
-                        setFeaturedCompanies(featuredCompaniesData.value.result);
-                    }
-                    if (overviewData.status === "fulfilled" && overviewData.value.success) {
-                        setOverview(overviewData.value.result);
-                    }
-                } else {
-                    const [latestJobData, featuredCompaniesData, overviewData] = await Promise.allSettled([
-                        getAllJobPosts(1, 12),
-                        getAllApprovedCompanies(1, 5),
-                        getOverview(),
-                    ]);
+    // Latest jobs
+    const latestJobsQuery = useQuery({
+        queryKey: ["latest-jobs"],
+        queryFn: () => getAllJobPosts(1, 12),
+        select: (data) => (data.success ? data.result : []),
+    });
 
-                    if (latestJobData.status === "fulfilled" && latestJobData.value.success) {
-                        setLatestJobList(latestJobData.value.result);
-                    }
-                    if (featuredCompaniesData.status === "fulfilled" && featuredCompaniesData.value.success) {
-                        setFeaturedCompanies(featuredCompaniesData.value.result);
-                    }
-                    if (overviewData.status === "fulfilled" && overviewData.value.success) {
-                        setOverview(overviewData.value.result);
-                    }
-                }
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Featured companies
+    const featuredCompaniesQuery = useQuery({
+        queryKey: ["featured-companies"],
+        queryFn: () => getAllApprovedCompanies(1, 5),
+        select: (data) => (data.success ? data.result : []),
+    });
 
-        fetchData();
-    }, [isAuthenticated]);
+    // Overview Statistics
+    const overviewQuery = useQuery({
+        queryKey: ["overview-homepage"],
+        queryFn: () => getOverview(),
+        select: (data) => (data.success ? data.result : {}),
+    });
+
+    // Lấy dữ liệu đã xử lý qua select
+    const suitableJobList = suitableJobsQuery.data ?? [];
+    const latestJobList = latestJobsQuery.data ?? [];
+    const featuredCompanies = featuredCompaniesQuery.data ?? [];
+    const overview = overviewQuery.data ?? {};
 
     return (
         <MainLayout title="Trang chủ">
@@ -114,111 +87,18 @@ const HomePage = () => {
                 </Box>
 
                 {/* Overview Statistics */}
-                <Box sx={{ width: { xs: "100%", sm: "80%" }, margin: "0 auto" }}>
-                    <Grid container spacing={2} justifyContent="center" alignItems="stretch">
-                        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    textAlign: "center",
-                                    boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
-                                    borderRadius: 2,
-                                    border: "1px solid #e0e0e0",
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    transition: "all 0.3s ease-in-out", // Thêm hiệu ứng mượt
-                                    "&:hover": {
-                                        borderColor: "warning.main",
-                                        boxShadow: 2,
-                                        cursor: "default",
-                                    },
-                                }}
-                            >
-                                <AnimatedCounter
-                                    value={overview.totalInternStudents || 0}
-                                    color="warning"
-                                    duration={2000}
-                                />
-                                <Typography variant="body1" color="text.secondary">
-                                    Sinh viên thực tập
-                                </Typography>
-                            </Paper>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    textAlign: "center",
-                                    boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
-                                    borderRadius: 2,
-                                    border: "1px solid #e0e0e0",
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    transition: "all 0.3s ease-in-out", // Thêm hiệu ứng mượt
-                                    "&:hover": {
-                                        borderColor: "primary.main",
-                                        boxShadow: 2,
-                                        cursor: "default",
-                                    },
-                                }}
-                            >
-                                <AnimatedCounter
-                                    value={overview.maxExpectedAcceptances || 0}
-                                    color="primary"
-                                    duration={1800}
-                                />
-                                <Typography variant="body1" color="text.secondary">
-                                    Vị trí thực tập dự kiến
-                                </Typography>
-                            </Paper>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    textAlign: "center",
-                                    boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
-                                    borderRadius: 2,
-                                    border: "1px solid #e0e0e0",
-                                    height: "100%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    transition: "all 0.3s ease-in-out", // Thêm hiệu ứng mượt
-                                    "&:hover": {
-                                        borderColor: "success.main",
-                                        boxShadow: 2,
-                                        cursor: "default",
-                                    },
-                                }}
-                            >
-                                <AnimatedCounter
-                                    value={overview.acceptedStudents || 0}
-                                    color="success"
-                                    duration={1600}
-                                />
-                                <Typography variant="body1" color="text.secondary">
-                                    Sinh viên đã được nhận
-                                </Typography>
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                </Box>
+                <OverviewStatistics overview={overview} />
 
                 {/* VIỆC LÀM PHÙ HỢP */}
-                {isAuthenticated && <SuitableJobsSection loading={loading} jobList={suitableJobList} />}
+                {isAuthenticated && (
+                    <SuitableJobsSection loading={suitableJobsQuery.isLoading} jobList={suitableJobList} />
+                )}
 
                 {/* VIỆC LÀM MỚI NHẤT */}
-                <LatestJobsSection loading={loading} jobList={latestJobList} />
+                <LatestJobsSection loading={latestJobsQuery.isLoading} jobList={latestJobList} />
 
                 {/* DOANH NGHIỆP NỔI BẬT */}
-                <FeaturedCompaniesSection loading={loading} companies={featuredCompanies} />
+                <FeaturedCompaniesSection loading={featuredCompaniesQuery.isLoading} companies={featuredCompanies} />
             </Container>
         </MainLayout>
     );
