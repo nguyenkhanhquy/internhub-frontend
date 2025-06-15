@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
@@ -13,96 +13,88 @@ import CompanyDetailsContactSkeleton from "@components/skeletons/CompanyDetailsC
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { getCompanyById } from "@services/companyService";
 import { getJobPostsByCompanyId } from "@services/jobPostService";
 
 const CompanyDetailsPage = () => {
-    const navigate = useNavigate();
     const { id } = useParams();
-    const [loading, setLoading] = useState(true);
-    const [companyData, setCompanyData] = useState({});
 
-    useEffect(() => {
-        const fetchCompanyData = async () => {
+    const companyQuery = useQuery({
+        queryKey: ["company-data", id],
+        queryFn: async () => {
             window.scrollTo({
                 top: 0,
                 behavior: "smooth",
             });
             try {
-                setLoading(true);
-                const data = await getCompanyById(id);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                const companyData = await getCompanyById(id);
+                if (!companyData.success) {
+                    throw new Error(companyData);
                 }
+                const companyDetails = companyData.result;
 
-                setCompanyData(data.result);
-
-                const dataJobPosts = await getJobPostsByCompanyId(id);
-                if (!dataJobPosts.success) {
-                    throw new Error(dataJobPosts.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                const jobPostsData = await getJobPostsByCompanyId(id);
+                if (!jobPostsData.success) {
+                    throw new Error(jobPostsData);
                 }
+                const jobPostsByCompany = jobPostsData.result;
 
-                setCompanyData((prevData) => ({
-                    ...prevData,
-                    jobs: dataJobPosts.result,
-                }));
+                return { companyDetails, jobPostsByCompany };
             } catch (error) {
-                if (error?.statusCode === 404) navigate("/404");
-                else toast.error(error.message);
-            } finally {
-                setLoading(false);
+                toast.error(error.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                throw error;
             }
-        };
+        },
+        retry: false,
+    });
 
-        fetchCompanyData();
-    }, [id, navigate]);
+    const companyDetails = companyQuery.data?.companyDetails ?? {};
+    const jobPostsByCompany = companyQuery.data?.jobPostsByCompany ?? [];
 
-    // Kiểm tra kích thước màn hình
-    const isSmallScreen = useMediaQuery("(max-width: 600px)");
-    const isMediumScreen = useMediaQuery("(max-width: 960px)");
-
-    // Xác định giá trị margin dựa trên kích thước màn hình
-    const marginValue = isSmallScreen ? "0px" : isMediumScreen ? "20px 40px" : "20px 80px";
+    if (companyQuery.isError) {
+        if (companyQuery.error.statusCode === 404) {
+            return <Navigate to="/404" replace />;
+        }
+    }
 
     return (
         <MainLayout title="Chi tiết doanh nghiệp">
             {/* Thanh điều hướng */}
             <PageNavigation pageName="Chi tiết doanh nghiệp" />
 
-            <div style={{ margin: marginValue }}>
+            <Box sx={{ m: { xs: "0px", sm: "20px 40px", md: "20px 80px" } }}>
                 {/* Header tóm tắt thông tin */}
                 <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
-                    {loading ? (
+                    {companyQuery.isLoading ? (
                         <CompanyDetailsHeaderSkeleton />
                     ) : (
                         <CompanyDetailsHeader
-                            logo={companyData.logo}
-                            name={companyData.name}
-                            website={companyData.website}
-                            address={companyData.address}
+                            logo={companyDetails.logo}
+                            name={companyDetails.name}
+                            website={companyDetails.website}
+                            address={companyDetails.address}
                         />
                     )}
                 </Box>
 
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 12, lg: 8 }}>
-                        {loading ? (
+                        {companyQuery.isLoading ? (
                             <CompanyDetailsBodySkeleton />
                         ) : (
-                            <CompanyDetailsBody description={companyData.description} jobs={companyData.jobs} />
+                            <CompanyDetailsBody description={companyDetails.description} jobs={jobPostsByCompany} />
                         )}
                     </Grid>
                     <Grid size={{ xs: 12, lg: 4 }}>
-                        {loading ? (
+                        {companyQuery.isLoading ? (
                             <CompanyDetailsContactSkeleton />
                         ) : (
-                            <CompanyDetailsContact companyName={companyData.name} address={companyData.address} />
+                            <CompanyDetailsContact companyName={companyDetails.name} address={companyDetails.address} />
                         )}
                     </Grid>
                 </Grid>
-            </div>
+            </Box>
         </MainLayout>
     );
 };
