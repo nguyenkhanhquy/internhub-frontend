@@ -66,18 +66,17 @@ const Chat = ({ isOpen, onClose }) => {
         } else if (hour >= 12 && hour < 18) {
             return "Chào buổi chiều 🌞";
         } else if (hour >= 18 && hour < 22) {
-            return "Chào buổi tối 🌆";
+            return "Chào buổi tối 🌙";
         } else {
-            return "Chào buổi đêm 🌙";
+            return "Chào buổi đêm 🌆";
         }
     };
 
-    // Thêm icon trước mỗi câu hỏi cho phù hợp
     const popularQuestions = [
         "❓ Giới thiệu về InternHub?",
         "🧑‍🎓 Cách đăng ký tài khoản thực tập sinh?",
         "🏢 Cách đăng ký tài khoản nhà tuyển dụng?",
-        "📄 Cách ứng tuyển?",
+        "📄 Cách ứng tuyển công việc?",
         "📝 Cách nộp báo cáo thực tập?",
         "📊 Cách xem điểm thực tập?",
     ];
@@ -202,11 +201,13 @@ const Chat = ({ isOpen, onClose }) => {
 
         setIsResetting(true);
         try {
-            await fetch(`${CHATBOT_URL}/reset/${SESSION_ID}`, {
+            await fetch(`${CHATBOT_URL}/reset`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    sessionId: SESSION_ID,
+                }),
             });
-
             setMessages([]);
         } catch (error) {
             console.error("Reset error:", error);
@@ -253,7 +254,7 @@ const Chat = ({ isOpen, onClose }) => {
                 {messages.length === 0 && (
                     <div className="mt-2 text-center text-gray-500 sm:mt-4">
                         <p className="text-xl font-bold text-blue-500 sm:text-2xl">{getGreetingMessage()}</p>
-                        <p className="mt-1 text-xs font-semibold sm:mt-2 sm:text-sm">
+                        <p className="mt-1 text-xs sm:mt-2 sm:text-sm">
                             Tôi là trợ lý AI của website InternHub. Tôi có thể giúp gì cho bạn?
                         </p>
                     </div>
@@ -319,10 +320,9 @@ const Chat = ({ isOpen, onClose }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="rounded-b-xl border-t border-gray-200 bg-white p-2 sm:p-3">
-                {/* Câu hỏi phổ biến */}
                 {messages.length === 0 && (
                     <div className="mb-3 border-b border-gray-100 pb-2 sm:mb-4 sm:pb-3">
-                        <p className="mb-2 text-xs font-semibold text-gray-600 sm:text-sm">✨ Các câu hỏi phổ biến</p>
+                        <p className="mb-2 text-xs text-gray-600 sm:text-sm">✨ Các câu hỏi phổ biến</p>
                         <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
                             {popularQuestions.map((question, index) => (
                                 <button
@@ -343,7 +343,7 @@ const Chat = ({ isOpen, onClose }) => {
                         type="button"
                         onClick={handleReset}
                         disabled={isResetting || isLoading}
-                        className="cursor-pointer rounded-full bg-gradient-to-r from-purple-600 to-pink-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-purple-700 hover:to-pink-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
+                        className="cursor-pointer rounded-full bg-gradient-to-r from-purple-600 to-pink-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-purple-700 hover:to-pink-600 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
                         title="Làm mới cuộc trò chuyện"
                     >
                         <svg
@@ -369,7 +369,7 @@ const Chat = ({ isOpen, onClose }) => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="cursor-pointer rounded-full bg-gradient-to-r from-indigo-600 to-blue-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-indigo-700 hover:to-blue-600 disabled:scale-100 disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
+                        className="cursor-pointer rounded-full bg-gradient-to-r from-indigo-600 to-blue-500 p-1.5 text-white transition-all duration-200 hover:scale-110 hover:from-indigo-700 hover:to-blue-600 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-70 sm:p-2"
                         title="Gửi tin nhắn"
                     >
                         <svg

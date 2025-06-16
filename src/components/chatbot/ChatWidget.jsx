@@ -12,7 +12,7 @@ const ChatWidget = () => {
         setIsChatOpen((prev) => !prev);
     };
 
-    const isHidden = ["/auth/callback"].includes(location.pathname);
+    const isHidden = ["/auth/callback", "/logout"].includes(location.pathname);
 
     if (isHidden) return null;
 
