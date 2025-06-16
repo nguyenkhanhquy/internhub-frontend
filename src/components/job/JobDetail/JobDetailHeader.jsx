@@ -177,14 +177,7 @@ const JobDetailHeader = ({
                                 >
                                     Vị trí:
                                 </Box>
-                                {jobPosition} -{" "}
-                                <Box
-                                    component="span"
-                                    sx={{ display: { xs: "none", md: "inline" }, fontWeight: 600, mr: 0.5 }}
-                                >
-                                    Hình thức:
-                                </Box>
-                                {type}
+                                {jobPosition} - {type}
                             </Typography>
                         </Stack>
 

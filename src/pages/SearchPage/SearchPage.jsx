@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
@@ -12,6 +14,7 @@ import JobCardSearch from "@components/job/JobCard/JobCardSearch";
 import CustomPagination from "@components/pagination/Pagination";
 import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
 import EmptyBox from "@components/box/EmptyBox";
+import AdvancedFilter from "@components/filter/AdvancedFilter";
 
 import { getAllJobPosts } from "@services/jobPostService";
 
@@ -29,6 +32,14 @@ const SearchPage = () => {
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
+
+    const [filters, setFilters] = useState({
+        salary: "",
+        major: { label: "Tất cả ngành", value: "" },
+        address: { label: "Tất cả địa điểm", value: "" },
+        type: "",
+        remote: "",
+    });
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -49,7 +60,7 @@ const SearchPage = () => {
         const fetchJobPosts = async () => {
             setLoading(true);
             try {
-                const data = await getAllJobPosts(currentPage, recordsPerPage, query, sort);
+                const data = await getAllJobPosts(currentPage, recordsPerPage, query, sort, filters);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
                 }
@@ -68,7 +79,7 @@ const SearchPage = () => {
         };
 
         fetchJobPosts();
-    }, [currentPage, recordsPerPage, query, sort]);
+    }, [currentPage, recordsPerPage, query, sort, filters]);
 
     return (
         <MainLayout title="Việc làm">
@@ -76,16 +87,16 @@ const SearchPage = () => {
             <Box
                 sx={{
                     margin: {
-                        xs: "10px 10px", // Dành cho màn hình nhỏ hơn 600px
+                        xs: "10px 20px", // Dành cho màn hình nhỏ hơn 600px
                         sm: "10px 40px", // Dành cho màn hình từ 600px đến dưới 900px
                         md: "15px 80px", // Dành cho màn hình từ 900px đến dưới 1200px
-                        lg: "20px 160px", // Dành cho màn hình từ 1200px đến dưới 1536px
+                        lg: "20px 120px", // Dành cho màn hình từ 1200px đến dưới 1536px
                     },
                     minHeight: 400,
                 }}
             >
                 {/* Thanh tìm kiếm */}
-                <Box sx={{ position: "sticky", top: 4, zIndex: 1, mb: 2 }}>
+                <Box sx={{ position: "sticky", top: 4, zIndex: 1, mb: 1 }}>
                     <SearchBar
                         onSearch={(searchText) => {
                             setCurrentPage(1);
@@ -105,36 +116,40 @@ const SearchPage = () => {
                     }}
                 />
 
-                {/* Danh sách công việc */}
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    gap={1}
-                    sx={{
-                        my: 2,
-                    }}
-                >
-                    {jobPosts.length > 0 ? (
-                        jobPosts.map((job, index) => (
-                            <JobCardSearch
-                                key={index}
-                                id={job.id}
-                                logo={job.company.logo}
-                                title={job.title}
-                                companyName={job.company.name}
-                                address={job.address}
-                                jobPosition={job.jobPosition}
-                                type={job.type}
-                                salary={job.salary}
-                                updatedDate={job.updatedDate}
-                                expiryDate={job.expiryDate}
-                                saved={job.saved}
-                            />
-                        ))
-                    ) : (
-                        <EmptyBox />
-                    )}
-                </Box>
+                <Divider sx={{ mb: 2 }} />
+
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12, md: 3 }}>
+                        {/* Bộ lọc */}
+                        <AdvancedFilter filters={filters} onApplyFilters={setFilters} onResetFilters={setFilters} />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, sm: 12, md: 9 }}>
+                        {/* Danh sách công việc */}
+                        <Box display="flex" flexDirection="column" gap={1} mb={1}>
+                            {jobPosts.length > 0 ? (
+                                jobPosts.map((job, index) => (
+                                    <JobCardSearch
+                                        key={index}
+                                        id={job.id}
+                                        logo={job.company.logo}
+                                        title={job.title}
+                                        companyName={job.company.name}
+                                        address={job.address}
+                                        jobPosition={job.jobPosition}
+                                        type={job.type}
+                                        salary={job.salary}
+                                        updatedDate={job.updatedDate}
+                                        expiryDate={job.expiryDate}
+                                        saved={job.saved}
+                                    />
+                                ))
+                            ) : (
+                                <EmptyBox />
+                            )}
+                        </Box>
+                    </Grid>
+                </Grid>
 
                 {/* Phân trang */}
                 <CustomPagination

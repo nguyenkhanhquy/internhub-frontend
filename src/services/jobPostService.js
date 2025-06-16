@@ -18,13 +18,19 @@ export const createJobPost = async (jobPost) => {
     });
 };
 
-export const getAllJobPosts = async (page, size, search, order) => {
+export const getAllJobPosts = async (page, size, search, order, filters) => {
+    const { major, address, type, remote } = filters || {};
+
     return axiosClient.get(JOBS_API.GET_ALL, {
         params: {
             page: page,
             size: size,
-            search: search,
-            order: order,
+            ...(search && { search }),
+            ...(order && { order }),
+            ...(major && { major: major.value }),
+            ...(address && { address: address.value }),
+            ...(type && { type }),
+            ...(remote && { remote }),
         },
     });
 };
