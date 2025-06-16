@@ -8,8 +8,8 @@ import ChevronRight from "@mui/icons-material/ChevronRight";
 
 const images = [
     { url: "/images/banner_fit_ute.png" },
-    { url: "/images/banner_hcmute.jpg" },
     { url: "/images/banner.png" },
+    { url: "/images/banner_hcmute.jpg" },
     { url: "/images/banner_career_fair_1.png" },
     { url: "/images/banner_career_fair_2.png" },
 ];
@@ -100,12 +100,13 @@ const SliderBanner = () => {
                         sx={{
                             flexShrink: 0,
                             width: "100%",
-                            height: { xs: 160, sm: 200, md: 240, lg: 420 },
+                            height: { xs: 160, sm: 280, md: 320, lg: 420 },
                         }}
                     >
                         <Box
                             component="img"
                             src={item.url}
+                            alt={`Banner ${i + 1}`}
                             draggable={false}
                             onDragStart={(e) => e.preventDefault()}
                             sx={{
@@ -126,7 +127,7 @@ const SliderBanner = () => {
                     top: "50%",
                     left: { xs: 4, sm: 16 },
                     transform: "translateY(-50%)",
-                    bgcolor: "rgba(0,0,0,0.3)",
+                    bgcolor: "rgba(0,0,0,0.2)",
                     color: "white",
                     minWidth: { xs: 32, sm: 40 },
                     height: { xs: 40, sm: 60 },
@@ -146,7 +147,7 @@ const SliderBanner = () => {
                     top: "50%",
                     right: { xs: 4, sm: 16 },
                     transform: "translateY(-50%)",
-                    bgcolor: "rgba(0,0,0,0.3)",
+                    bgcolor: "rgba(0,0,0,0.2)",
                     color: "white",
                     minWidth: { xs: 32, sm: 40 },
                     height: { xs: 40, sm: 60 },
