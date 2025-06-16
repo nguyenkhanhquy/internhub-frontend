@@ -1,5 +1,5 @@
 // React & Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -122,75 +122,82 @@ function LoginForm() {
         }
     };
 
-    const handleClickGoogle = () => {
-        const callbackUrl = OAuthConfig.redirectUri;
-        const authUrl = OAuthConfig.authUri;
-        const googleClientId = OAuthConfig.clientId;
-
-        const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
-            callbackUrl,
-        )}&response_type=code&client_id=${googleClientId}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline`;
-
-        window.location.href = targetUrl;
-    };
-
     const hasFetchAuthCode = useRef(false);
 
-    useEffect(() => {
-        const fetchAuthCode = async (authCode) => {
-            if (!authCode || hasFetchAuthCode.current) return; // Ngăn gọi API lặp lại khi đã lấy authCode
-            hasFetchAuthCode.current = true; // Đặt ngay khi bắt đầu để tránh gọi lại
+    const fetchAuthCode = async (authCode) => {
+        if (!authCode || hasFetchAuthCode.current) return; // Ngăn gọi API lặp lại khi đã lấy authCode
+        hasFetchAuthCode.current = true; // Đặt ngay khi bắt đầu để tránh gọi lại
 
-            setLoading(true);
-            try {
-                const data = await loginWithGoogle(authCode);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setToken(data.result?.accessToken, data.result?.expirationTime);
-
-                const dataUser = await getAuthUser();
-                if (!dataUser.success) {
-                    throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                let userData = dataUser.result;
-
-                if (dataUser.result.role !== "FIT") {
-                    const dataProfile = await getAuthProfile();
-                    if (!dataProfile.success) {
-                        throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                    }
-                    userData = {
-                        ...userData,
-                        name: dataProfile.result?.name,
-                        approved: dataProfile.result?.approved ?? true,
-                        logo: dataProfile.result?.company?.logo,
-                    };
-                }
-
-                setUser(userData);
-                setIsAuthenticated(true);
-
-                removeRememberMe();
-                navigate("/");
-            } catch (error) {
-                toast.error(error.message);
-                hasFetchAuthCode.current = false; // Đặt lại để có thể thử lại
-            } finally {
-                setLoading(false);
+        setLoading(true);
+        try {
+            const data = await loginWithGoogle(authCode);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
             }
-        };
+            setToken(data.result?.accessToken, data.result?.expirationTime);
 
-        const authCodeRegex = /code=([^&]+)/;
-        const isMatch = window.location.href.match(authCodeRegex);
+            const dataUser = await getAuthUser();
+            if (!dataUser.success) {
+                throw new Error(dataUser.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            let userData = dataUser.result;
 
-        if (isMatch) {
-            // Kiểm tra xem mã có chứa ký tự `%` không trước khi decode
-            // Nếu có thì giải mã để tránh lỗi mã hóa hai lần
-            const authCode = isMatch[1].includes("%") ? decodeURIComponent(isMatch[1]) : isMatch[1];
-            fetchAuthCode(authCode);
+            if (dataUser.result.role !== "FIT") {
+                const dataProfile = await getAuthProfile();
+                if (!dataProfile.success) {
+                    throw new Error(dataProfile.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+                }
+                userData = {
+                    ...userData,
+                    name: dataProfile.result?.name,
+                    approved: dataProfile.result?.approved ?? true,
+                    logo: dataProfile.result?.company?.logo,
+                };
+            }
+
+            setUser(userData);
+            setIsAuthenticated(true);
+
+            removeRememberMe();
+            navigate("/");
+        } catch (error) {
+            toast.error(error.message);
+            hasFetchAuthCode.current = false; // Đặt lại để có thể thử lại
+        } finally {
+            setLoading(false);
         }
-    }, [navigate, setUser, setIsAuthenticated]);
+    };
+
+    const handleGoogleLogin = () => {
+        const clientId = OAuthConfig.clientId;
+        const authUri = OAuthConfig.authUri;
+        const redirectUri = OAuthConfig.redirectUri;
+        const scopes = [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "openid",
+        ].join(" ");
+        const responseType = "code";
+        const accessType = "offline";
+
+        const targetUrl = `${authUri}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&access_type=${accessType}`;
+
+        const width = 500;
+        const height = 600;
+        const left = window.innerWidth / 2 - width / 2;
+        const top = window.innerHeight / 2 - height / 2;
+
+        window.open(targetUrl, "_blank", `width=${width},height=${height},top=${top},left=${left}`);
+
+        // Đợi code trả về
+        window.addEventListener("message", (event) => {
+            if (event.origin !== window.location.origin) return;
+            const { code } = event.data;
+            if (code) {
+                fetchAuthCode(code);
+            }
+        });
+    };
 
     return (
         <>
@@ -259,7 +266,7 @@ function LoginForm() {
                         </div>
 
                         <div className={styles.googleLogin}>
-                            <button type="button" onClick={handleClickGoogle}>
+                            <button type="button" onClick={handleGoogleLogin}>
                                 <img src={logoGoogle} alt="Google" width={20} height={20} />
                                 &nbsp;Đăng nhập với Google
                             </button>
