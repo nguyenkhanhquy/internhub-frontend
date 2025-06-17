@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -10,6 +10,10 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const SearchBar = ({ onSearch, query }) => {
     const [searchText, setSearchText] = useState(query || "");
+
+    useEffect(() => {
+        setSearchText(query || "");
+    }, [query]);
 
     const handleSearchChange = (e) => {
         setSearchText(e.target.value);

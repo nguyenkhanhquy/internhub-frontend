@@ -68,10 +68,10 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
             sx={{
                 pt: 1,
                 px: 2,
-                mb: { xs: 0, md: 2 },
+                mb: { xs: 0, md: 1 },
                 borderRadius: 1,
                 boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
-                maxHeight: { xs: "auto", md: "calc(100vh - 200px)" },
+                maxHeight: { xs: "auto", md: "calc(100vh - 100px)", lg: "calc(100vh - 200px)" },
                 position: { xs: "relative", md: "sticky" },
                 top: { xs: 0, md: 70 },
                 display: "flex",
@@ -96,8 +96,10 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                 }}
             >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <FilterAltIcon sx={{ color: "#1976d2" }} />
-                    <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>Lọc nâng cao</Typography>
+                    <FilterAltIcon sx={{ color: "#1f2061" }} />
+                    <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem", color: "#1f2061" }}>
+                        Lọc nâng cao
+                    </Typography>
                 </Box>
 
                 <IconButton
@@ -107,7 +109,7 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                         toggleExpanded();
                     }}
                     sx={{
-                        color: "#1976d2",
+                        color: "#1f2061",
                         display: { xs: "flex", md: "none" },
                     }}
                 >
@@ -163,10 +165,8 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                             >
                                 {[
                                     { label: "Tất cả", value: "" },
-                                    { label: "Dưới 3 triệu", value: "under3" },
-                                    { label: "3 - 6 triệu", value: "3to6" },
-                                    { label: "Trên 6 triệu", value: "over6" },
-                                    { label: "Thỏa thuận", value: "negotiable" },
+                                    { label: "Có trợ cấp", value: "Có trợ cấp" },
+                                    { label: "Thỏa thuận", value: "Thỏa thuận" },
                                 ].map((item) => (
                                     <FormControlLabel
                                         key={item.value}
@@ -175,8 +175,8 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                                             <Radio
                                                 size="small"
                                                 sx={{
-                                                    color: "#90caf9",
-                                                    "&.Mui-checked": { color: "#1976d2" },
+                                                    color: "#2e3090",
+                                                    "&.Mui-checked": { color: "#1f2061" },
                                                     py: 0.25,
                                                 }}
                                             />
@@ -217,15 +217,15 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                                     placeholder="Chọn ngành"
                                     sx={{
                                         "& .MuiOutlinedInput-root": {
-                                            "&:hover fieldset": { borderColor: "#1976d2" },
-                                            "&.Mui-focused fieldset": { borderColor: "#1976d2" },
+                                            "&:hover fieldset": { borderColor: "#1f2061" },
+                                            "&.Mui-focused fieldset": { borderColor: "#1f2061" },
                                         },
                                     }}
                                 />
                             )}
                             sx={{
                                 "& .MuiAutocomplete-popupIndicator": {
-                                    color: "#1976d2",
+                                    color: "#1f2061",
                                 },
                             }}
                         />
@@ -274,15 +274,15 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                                     placeholder="Tìm kiếm địa điểm"
                                     sx={{
                                         "& .MuiOutlinedInput-root": {
-                                            "&:hover fieldset": { borderColor: "#1976d2" },
-                                            "&.Mui-focused fieldset": { borderColor: "#1976d2" },
+                                            "&:hover fieldset": { borderColor: "#1f2061" },
+                                            "&.Mui-focused fieldset": { borderColor: "#1f2061" },
                                         },
                                     }}
                                 />
                             )}
                             sx={{
                                 "& .MuiAutocomplete-popupIndicator": {
-                                    color: "#1976d2",
+                                    color: "#1f2061",
                                 },
                             }}
                         />
@@ -311,8 +311,8 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                                             <Radio
                                                 size="small"
                                                 sx={{
-                                                    color: "#90caf9",
-                                                    "&.Mui-checked": { color: "#1976d2" },
+                                                    color: "#2e3090",
+                                                    "&.Mui-checked": { color: "#1f2061" },
                                                     py: 0.25,
                                                 }}
                                             />
@@ -353,8 +353,8 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                                             <Radio
                                                 size="small"
                                                 sx={{
-                                                    color: "#90caf9",
-                                                    "&.Mui-checked": { color: "#1976d2" },
+                                                    color: "#2e3090",
+                                                    "&.Mui-checked": { color: "#1f2061" },
                                                     py: 0.25,
                                                 }}
                                             />
@@ -375,69 +375,64 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                 {/* Sticky Action Buttons */}
                 <Box
                     sx={{
-                        textAlign: "center",
                         borderTop: "2px solid #e0e0e0",
                         backgroundColor: "white",
                         position: { xs: "relative", md: "sticky" },
                         bottom: 0,
                         zIndex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1,
+                        flexWrap: { xs: "nowrap", md: "wrap" },
+                        flexDirection: { xs: "column", md: "row" },
                     }}
                 >
-                    <Box
+                    <Button
+                        variant="text"
+                        size="medium"
+                        disabled={isFiltersDefault()}
+                        onClick={handleResetFilters}
+                        startIcon={<FilterAltOffIcon />}
                         sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: 1,
-                            py: 1,
-                            flexDirection: { xs: "column", md: "row" },
-                            alignItems: "center",
+                            minWidth: 95,
+                            width: { xs: "100%", lg: "auto" },
+                            py: 0.5,
+                            borderRadius: 4,
+                            color: "#f44336",
+                            backgroundColor: "transparent",
+                            border: "1px solid #ccc",
+                            textTransform: "none",
+                            "&:hover": {
+                                border: "1px solid #f44336",
+                            },
                         }}
                     >
-                        <Button
-                            variant="text"
-                            size="medium"
-                            disabled={isFiltersDefault()}
-                            onClick={handleResetFilters}
-                            startIcon={<FilterAltOffIcon />}
-                            sx={{
-                                minWidth: 100,
-                                width: { xs: "100%", md: "auto" },
-                                py: 0.5,
-                                borderRadius: 4,
-                                color: "#f44336",
-                                backgroundColor: "transparent",
-                                border: "1px solid #ccc",
-                                textTransform: "none",
-                                "&:hover": {
-                                    border: "1px solid #f44336",
-                                },
-                            }}
-                        >
-                            Xóa lọc
-                        </Button>
-                        <Button
-                            variant="text"
-                            size="medium"
-                            disabled={!isLocalFiltersChanged()}
-                            startIcon={<FilterAltIcon />}
-                            sx={{
-                                minWidth: 100,
-                                width: { xs: "100%", md: "auto" },
-                                py: 0.5,
-                                borderRadius: 4,
-                                color: "#1976d2",
-                                backgroundColor: "transparent",
-                                border: "1px solid #ccc",
-                                textTransform: "none",
-                                "&:hover": {
-                                    border: "1px solid #1976d2",
-                                },
-                            }}
-                            onClick={handleApplyFilters}
-                        >
-                            Lọc
-                        </Button>
-                    </Box>
+                        Xóa lọc
+                    </Button>
+                    <Button
+                        variant="text"
+                        size="medium"
+                        disabled={!isLocalFiltersChanged()}
+                        startIcon={<FilterAltIcon />}
+                        sx={{
+                            minWidth: 95,
+                            width: { xs: "100%", lg: "auto" },
+                            py: 0.5,
+                            borderRadius: 4,
+                            color: "#1f2061",
+                            backgroundColor: "transparent",
+                            border: "1px solid #ccc",
+                            textTransform: "none",
+                            "&:hover": {
+                                border: "1px solid #1f2061",
+                            },
+                        }}
+                        onClick={handleApplyFilters}
+                    >
+                        Lọc
+                    </Button>
                 </Box>
             </Box>
         </Box>

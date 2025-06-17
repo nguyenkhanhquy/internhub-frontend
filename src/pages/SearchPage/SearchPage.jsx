@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
 
 import MainLayout from "@layouts/MainLayout/MainLayout";
 import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
@@ -90,7 +91,8 @@ const SearchPage = () => {
                         xs: "10px 20px", // Dành cho màn hình nhỏ hơn 600px
                         sm: "10px 40px", // Dành cho màn hình từ 600px đến dưới 900px
                         md: "15px 80px", // Dành cho màn hình từ 900px đến dưới 1200px
-                        lg: "20px 120px", // Dành cho màn hình từ 1200px đến dưới 1536px
+                        lg: "20px 100px", // Dành cho màn hình từ 1200px đến dưới 1536px
+                        xl: "20px 120px", // Dành cho màn hình từ 1536px trở lên
                     },
                     minHeight: 400,
                 }}
@@ -126,7 +128,7 @@ const SearchPage = () => {
 
                     <Grid size={{ xs: 12, sm: 12, md: 9 }}>
                         {/* Danh sách công việc */}
-                        <Box display="flex" flexDirection="column" gap={1} mb={1}>
+                        <Box display="flex" flexDirection="column" gap={1}>
                             {jobPosts.length > 0 ? (
                                 jobPosts.map((job, index) => (
                                     <JobCardSearch
@@ -145,11 +147,39 @@ const SearchPage = () => {
                                     />
                                 ))
                             ) : (
-                                <EmptyBox />
+                                <Box display="flex" flexDirection="column" alignItems="center">
+                                    <EmptyBox />
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() => {
+                                            setCurrentPage(1);
+                                            setQuery("");
+                                            setSort("default");
+                                            setFilters({
+                                                salary: "",
+                                                major: { label: "Tất cả ngành", value: "" },
+                                                address: { label: "Tất cả địa điểm", value: "" },
+                                                type: "",
+                                                remote: "",
+                                            });
+                                        }}
+                                        sx={{
+                                            borderRadius: 4,
+                                            textTransform: "none",
+                                            fontSize: "1rem",
+                                            width: "fit-content",
+                                            color: "#1976d2",
+                                        }}
+                                    >
+                                        Đặt lại bộ lọc và tìm kiếm lại
+                                    </Button>
+                                </Box>
                             )}
                         </Box>
                     </Grid>
                 </Grid>
+
+                <Divider sx={{ my: 2 }} />
 
                 {/* Phân trang */}
                 <CustomPagination
