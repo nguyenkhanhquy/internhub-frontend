@@ -43,7 +43,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
 
             <Grid container spacing={2}>
                 {/* Trợ cấp */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <MonetizationOn fontSize="medium" color="primary" sx={{ mr: 2, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -58,7 +58,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Số lượng tuyển dụng */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <Group fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -73,7 +73,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Hình thức làm việc */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <WorkOutline fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -88,7 +88,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Loại hợp đồng */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <Schedule fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -103,7 +103,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Ngày đăng */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <CalendarToday fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -118,7 +118,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Ngày hết hạn */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <CalendarToday fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -133,7 +133,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Vị trí công việc */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <Work fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -148,7 +148,7 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                 </Grid>
 
                 {/* Ngành đào tạo */}
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 6, md: 12, lg: 6 }}>
                     <Box display="flex" alignItems="flex-start">
                         <School fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
@@ -162,6 +162,9 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
                                         label={majorLabels[major] || major}
                                         color="primary"
                                         variant="outlined"
+                                        sx={{
+                                            fontSize: "0.875rem",
+                                        }}
                                     />
                                 ))}
                             </Stack>

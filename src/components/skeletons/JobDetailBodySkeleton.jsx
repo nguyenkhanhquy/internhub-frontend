@@ -96,11 +96,13 @@ const JobDetailBodySkeleton = () => {
                         <Box>
                             <Skeleton variant="text" sx={{ fontSize: "1.25rem", width: "38%", mb: 2 }} />
                             <Stack direction="row" alignItems="flex-start" spacing={1}>
-                                <Skeleton variant="circular" width={24} height={24} sx={{ mt: 0.2 }} />
-                                <Box sx={{ flex: 1 }}>
-                                    <Skeleton variant="text" width="90%" />
-                                    <Skeleton variant="text" width="70%" />
-                                </Box>
+                                <Skeleton variant="text" width={20} height={20} sx={{ mt: 0.2 }} />
+                                <Skeleton variant="text" width="90%" />
+                            </Stack>
+                            <Stack direction="row" alignItems="flex-start" spacing={1}>
+                                <Skeleton variant="text" width={20} height={20} sx={{ mt: 0.2 }} />
+
+                                <Skeleton variant="text" width="70%" />
                             </Stack>
                         </Box>
                     </Stack>

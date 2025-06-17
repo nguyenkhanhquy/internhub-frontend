@@ -30,18 +30,19 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                     <Divider />
 
                     {/* Địa chỉ công ty */}
-                    <Box>
-                        <Stack direction="row" alignItems="flex-start" spacing={1}>
-                            <LocationOn sx={{ mt: 0.2 }} />
-                            <Box>
-                                <Typography variant="body1" fontWeight="bold" sx={{ mb: 0.5 }}>
-                                    Địa chỉ công ty
-                                </Typography>
-                                <Typography variant="body2" sx={{ color: "#666", lineHeight: 1.6 }}>
-                                    {address}
-                                </Typography>
-                            </Box>
-                        </Stack>
+                    <Box display="flex" alignItems="flex-start">
+                        <LocationOn fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Địa chỉ công ty
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{ color: "#666", lineHeight: 1.6, wordBreak: "break-word" }}
+                            >
+                                {address}
+                            </Typography>
+                        </Box>
                     </Box>
 
                     <Divider />
@@ -49,7 +50,7 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                     {/* Xem bản đồ */}
                     <Box>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                            <MapIcon />
+                            <MapIcon fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                             <Typography variant="body1" fontWeight="bold">
                                 Xem bản đồ
                             </Typography>
