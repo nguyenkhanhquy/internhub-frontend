@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import PropTypes from "prop-types";
+import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -12,23 +11,13 @@ import ChartStudentByInternStatus from "./ChartStudentByInternStatus";
 import { getOverview } from "@services/adminService";
 
 const OverviewPage = ({ router }) => {
-    const [overview, setOverview] = useState({});
+    const overviewQuery = useQuery({
+        queryKey: ["overview-dashboard"],
+        queryFn: () => getOverview(),
+        select: (data) => (data.success ? data.result : {}),
+    });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getOverview();
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setOverview(data.result);
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
-
-        fetchData();
-    }, []);
+    const overview = overviewQuery.data ?? {};
 
     return (
         <Box

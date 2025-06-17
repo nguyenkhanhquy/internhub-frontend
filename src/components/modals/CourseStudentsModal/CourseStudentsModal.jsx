@@ -21,12 +21,17 @@ import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import CloseIcon from "@mui/icons-material/Close";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import ReportDetails from "@components/modals/CourseStudentsModal/ReportDetails";
 import ScoreEntry from "@components/modals/CourseStudentsModal/ScoreEntry";
+import EmptyBox from "@/components/box/EmptyBox";
 
 import { getAllEnrollmentsByCourseId } from "@services/courseService";
 import { updateFinalScore } from "@services/enrollmentService";
+
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 const CourseStudentsModal = ({ isOpen, onClose, course }) => {
     const { user } = useAuth();
@@ -129,9 +134,6 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
 
     const handleViewFeedback = (enrollment) => {
         if (enrollment.finalScore) {
-            // Có thể mở modal hiển thị nhận xét hoặc chuyển đến một view khác
-            // console.log(`Viewing feedback for enrollment: ${enrollment.id}`);
-            // TODO: Implement feedback viewing logic
             toast.info(`Nhận xét cho sinh viên [${enrollment.student.name}]: ${enrollment.feedback}`);
         }
     };
@@ -186,6 +188,161 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
         window.open(file, "_blank");
     };
 
+    const handleExportExcel = async () => {
+        try {
+            if (filteredEnrollments.length === 0) {
+                toast.warning("Không có dữ liệu để xuất!");
+                return;
+            }
+
+            // Tạo workbook mới
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet("Danh sách sinh viên");
+
+            // Định nghĩa columns width (6 cột sau khi bỏ cột GIẢNG VIÊN HƯỚNG DẪN)
+            worksheet.columns = [
+                { width: 8 }, // STT
+                { width: 28 }, // HỌ VÀ TÊN
+                { width: 18 }, // MSSV
+                { width: 35 }, // CÔNG TY THỰC TẬP
+                { width: 15 }, // ĐIỂM HỆ 10
+                { width: 50 }, // NHẬN XÉT
+            ];
+
+            // Thêm thông tin khóa học ở đầu file
+            let currentRow = 1;
+
+            // Tiêu đề chính
+            worksheet.mergeCells(`A${currentRow}:F${currentRow}`);
+            const titleRow = worksheet.getRow(currentRow);
+            titleRow.getCell(1).value = "DANH SÁCH SINH VIÊN THỰC TẬP";
+            titleRow.getCell(1).font = { bold: true, size: 18, color: { argb: "1F4E79" } };
+            titleRow.getCell(1).alignment = { horizontal: "center", vertical: "middle" };
+            titleRow.getCell(1).fill = {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "E7F3FF" },
+            };
+            titleRow.height = 35;
+            currentRow++;
+
+            // Thêm 1 dòng trống
+            currentRow += 1;
+
+            // Thông tin khóa học - Layout 2 cột
+            const courseInfoLeft = [
+                `Mã lớp học phần: ${course?.courseCode || "N/A"}`,
+                `Năm học: ${course?.academicYear || "N/A"}`,
+                `Giảng viên hướng dẫn: ${course?.teacherName || "N/A"}`,
+            ];
+
+            const courseInfoRight = [
+                `Tên lớp học phần: ${course?.courseName || "Thực tập tốt nghiệp"}`,
+                `Học kỳ: ${course?.semester || "N/A"}`,
+                `Ngày xuất: ${new Date().toLocaleDateString("vi-VN")}`,
+            ];
+
+            for (let i = 0; i < Math.max(courseInfoLeft.length, courseInfoRight.length); i++) {
+                const infoRow = worksheet.getRow(currentRow);
+
+                // Cột trái (A-C)
+                if (courseInfoLeft[i]) {
+                    worksheet.mergeCells(`A${currentRow}:C${currentRow}`);
+                    infoRow.getCell(1).value = courseInfoLeft[i];
+                    infoRow.getCell(1).font = { bold: true, size: 11 };
+                    infoRow.getCell(1).alignment = { horizontal: "left", vertical: "middle" };
+                }
+
+                // Cột phải (D-F)
+                if (courseInfoRight[i]) {
+                    worksheet.mergeCells(`D${currentRow}:F${currentRow}`);
+                    infoRow.getCell(4).value = courseInfoRight[i];
+                    infoRow.getCell(4).font = { bold: true, size: 11 };
+                    infoRow.getCell(4).alignment = { horizontal: "left", vertical: "middle" };
+                }
+
+                infoRow.height = 22;
+                currentRow++;
+            }
+
+            // Thêm 2 dòng trống
+            currentRow += 2;
+
+            // Định nghĩa headers cho bảng dữ liệu
+            const headers = ["STT", "HỌ VÀ TÊN", "MSSV", "CÔNG TY THỰC TẬP", "ĐIỂM HỆ 10", "NHẬN XÉT"];
+
+            // Thêm header row
+            const headerRow = worksheet.getRow(currentRow);
+            headers.forEach((header, index) => {
+                const cell = headerRow.getCell(index + 1);
+                cell.value = header;
+                cell.font = { bold: true, color: { argb: "FFFFFF" } };
+                cell.fill = {
+                    type: "pattern",
+                    pattern: "solid",
+                    fgColor: { argb: "4472C4" },
+                };
+                cell.alignment = { vertical: "middle", horizontal: "center" };
+            });
+
+            headerRow.height = 25;
+
+            // Thêm border cho header
+            headerRow.eachCell((cell) => {
+                cell.border = {
+                    top: { style: "thin", color: { argb: "000000" } },
+                    left: { style: "thin", color: { argb: "000000" } },
+                    bottom: { style: "thin", color: { argb: "000000" } },
+                    right: { style: "thin", color: { argb: "000000" } },
+                };
+            });
+
+            // Cập nhật currentRow sau khi thêm header
+            currentRow++;
+
+            // Thêm dữ liệu
+            filteredEnrollments.forEach((enrollment, index) => {
+                const dataRow = worksheet.getRow(currentRow + index);
+                dataRow.values = [
+                    index + 1,
+                    enrollment.student.name || "N/A",
+                    enrollment.student.studentId || "N/A",
+                    enrollment.internshipReport?.companyName || "N/A",
+                    enrollment.finalScore || "N/A",
+                    enrollment.feedback || "N/A",
+                ];
+
+                // Style cho từng row
+                dataRow.alignment = { vertical: "middle", wrapText: true };
+                dataRow.height = 20;
+
+                // Thêm border cho từng cell
+                dataRow.eachCell((cell) => {
+                    cell.border = {
+                        top: { style: "thin", color: { argb: "000000" } },
+                        left: { style: "thin", color: { argb: "000000" } },
+                        bottom: { style: "thin", color: { argb: "000000" } },
+                        right: { style: "thin", color: { argb: "000000" } },
+                    };
+                });
+            });
+
+            // Tạo buffer và download file
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+
+            const fileName = `${course?.courseCode || "Course"}_${new Date().toISOString().split("T")[0]}.xlsx`;
+            saveAs(blob, fileName);
+
+            toast.success("Xuất file Excel thành công!");
+        } catch (error) {
+            console.error("Export error:", error);
+            toast.error("Có lỗi xảy ra khi xuất file Excel!");
+        }
+    };
+
     return (
         <Dialog
             open={isOpen}
@@ -221,11 +378,26 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                 {!selectedEnrollment && !selectedReport ? (
                     <>
                         <Box className="sticky top-0 z-10 bg-white">
-                            <DashboardSearchBar
-                                onSearch={handleSearch}
-                                query={searchQuery}
-                                placeholder="Tìm kiếm sinh viên..."
-                            />
+                            <Box sx={{ display: "flex", gap: 2, alignItems: "center", mb: 2 }}>
+                                <Box sx={{ flex: 1 }}>
+                                    <DashboardSearchBar
+                                        onSearch={handleSearch}
+                                        query={searchQuery}
+                                        placeholder="Tìm kiếm sinh viên..."
+                                    />
+                                </Box>
+                                <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        startIcon={<FileDownloadIcon />}
+                                        onClick={handleExportExcel}
+                                        sx={{ whiteSpace: "nowrap" }}
+                                    >
+                                        Xuất Excel
+                                    </Button>
+                                </Box>
+                            </Box>
                         </Box>
                         <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "600px" }}>
                             <Table stickyHeader>
@@ -262,11 +434,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                 align="center"
                                                 sx={{ padding: "8px", height: "auto" }}
                                             >
-                                                <Typography color="textSecondary">
-                                                    {searchQuery
-                                                        ? "Không tìm thấy sinh viên nào."
-                                                        : "Không có sinh viên nào."}
-                                                </Typography>
+                                                <EmptyBox />
                                             </TableCell>
                                         </TableRow>
                                     ) : (

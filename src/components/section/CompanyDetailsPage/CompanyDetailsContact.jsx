@@ -36,10 +36,7 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                             <Typography variant="body1" sx={{ minWidth: "130px" }}>
                                 Địa chỉ công ty
                             </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{ color: "#666", lineHeight: 1.6, wordBreak: "break-word" }}
-                            >
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
                                 {address}
                             </Typography>
                         </Box>

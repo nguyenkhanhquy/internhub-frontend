@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 import Box from "@mui/material/Box";
@@ -88,6 +88,7 @@ const NotificationPage = () => {
     const [initialLoading, setInitialLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [animationKey, setAnimationKey] = useState(0);
+    const isInitialLoad = useRef(true);
 
     const fetchNotifications = async (isInitial = false) => {
         setLoading(true);
@@ -122,7 +123,10 @@ const NotificationPage = () => {
     };
 
     useEffect(() => {
-        fetchNotifications(true);
+        if (isInitialLoad.current) {
+            fetchNotifications(true);
+            isInitialLoad.current = false;
+        }
     }, []);
 
     // Xử lý khi chọn thông báo
