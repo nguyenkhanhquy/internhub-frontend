@@ -49,7 +49,7 @@ const JobDetailsPage = () => {
                 // Bước 2: Gọi đồng thời 2 API còn lại để tối ưu performance
                 const [companyJobsResult, relatedJobsResult] = await Promise.allSettled([
                     getJobPostsByCompanyId(jobDetail.company.id),
-                    getAllJobPosts(1, 10, jobDetail.jobPosition, "default"),
+                    getAllJobPosts(1, 10, jobDetail.jobPosition),
                 ]);
 
                 // Xử lý kết quả company jobs

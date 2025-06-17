@@ -50,17 +50,17 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
 
     const handleApplyFilters = () => {
         onApplyFilters(localFilters);
-        // Đóng filter trên mobile sau khi apply
         setIsExpanded(false);
     };
 
     const handleResetFilters = () => {
         setLocalFilters(defaultFilters);
         onResetFilters(defaultFilters);
+        setIsExpanded(false);
     };
 
     const toggleExpanded = () => {
-        setIsExpanded(!isExpanded);
+        setIsExpanded((prev) => !prev);
     };
 
     return (
