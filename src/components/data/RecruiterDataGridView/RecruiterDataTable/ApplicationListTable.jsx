@@ -104,10 +104,23 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                         </Button>
                     </Stack>
                 );
+            case "OFFER":
+                return (
+                    <Stack spacing={1}>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => handleAction(id, "REJECTED")}
+                        >
+                            Hủy đề nghị
+                        </Button>
+                    </Stack>
+                );
             default:
                 return (
                     <Stack spacing={1}>
-                        <Button disabled variant="contained">
+                        <Button disabled variant="contained" size="small">
                             Đã xử lý
                         </Button>
                     </Stack>
@@ -177,7 +190,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
 
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 800 }}>
+            <Table sx={{ minWidth: 1000 }}>
                 <TableHead>
                     <TableRow
                         sx={{
@@ -208,8 +221,7 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                                     flexDirection="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    height="100%"
-                                    padding={2}
+                                    height="200px"
                                 >
                                     <SuspenseLoader />
                                 </Box>
@@ -218,7 +230,15 @@ const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPa
                     ) : applicationsData.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={7} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="200px"
+                                >
+                                    <EmptyBox />
+                                </Box>
                             </TableCell>
                         </TableRow>
                     ) : (

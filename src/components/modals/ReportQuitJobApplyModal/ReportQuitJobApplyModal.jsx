@@ -2,19 +2,18 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    TextField,
-    Box,
-    Typography,
-} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const defaultReasons = [
     "Tự ý nghỉ không thông báo",
@@ -26,6 +25,7 @@ const defaultReasons = [
 const ReportQuitJobApplyModal = ({ open, onClose, onConfirm }) => {
     const [selectedReason, setSelectedReason] = useState("");
     const [customReason, setCustomReason] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleReasonChange = (event) => {
         setSelectedReason(event.target.value);
@@ -38,18 +38,32 @@ const ReportQuitJobApplyModal = ({ open, onClose, onConfirm }) => {
         setCustomReason(event.target.value);
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         const reasonToSubmit = selectedReason === "Khác" ? customReason : selectedReason;
         if (!reasonToSubmit) {
             toast.warning("Vui lòng chọn hoặc nhập lý do báo cáo!");
             return;
         }
-        onConfirm(reasonToSubmit);
-        onClose();
+
+        try {
+            setIsLoading(true);
+            await onConfirm(reasonToSubmit);
+            onClose();
+        } catch (error) {
+            toast.error(error.message || "Có lỗi xảy ra khi báo cáo. Vui lòng thử lại!");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleClose = () => {
+        if (!isLoading) {
+            onClose();
+        }
     };
 
     return (
-        <Dialog open={open} fullWidth maxWidth="sm">
+        <Dialog open={open} fullWidth maxWidth="sm" onClose={handleClose}>
             <DialogTitle
                 sx={{
                     fontWeight: "bold",
@@ -62,9 +76,15 @@ const ReportQuitJobApplyModal = ({ open, onClose, onConfirm }) => {
                 <Typography variant="subtitle1" sx={{ mb: 1 }}>
                     Vui lòng chọn hoặc nhập lý do báo cáo:
                 </Typography>
-                <RadioGroup value={selectedReason} onChange={handleReasonChange}>
+                <RadioGroup value={selectedReason} onChange={handleReasonChange} disabled={isLoading}>
                     {defaultReasons.map((reason, index) => (
-                        <FormControlLabel key={index} value={reason} control={<Radio />} label={reason} />
+                        <FormControlLabel
+                            key={index}
+                            value={reason}
+                            control={<Radio />}
+                            label={reason}
+                            disabled={isLoading}
+                        />
                     ))}
                 </RadioGroup>
                 {selectedReason === "Khác" && (
@@ -75,16 +95,23 @@ const ReportQuitJobApplyModal = ({ open, onClose, onConfirm }) => {
                             label="Nhập lý do báo cáo"
                             value={customReason}
                             onChange={handleCustomReasonChange}
+                            disabled={isLoading}
                         />
                     </Box>
                 )}
             </DialogContent>
             <DialogActions sx={{ padding: "16px 24px", gap: 1 }}>
-                <Button onClick={onClose} variant="outlined" color="inherit">
+                <Button onClick={handleClose} variant="outlined" color="inherit" disabled={isLoading}>
                     Hủy
                 </Button>
-                <Button onClick={handleConfirm} variant="contained" color="primary">
-                    Xác nhận
+                <Button
+                    onClick={handleConfirm}
+                    variant="contained"
+                    color="primary"
+                    disabled={isLoading}
+                    startIcon={isLoading ? <CircularProgress size={16} /> : null}
+                >
+                    {isLoading ? "Đang xử lý..." : "Xác nhận"}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Box from "@mui/material/Box";
@@ -13,6 +14,7 @@ import AppliedJobsTable from "@components/data/StudentDataGridView/StudentDataTa
 import { getAllJobApplyByStudent } from "@services/jobApplyService";
 
 const AppliedJobsGridView = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [applyJobs, setApplyJobs] = useState([]);
     const [flag, setFlag] = useState(false);
@@ -33,8 +35,12 @@ const AppliedJobsGridView = () => {
     };
 
     const handleViewDetailsClick = (id) => {
-        window.open(`/search/${id}`, "_blank");
+        navigate(`/search/${id}`);
     };
+
+    // const handleViewDetailsClick = (id) => {
+    //     window.open(`/search/${id}`, "_blank");
+    // };
 
     useEffect(() => {
         const fetchSavedJobPosts = async () => {

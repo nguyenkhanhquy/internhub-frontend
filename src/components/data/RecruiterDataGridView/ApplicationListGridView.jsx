@@ -103,7 +103,7 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
                 onPageChange={handlePageChange}
                 onRecordsPerPageChange={handleRecordsPerPageChange}
                 actions={
-                    <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={onBack}>
+                    <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={onBack} size="small">
                         Quay lại
                     </Button>
                 }

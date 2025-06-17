@@ -73,8 +73,7 @@ const PostedJobsTable = ({
                                     flexDirection="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    height="100%"
-                                    padding={2}
+                                    height="110px"
                                 >
                                     <SuspenseLoader />
                                 </Box>
@@ -83,7 +82,15 @@ const PostedJobsTable = ({
                     ) : postedJobPosts.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={6} align="center" sx={{ padding: "40px 0" }}>
-                                <EmptyBox />
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    height="110px"
+                                >
+                                    <EmptyBox />
+                                </Box>
                             </TableCell>
                         </TableRow>
                     ) : (
