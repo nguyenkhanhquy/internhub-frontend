@@ -96,8 +96,8 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                 }}
             >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <FilterAltIcon sx={{ color: "#1f2061" }} />
-                    <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem", color: "#1f2061" }}>
+                    <FilterAltIcon sx={{ color: "#2e3090" }} />
+                    <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem", color: "#2e3090" }}>
                         Lọc nâng cao
                     </Typography>
                 </Box>
@@ -109,7 +109,7 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                         toggleExpanded();
                     }}
                     sx={{
-                        color: "#1f2061",
+                        color: "#2e3090",
                         display: { xs: "flex", md: "none" },
                     }}
                 >
@@ -225,7 +225,7 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                             )}
                             sx={{
                                 "& .MuiAutocomplete-popupIndicator": {
-                                    color: "#1f2061",
+                                    color: "#2e3090",
                                 },
                             }}
                         />
@@ -282,7 +282,7 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                             )}
                             sx={{
                                 "& .MuiAutocomplete-popupIndicator": {
-                                    color: "#1f2061",
+                                    color: "#2e3090",
                                 },
                             }}
                         />
@@ -421,12 +421,12 @@ const AdvancedFilter = ({ filters, onApplyFilters, onResetFilters }) => {
                             width: { xs: "100%", lg: "auto" },
                             py: 0.5,
                             borderRadius: 4,
-                            color: "#1f2061",
+                            color: "#2e3090",
                             backgroundColor: "transparent",
                             border: "1px solid #ccc",
                             textTransform: "none",
                             "&:hover": {
-                                border: "1px solid #1f2061",
+                                border: "1px solid #2e3090",
                             },
                         }}
                         onClick={handleApplyFilters}

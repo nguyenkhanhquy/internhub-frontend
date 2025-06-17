@@ -31,6 +31,14 @@ const HomePage = () => {
         select: (data) => (data.success ? data.result : []),
     });
 
+    // Overview Statistics
+    const overviewQuery = useQuery({
+        queryKey: ["overview-homepage"],
+        queryFn: () => getOverview(),
+        select: (data) => (data.success ? data.result : {}),
+        staleTime: 4 * 60 * 1000,
+    });
+
     // Latest jobs
     const latestJobsQuery = useQuery({
         queryKey: ["latest-jobs"],
@@ -43,20 +51,14 @@ const HomePage = () => {
         queryKey: ["featured-companies"],
         queryFn: () => getAllApprovedCompanies(1, 5),
         select: (data) => (data.success ? data.result : []),
-    });
-
-    // Overview Statistics
-    const overviewQuery = useQuery({
-        queryKey: ["overview-homepage"],
-        queryFn: () => getOverview(),
-        select: (data) => (data.success ? data.result : {}),
+        staleTime: 4 * 60 * 1000,
     });
 
     // Lấy dữ liệu đã xử lý qua select
     const suitableJobList = suitableJobsQuery.data ?? [];
+    const overview = overviewQuery.data ?? {};
     const latestJobList = latestJobsQuery.data ?? [];
     const featuredCompanies = featuredCompaniesQuery.data ?? [];
-    const overview = overviewQuery.data ?? {};
 
     return (
         <MainLayout title="Trang chủ">

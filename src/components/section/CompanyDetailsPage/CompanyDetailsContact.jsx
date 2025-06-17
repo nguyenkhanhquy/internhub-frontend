@@ -50,7 +50,7 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                     {/* Xem bản đồ */}
                     <Box>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                            <MapIcon fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                            <MapIcon fontSize="medium" color="primary" />
                             <Typography variant="body1" fontWeight="bold">
                                 Xem bản đồ
                             </Typography>
