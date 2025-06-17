@@ -187,16 +187,21 @@ function LoginForm() {
         const left = window.innerWidth / 2 - width / 2;
         const top = window.innerHeight / 2 - height / 2;
 
+        // Mở popup
         window.open(targetUrl, "_blank", `width=${width},height=${height},top=${top},left=${left}`);
 
-        // Đợi code trả về
-        window.addEventListener("message", (event) => {
-            if (event.origin !== window.location.origin) return;
-            const { code } = event.data;
-            if (code) {
-                fetchAuthCode(code);
-            }
-        });
+        // Đợi code trả về (chỉ chạy 1 lần)
+        window.addEventListener(
+            "message",
+            async (event) => {
+                if (event.origin !== window.location.origin) return;
+                const { code } = event.data;
+                if (code) {
+                    await fetchAuthCode(code);
+                }
+            },
+            { once: true },
+        );
     };
 
     return (

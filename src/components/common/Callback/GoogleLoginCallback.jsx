@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,8 +10,12 @@ import logoGoogle from "@assets/google.svg";
 const GoogleLoginCallback = () => {
     const navigate = useNavigate();
     const [shouldRender, setShouldRender] = useState(false);
+    const hasRun = useRef(false);
 
     useEffect(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
 
@@ -21,7 +25,6 @@ const GoogleLoginCallback = () => {
         }
 
         setShouldRender(true);
-
         window.opener.postMessage({ code }, window.location.origin);
         window.close();
     }, [navigate]);
