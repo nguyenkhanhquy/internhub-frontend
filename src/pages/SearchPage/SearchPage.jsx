@@ -12,8 +12,8 @@ import PageNavigation from "@components/layouts/PageNavigation/PageNavigation";
 import SearchBar from "@components/search/SearchBar";
 import SortBar from "@components/sort/SortBar";
 import JobCardSearch from "@components/job/JobCard/JobCardSearch";
+import JobCardSearchSkeleton from "@components/skeletons/JobCardSearchSkeletion";
 import CustomPagination from "@components/pagination/Pagination";
-import LoadingOverlay from "@components/loaders/LoadingOverlay/LoadingOverlay";
 import EmptyBox from "@components/box/EmptyBox";
 import AdvancedFilter from "@components/filter/AdvancedFilter";
 
@@ -129,7 +129,9 @@ const SearchPage = () => {
                     <Grid size={{ xs: 12, sm: 12, md: 9 }}>
                         {/* Danh sách công việc */}
                         <Box display="flex" flexDirection="column" gap={1}>
-                            {jobPosts.length > 0 ? (
+                            {loading ? (
+                                Array.from({ length: 3 }).map((_, index) => <JobCardSearchSkeleton key={index} />)
+                            ) : jobPosts.length > 0 ? (
                                 jobPosts.map((job, index) => (
                                     <JobCardSearch
                                         key={index}
@@ -191,7 +193,6 @@ const SearchPage = () => {
                     onRecordsPerPageChange={handleRecordsPerPageChange}
                 />
             </Box>
-            <LoadingOverlay open={loading} />
         </MainLayout>
     );
 };
