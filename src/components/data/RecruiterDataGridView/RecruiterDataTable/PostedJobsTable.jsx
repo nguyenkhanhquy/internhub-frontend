@@ -38,7 +38,7 @@ const PostedJobsTable = ({
 }) => {
     return (
         <TableContainer component={Paper} sx={{ boxShadow: 2, borderRadius: 2 }}>
-            <Table sx={{ minWidth: 800 }}>
+            <Table sx={{ minWidth: 1000 }}>
                 {/* Tiêu đề bảng */}
                 <TableHead>
                     <TableRow

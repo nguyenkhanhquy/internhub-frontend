@@ -163,13 +163,15 @@ const SavedJobsGridView = () => {
             </Box>
 
             {/* Confirm Modal */}
-            <ConfirmModal
-                isOpen={isConfirmModalOpen}
-                loading={loadingConfirm}
-                title="Xác nhận xóa tất cả"
-                onConfirm={handleConfirmDeleteAll}
-                onCancel={handleCloseConfirmModal}
-            />
+            {isConfirmModalOpen && (
+                <ConfirmModal
+                    isOpen={isConfirmModalOpen}
+                    loading={loadingConfirm}
+                    title="Xác nhận xóa tất cả"
+                    onConfirm={handleConfirmDeleteAll}
+                    onCancel={handleCloseConfirmModal}
+                />
+            )}
         </GridViewLayout>
     );
 };

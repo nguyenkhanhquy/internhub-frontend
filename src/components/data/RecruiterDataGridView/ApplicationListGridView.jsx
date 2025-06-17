@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ApplicationListTable from "@components/data/RecruiterDataGridView/RecruiterDataTable/ApplicationListTable";
 import GridViewLayout from "@layouts/DataLayout/GridViewLayout/GridViewLayout";
 import InterviewInvitationModal from "@components/modals/InterviewInvitationModal/InterviewInvitationModal";
+import ConfirmModal from "@components/modals/ConfirmModal/ConfirmModal";
 
 import { getAllJobApplyByJobPostId, rejectJobApply, offerJobApply } from "@services/jobApplyService";
 
@@ -25,6 +26,10 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
     const [selectedApplication, setSelectedApplication] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+    const [loadingConfirm, setLoadingConfirm] = useState(false);
+    const [pendingRejectId, setPendingRejectId] = useState(null);
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
@@ -40,16 +45,7 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
             setSelectedApplication(application);
             setIsModalOpen(true);
         } else if (action === "REJECTED") {
-            try {
-                const data = await rejectJobApply(jobApplyId);
-                if (!data.success) {
-                    throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
-                }
-                setFlag((prev) => !prev);
-                toast.success(data.message);
-            } catch (error) {
-                toast.error(error.message);
-            }
+            handleOpenConfirmModal(jobApplyId);
         } else if (action === "OFFER") {
             try {
                 const data = await offerJobApply(jobApplyId);
@@ -69,6 +65,35 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
     const handleModalClose = () => {
         setIsModalOpen(false);
         setSelectedApplication(null);
+    };
+
+    // Hàm xử lý mở/đóng Modal xác nhận từ chối
+    const handleOpenConfirmModal = (jobApplyId) => {
+        setPendingRejectId(jobApplyId);
+        setConfirmModalOpen(true);
+    };
+
+    const handleCloseConfirmModal = () => {
+        setConfirmModalOpen(false);
+        setPendingRejectId(null);
+    };
+
+    // Hàm xử lý khi xác nhận từ chối ứng viên
+    const handleConfirmReject = async () => {
+        setLoadingConfirm(true);
+        try {
+            const data = await rejectJobApply(pendingRejectId);
+            if (!data.success) {
+                throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
+            }
+            setFlag((prev) => !prev);
+            toast.success(data.message);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoadingConfirm(false);
+        }
+        handleCloseConfirmModal();
     };
 
     useEffect(() => {
@@ -123,6 +148,17 @@ const ApplicationListGridView = ({ title, jobPostId, onBack }) => {
                     onClose={handleModalClose}
                     application={selectedApplication}
                     setFlag={setFlag}
+                />
+            )}
+
+            {/* Confirm Modal cho từ chối ứng viên */}
+            {isConfirmModalOpen && (
+                <ConfirmModal
+                    isOpen={isConfirmModalOpen}
+                    loading={loadingConfirm}
+                    title="Xác nhận từ chối ứng viên"
+                    onConfirm={handleConfirmReject}
+                    onCancel={handleCloseConfirmModal}
                 />
             )}
         </>

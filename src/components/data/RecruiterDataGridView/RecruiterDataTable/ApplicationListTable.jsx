@@ -35,7 +35,8 @@ const statusStyles = {
     REFUSED: "bg-red-100 text-red-700",
 };
 
-const getStatusStyle = (status) => `${statusStyles[status] || "bg-gray-100 text-gray-700"} px-2 py-1 rounded`;
+const getStatusStyle = (status) =>
+    `${statusStyles[status] || "bg-gray-100 text-gray-700"} px-2 py-1 rounded inline-block text-center min-w-[100px]`;
 
 const ApplicationListTable = ({ loading, applications, currentPage, recordsPerPage, handleAction }) => {
     const [openCvModal, setOpenCvModal] = useState(false);

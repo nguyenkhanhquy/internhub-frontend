@@ -207,17 +207,19 @@ const MyCVsGridView = () => {
                 </Box>
             }
         >
-            <Box>
-                <MyCVsTable loading={loading} data={listCVs} setFlag={setFlag} handleDeleteClick={handleDeleteClick} />
-            </Box>
-            <ConfirmModal
-                isOpen={deleteModalOpen}
-                loading={loading}
-                title="Xóa CV"
-                onConfirm={handleConfirmDelete}
-                onCancel={handleCancelDelete}
-            />
+            <MyCVsTable loading={loading} data={listCVs} setFlag={setFlag} handleDeleteClick={handleDeleteClick} />
+
             <ImportCVModal isOpen={importModalOpen} onClose={handleImportClose} setFlag={setFlag} />
+
+            {deleteModalOpen && (
+                <ConfirmModal
+                    isOpen={deleteModalOpen}
+                    loading={loading}
+                    title="Xóa CV"
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            )}
         </GridViewLayout>
     );
 };
