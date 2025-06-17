@@ -8,7 +8,7 @@ import ChevronRight from "@mui/icons-material/ChevronRight";
 
 const images = [
     { url: "/images/banner_fit_ute.png" },
-    { url: "/images/banner.png" },
+    { url: "/images/banner_cv.png" },
     { url: "/images/banner_hcmute.jpg" },
     { url: "/images/banner_career_fair_1.png" },
     { url: "/images/banner_career_fair_2.png" },

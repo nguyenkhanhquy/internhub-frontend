@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
 
 import MonetizationOn from "@mui/icons-material/MonetizationOn";
 import Group from "@mui/icons-material/Group";
@@ -40,97 +41,134 @@ const JobDetailSummary = ({ salary, quantity, remote, type, createdDate, expiryD
             </Typography>
             <Divider sx={{ mb: 2 }} />
 
-            <Stack spacing={2}>
+            <Grid container spacing={2}>
                 {/* Trợ cấp */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <MonetizationOn sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Trợ cấp:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {salary}
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <MonetizationOn fontSize="medium" color="primary" sx={{ mr: 2, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Trợ cấp
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {salary}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Số lượng tuyển dụng */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <Group sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Số lượng tuyển:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {quantity} người
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <Group fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Số lượng tuyển
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {quantity} người
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Hình thức làm việc */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <WorkOutline sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Hình thức:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {remote}
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <WorkOutline fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Hình thức
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {remote}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
-                {/* Thời gian làm việc */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <Schedule sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Loại hợp đồng:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {type}
-                    </Typography>
-                </Box>
+                {/* Loại hợp đồng */}
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <Schedule fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Loại hợp đồng
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {type}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Ngày đăng */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Ngày đăng:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {formatDate(createdDate)}
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <CalendarToday fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Ngày đăng
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {formatDate(createdDate)}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Ngày hết hạn */}
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                    <CalendarToday sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Ngày hết hạn:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {formatDate(expiryDate)}
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <CalendarToday fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Ngày hết hạn
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {formatDate(expiryDate)}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Vị trí công việc */}
-                <Box display="flex" flexWrap="wrap">
-                    <Work sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Vị trí:
-                    </Typography>
-                    <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
-                        {jobPosition}
-                    </Typography>
-                </Box>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <Work fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Vị trí
+                            </Typography>
+                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                                {jobPosition}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Grid>
 
                 {/* Ngành đào tạo */}
-                <Box display="flex" flexWrap="wrap">
-                    <School sx={{ mr: 1 }} />
-                    <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
-                        Ngành đào tạo:
-                    </Typography>
-                    <Stack direction="column" spacing={1} flexWrap="wrap">
-                        {majors.map((major, index) => (
-                            <Chip key={index} label={majorLabels[major] || major} variant="outlined" />
-                        ))}
-                    </Stack>
-                </Box>
-            </Stack>
+                <Grid item xs={12} md={6}>
+                    <Box display="flex" alignItems="flex-start">
+                        <School fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                                Ngành đào tạo
+                            </Typography>
+                            <Stack direction="column" spacing={1} sx={{ mt: 1 }}>
+                                {majors.map((major, index) => (
+                                    <Chip
+                                        key={index}
+                                        label={majorLabels[major] || major}
+                                        color="primary"
+                                        variant="outlined"
+                                    />
+                                ))}
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
         </Box>
     );
 };
