@@ -30,6 +30,19 @@ import CustomPagination from "@components/pagination/Pagination";
 import { getAllYearAndSemester } from "@services/academicService";
 import { getAllCoursesByTeacher } from "@services/teacherService";
 
+const getCourseStatusStyle = (status) => {
+    switch (status) {
+        case "Đang điều chỉnh":
+            return "bg-yellow-100 text-yellow-800 px-2 py-1 rounded";
+        case "Đang nhập điểm":
+            return "bg-blue-100 text-blue-800 px-2 py-1 rounded";
+        case "Đã kết thúc":
+            return "bg-green-100 text-green-800 px-2 py-1 rounded";
+        default:
+            return "bg-gray-100 text-gray-800 px-2 py-1 rounded";
+    }
+};
+
 const CoursePage = () => {
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState([]);
@@ -303,7 +316,11 @@ const CoursePage = () => {
                                     <TableCell style={{ textAlign: "center" }}>{course.academicYear}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{course.semester}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{course.totalStudents}</TableCell>
-                                    <TableCell style={{ textAlign: "center" }}>{course.courseStatus}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        <span className={getCourseStatusStyle(course.courseStatus)}>
+                                            {course.courseStatus}
+                                        </span>
+                                    </TableCell>
                                     <TableCell style={{ textAlign: "center" }}>
                                         <Tooltip title="Xem danh sách sinh viên" arrow>
                                             <IconButton color="primary" onClick={() => handleOpenStudentsModal(course)}>
