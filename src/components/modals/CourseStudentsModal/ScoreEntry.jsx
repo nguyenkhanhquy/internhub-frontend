@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
-import { Box, Typography, TextField, TextareaAutosize, Button } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import Button from "@mui/material/Button";
 
 const ScoreEntry = ({
     enrollment,

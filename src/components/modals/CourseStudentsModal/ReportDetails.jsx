@@ -19,7 +19,7 @@ const majorLabels = {
     IS: "An toàn thông tin",
 };
 
-const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, onBackToList }) => {
+const ReportDetails = ({ course, report, enrollment, onDownloadFile, onOpenScoreForm, onBackToList }) => {
     const { user } = useAuth();
 
     return (
@@ -169,7 +169,7 @@ const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, on
                         color="primary"
                         size="small"
                         onClick={() => onOpenScoreForm(enrollment)}
-                        disabled={enrollment.finalScore}
+                        disabled={enrollment.finalScore || course?.courseStatus !== "Đang nhập điểm"}
                         sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
                     >
                         Nhập điểm
@@ -190,6 +190,7 @@ const ReportDetails = ({ report, enrollment, onDownloadFile, onOpenScoreForm, on
 };
 
 ReportDetails.propTypes = {
+    course: PropTypes.object.isRequired,
     report: PropTypes.object.isRequired,
     enrollment: PropTypes.object.isRequired,
     onDownloadFile: PropTypes.func.isRequired,

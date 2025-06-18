@@ -377,7 +377,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             <DialogContent dividers sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {!selectedEnrollment && !selectedReport ? (
                     <>
-                        <Box className="sticky top-0 z-10 bg-white">
+                        <Box className="sticky top-0 z-10 min-w-[1000px] bg-white">
                             <Box sx={{ display: "flex", gap: 2, alignItems: "center", mb: 2 }}>
                                 <Box sx={{ flex: 1 }}>
                                     <DashboardSearchBar
@@ -399,7 +399,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "600px" }}>
+                        <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "1000px" }}>
                             <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
@@ -468,7 +468,10 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                             color="primary"
                                                             size="small"
                                                             onClick={() => handleOpenScoreForm(enrollment)}
-                                                            disabled={enrollment.finalScore}
+                                                            disabled={
+                                                                enrollment.finalScore ||
+                                                                course?.courseStatus !== "Đang nhập điểm"
+                                                            }
                                                         >
                                                             Nhập điểm
                                                         </Button>
@@ -507,6 +510,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                     </>
                 ) : (
                     <ReportDetails
+                        course={course}
                         report={selectedReport}
                         enrollment={selectedReportEnrollment}
                         onDownloadFile={handleDownloadFile}
