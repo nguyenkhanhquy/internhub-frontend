@@ -34,6 +34,8 @@ const CompanyDetailsHeader = ({ logo, name, website, address }) => {
                 <Avatar
                     src={logo}
                     alt={`${name} logo`}
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     variant="square"
                     sx={{
                         width: avatarSize,
