@@ -33,10 +33,10 @@ const CompanyDetailsContact = ({ companyName, address }) => {
                     <Box display="flex" alignItems="flex-start">
                         <LocationOn fontSize="medium" color="primary" sx={{ mr: 1.5, mt: 1.5 }} />
                         <Box display="flex" flexDirection="column">
-                            <Typography variant="body1" sx={{ minWidth: "130px" }}>
+                            <Typography variant="body1" fontWeight="bold" sx={{ minWidth: "130px" }}>
                                 Địa chỉ công ty
                             </Typography>
-                            <Typography variant="body1" fontWeight="bold" sx={{ wordBreak: "break-word" }}>
+                            <Typography variant="body1" sx={{ wordBreak: "break-word" }}>
                                 {address}
                             </Typography>
                         </Box>
@@ -46,12 +46,14 @@ const CompanyDetailsContact = ({ companyName, address }) => {
 
                     {/* Xem bản đồ */}
                     <Box>
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                            <MapIcon fontSize="medium" color="primary" />
-                            <Typography variant="body1" fontWeight="bold">
-                                Xem bản đồ
-                            </Typography>
-                        </Stack>
+                        <Box display="flex" alignItems="flex-start">
+                            <MapIcon fontSize="medium" color="primary" sx={{ mr: 1.5 }} />
+                            <Box display="flex" flexDirection="column">
+                                <Typography variant="body1" fontWeight="bold">
+                                    Xem bản đồ
+                                </Typography>
+                            </Box>
+                        </Box>
 
                         {/* Bản đồ nhỏ luôn hiển thị */}
                         <Box sx={{ mt: 2, borderRadius: 1, overflow: "hidden" }}>
