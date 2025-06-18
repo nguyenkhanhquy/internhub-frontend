@@ -6,6 +6,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
+import CVListSkeleton from "@components/skeletons/CVListSkeleton";
+
 import { uploadCV } from "@services/uploadService";
 import { applyJob } from "@services/jobApplyService";
 import { getAllCVsByStudent } from "@services/cvService";
@@ -19,15 +21,11 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     const [selectedCvId, setSelectedCvId] = useState(null);
     const [cvSource, setCvSource] = useState("saved"); // 'saved' hoặc 'upload'
     const [listCVs, setListCVs] = useState([]);
+    const [loadingCVs, setLoadingCVs] = useState(true);
 
     useEffect(() => {
         // Khóa cuộn trang khi mở modal
         document.body.style.overflow = "hidden";
-
-        // Kiểm tra vị trí cuộn, chỉ trượt xuống nếu đang ở gần top
-        // if (window.scrollY <= 150) {
-        //     window.scrollTo({ top: 150, behavior: "smooth" });
-        // }
 
         return () => {
             // Khôi phục cuộn trang khi đóng modal
@@ -36,8 +34,8 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     }, []);
 
     const handleApply = async () => {
-        setLoading(true);
         try {
+            setLoading(true);
             if (coverLetter === "") {
                 toast.info("Vui lòng cung cấp thư giới thiệu");
                 return;
@@ -118,6 +116,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoadingCVs(true);
                 const data = await getAllCVsByStudent(0, 10);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -126,6 +125,8 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                 setListCVs(data.result);
             } catch (error) {
                 toast.error(error.message);
+            } finally {
+                setLoadingCVs(false);
             }
         };
 
@@ -145,49 +146,53 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                 {/* Content (scrollable) */}
                 <div className="flex-1 overflow-y-auto px-6 py-4">
                     {/* Danh sách CV có sẵn */}
-                    <div className="mb-6">
+                    <div className="mb-4">
                         <label className="mb-2 block text-base font-semibold text-gray-800">
                             Chọn CV để ứng tuyển:
                         </label>
                         <div className="flex flex-col gap-2">
-                            {listCVs.map((cv) => (
-                                <label
-                                    key={cv.id}
-                                    className={
-                                        `flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition ` +
-                                        (cvSource === "saved" && selectedCvId === cv.id
-                                            ? "border-blue-700 bg-blue-50 shadow"
-                                            : "border-gray-200 hover:border-blue-400 hover:bg-blue-50")
-                                    }
-                                >
-                                    <div className="flex min-w-0 items-center gap-3">
-                                        <input
-                                            type="radio"
-                                            name="selectedCv"
-                                            checked={cvSource === "saved" && selectedCvId === cv.id}
-                                            onChange={() => handleSelectCv(cv.id)}
-                                            className="accent-blue-700"
-                                        />
-                                        <DescriptionIcon className="text-blue-800" />
-                                        <div className="flex min-w-0 flex-col">
-                                            <span className="truncate font-medium text-gray-800">{cv.title}</span>
-                                            <span className="mt-0.5 text-xs text-gray-500">
-                                                Ngày tạo: {formatDateTime(cv.createdDate)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a
-                                        href={cv.filePath}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="ml-2 text-blue-700 hover:text-blue-900"
-                                        title="Xem file CV"
+                            {loadingCVs ? (
+                                <CVListSkeleton />
+                            ) : (
+                                listCVs.map((cv) => (
+                                    <label
+                                        key={cv.id}
+                                        className={
+                                            `flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition ` +
+                                            (cvSource === "saved" && selectedCvId === cv.id
+                                                ? "border-blue-700 bg-blue-50 shadow"
+                                                : "border-gray-200 hover:border-blue-400 hover:bg-blue-50")
+                                        }
                                     >
-                                        <VisibilityIcon />
-                                    </a>
-                                </label>
-                            ))}
-                            <label className="flex cursor-pointer items-center gap-2">
+                                        <div className="flex min-w-0 items-center gap-3">
+                                            <input
+                                                type="radio"
+                                                name="selectedCv"
+                                                checked={cvSource === "saved" && selectedCvId === cv.id}
+                                                onChange={() => handleSelectCv(cv.id)}
+                                                className="accent-blue-700"
+                                            />
+                                            <DescriptionIcon className="text-blue-800" />
+                                            <div className="flex min-w-0 flex-col">
+                                                <span className="truncate font-medium text-gray-800">{cv.title}</span>
+                                                <span className="mt-0.5 text-xs text-gray-500">
+                                                    Ngày tạo: {formatDateTime(cv.createdDate)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <a
+                                            href={cv.filePath}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="ml-2 text-blue-700 hover:text-blue-900"
+                                            title="Xem file CV"
+                                        >
+                                            <VisibilityIcon />
+                                        </a>
+                                    </label>
+                                ))
+                            )}
+                            <label className="mt-2 flex cursor-pointer items-center gap-2">
                                 <input
                                     type="radio"
                                     name="selectedCv"
@@ -202,7 +207,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
 
                     {/* CV Upload Section */}
                     {cvSource === "upload" && (
-                        <div className="mb-6 rounded-lg border border-dashed border-blue-600 p-4">
+                        <div className="mb-4 rounded-lg border border-dashed border-blue-600 p-4">
                             {!selectedFile ? (
                                 <div className="flex flex-col items-center justify-center">
                                     <svg
@@ -253,7 +258,7 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                     )}
 
                     {/* Cover Letter Section */}
-                    <div className="mb-6">
+                    <div className="mb-4">
                         <label className="block text-base font-semibold text-gray-800">Thư giới thiệu:</label>
                         <p className="mt-1 text-base text-gray-500">
                             Một thư giới thiệu ngắn gọn, chỉn chu sẽ giúp bạn trở nên chuyên nghiệp và gây ấn tượng hơn
@@ -271,18 +276,20 @@ const JobApplicationModal = ({ jobPostId, jobTitle, onClose }) => {
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-4 border-t border-gray-200 px-6 pt-2 pb-6">
                     <button
+                        type="button"
                         onClick={onClose}
                         disabled={loading}
-                        className={`w-1/5 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 ${
+                        className={`w-1/5 cursor-pointer rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 ${
                             !loading ? "hover:bg-gray-100" : ""
                         }`}
                     >
                         Hủy
                     </button>
                     <button
+                        type="button"
                         onClick={handleApply}
                         disabled={loading}
-                        className={`w-4/5 rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white ${
+                        className={`w-4/5 cursor-pointer rounded-lg bg-blue-800 px-4 py-3 text-sm font-semibold text-white ${
                             !loading ? "hover:bg-blue-900" : ""
                         }`}
                     >
