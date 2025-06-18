@@ -45,6 +45,7 @@ export default defineConfig({
                     websocket: ["@stomp/stompjs", "sockjs-client"],
                     html2pdf: ["html2pdf.js"],
                     query: ["@tanstack/react-query", "@tanstack/react-query-devtools"],
+                    exceljs: ["exceljs", "file-saver"],
                 },
             },
         },

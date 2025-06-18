@@ -84,7 +84,7 @@ const PersonalInfo = ({ personalInfo, onChange }) => {
                     name="location"
                     value={personalInfo.location || ""}
                     onChange={handleChange}
-                    placeholder="Hà Nội, Việt Nam"
+                    placeholder="Thủ Đức, Hồ Chí Minh"
                     className="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
             </div>

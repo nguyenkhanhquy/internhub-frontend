@@ -59,8 +59,12 @@ const SearchPage = () => {
 
     useEffect(() => {
         const fetchJobPosts = async () => {
-            setLoading(true);
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
             try {
+                setLoading(true);
                 const data = await getAllJobPosts(currentPage, recordsPerPage, query, sort, filters);
                 if (!data.success) {
                     throw new Error(data.message || "Lỗi máy chủ, vui lòng thử lại sau!");
@@ -72,10 +76,6 @@ const SearchPage = () => {
                 toast.error(error.message);
             } finally {
                 setLoading(false);
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         };
 

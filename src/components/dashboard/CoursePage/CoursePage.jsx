@@ -23,7 +23,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+// import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PeopleIcon from "@mui/icons-material/People";
@@ -251,14 +251,14 @@ const CoursePage = () => {
                     Lớp thực tập
                 </Typography>
                 <Box display="flex" alignItems="center" gap={2}>
-                    <Button
+                    {/* <Button
                         onClick={() => setOpenImportModal(true)}
                         variant="outlined"
                         color="primary"
                         startIcon={<UploadFileIcon />}
                     >
                         Import
-                    </Button>
+                    </Button> */}
                     <Button
                         onClick={() => setOpenCreateModal(true)}
                         variant="contained"

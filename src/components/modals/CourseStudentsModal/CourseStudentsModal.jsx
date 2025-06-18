@@ -312,7 +312,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                     enrollment.student.name || "N/A",
                     enrollment.student.studentId || "N/A",
                     enrollment.internshipReport?.companyName || "N/A",
-                    enrollment.finalScore || "N/A",
+                    enrollment.finalScore != null ? enrollment.finalScore : "N/A",
                     enrollment.feedback || "N/A",
                 ];
 
@@ -413,8 +413,8 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                         <TableCell sx={{ textAlign: "center", width: "25%" }}>
                                             BÁO CÁO THỰC TẬP
                                         </TableCell>
-                                        <TableCell sx={{ textAlign: "center", width: "15%" }}>ĐIỂM HỆ 10</TableCell>
-                                        <TableCell sx={{ textAlign: "center", width: "15%" }}>HÀNH ĐỘNG</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "10%" }}>ĐIỂM HỆ 10</TableCell>
+                                        <TableCell sx={{ textAlign: "center", width: "20%" }}>HÀNH ĐỘNG</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
