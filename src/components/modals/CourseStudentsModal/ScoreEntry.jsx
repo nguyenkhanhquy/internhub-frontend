@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+
+import SaveIcon from "@mui/icons-material/Save";
+import DescriptionIcon from "@mui/icons-material/Description";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ScoreEntry = ({
     enrollment,
@@ -18,51 +24,77 @@ const ScoreEntry = ({
 }) => {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3, padding: 2 }}>
-            <Box>
-                <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                    Điểm
-                </Typography>
-                <TextField
-                    type="number"
-                    label="Nhập điểm"
-                    value={score}
-                    onChange={(e) => onScoreChange(e.target.value)}
-                    variant="outlined"
-                    fullWidth
-                    inputProps={{ min: 0, max: 10, step: 0.1 }}
-                />
-            </Box>
-            <Box>
-                <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                    Nhận xét chung
-                </Typography>
-                <TextareaAutosize
-                    minRows={5}
-                    placeholder="Nhập nhận xét..."
-                    value={feedback}
-                    onChange={(e) => onFeedbackChange(e.target.value)}
-                    style={{
-                        width: "100%",
-                        padding: "8px",
-                        borderRadius: "4px",
-                        border: "1px solid #ccc",
-                        resize: "vertical",
-                    }}
-                />
-            </Box>
+            <Card elevation={3} sx={{ flex: 1, borderRadius: 2 }}>
+                <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid size={12}>
+                            <Typography variant="h6" fontWeight="bold" mb={2} color="primary.main">
+                                Điểm số
+                            </Typography>
+                            <TextField
+                                type="number"
+                                label="Nhập điểm (0-10)"
+                                value={score}
+                                onChange={(e) => onScoreChange(e.target.value)}
+                                variant="outlined"
+                                fullWidth
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        max: 10,
+                                        step: 0.1,
+                                    },
+                                }}
+                                helperText="Điểm từ 0 đến 10"
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        "&:hover fieldset": {
+                                            borderColor: "primary.main",
+                                        },
+                                    },
+                                }}
+                            />
+                        </Grid>
+
+                        <Grid size={12}>
+                            <Typography variant="h6" fontWeight="bold" mb={2} color="primary.main">
+                                Nhận xét chung
+                            </Typography>
+                            <TextField
+                                multiline
+                                rows={5}
+                                placeholder="Nhập nhận xét chi tiết về kết quả thực tập của sinh viên..."
+                                value={feedback}
+                                onChange={(e) => onFeedbackChange(e.target.value)}
+                                variant="outlined"
+                                fullWidth
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        "&:hover fieldset": {
+                                            borderColor: "primary.main",
+                                        },
+                                    },
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
+
             <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
-                <Button variant="contained" color="primary" onClick={onSaveScore}>
+                <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={onSaveScore}>
                     Lưu
                 </Button>
                 <Button
                     variant="outlined"
                     color="primary"
+                    startIcon={<DescriptionIcon />}
                     onClick={() => onOpenReportDetails(enrollment)}
                     disabled={!enrollment.internshipReport}
                 >
                     Báo cáo chi tiết
                 </Button>
-                <Button variant="outlined" color="primary" onClick={onBackToList}>
+                <Button variant="outlined" color="primary" startIcon={<ArrowBackIcon />} onClick={onBackToList}>
                     Quay lại
                 </Button>
             </Box>

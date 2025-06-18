@@ -22,6 +22,10 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 import CloseIcon from "@mui/icons-material/Close";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import CommentIcon from "@mui/icons-material/Comment";
+
 import DashboardSearchBar from "@components/search/DashboardSearchBar";
 import ReportDetails from "@components/modals/CourseStudentsModal/ReportDetails";
 import ScoreEntry from "@components/modals/CourseStudentsModal/ScoreEntry";
@@ -365,7 +369,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             >
                 <Typography fontWeight="bold">
                     {selectedEnrollment
-                        ? `Nhập điểm (${selectedEnrollment.student.name} - ${selectedEnrollment.student.studentId})`
+                        ? `Nhập điểm thực tập cho sinh viên [${selectedEnrollment.student.name} - ${selectedEnrollment.student.studentId}]`
                         : selectedReport
                           ? `Chi tiết báo cáo thực tập - ${selectedReport.student.name}`
                           : `Danh sách sinh viên - ${course?.courseCode}`}
@@ -377,7 +381,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
             <DialogContent dividers sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {!selectedEnrollment && !selectedReport ? (
                     <>
-                        <Box className="sticky top-0 z-10 min-w-[1000px] bg-white">
+                        <Box className="sticky top-0 z-10 min-w-[1100px] bg-white">
                             <Box sx={{ display: "flex", gap: 2, alignItems: "center", mb: 2 }}>
                                 <Box sx={{ flex: 1 }}>
                                     <DashboardSearchBar
@@ -399,7 +403,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                 </Box>
                             </Box>
                         </Box>
-                        <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "1000px" }}>
+                        <TableContainer sx={{ flex: 1, overflowY: "auto", minWidth: "1100px" }}>
                             <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
@@ -452,6 +456,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                         variant="outlined"
                                                         color="primary"
                                                         size="small"
+                                                        startIcon={<VisibilityIcon />}
                                                         onClick={() => handleOpenReportDetails(enrollment)}
                                                         disabled={!enrollment.internshipReport}
                                                     >
@@ -459,7 +464,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                     </Button>
                                                 </TableCell>
                                                 <TableCell sx={{ textAlign: "center" }}>
-                                                    {enrollment.finalScore ? enrollment.finalScore : "-"}
+                                                    {enrollment.finalScore != null ? enrollment.finalScore : "-"}
                                                 </TableCell>
                                                 <TableCell sx={{ textAlign: "center" }}>
                                                     {user?.role === "TEACHER" ? (
@@ -467,9 +472,10 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                             variant="contained"
                                                             color="primary"
                                                             size="small"
+                                                            startIcon={<EditIcon />}
                                                             onClick={() => handleOpenScoreForm(enrollment)}
                                                             disabled={
-                                                                enrollment.finalScore ||
+                                                                enrollment.finalScore != null ||
                                                                 course?.courseStatus !== "Đang nhập điểm"
                                                             }
                                                         >
@@ -480,6 +486,7 @@ const CourseStudentsModal = ({ isOpen, onClose, course }) => {
                                                             variant="outlined"
                                                             color="primary"
                                                             size="small"
+                                                            startIcon={<CommentIcon />}
                                                             onClick={() => handleViewFeedback(enrollment)}
                                                             disabled={!enrollment.finalScore}
                                                         >

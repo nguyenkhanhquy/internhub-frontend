@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 
 import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { formatDate } from "@utils/dateUtil";
 
@@ -171,6 +172,7 @@ const ReportDetails = ({ course, report, enrollment, onDownloadFile, onOpenScore
                         onClick={() => onOpenScoreForm(enrollment)}
                         disabled={enrollment.finalScore || course?.courseStatus !== "Đang nhập điểm"}
                         sx={{ width: { xs: "100%", sm: "auto" } }} // Nút full width trên màn hình nhỏ
+                        startIcon={<EditIcon />}
                     >
                         Nhập điểm
                     </Button>
