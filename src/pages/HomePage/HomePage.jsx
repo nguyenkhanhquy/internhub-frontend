@@ -36,7 +36,7 @@ const HomePage = () => {
         queryKey: ["overview-homepage"],
         queryFn: () => getOverview(),
         select: (data) => (data.success ? data.result : {}),
-        staleTime: 4 * 60 * 1000,
+        staleTime: 2 * 60 * 1000,
     });
 
     // Latest jobs
