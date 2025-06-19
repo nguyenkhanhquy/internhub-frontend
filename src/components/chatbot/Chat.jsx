@@ -74,11 +74,11 @@ const Chat = ({ isOpen, onClose }) => {
 
     const popularQuestions = [
         "❓ Giới thiệu về InternHub?",
-        "🧑‍🎓 Cách đăng ký tài khoản thực tập sinh?",
-        "🏢 Cách đăng ký tài khoản nhà tuyển dụng?",
-        "📄 Cách ứng tuyển công việc?",
-        "📝 Cách nộp báo cáo thực tập?",
-        "📊 Cách xem điểm thực tập?",
+        "🧑‍🎓 Hướng dẫn đăng ký tài khoản thực tập sinh?",
+        "🏢 Hướng dẫn đăng ký tài khoản nhà tuyển dụng?",
+        "📄 Hướng dẫn ứng tuyển công việc?",
+        "📝 Hướng dẫn nộp báo cáo thực tập?",
+        "📊 Hướng dẫn xem điểm thực tập?",
     ];
 
     const handleSuggestionClick = async (question) => {
