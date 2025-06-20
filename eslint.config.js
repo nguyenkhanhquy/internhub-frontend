@@ -30,6 +30,14 @@ export default [
             ...reactHooks.configs.recommended.rules,
             "react/jsx-no-target-blank": "off",
             "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+
+            // MUI
+            "no-restricted-imports": [
+                "error",
+                {
+                    patterns: [{ regex: "^@mui/[^/]+$" }],
+                },
+            ],
         },
     },
 ];
