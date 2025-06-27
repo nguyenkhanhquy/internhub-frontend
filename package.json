@@ -12,7 +12,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-react": "^9.5.0",
         "@emotion/react": "^11.14.0",
-        "@emotion/styled": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
         "@fortawesome/free-solid-svg-icons": "^6.7.2",
         "@fortawesome/react-fontawesome": "^0.2.2",
         "@hookform/resolvers": "^5.1.1",
@@ -21,12 +21,12 @@
         "@mui/x-charts": "^8.5.3",
         "@reduxjs/toolkit": "^2.8.2",
         "@stomp/stompjs": "^7.1.1",
-        "@tailwindcss/vite": "^4.1.10",
+        "@tailwindcss/vite": "^4.1.11",
         "@tanstack/react-query": "^5.81.2",
         "@tanstack/react-query-devtools": "^5.81.2",
         "@toolpad/core": "^0.13.0",
         "axios": "^1.10.0",
-        "ckeditor5": "^45.2.0",
+        "ckeditor5": "^45.2.1",
         "exceljs": "^4.4.0",
         "file-saver": "^2.0.5",
         "html2pdf.js": "^0.10.3",
@@ -39,21 +39,21 @@
         "react-toastify": "^11.0.5",
         "remark-gfm": "^4.0.1",
         "sockjs-client": "^1.6.1",
-        "tailwindcss": "^4.1.10",
+        "tailwindcss": "^4.1.11",
         "yup": "^1.6.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.29.0",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
-        "@vitejs/plugin-react": "^4.5.2",
+        "@vitejs/plugin-react": "^4.6.0",
         "eslint": "^9.29.0",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.20",
         "globals": "^16.2.0",
-        "prettier": "^3.5.3",
+        "prettier": "^3.6.1",
         "prettier-plugin-tailwindcss": "^0.6.13",
-        "vite": "^6.3.5"
+        "vite": "^7.0.0"
     }
 }
