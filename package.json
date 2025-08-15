@@ -21,9 +21,9 @@
         "@mui/x-charts": "^8.10.0",
         "@reduxjs/toolkit": "^2.8.2",
         "@stomp/stompjs": "^7.1.1",
-        "@tailwindcss/vite": "^4.1.11",
-        "@tanstack/react-query": "^5.85.0",
-        "@tanstack/react-query-devtools": "^5.85.0",
+        "@tailwindcss/vite": "^4.1.12",
+        "@tanstack/react-query": "^5.85.3",
+        "@tanstack/react-query-devtools": "^5.85.3",
         "@toolpad/core": "^0.13.0",
         "axios": "^1.11.0",
         "ckeditor5": "^46.0.1",
@@ -39,7 +39,7 @@
         "react-toastify": "^11.0.5",
         "remark-gfm": "^4.0.1",
         "sockjs-client": "^1.6.1",
-        "tailwindcss": "^4.1.11",
+        "tailwindcss": "^4.1.12",
         "yup": "^1.7.0"
     },
     "devDependencies": {
