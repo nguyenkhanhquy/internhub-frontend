@@ -18,8 +18,8 @@
         "@hookform/resolvers": "^5.2.2",
         "@mui/icons-material": "^7.3.6",
         "@mui/material": "^7.3.6",
-        "@mui/x-charts": "^8.21.0",
-        "@reduxjs/toolkit": "^2.11.0",
+        "@mui/x-charts": "^8.22.0",
+        "@reduxjs/toolkit": "^2.11.1",
         "@stomp/stompjs": "^7.2.1",
         "@tailwindcss/vite": "^4.1.17",
         "@tanstack/react-query": "^5.90.12",
@@ -35,7 +35,7 @@
         "react-hook-form": "^7.68.0",
         "react-markdown": "^10.1.0",
         "react-redux": "^9.2.0",
-        "react-router-dom": "^7.10.0",
+        "react-router-dom": "^7.10.1",
         "react-toastify": "^11.0.5",
         "remark-gfm": "^4.0.1",
         "sockjs-client": "^1.6.1",
@@ -46,7 +46,7 @@
         "@eslint/js": "^9.39.1",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
-        "@vitejs/plugin-react": "^5.1.1",
+        "@vitejs/plugin-react": "^5.1.2",
         "eslint": "^9.39.1",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^7.0.1",
@@ -54,6 +54,6 @@
         "globals": "^16.5.0",
         "prettier": "^3.7.4",
         "prettier-plugin-tailwindcss": "^0.7.2",
-        "vite": "^7.2.6"
+        "vite": "^7.2.7"
     }
 }
