@@ -30,22 +30,24 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                manualChunks: {
-                    react: ["react", "react-dom"],
-                    router: ["react-router-dom"],
-                    redux: ["@reduxjs/toolkit", "react-redux"],
-                    mui: ["@mui/material"],
-                    muiIcons: ["@mui/icons-material"],
-                    muiCharts: ["@mui/x-charts"],
-                    ckeditor: ["@ckeditor/ckeditor5-react", "ckeditor5"],
-                    form: ["react-hook-form", "@hookform/resolvers", "yup"],
-                    toast: ["react-toastify"],
-                    fontawesome: ["@fortawesome/react-fontawesome", "@fortawesome/free-solid-svg-icons"],
-                    markdown: ["react-markdown", "remark-gfm"],
-                    websocket: ["@stomp/stompjs", "sockjs-client"],
-                    html2pdf: ["html2pdf.js"],
-                    query: ["@tanstack/react-query", "@tanstack/react-query-devtools"],
-                    exceljs: ["exceljs", "file-saver"],
+                manualChunks(id) {
+                    if (id.includes("node_modules")) {
+                        if (id.includes("react")) return "react";
+                        if (id.includes("react-router")) return "router";
+                        if (id.includes("@reduxjs") || id.includes("react-redux")) return "redux";
+                        if (id.includes("@mui")) return "mui";
+                        if (id.includes("@ckeditor")) return "ckeditor";
+                        if (id.includes("react-hook-form") || id.includes("yup")) return "form";
+                        if (id.includes("react-toastify")) return "toast";
+                        if (id.includes("@fortawesome")) return "fontawesome";
+                        if (id.includes("react-markdown") || id.includes("remark-gfm")) return "markdown";
+                        if (id.includes("@stomp") || id.includes("sockjs")) return "websocket";
+                        if (id.includes("html2pdf")) return "html2pdf";
+                        if (id.includes("@tanstack")) return "query";
+                        if (id.includes("exceljs") || id.includes("file-saver")) return "exceljs";
+
+                        return "vendor";
+                    }
                 },
             },
         },
