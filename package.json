@@ -10,7 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-react": "^11.0.1",
+        "@ckeditor/ckeditor5-react": "^11.1.0",
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.1",
         "@fortawesome/free-solid-svg-icons": "^7.2.0",
@@ -18,24 +18,24 @@
         "@hookform/resolvers": "^5.2.2",
         "@mui/icons-material": "^7.3.9",
         "@mui/material": "^7.3.9",
-        "@mui/x-charts": "^8.28.0",
+        "@mui/x-charts": "^8.28.2",
         "@reduxjs/toolkit": "^2.11.2",
         "@stomp/stompjs": "^7.3.0",
         "@tailwindcss/vite": "^4.2.2",
-        "@tanstack/react-query": "^5.91.3",
-        "@tanstack/react-query-devtools": "^5.91.3",
+        "@tanstack/react-query": "^5.96.2",
+        "@tanstack/react-query-devtools": "^5.96.2",
         "@toolpad/core": "^0.16.0",
-        "axios": "^1.13.6",
-        "ckeditor5": "^47.6.1",
+        "axios": "^1.14.0",
+        "ckeditor5": "^48.0.0",
         "exceljs": "^4.4.0",
         "file-saver": "^2.0.5",
         "html2pdf.js": "^0.14.0",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
-        "react-hook-form": "^7.71.2",
+        "react-hook-form": "^7.72.1",
         "react-markdown": "^10.1.0",
         "react-redux": "^9.2.0",
-        "react-router-dom": "^7.13.1",
+        "react-router-dom": "^7.14.0",
         "react-toastify": "^11.0.5",
         "remark-gfm": "^4.0.1",
         "sockjs-client": "^1.6.1",
@@ -54,6 +54,6 @@
         "globals": "^17.4.0",
         "prettier": "^3.8.1",
         "prettier-plugin-tailwindcss": "^0.7.2",
-        "vite": "^8.0.1"
+        "vite": "^8.0.3"
     }
 }
